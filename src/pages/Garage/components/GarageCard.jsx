@@ -2,10 +2,18 @@ import { WifiIcon } from "lucide-react";
 import { FaRegClock, FaStar } from "react-icons/fa";
 import { GiTvRemote } from "react-icons/gi";
 import { MdSettingsRemote } from "react-icons/md";
-import { motion } from "framer-motion";
+import { motion, stagger } from "framer-motion";
 import { listCardVariant } from "../../../varients/GarageList";
 import { useNavigate } from "react-router-dom";
 import { encryptID } from "../../../utils/encryptAndDecryptID";
+import moment from "moment";
+import { useState } from "react";
+
+const gridItemVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0 },
+};
+
 export default function GarageCard({ garage }) {
   const {
     id,
@@ -17,24 +25,43 @@ export default function GarageCard({ garage }) {
     total_rating_count,
     wifi_available,
     is_mobile_garage,
+    garage_times,
   } = garage;
   const navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
   return (
     <motion.div
-      onClick={() => {
-        navigate(`view-garage/${encryptID(id)}`);
-      }}
-      variants={listCardVariant}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      variants={gridItemVariants}
+      exit={{ opacity: 0, y: 50 }}
+      transition={{ stagger: 0.5 }}
       data-auto={`container${id}-garageCard`}
-      className={`md:flex relative items-center cursor-pointer md:space-x-2 space-y-3 md:space-y-0 border w-full rounded-md p-3 bg-base-300 shadow-lg`}
+      className={`md:flex relative items-center overflow-hidden md:space-x-2 space-y-3 md:space-y-0 border w-full rounded-md p-3 bg-base-300 shadow-lg`}
     >
+      <motion.div
+        initial={{ right: -300 }}
+        animate={{ right: isHovered ? -100 : -300 }}
+        transition={{ type: "", stiffness: 300 }}
+        className={`h-full w-[100px] flex flex-col justify-center gap-y-2 bg-gradient-to-l from-gray-300 absolute`}
+      >
+        <button className={`btn btn-primary rounded-none rounded-l-xl`}>
+          View Details
+        </button>
+        <button className={`btn btn-primary rounded-none rounded-l-xl`}>
+          Book Now
+        </button>
+        <button className={`btn btn-primary rounded-none rounded-l-xl`}>
+          View Offers
+        </button>
+      </motion.div>
       <div
-        className={`w-full md:w-[250px] h-[150px] md:h-auto object-cover rounded-md relative`}
+        className={`w-full md:w-[250px] h-[150px] md:h-full bg-black object-cover rounded-md relative`}
       >
         {/* COVER IMAGE */}
         <img
           data-auto={`coverImage${id}-garageCard`}
-          className={`w-full md:w-[250px] h-[150px] md:h-auto object-cover rounded-md`}
+          className={`w-full md:w-[250px] h-[150px] md:h-full object-cover rounded-md`}
           src={
             background_image
               ? background_image
@@ -42,6 +69,7 @@ export default function GarageCard({ garage }) {
           }
           alt="Garage Cover Pic"
         />
+
         {/* LOGO IMAGE */}
         <img
           data-auto={`logo${id}-garageCard`}
@@ -49,7 +77,7 @@ export default function GarageCard({ garage }) {
           src={
             logo
               ? logo
-              : "https://i.postimg.cc/N0SXQ0Vr/ksnip-20240730-152022.png"
+              : "https://i.postimg.cc/d13x1Cd6/ksnip-20240730-175628.png"
           }
           alt="Garage Logo"
         />
@@ -62,8 +90,11 @@ export default function GarageCard({ garage }) {
       >
         {/* NAME  */}
         <h1
+          onClick={() => {
+            navigate(`/view-garage/${encryptID(id)}`);
+          }}
           data-auto={`name${id}-garageCard`}
-          className="text-xl md:text-2xl font-bold text-[#242E30]"
+          className="text-xl inline hover:text-primary duration-150 cursor-pointer md:text-xl font-bold text-[#242E30]"
         >
           {name}
         </h1>
@@ -71,7 +102,7 @@ export default function GarageCard({ garage }) {
         {/* RATING  */}
         <div
           data-auto={`ratings${id}-garageCard`}
-          className={`flex items-center`}
+          className={`flex items-center text-sm`}
         >
           <FaStar className={`text-[#FF8000] mr-1`} />
           <p data-auto={`fullRating${id}-garageCard`}>
@@ -85,23 +116,28 @@ export default function GarageCard({ garage }) {
         {/* TIMING AND ADDRESS  */}
         <div
           data-auto={`timings${id}-garageCard`}
-          className={`flex items-center text-[#017436] font-bold`}
+          className={`flex text-sm items-center text-[#017436] font-bold`}
         >
           <FaRegClock className={`mr-1`} />
           <p data-auto={`startEnd${id}-garageCard`}>
             {/* {timing?.start_at} - {timing?.end_at} */}
-            08:00 AM - 10:00 PM
+            {moment(garage_times[0]?.opening_time, "HH:mm").format(
+              "hh:mm A"
+            )} -{" "}
+            {moment(garage_times[0]?.closing_time, "HH:mm").format("hh:mm A")}
           </p>
         </div>
 
         {/* ADDRESS  */}
         <div>
-          <p data-auto={`address${id}-garageCard`}>{address_line_1}</p>
+          <address className={`text-sm`} data-auto={`address${id}-garageCard`}>
+            {address_line_1}
+          </address>
         </div>
 
         {/* OTHER FACILITY  */}
         <div className={`flex gap-x-1 md:gap-x-3 items-center justify-start`}>
-          {is_mobile_garage ? (
+          {wifi_available ? (
             <span
               data-auto={`wifi${id}-garageCard`}
               className={`px-3 flex  gap-x-1 items-center justify-start py-[0.1rem] text-base-300 text-xs md:text-sm rounded-full bg-green-700`}

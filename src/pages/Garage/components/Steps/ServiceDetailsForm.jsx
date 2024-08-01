@@ -49,30 +49,27 @@ export default function ServiceDetailsForm({ setStep, formData, setFormData }) {
       newErrors.car_registration_no = "Car reg is required";
     }
 
-    // // VALIDATE MAKE
-    // if (
-    //   !formData?.automobile_make_id
-    // ) {
-    //   newErrors.automobile_make_id = "Make is required";
-    // }
+    // VALIDATE MAKE
+    if (!formData?.automobile_make_id) {
+      newErrors.automobile_make_id = "Make is required";
+    }
 
-    // // VALIDATE MODEL
-    // if (
-    //   !formData?.automobile_model_id
-    // ) {
-    //   newErrors.automobile_model_id = "Model is required";
-    // }
+    // VALIDATE MODEL
+    if (!formData?.automobile_model_id) {
+      newErrors.automobile_model_id = "Model is required";
+    }
 
-    // ;
-
-    // formData?.transmission;
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
+
   // HANDLE SUBMIT
   const handleSubmit = () => {
     if (validateForm()) {
       setStep(2);
     }
   };
+
   return (
     <div className={``}>
       {/* FORM  */}
@@ -124,8 +121,9 @@ export default function ServiceDetailsForm({ setStep, formData, setFormData }) {
 
         {/* MAKES  */}
         <CustomMultiSelect
+          required
           label={"Select Make"}
-          error={errors?.car_registration_no}
+          error={errors?.automobile_make_id}
           loading={loading}
           placeholder="Select Makes"
           options={makes}
@@ -145,6 +143,8 @@ export default function ServiceDetailsForm({ setStep, formData, setFormData }) {
 
         {/* MODEL  */}
         <CustomMultiSelect
+          required
+          error={errors?.automobile_model_id}
           label={"Select Model"}
           loading={loading || isMakeChangeLoading}
           placeholder="Select Models"

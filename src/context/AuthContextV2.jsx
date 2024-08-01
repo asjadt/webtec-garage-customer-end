@@ -2,7 +2,9 @@
 // #00101
 // ===========================================
 
+import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 // Create the authentication context
 export const AuthContext = createContext();
@@ -20,12 +22,26 @@ export const AuthProvider = ({ children }) => {
   }, [user]);
 
   const logout = () => {
-    const confirmation = window.confirm("Are you sure you want to logout?");
-    if (confirmation) {
-      setIsAuthenticated(false);
-      setUser(null);
-      localStorage.removeItem("user_data");
-    }
+    Swal.fire({
+      title: "Sure?",
+      text: "Do you want to logout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Logout!",
+      customClass: {
+        title: "text-primary",
+        container: "",
+        popup: "bg-base-300 shadow-xl rounded-xl border border-primary",
+        icon: "text-red-500",
+        cancelButton: "bg-green-500",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsAuthenticated(false);
+        setUser(null);
+        localStorage.removeItem("user_data");
+      }
+    });
   };
 
   useEffect(() => {

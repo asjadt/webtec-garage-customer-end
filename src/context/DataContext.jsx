@@ -64,7 +64,7 @@ export const DataContextProvider = ({ children }) => {
   const [fuelStationServices, setFuelStationServices] = useState([]);
 
   // GET ALL COMBINED DATA
-  const { isLoading: queryCombinedLoading, data: queryCombined } = useQuery({
+  const { isPending: queryCombinedLoading, data: queryCombined } = useQuery({
     queryKey: ["combined"],
     queryFn: getGarageCombinedData,
   });
@@ -89,7 +89,6 @@ export const DataContextProvider = ({ children }) => {
 
   // SAVE ALL QUERIES TO THE LOCAL STORAGE
   useEffect(() => {
-    console.log({ s: "changed" });
     localStorage.setItem("search_data", JSON.stringify(homeSearchData));
   }, [homeSearchData]);
 

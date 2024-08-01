@@ -637,9 +637,6 @@
 
 // export default Dashboard;
 
-
-export default function Dashboard () {
-  return (
-    <div className={``} >Dashboard</div>
-  )
+export default function Dashboard() {
+  return <div className={``}>Dashboard</div>;
 }

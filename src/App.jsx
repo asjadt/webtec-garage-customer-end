@@ -12,6 +12,12 @@ import GarageList from "./pages/Garage/GarageList";
 import SingleGarage from "./pages/Garage/SingleGarage";
 import Home from "./pages/Home/Home";
 import ManagerLayout from "./layout/ManagerLayout";
+import DashboardLayoutContainer from "./layout/ManagerLayout";
+import Profile from "./pages/Dashboard/Profile/Profile";
+import Notification from "./pages/Dashboard/Notification/Notification";
+import MyBooking from "./pages/Dashboard/MyBooking/MyBooking";
+import MyJob from "./pages/Dashboard/MyJob/MyJob";
+import PendingJob from "./pages/Dashboard/PendingJob/PendingJob";
 
 const App = () => (
   <Router>
@@ -27,10 +33,6 @@ const App = () => (
         <Route path="garages" element={<GarageList />} />
         <Route path="view-garage/:encID" element={<SingleGarage />} />
 
-        {/* BOOKING  */}
-        <Route path="book-now/:encID" element={<Home />} />
-        <Route path="book-package/:encID" element={<Home />} />
-
         {/* PACKAGE  */}
         <Route path="package/:encID" element={<Home />} />
 
@@ -44,21 +46,36 @@ const App = () => (
 
       {/* PRIVATE ROUTES
       {/* DASHBOARD  */}
-      <Route
-        path="/my-account"
-        element={
-          <ManagerLayout>
-            <Dashboard />
-          </ManagerLayout>
-        }
-      />
+      <Route path="/my-account" element={<DashboardLayoutContainer />}>
+        {/* DASHBOARD  */}
+        <Route index element={<Dashboard />} />
+
+        {/* PROFILE  */}
+        <Route path="profile" element={<Profile />} />
+
+        {/* NOTIFICATIONS  */}
+        <Route path="all-notifications" element={<Notification />} />
+
+        {/* MY BOOKINGS  */}
+        <Route path="my-bookings" element={<MyBooking />} />
+
+        {/* MY JOBS  */}
+        <Route path="my-jobs" element={<MyJob />} />
+
+        {/* MY PENDING JOBS  */}
+        <Route path="pending-jobs" element={<PendingJob />} />
+
+        {/* CHANGE PASSWORD  */}
+        <Route path="change-password" element={<ChangePassword />} />
+      </Route>
+
       {/* RATING  */}
       <Route
         path="/rating/:garageId/:string_id"
         element={
-          <ManagerLayout>
+          <DashboardLayoutContainer>
             <Dashboard />
-          </ManagerLayout>
+          </DashboardLayoutContainer>
         }
       />
 

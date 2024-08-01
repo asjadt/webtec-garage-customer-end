@@ -11,6 +11,9 @@ export default {
   theme: {
     extend: {
       colors: {},
+      fontFamily: {
+        nunito: ["Nunito Sans", "sans-serif"],
+      },
     },
   },
   daisyui: {

@@ -10,10 +10,12 @@ import { OutsideClickHandler } from "../../components/OutsideClickHandler";
 import { useNav } from "../../context/NavContext";
 import { formatRole } from "../../utils/formatRole";
 import { getFullImageLink } from "../../utils/getFullImageLink";
+import { useAuth } from "../../context/AuthContextV2";
+import { TbLogout2 } from "react-icons/tb";
+import ButtonLoading from "../../components/ButtonLoading";
 
 export default function Navbar() {
-  const permissions = JSON.parse(localStorage.getItem("permissions"));
-  const user = JSON.parse(localStorage.getItem("userData"));
+  const { user, logout } = useAuth();
 
   const { isNavOpen, setIsNavOpen } = useNav();
   const navigate = useNavigate();
@@ -68,7 +70,7 @@ export default function Navbar() {
       <NavLink
         data-auto={`navbar-logo-every-page`}
         to={`/`}
-        data-tip={user?.business?.name}
+        data-tip={"Garage Booking"}
         className={`w-full overflow-hidden tooltip duration-300 tooltip-bottom tooltip-primary hidden md:flex flex-col justify-start gap-x-5 items-center`}
       >
         <motion.div
@@ -121,86 +123,107 @@ export default function Navbar() {
         data-cy="header_profile_container"
         className="w-full flex justify-end items-center gap-x-8"
       >
-        <div data-cy="profile" className="flex items-center relative">
-          {/* PROFILE BUTTON  */}
-          <button
-            data-auto={`navbar-profile-button-every-page`}
-            className="flex relative tooltip tooltip-left tooltip-primary items-center gap-2"
-            onClick={() => setProfileToggle(!profileToggle)}
-          >
-            <span className="ml-[0.1rem] animate-ping absolute inline-flex h-[90%] w-[90%] rounded-full bg-primary bg-opacity-60 opacity-75"></span>
-            {user?.image ? (
-              <div className="avatar">
-                <div className="w-10 ring ring-primary  rounded-full">
-                  <img src={getFullImageLink(user?.image)} />
+        {user?.first_Name ? (
+          <div data-cy="profile" className="flex items-center relative">
+            {/* PROFILE BUTTON  */}
+            <button
+              data-auto={`navbar-profile-button-every-page`}
+              className="flex relative tooltip tooltip-left tooltip-primary items-center gap-2"
+              onClick={() => setProfileToggle(!profileToggle)}
+            >
+              <span className="ml-[0.1rem] animate-ping absolute inline-flex h-[90%] w-[90%] rounded-full bg-primary bg-opacity-60 opacity-75"></span>
+              {user?.image ? (
+                <div className="avatar">
+                  <div className="w-10 ring ring-primary  rounded-full">
+                    <img src={getFullImageLink(user?.image)} />
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="avatar placeholder">
-                <div className="bg-primary text-base-300 rounded-full w-10">
-                  <span className="text-md font-medium">
-                    {user?.first_Name?.slice(0, 1).toUpperCase()}
-                    {user?.middle_Name
-                      ? user?.middle_Name?.slice(0, 1).toUpperCase()
-                      : ""}
-                    {user?.last_Name?.slice(0, 1).toUpperCase()}
-                  </span>
-                </div>
-              </div>
-            )}
-          </button>
-          {/* PROFILE DROPDOWN  */}
-          <OutsideClickHandler
-            onOutsideClick={() => {
-              setProfileToggle(false);
-            }}
-            className={`absolute profileDropdown z-50 right-0  bg-base-200 w-auto mt-6 pt-5 overflow-hidden shadow-xl rounded-xl ${
-              profileToggle ? "block top-10" : "hidden top-64"
-            }`}
-          >
-            <div className="w-[270px] flex flex-col items-start">
-              <div className="border-b border-primary-content pb-3 flex justify-between w-full px-5">
-                <button
-                  data-auto={`navbar-profile-inside-button-every-page`}
-                  className=" flex justify-start gap-3 items-center "
-                  onClick={() => navigate("/profile")}
-                >
-                  {user?.image ? (
-                    <div className="avatar">
-                      <div className="w-10 ring ring-primary  rounded-full">
-                        <img src={getFullImageLink(user?.image)} />
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="avatar placeholder">
-                      <div className="bg-primary text-base-300 rounded-full w-10">
-                        <span className="text-md font-medium">
-                          {user?.first_Name?.slice(0, 1).toUpperCase()}
-                          {user?.middle_Name
-                            ? user?.middle_Name?.slice(0, 1).toUpperCase()
-                            : ""}
-                          {user?.last_Name?.slice(0, 1).toUpperCase()}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="flex flex-col justify-start items-start">
-                    <h1 className="leading-4 text-primary font-medium text-left">
-                      {user?.first_Name}{" "}
-                      {user?.middle_Name ? user?.middle_Name : ""}{" "}
-                      {user?.last_Name}
-                    </h1>
-                    <span className="text-gray-500 font-light">
-                      {formatRole(user?.roles[0]?.name)}
+              ) : (
+                <div className="avatar placeholder">
+                  <div className="bg-primary text-base-300 rounded-full w-10">
+                    <span className="text-md font-medium">
+                      {user?.first_Name?.slice(0, 1).toUpperCase()}
+                      {user?.middle_Name
+                        ? user?.middle_Name?.slice(0, 1).toUpperCase()
+                        : ""}
+                      {user?.last_Name?.slice(0, 1).toUpperCase()}
                     </span>
                   </div>
+                </div>
+              )}
+            </button>
+            {/* PROFILE DROPDOWN  */}
+            <OutsideClickHandler
+              onOutsideClick={() => {
+                setProfileToggle(false);
+              }}
+              className={`absolute profileDropdown z-50 right-0  bg-base-200 w-auto mt-6 pt-5 overflow-hidden shadow-xl rounded-xl ${
+                profileToggle ? "block top-10" : "hidden top-64"
+              }`}
+            >
+              <div className="w-[270px] flex flex-col items-start">
+                <div className="border-b border-primary-content pb-3 flex justify-between w-full px-5">
+                  <button
+                    data-auto={`navbar-profile-inside-button-every-page`}
+                    className=" flex justify-start gap-3 items-center "
+                    onClick={() => navigate("/profile")}
+                  >
+                    {user?.image ? (
+                      <div className="avatar">
+                        <div className="w-10 ring ring-primary  rounded-full">
+                          <img src={getFullImageLink(user?.image)} />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="avatar placeholder">
+                        <div className="bg-primary text-base-300 rounded-full w-10">
+                          <span className="text-md font-medium">
+                            {user?.first_Name?.slice(0, 1).toUpperCase()}
+                            {user?.middle_Name
+                              ? user?.middle_Name?.slice(0, 1).toUpperCase()
+                              : ""}
+                            {user?.last_Name?.slice(0, 1).toUpperCase()}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex flex-col gap-y-1 justify-start items-start">
+                      <h1 className="leading-4  text-primary font-medium text-left">
+                        {user?.first_Name}{" "}
+                        {user?.middle_Name ? user?.middle_Name : ""}{" "}
+                        {user?.last_Name}
+                      </h1>
+                      <span className="text-gray-500 text-xs font-light">
+                        {formatRole(user?.roles[0]?.name)}
+                      </span>
+                    </div>
+                  </button>
+                </div>
+                <button
+                  data-auto={`navbar-logout-button-every-page`}
+                  className="px-5 group py-3 w-full text-left text-primary300 hover:bg-primary hover:text-base-300 flex items-center gap-3"
+                  onClick={() => {
+                    navigate("/my-account/profile");
+                  }}
+                >
+                  <TbLogout2 className="text-xl" />
+                  Notification
                 </button>
-                <div className="block">{/* <DarkmodeToggler /> */}</div>
+                <button
+                  data-auto={`navbar-logout-button-every-page`}
+                  className="px-5 group py-3 w-full text-left text-red-500 hover:bg-red-500 hover:text-base-300 flex items-center gap-3"
+                  onClick={logout}
+                >
+                  <TbLogout2 className="text-xl" />
+                  Logout
+                </button>
               </div>
-            </div>
-          </OutsideClickHandler>
-        </div>
+            </OutsideClickHandler>
+          </div>
+        ) : (
+          ""
+        )}
       </motion.div>
     </motion.nav>
   );

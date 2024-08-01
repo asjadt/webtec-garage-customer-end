@@ -7,7 +7,7 @@ import { NavProvider } from "../context/NavContext";
 import { PermissionProvider } from "../context/PermissionContext";
 import DashboardLayout from "./DashboardLayout";
 
-export default function ManagerLayout() {
+export default function DashboardLayoutContainer() {
   return (
     <NavProvider>
       <GeoLocationDataContextProvider>

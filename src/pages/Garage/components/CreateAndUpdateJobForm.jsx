@@ -7,186 +7,114 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import CustomLoading from "../../../components/CustomLoading";
 import CustomToaster from "../../../components/CustomToaster";
-import CustomDatePicker from "../../../components/InputFields/CustomDatePicker";
-import ButtonSpinner from "../../../components/Loaders/ButtonSpinner";
-import { assetsStatus } from "../../../constant/assetsStatus";
 
-import { ErrorMessage } from "@hookform/error-message";
-import { Controller } from "react-hook-form";
+import moment from "moment";
 import Swal from "sweetalert2";
 import { postPreBookingDetails } from "../../../Apis/homepageapi";
-import Headings from "../../../components/Headings/Headings";
-import CustomSingleFileUploader from "../../../components/InputFields/CustomSingleFileUploader";
-import {
-  MultiSelectV2,
-  TextAreaFieldV2,
-  TextFieldV2,
-} from "../../../components/InputFields/hook-form";
-import { handleApiError } from "../../../utils/apiErrorHandler";
-import dayjs from "dayjs";
-import moment from "moment";
-import Stepper from "../../../components/Stepper";
 import CustomMultiStepper from "../../../components/CustomMultiStepper";
-import ServiceDetailsForm from "./Steps/ServiceDetailsForm";
+import Headings from "../../../components/Headings/Headings";
+import { handleApiError } from "../../../utils/apiErrorHandler";
 import JobDetailsForm from "./Steps/JobDetailsForm";
 import ReviewForm from "./Steps/ReviewForm";
+import ServiceDetailsForm from "./Steps/ServiceDetailsForm";
+import { useMutation } from "@tanstack/react-query";
+import { useAuth } from "../../../context/AuthContextV2";
+import Login from "../../Auth/Login";
+import CustomPopup from "../../../components/CustomPopup";
+import { useNavigate } from "react-router-dom";
 
-export default function CreateAndUpdateJobForm({
-  id = null,
-  handleClosePopup,
-}) {
+export default function CreateAndUpdateJobForm() {
+  const navigate = useNavigate();
+  const { user, isAuthenticated, logout, setIsAuthenticated, setUser } =
+    useAuth();
+  // POPUP OPTIONS
+  const [popupOption, setPopupOption] = useState({
+    open: false,
+    type: "",
+    onClose: () => {
+      setPopupOption({ ...popupOption, open: false });
+    },
+    overlayStyle: { background: "red" },
+    closeOnDocumentClick: false,
+  });
   const [step, setStep] = useState(1);
-
   const [formData, setFormData] = useState({
     // STEP 1
-    serviceName: "",
     service: [],
     pre_booking_sub_service_ids: [],
     car_registration_no: "",
     automobile_make_id: "",
-    makeName: "",
-    transmission: "manual",
     automobile_model_id: "",
-    modelName: "",
+    transmission: "manual",
 
     // STEP 2
-    job_start_date: new Date(),
-    job_start_time: new Date(),
-    job_end_date: new Date(),
+    job_start_date: moment(new Date()).format("YYYY-MM-DD"),
+    job_start_time: "00:00",
+    job_end_date: moment().add(1, "month").format("YYYY-MM-DD"),
     additional_information: "",
     images: [],
     videos: [],
+    file_links: [],
 
     coupon_code: "",
     car_registration_year: "",
     fuel: "Fuel",
   });
 
-  // CHANGE FORM DATA
-  const handleFormChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  // VALIDATION
-  const [errors, setErrors] = useState({});
-  const validateForm = () => {
-    const newErrors = {};
-
-    // VALIDATE EMPLOYEE
-    if (formData?.status === "assigned") {
-      if (!formData.user_id) {
-        newErrors.user_id = "Employee is required";
-      }
-    }
-
-    // VALIDATE NAME
-    if (!formData.name || formData.name.trim() === "") {
-      newErrors.name = "Name is required";
-    }
-    // VALIDATE CODE
-    if (!formData.code || formData.code.trim() === "") {
-      newErrors.code = "Code is required";
-    }
-    // VALIDATE SERIAL NUMBER
-    if (!formData.serial_number || formData.serial_number.trim() === "") {
-      newErrors.serial_number = "Serial number is required";
-    }
-
-    // VALIDATE TYPE
-    if (!formData.type) {
-      newErrors.type = "Type is required";
-    }
-
-    // VALIDATE DATE
-    if (!formData.date) {
-      newErrors.date = "Date is required";
-    }
-    // VALIDATE NOTE
-    if (!formData.note || formData.note.trim() === "") {
-      newErrors.note = "Note is required";
-    }
-    // VALIDATE STATUS
-    if (!formData.status) {
-      newErrors.status = "Status is required";
-    }
-
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length !== 0) {
-      toast.custom((t) => (
-        <CustomToaster
-          t={t}
-          type={"error"}
-          errors={{
-            validationErrors: Object.entries(newErrors).map((error, i) => {
-              if (Array.isArray(error[1])) {
-                return Object.entries(error[1][0])
-                  .map((error2, j) => {
-                    return error2[1];
-                  })
-                  .join(" & ");
-              } else {
-                return error[1];
-              }
-            }),
-          }}
-          text={`You are submitting invalid data`}
-        />
-      ));
-    }
-
-    // Return true if there are no errors
-    return Object.keys(newErrors).length === 0;
-  };
-
-  // SUBMITTING FORM
-  const [isSubmitting, setIsSubmitting] = useState(false);
   // CREATE FUNCTION
-  const createFunction = () => {
-    setIsSubmitting(true);
+  const mutation = useMutation({
+    mutationKey: "createJob",
+    mutationFn: postPreBookingDetails,
+    onSuccess: () => {
+      Swal.fire({
+        title: "Success?",
+        text: "A new job created successfully!",
+        icon: "success",
+        confirmButtonText: "Ok",
+        customClass: {
+          title: "text-primary",
+          container: "",
+          popup: "bg-base-300 shadow-xl rounded-xl border border-primary",
+          icon: "text-red-500",
+          cancelButton: "bg-green-500",
+        },
+      }).then(() => {
+        navigate("/my-account/my-bookings");
+      });
+    },
+  });
+
+  const createFunction = async () => {
     const updatedDate = {
       ...formData,
-      pre_booking_sub_service_ids: formData?.service?.map(
-        (res) => res?.subServiceId
-      ),
       job_start_date: moment(formData.job_start_date).format("YYYY-MM-DD"),
-      job_start_time: moment(formData.job_start_time).format("HH:mm"),
+      // job_start_time: moment(formData.job_start_time, "HH:mm").format("HH:mm"),
       job_end_date: moment(formData.job_end_date).format("YYYY-MM-DD"),
     };
 
-    postPreBookingDetails(updatedDate)
-      .then((res) => {
-        Swal("Success!", "You Create Job Successfully!", "success");
-        history.push("/my-account");
-      })
-      .catch((error) => {
-        handleApiError(error);
-      });
+    try {
+      mutation.mutate(updatedDate);
+    } catch (error) {
+      handleApiError(mutation.error);
+    }
   };
 
-  // HANDLE VIEW FILES
-  // const handleViewFiles = (files) => {
-  //   setPopupOption({
-  //     open: true,
-  //     type: "viewFiles",
-  //     title: "View Files",
-  //     files: files,
-  //     onClose: () => {
-  //       setPopupOption({ ...popupOption, open: false });
-  //     },
-  //     id: null,
-  //     closeOnDocumentClick: false,
-  //   });
-  // };
-
   // HANDLE SUBMIT FORM
-  const handleOnSubmit = (data) => {
-    if (validateForm()) {
+  const handleOnSubmit = () => {
+    if (user || isAuthenticated) {
       createFunction();
+    } else {
+      // OPEN THE LOGIN POPUP
+      console.log("login");
+      setPopupOption({
+        open: true,
+        type: "login",
+        onClose: () => {
+          setPopupOption({ ...popupOption, open: false });
+        },
+        overlayStyle: { background: "red" },
+        closeOnDocumentClick: false,
+      });
     }
   };
 
@@ -195,8 +123,32 @@ export default function CreateAndUpdateJobForm({
   } else {
     return (
       <div className="py-5 px-5 md:px-5 flex justify-center items-center bg-base-300 h-full">
+        <CustomPopup
+          popupClasses={`w-[70vw]`}
+          popupOption={popupOption}
+          setPopupOption={setPopupOption}
+          Component={
+            <>
+              {popupOption?.type === "login" && (
+                <Login
+                  handleClosePopup={(e) => {
+                    setPopupOption({
+                      open: false,
+                      type: "",
+                      onClose: () => {
+                        setPopupOption({ ...popupOption, open: false });
+                      },
+                      overlayStyle: { background: "red" },
+                      closeOnDocumentClick: false,
+                    });
+                  }}
+                />
+              )}
+            </>
+          }
+        />
         <div
-          className={`w-full h-full border max-w-[600px] p-5 shadow-lg rounded-xl overflow-y-auto`}
+          className={`w-full border max-w-[600px] p-5 shadow-lg rounded-xl h-auto`}
         >
           <Headings level={2} className={`text-primary text-center mb-2`}>
             Create Job
@@ -238,11 +190,13 @@ export default function CreateAndUpdateJobForm({
               setFormData={setFormData}
             />
           )}
-          {step === 2 && (
+          {step === 3 && (
             <ReviewForm
               setStep={setStep}
               formData={formData}
               setFormData={setFormData}
+              handleOnSubmit={handleOnSubmit}
+              isLoading={mutation.isPending}
             />
           )}
         </div>

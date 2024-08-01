@@ -548,7 +548,7 @@ const CustomDatePickerWithTime = ({
 
       {isDatePickerActive && !disabled && (
         <div
-          className={`bg-base-300 flex flex-col ${
+          className={`z-50 bg-base-300 flex flex-col ${
             top ? "bottom-full -mb-6" : "top-full mt-2"
           } ${
             right ? "right-0" : "left-0"

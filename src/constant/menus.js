@@ -1,5 +1,15 @@
-import { FiArrowRightCircle, FiChevronRight, FiPieChart, FiUserPlus } from "react-icons/fi";
-import { BsFillFuelPumpFill } from "react-icons/bs";
+import {
+  FiArrowRightCircle,
+  FiChevronRight,
+  FiPieChart,
+  FiUserPlus,
+} from "react-icons/fi";
+import { BsFillFuelPumpFill, BsFuelPump } from "react-icons/bs";
+import { IoBookmarkOutline } from "react-icons/io5";
+import { GoBriefcase } from "react-icons/go";
+import { LuFileClock } from "react-icons/lu";
+import { MdAccountCircle } from "react-icons/md";
+
 export const menus = [
   // DASHBOARD
   {
@@ -12,7 +22,7 @@ export const menus = [
   {
     title: "Fuel Station",
     link: "/fuel-station",
-    Icon: BsFillFuelPumpFill,
+    Icon: BsFuelPump,
     childrens: [],
     show: true,
   },
@@ -22,33 +32,32 @@ export const menus = [
   {
     title: "Bookings",
     link: "/my-account/my-booking",
-    Icon: FiPieChart,
+    Icon: IoBookmarkOutline,
     childrens: [],
     show: JSON.parse(localStorage.getItem("user_data")),
   },
   {
     title: "Applied Jobs",
     link: "/my-account/my-jobs",
-    Icon: FiPieChart,
+    Icon: GoBriefcase,
     childrens: [],
     show: JSON.parse(localStorage.getItem("user_data")),
   },
   {
     title: "Pending Jobs",
     link: "/my-account/pending/jobs",
-    Icon: FiPieChart,
+    Icon: LuFileClock,
     childrens: [],
     show: JSON.parse(localStorage.getItem("user_data")),
   },
   {
     title: "My Account",
     link: "/my-account",
-    Icon: FiPieChart,
+    Icon: MdAccountCircle,
     childrens: [],
     show: JSON.parse(localStorage.getItem("user_data")),
   },
   // ============================
-
 
   {
     title: "Register",
@@ -64,5 +73,4 @@ export const menus = [
     childrens: [],
     show: !JSON.parse(localStorage.getItem("user_data")),
   },
-
 ];

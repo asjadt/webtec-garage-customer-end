@@ -10,6 +10,7 @@ import ActionBar from "./components/ActionBar";
 import CreateAndUpdateJobForm from "./components/CreateAndUpdateJobForm";
 import GarageListComponent from "./components/GarageListComponent";
 import { useGeoLocationData } from "../../context/GeoLocationDataContext";
+import { getGaragesV2 } from "../../Apis/garage";
 
 export default function GarageList() {
   const { llFromDistance, location } = useGeoLocationData();
@@ -26,7 +27,7 @@ export default function GarageList() {
   } = useData();
   const [locationDistanceRange, setLocationDistanceRange] = useState(3);
   const [tab, setTab] = useState("garages"); // ACCEPT "garages" OR "job"
-  const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   // HANDLE THE DISTANCE CHANGE
@@ -589,7 +590,7 @@ export default function GarageList() {
 
       setIsLoading(true);
       if (filterData) {
-        getGarages({
+        getGaragesV2({
           perPage: filterData?.perPage,
           search_key: filterData?.search_key,
           country_code: filterData?.country_code,
