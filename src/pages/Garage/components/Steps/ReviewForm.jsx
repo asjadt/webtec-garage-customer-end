@@ -18,7 +18,7 @@ export default function ReviewForm({
         <tr className={`border-b`}>
           <td className={`h-full font-bold w-32`}>Services</td>
           <td className={`h-full py-5 `}>
-            {formData?.pre_booking_sub_service_ids
+            {formData?.booking_sub_service_ids
               .map(
                 (service) => subServices?.find((ss) => ss?.id === service)?.name
               )
@@ -133,7 +133,7 @@ export default function ReviewForm({
           onClick={handleOnSubmit}
           className="btn w-full md:btn-wide btn-primary"
         >
-          {isLoading ? <ButtonSpinner /> : "Create Job"}
+          {isLoading ? <ButtonSpinner /> : "Book"}
         </button>
       </div>
     </div>
