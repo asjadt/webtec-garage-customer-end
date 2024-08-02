@@ -108,12 +108,6 @@ export default function MyJob() {
   // ALL DISPLAYED COLUMNS IN TABLE
   const [cols, setCols] = useState([
     {
-      name: "Garage",
-      attribute_name: "garage",
-      minWidth: 10,
-      show: true,
-    },
-    {
       name: "Car Reg",
       attribute_name: "car_reg",
       minWidth: 25,
@@ -266,15 +260,15 @@ export default function MyJob() {
                 <div className={`flex items-center gap-5`}>
                   <Headings level={1}>
                     {activeTab === "all"
-                      ? "All Bookings"
+                      ? "All Applied Jobs"
                       : activeTab === "completed"
-                      ? "Completed Bookings"
-                      : "Pending Bookings"}
+                      ? "Completed Applied Jobs"
+                      : "Pending Applied Jobs"}
                   </Headings>
                 </div>
                 <h3>
-                  Total {data?.total} {data?.total > 1 ? "Bookings" : "Booking"}{" "}
-                  Found
+                  Total {data?.total}{" "}
+                  {data?.total > 1 ? "Applied Jobs" : "Applied Job"} Found
                 </h3>
               </div>
 

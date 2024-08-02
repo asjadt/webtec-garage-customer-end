@@ -113,12 +113,6 @@ export default function PendingJob() {
   // ALL DISPLAYED COLUMNS IN TABLE
   const [cols, setCols] = useState([
     {
-      name: "Garage",
-      attribute_name: "garage",
-      minWidth: 10,
-      show: true,
-    },
-    {
       name: "Car Reg",
       attribute_name: "car_reg",
       minWidth: 25,
@@ -135,6 +129,12 @@ export default function PendingJob() {
     {
       name: "Job Start Time",
       attribute_name: "job_start_time",
+      minWidth: 20,
+      show: true,
+    },
+    {
+      name: "Garage Applied",
+      attribute_name: "garage_applied",
       minWidth: 20,
       show: true,
     },
@@ -331,6 +331,10 @@ export default function PendingJob() {
                   id: d?.id,
                   garage: d?.garage?.name,
                   car_reg: d?.car_registration_no,
+                  job_start_time: moment(d?.job_start_time, "HH:mm").format(
+                    "hh:mm A"
+                  ),
+                  garage_applied: d?.job_bids?.length,
                 }))}
                 actions={actions}
                 cols={cols}

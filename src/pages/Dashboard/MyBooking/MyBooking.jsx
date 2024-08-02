@@ -327,6 +327,9 @@ export default function MyBooking() {
                   id: d?.id,
                   garage: d?.garage?.name,
                   car_reg: d?.car_registration_no,
+                  job_start_time: moment(d?.job_start_time, "HH:mm").format(
+                    "hh:mm A"
+                  ),
                 }))}
                 actions={actions}
                 cols={cols}
