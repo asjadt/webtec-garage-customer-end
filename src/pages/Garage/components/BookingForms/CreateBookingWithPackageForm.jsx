@@ -24,6 +24,8 @@ import Login from "../../../Auth/Login";
 import JobDetailsForm from "../Steps/JobDetailsForm";
 import ReviewForm from "../Steps/ReviewForm";
 import ServiceDetailsForm from "../Steps/ServiceDetailsForm";
+import ServiceDetailsPackageForm from "../Steps/ServiceDetailsPackageForm";
+import SelectPackagePackageForm from "../Steps/SelectPackagePackageForm";
 
 export default function CreateBookingWithPackageForm() {
   const { encID } = useParams();
@@ -187,7 +189,7 @@ export default function CreateBookingWithPackageForm() {
                 {
                   serial: 1,
                   id: 1,
-                  title: "Service Details",
+                  title: "Package",
                 },
                 {
                   serial: 2,
@@ -205,7 +207,7 @@ export default function CreateBookingWithPackageForm() {
           </div>
 
           {step === 1 && (
-            <ServiceDetailsForm
+            <SelectPackagePackageForm
               garageData={garageData}
               setStep={setStep}
               formData={formData}
@@ -213,14 +215,15 @@ export default function CreateBookingWithPackageForm() {
             />
           )}
 
-          {step === 2 && (
+          {step === 3 && (
             <JobDetailsForm
               setStep={setStep}
               formData={formData}
               setFormData={setFormData}
             />
           )}
-          {step === 3 && (
+
+          {step === 4 && (
             <ReviewForm
               setStep={setStep}
               formData={formData}
