@@ -26,6 +26,7 @@ export default function GarageCard({ garage }) {
     wifi_available,
     is_mobile_garage,
     garage_times,
+    is_package_available,
   } = garage;
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
@@ -39,22 +40,6 @@ export default function GarageCard({ garage }) {
       data-auto={`container${id}-garageCard`}
       className={`md:flex relative items-center overflow-hidden md:space-x-2 space-y-3 md:space-y-0 border w-full rounded-md p-3 bg-base-300 shadow-lg`}
     >
-      <motion.div
-        initial={{ right: -300 }}
-        animate={{ right: isHovered ? -100 : -300 }}
-        transition={{ type: "", stiffness: 300 }}
-        className={`h-full w-[100px] flex flex-col justify-center gap-y-2 bg-gradient-to-l from-gray-300 absolute`}
-      >
-        <button className={`btn btn-primary rounded-none rounded-l-xl`}>
-          View Details
-        </button>
-        <button className={`btn btn-primary rounded-none rounded-l-xl`}>
-          Book Now
-        </button>
-        <button className={`btn btn-primary rounded-none rounded-l-xl`}>
-          View Offers
-        </button>
-      </motion.div>
       <div
         className={`w-full md:w-[250px] h-[150px] md:h-full bg-black object-cover rounded-md relative`}
       >
@@ -98,7 +83,6 @@ export default function GarageCard({ garage }) {
         >
           {name}
         </h1>
-
         {/* RATING  */}
         <div
           data-auto={`ratings${id}-garageCard`}
@@ -112,7 +96,6 @@ export default function GarageCard({ garage }) {
             /5 ({total_rating_count})
           </p>
         </div>
-
         {/* TIMING AND ADDRESS  */}
         <div
           data-auto={`timings${id}-garageCard`}
@@ -127,14 +110,12 @@ export default function GarageCard({ garage }) {
             {moment(garage_times[0]?.closing_time, "HH:mm").format("hh:mm A")}
           </p>
         </div>
-
         {/* ADDRESS  */}
         <div>
           <address className={`text-sm`} data-auto={`address${id}-garageCard`}>
             {address_line_1}
           </address>
         </div>
-
         {/* OTHER FACILITY  */}
         <div className={`flex gap-x-1 md:gap-x-3 items-center justify-start`}>
           {wifi_available ? (
@@ -157,6 +138,36 @@ export default function GarageCard({ garage }) {
           ) : (
             ""
           )}
+        </div>
+
+        {/* ACTION  */}
+        <div className={`relative`}>
+          <div
+            className={`grid grid-cols-1 sm:grid-cols-3 gap-[5px] pt-2 right-0`}
+          >
+            <button
+              onClick={() => navigate(`/view-garage/${encryptID(id)}`)}
+              className={`btn btn-primary btn-xs md:btn-sm w-full`}
+            >
+              View Details
+            </button>
+            <button
+              onClick={() => navigate(`/booking/${encryptID(id)}`)}
+              className={`btn btn-primary btn-xs md:btn-sm w-full`}
+            >
+              Book Now
+            </button>
+            {!!is_package_available && (
+              <button
+                onClick={() =>
+                  navigate(`/booking-with-package/${encryptID(id)}`)
+                }
+                className={`btn btn-primary btn-xs md:btn-sm w-full`}
+              >
+                View Offers
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </motion.div>

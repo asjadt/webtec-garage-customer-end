@@ -11,13 +11,15 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import GarageList from "./pages/Garage/GarageList";
 import SingleGarage from "./pages/Garage/SingleGarage";
 import Home from "./pages/Home/Home";
-import ManagerLayout from "./layout/ManagerLayout";
-import DashboardLayoutContainer from "./layout/ManagerLayout";
-import Profile from "./pages/Dashboard/Profile/Profile";
-import Notification from "./pages/Dashboard/Notification/Notification";
+
+import DashboardLayoutContainer from "./layout/DashboardLayoutContainer";
 import MyBooking from "./pages/Dashboard/MyBooking/MyBooking";
 import MyJob from "./pages/Dashboard/MyJob/MyJob";
+import Notification from "./pages/Dashboard/Notification/Notification";
 import PendingJob from "./pages/Dashboard/PendingJob/PendingJob";
+import Profile from "./pages/Dashboard/Profile/Profile";
+import GarageBooking from "./pages/Garage/GarageBooking";
+import GarageBookingWIthPackage from "./pages/Garage/GarageBookingWIthPackage";
 
 const App = () => (
   <Router>
@@ -33,8 +35,12 @@ const App = () => (
         <Route path="garages" element={<GarageList />} />
         <Route path="view-garage/:encID" element={<SingleGarage />} />
 
-        {/* PACKAGE  */}
-        <Route path="package/:encID" element={<Home />} />
+        {/* BOOKING  */}
+        <Route path="booking/:encID" element={<GarageBooking />} />
+        <Route
+          path="booking-with-package/:encID"
+          element={<GarageBookingWIthPackage />}
+        />
 
         {/* FUEL STATION  */}
         <Route path="fuel-station" element={<Home />} />

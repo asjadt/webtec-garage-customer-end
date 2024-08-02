@@ -330,6 +330,7 @@ export default function GarageList() {
   }, [locationDistanceRange]);
 
   const [isLoading, setIsLoading] = useState(true);
+
   // GET DATA
   useEffect(() => {
     setIsLoading(true);

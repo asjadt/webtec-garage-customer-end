@@ -5,7 +5,7 @@ import { useData } from "../../../../context/DataContext";
 import CustomFieldV2 from "../../../../components/InputFields/CustomFieldV2";
 import CustomMultiSelect from "../../../../components/InputFields/CustomMultiSelect";
 
-export default function ServiceDetailsForm({
+export default function SelectPackagePackageForm({
   setStep,
   formData,
   setFormData,

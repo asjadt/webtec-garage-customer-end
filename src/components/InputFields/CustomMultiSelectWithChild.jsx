@@ -59,7 +59,7 @@ export default function CustomMultiSelectWithChild({
   max = null,
   groupForeignKey = "parent_id",
   groups = [],
-  size=""
+  size = "",
 }) {
   // useEffect(() => {
   //   console.log({ defaultSelectedValues });
@@ -415,80 +415,57 @@ export default function CustomMultiSelectWithChild({
             <>
               {groups?.length > 0 ? (
                 <>
-                  {groups?.map((group, index) => (
-                    <Fragment key={index}>
-                      <h3 className={`text-primary font-bold text-lg px-5`} >{group?.name}</h3>
-                      {filteredOptions
-                        .filter((opt) => opt[groupForeignKey] === group?.id)
-                        .map((opt, index) => (
-                          <Fragment key={index}>
-                            <button
-                              data-cy={`options_container_button_${index}_custom_multi_select`}
-                              onClick={() => {
-                                if (
-                                  selectedValues?.some(
-                                    (s_opt) => s_opt?.id === opt?.id
-                                  )
-                                ) {
-                                  // IF ALREADY SELECTED
-                                  onSelect(
+                  {groups
+                    ?.filter((group) =>
+                      filteredOptions?.some(
+                        (opt) => opt[groupForeignKey] === group?.id
+                      )
+                    )
+                    ?.map((group, index) => (
+                      <Fragment key={index}>
+                        <h3 className={`text-primary font-bold text-lg px-5`}>
+                          {group?.name}
+                        </h3>
+                        {filteredOptions
+                          ?.filter((opt) => opt[groupForeignKey] === group?.id)
+                          ?.map((opt, index) => (
+                            <Fragment key={index}>
+                              <button
+                                data-cy={`options_container_button_${index}_custom_multi_select`}
+                                onClick={() => {
+                                  if (
+                                    selectedValues?.some(
+                                      (s_opt) => s_opt?.id === opt?.id
+                                    )
+                                  ) {
+                                    // IF ALREADY SELECTED
+                                    onSelect(
+                                      selectedValues?.filter(
+                                        (s_opt) => s_opt?.id !== opt?.id
+                                      )
+                                    );
+                                    onRemove(
+                                      selectedValues?.filter(
+                                        (s_opt) => s_opt?.id !== opt?.id
+                                      )
+                                    );
                                     selectedValues?.filter(
                                       (s_opt) => s_opt?.id !== opt?.id
-                                    )
-                                  );
-                                  onRemove(
-                                    selectedValues?.filter(
-                                      (s_opt) => s_opt?.id !== opt?.id
-                                    )
-                                  );
-                                  selectedValues?.filter(
-                                    (s_opt) => s_opt?.id !== opt?.id
-                                  )?.length > 0 &&
-                                    closeOnSelect &&
-                                    singleSelect &&
-                                    setIsOptionOpen(false);
-                                  setFilteredOptions(options);
-                                  setSearchFieldValue("");
-
-                                  setSelectedValues(
-                                    selectedValues?.filter(
-                                      (s_opt) => s_opt?.id !== opt?.id
-                                    )
-                                  );
-                                } else {
-                                  // IF NOT SELECTED
-                                  if (!max) {
-                                    if (singleSelect) {
-                                      onSelect([opt]);
-                                      onRemove([opt]);
-                                      [opt]?.length > 0 &&
-                                        closeOnSelect &&
-                                        singleSelect &&
-                                        setIsOptionOpen(false);
-                                      setFilteredOptions(options);
-                                      setSearchFieldValue("");
-
-                                      setSelectedValues([opt]);
-                                    } else {
-                                      onSelect([...selectedValues, opt]);
-                                      onRemove([...selectedValues, opt]);
-                                      [...selectedValues, opt]?.length > 0 &&
-                                        closeOnSelect &&
-                                        singleSelect &&
-                                        setIsOptionOpen(false);
-                                      setFilteredOptions(options);
-                                      setSearchFieldValue("");
-
-                                      setSelectedValues([
-                                        ...selectedValues,
-                                        opt,
-                                      ]);
-                                    }
-                                  } else {
-                                    if (selectedValues?.length + 1 >= max) {
+                                    )?.length > 0 &&
+                                      closeOnSelect &&
+                                      singleSelect &&
                                       setIsOptionOpen(false);
-                                    }
-                                    if (selectedValues?.length < max) {
+                                    setFilteredOptions(options);
+                                    setSearchFieldValue("");
+
+                                    setSelectedValues(
+                                      selectedValues?.filter(
+                                        (s_opt) => s_opt?.id !== opt?.id
+                                      )
+                                    );
+                                  } else {
+                                    // IF NOT SELECTED
+                                    if (!max) {
                                       if (singleSelect) {
                                         onSelect([opt]);
                                         onRemove([opt]);
@@ -516,50 +493,82 @@ export default function CustomMultiSelectWithChild({
                                         ]);
                                       }
                                     } else {
-                                      toast.custom((t) => (
-                                        <CustomToaster
-                                          t={t}
-                                          type={"error"}
-                                          text={`Maximum items exceeded!`}
-                                        />
-                                      ));
+                                      if (selectedValues?.length + 1 >= max) {
+                                        setIsOptionOpen(false);
+                                      }
+                                      if (selectedValues?.length < max) {
+                                        if (singleSelect) {
+                                          onSelect([opt]);
+                                          onRemove([opt]);
+                                          [opt]?.length > 0 &&
+                                            closeOnSelect &&
+                                            singleSelect &&
+                                            setIsOptionOpen(false);
+                                          setFilteredOptions(options);
+                                          setSearchFieldValue("");
+
+                                          setSelectedValues([opt]);
+                                        } else {
+                                          onSelect([...selectedValues, opt]);
+                                          onRemove([...selectedValues, opt]);
+                                          [...selectedValues, opt]?.length >
+                                            0 &&
+                                            closeOnSelect &&
+                                            singleSelect &&
+                                            setIsOptionOpen(false);
+                                          setFilteredOptions(options);
+                                          setSearchFieldValue("");
+
+                                          setSelectedValues([
+                                            ...selectedValues,
+                                            opt,
+                                          ]);
+                                        }
+                                      } else {
+                                        toast.custom((t) => (
+                                          <CustomToaster
+                                            t={t}
+                                            type={"error"}
+                                            text={`Maximum items exceeded!`}
+                                          />
+                                        ));
+                                      }
                                     }
                                   }
-                                }
-                              }}
-                              className={`px-5 py-1   justify-between w-full flex gap-2 items-center   ${
-                                showCheckbox &&
-                                selectedValues?.some(
-                                  (s_opt) => s_opt?.id === opt?.id
-                                )
-                                  ? "bg-primary text-base-300"
-                                  : "hover:bg-primary-content"
-                              }`}
-                            >
-                              <span className="inline-flex gap-2 items-center text-left w-full">
-                                {opt?.Icon && <opt.Icon />} {opt?.name}
-                              </span>
+                                }}
+                                className={`px-5 py-1   justify-between w-full flex gap-2 items-center   ${
+                                  showCheckbox &&
+                                  selectedValues?.some(
+                                    (s_opt) => s_opt?.id === opt?.id
+                                  )
+                                    ? "bg-primary text-base-300"
+                                    : "hover:bg-primary-content"
+                                }`}
+                              >
+                                <span className="inline-flex gap-2 items-center text-left w-full">
+                                  {opt?.Icon && <opt.Icon />} {opt?.name}
+                                </span>
 
-                              {selectedValues?.some(
-                                (s_opt) => s_opt?.id === opt?.id
-                              ) &&
-                                showCheckbox && (
-                                  <CustomCheckIcon
-                                    className={`${
-                                      selectedValues?.some(
-                                        (s_opt) => s_opt?.id === opt?.id
-                                      )
-                                        ? "text-base-300"
-                                        : ""
-                                    }`}
-                                  />
-                                )}
-                            </button>
-                            {index + 1 < filteredOptions.length ? <hr /> : ""}
-                          </Fragment>
-                        ))}
-                    </Fragment>
-                  ))}
+                                {selectedValues?.some(
+                                  (s_opt) => s_opt?.id === opt?.id
+                                ) &&
+                                  showCheckbox && (
+                                    <CustomCheckIcon
+                                      className={`${
+                                        selectedValues?.some(
+                                          (s_opt) => s_opt?.id === opt?.id
+                                        )
+                                          ? "text-base-300"
+                                          : ""
+                                      }`}
+                                    />
+                                  )}
+                              </button>
+                              {index + 1 < filteredOptions.length ? <hr /> : ""}
+                            </Fragment>
+                          ))}
+                      </Fragment>
+                    ))}
                 </>
               ) : (
                 <>

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import ButtonSpinner from "../../../../components/Loaders/ButtonSpinner";
-import CustomMultiSelectWithChild from "../../../../components/InputFields/CustomMultiSelectWithChild";
-import { useData } from "../../../../context/DataContext";
 import CustomFieldV2 from "../../../../components/InputFields/CustomFieldV2";
 import CustomMultiSelect from "../../../../components/InputFields/CustomMultiSelect";
+import CustomMultiSelectWithChild from "../../../../components/InputFields/CustomMultiSelectWithChild";
+import ButtonSpinner from "../../../../components/Loaders/ButtonSpinner";
+import { useData } from "../../../../context/DataContext";
 
-export default function ServiceDetailsForm({
+export default function ServiceDetailsForPackageForm({
   setStep,
   formData,
   setFormData,

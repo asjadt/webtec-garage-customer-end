@@ -11,7 +11,7 @@ export default function GarageViewServiceCard({ service }) {
       transition={{ stagger: 0.5 }}
       className={`px-5 py-3 rounded-lg shadow-lg flex flex-col gap-1 cursor-pointer border`}
     >
-      <span className={`text-primary text-sm`}>{service?.service?.name}</span>
+      <span className={`text-primary text-sm`}>{service?.name}</span>
       <span className={`text-gray-400 text-xs font-nunito`}>
         {service?.is_active ? "Available" : "Unavailable"}
       </span>

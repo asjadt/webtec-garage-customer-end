@@ -60,7 +60,7 @@ export const getGaragesV2 = async ({
 export const getSingleGarage = async (id) => {
   console.log(id);
   return await axios
-    .get(`v1.0/client/garages/single/${id}`, getApiConfig())
+    .get(`v2.0/client/garages/single/${id}`, getApiConfig())
     .then((res) => {
       return res.data;
     })

@@ -2,29 +2,41 @@
 // #00142
 // ===================================
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import CustomLoading from "../../../components/CustomLoading";
+import CustomLoading from "../../../../components/CustomLoading";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import { postPreBookingDetails } from "../../../Apis/homepageapi";
-import CustomMultiStepper from "../../../components/CustomMultiStepper";
-import CustomPopup from "../../../components/CustomPopup";
-import Headings from "../../../components/Headings/Headings";
-import { useAuth } from "../../../context/AuthContextV2";
-import { handleApiError } from "../../../utils/apiErrorHandler";
-import Login from "../../Auth/Login";
-import JobDetailsForm from "./Steps/JobDetailsForm";
-import ReviewForm from "./Steps/ReviewForm";
-import ServiceDetailsForm from "./Steps/ServiceDetailsForm";
+import { getSingleGarage } from "../../../../Apis/garage";
+import { postPreBookingDetails } from "../../../../Apis/homepageapi";
+import CustomMultiStepper from "../../../../components/CustomMultiStepper";
+import CustomPopup from "../../../../components/CustomPopup";
+import GoBackButtonSm from "../../../../components/GoBackButtonSm";
+import Headings from "../../../../components/Headings/Headings";
+import { useAuth } from "../../../../context/AuthContextV2";
+import { useData } from "../../../../context/DataContext";
+import { handleApiError } from "../../../../utils/apiErrorHandler";
+import { decryptID } from "../../../../utils/encryptAndDecryptID";
+import Login from "../../../Auth/Login";
+import JobDetailsForm from "../Steps/JobDetailsForm";
+import ReviewForm from "../Steps/ReviewForm";
+import ServiceDetailsForm from "../Steps/ServiceDetailsForm";
 
-export default function CreateAndUpdateJobForm() {
+export default function CreateBookingWithPackageForm() {
+  const { encID } = useParams();
+  const garage_id = decryptID(encID);
+  const { isPending: isGarageLoading, data: garageData } = useQuery({
+    queryKey: ["singleGarageData", garage_id],
+    queryFn: (params) => getSingleGarage(params.queryKey[1]),
+  });
+
   const navigate = useNavigate();
-  const { user, isAuthenticated, logout, setIsAuthenticated, setUser } =
-    useAuth();
+  const { user, isAuthenticated } = useAuth();
+  const { loading } = useData();
+
   // POPUP OPTIONS
   const [popupOption, setPopupOption] = useState({
     open: false,
@@ -116,7 +128,11 @@ export default function CreateAndUpdateJobForm() {
     }
   };
 
-  if (false) {
+  useEffect(() => {
+    console.log({ isGarageLoading, garageData });
+  }, [isGarageLoading]);
+
+  if (loading || isGarageLoading) {
     return <CustomLoading />;
   } else {
     return (
@@ -146,11 +162,25 @@ export default function CreateAndUpdateJobForm() {
           }
         />
         <div
-          className={`w-full border max-w-[600px] p-5 shadow-lg rounded-xl h-auto`}
+          className={`w-full border max-w-[600px] p-5 shadow-lg rounded-xl h-auto relative`}
         >
-          <Headings level={2} className={`text-primary text-center mb-2`}>
-            Create Job
-          </Headings>
+          {/* GO BACK  */}
+          <div className={`absolute right-4 top-4`}>
+            <GoBackButtonSm />
+          </div>
+
+          {/* TITLE  */}
+          <div className={`flex justify-center w-full`}>
+            <Headings
+              level={2}
+              className={` text-center mb-2  w-[90%] flex flex-col`}
+            >
+              Booking A Package From{" "}
+              <span className={`text-primary`}>{garageData?.garage?.name}</span>
+            </Headings>
+          </div>
+
+          {/* STEPPER  */}
           <div className="w-full flex justify-center items-center mb-5">
             <CustomMultiStepper
               steps={[
@@ -176,11 +206,13 @@ export default function CreateAndUpdateJobForm() {
 
           {step === 1 && (
             <ServiceDetailsForm
+              garageData={garageData}
               setStep={setStep}
               formData={formData}
               setFormData={setFormData}
             />
           )}
+
           {step === 2 && (
             <JobDetailsForm
               setStep={setStep}

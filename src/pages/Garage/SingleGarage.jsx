@@ -18,12 +18,18 @@ import {
 import { TiLocationOutline } from "react-icons/ti";
 import { HiOutlineMailOpen } from "react-icons/hi";
 import ContactCard from "./components/ContactCard";
+import GoBackButton from "../../components/GoBackButton";
+import { getFullImageLink } from "../../utils/getFullImageLink";
 
 const gridContainerVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
 };
 
+const gridItemVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0 },
+};
 export default function SingleGarage() {
   const { encID } = useParams();
   const id = decryptID(encID);
@@ -37,7 +43,10 @@ export default function SingleGarage() {
   } else {
     return (
       <div>
-        <div className={`relative`}>
+        <div className={`relative mb-40`}>
+          <div className={`absolute top-4 right-4`}>
+            <GoBackButton />
+          </div>
           {/* COVER  */}
           <div className={`w-full h-[400px] overflow-hidden`}>
             <img
@@ -55,7 +64,10 @@ export default function SingleGarage() {
             className={`absolute -bottom-36 w-full left-1/2 -translate-x-1/2  gap-y-2 flex flex-col items-center `}
           >
             {/* PROFILE PIC  */}
-            <div
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 1, type: "spring" }}
               className={`w-[120px] md:w-[180px] h-[120px] md:h-[180px] rounded-full border-4 md:border-8 border-base-300 shadow-lg overflow-hidden`}
             >
               <img
@@ -66,26 +78,38 @@ export default function SingleGarage() {
                 className={`object-cover w-full h-full`}
                 alt={data?.garage?.name}
               />
-            </div>
+            </motion.div>
             {/* NAME  */}
-            <h1 className={`text-center text-3xl font-bold`}>
-              {data?.garage?.name}
-              {/* Test Garage Limited */}
-            </h1>
+            <div className={`overflow-hidden `}>
+              <motion.h1
+                initial={{ translateY: 50 }}
+                animate={{ translateY: 1 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className={`text-center text-3xl font-bold`}
+              >
+                {data?.garage?.name}
+              </motion.h1>
+            </div>
             {/* ADDRESS  */}
-            <div className={`flex gap-x-1 justify-center items-center`}>
-              <TiLocationOutline className={`text-primary`} size={24} />
-              <address className={`text-center`}>
-                {data?.garage?.address_line_1}
-                {/* Narisha Bazar, Dohar, Dhaka - 1332 */}
-              </address>
+            <div className={`overflow-hidden `}>
+              <motion.div
+                initial={{ translateY: 50 }}
+                animate={{ translateY: 1 }}
+                transition={{ duration: 0.5, delay: 1 }}
+                className={`flex gap-x-1 justify-center items-center`}
+              >
+                <TiLocationOutline className={`text-primary`} size={24} />
+                <address className={`text-center`}>
+                  {data?.garage?.address_line_1}
+                </address>
+              </motion.div>
             </div>
           </div>
         </div>
 
         {/* DESCRIPTION  */}
         {data?.garage?.about ? (
-          <div className={`p-5  mt-40 `}>
+          <div className={`p-5 `}>
             <div className={`flex justify-center items-center mb-5`}>
               <TextTitleComponent text={"About Garage"} />
             </div>
@@ -95,8 +119,20 @@ export default function SingleGarage() {
           ""
         )}
 
+        {/* ADDITIONAL INFORMATION  */}
+        {data?.garage?.additional_information ? (
+          <div className={`p-5 `}>
+            <div className={`flex justify-center items-center mb-5`}>
+              <TextTitleComponent text={"Additional Information"} />
+            </div>
+            <p>{data?.garage?.additional_information}</p>
+          </div>
+        ) : (
+          ""
+        )}
+
         {/* CONTACT  */}
-        <div className={`p-5  mt-40 `}>
+        <div className={`p-5`}>
           <div className={`flex justify-center items-center mb-5`}>
             <TextTitleComponent text={"Contact"} />
           </div>
@@ -136,11 +172,44 @@ export default function SingleGarage() {
             animate="visible"
             className={`grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-4 py-5`}
           >
-            {data?.garage?.garage_services?.map((service, index) => (
+            {data?.garage?.services?.map((service, index) => (
               <GarageViewServiceCard key={index} service={service} />
             ))}
           </motion.div>
         </div>
+
+        {/* GALLERY IMAGE   */}
+        {data?.garage?.garage_galleries?.length > 0 ? (
+          <div className={`p-5`}>
+            <div className={`flex justify-center items-center mb-5`}>
+              <TextTitleComponent text={"Gallery"} />
+            </div>
+            <motion.div
+              variants={gridContainerVariants}
+              initial="hidden"
+              animate="visible"
+              className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5`}
+            >
+              {data?.garage?.garage_galleries?.map((image, index) => (
+                <motion.div
+                  key={index}
+                  variants={gridItemVariants}
+                  exit={{ opacity: 0, y: 50 }}
+                  transition={{ stagger: 0.5 }}
+                  className={`group w-full h-[300px] rounded-lg overflow-hidden`}
+                >
+                  <img
+                    src={getFullImageLink(image?.image)}
+                    className={`group-hover:scale-125 duration-200 object-cover w-full h-full`}
+                    alt={data?.garage?.name}
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        ) : (
+          ""
+        )}
 
         {/* MAP  */}
         <div className={`p-5`}>
