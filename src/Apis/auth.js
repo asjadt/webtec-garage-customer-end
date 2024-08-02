@@ -62,7 +62,12 @@ export const changePassword = async (details) => {
     });
 };
 // get client booking api function
-export const getClientBooking = async (perPage, search, page, status) => {
+export const getClientBooking = async (
+  perPage = 20, // TOTAL DATA IN A SINGLE PAGE
+  search = "", // SEARCH QUERY
+  page = 1, // PAGE NUMBER
+  status = "" // ACCEPT "completed" / "pending"
+) => {
   return await axios
     .get(
       `v1.0/client/bookings/${perPage}?search_key=${search}&page=${page}&status=${
