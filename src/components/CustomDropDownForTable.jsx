@@ -1,9 +1,6 @@
-import React, { useState, useRef, useEffect, Fragment } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { FiMoreVertical } from "react-icons/fi";
-import { NavLink } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
-import { usePermission } from "../context/PermissionContext";
-import { checkPermissions } from "../utils/checkPermissions";
 import { formatRole } from "../utils/formatRole";
 const CustomDropDownForTable = ({
   fullData,
@@ -60,7 +57,7 @@ const CustomDropDownForTable = ({
           <ul className="overflow-hidden">
             {actions.map((action, i) => (
               <Fragment key={i}>
-                {checkPermissions(action?.permissions, permissions) &&
+                {action?.permissions &&
                   !(action.name === "delete" && isDeleteDisabled) && (
                     <li
                       onClick={() => {

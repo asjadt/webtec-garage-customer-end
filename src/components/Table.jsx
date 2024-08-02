@@ -3,12 +3,8 @@
 // ===========================================
 
 import React, { Fragment, useState } from "react";
-import { BiError } from "react-icons/bi";
-import Pagination from "./Pagination";
-import CustomPerPageSelector from "./CustomPerPageSelector";
 import CustomDropDownForTable from "./CustomDropDownForTable";
 import CustomLoading from "./CustomLoading";
-import { checkPermissions } from "../utils/checkPermissions";
 
 export default function Table({
   getFullDataToActionHandler = false,
@@ -274,7 +270,12 @@ export default function Table({
                     </Fragment>
                   ))}
 
-                  {actions?.length > 0 ? (
+                  {actions.filter((action) => {
+                    return !action.disabledOn.some((disable) => {
+                      const conditionValue = data[disable.attributeName];
+                      return conditionValue === disable.value;
+                    });
+                  })?.length > 0 ? (
                     <td
                       data-cy={"desktop_view_table_body_row_actions_table"}
                       style={{
@@ -346,7 +347,13 @@ export default function Table({
                               </Fragment>
                             ))}
 
-                          {actions.length > 3 ? (
+                          {actions.filter((action) => {
+                            return !action.disabledOn.some((disable) => {
+                              const conditionValue =
+                                data[disable.attributeName];
+                              return conditionValue === disable.value;
+                            });
+                          })?.length > 3 ? (
                             <CustomDropDownForTable
                               isDeleteDisabled={data?.is_system_default}
                               disabled={selectedIds.length > 1}
@@ -460,7 +467,12 @@ export default function Table({
                     data-cy={"mobile_view_actions_container_table"}
                     className={`w-full flex justify-center pt-1 pb-5`}
                   >
-                    {actions?.length > 0 ? (
+                    {actions.filter((action) => {
+                      return !action.disabledOn.some((disable) => {
+                        const conditionValue = data[disable.attributeName];
+                        return conditionValue === disable.value;
+                      });
+                    })?.length > 0 ? (
                       <td
                         data-cy={"mobile_view_actions_sub_container_table"}
                         className="text-right p-0"

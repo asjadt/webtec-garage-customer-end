@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
-import { MdDelete, MdDeleteSweep } from "react-icons/md";
+import { MdCancel, MdDelete, MdDeleteSweep } from "react-icons/md";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { deleteClientBooking, getClientBooking } from "../../../Apis/auth";
@@ -15,7 +15,8 @@ import Pagination from "../../../components/Pagination";
 import Table from "../../../components/Table";
 import { handleApiError } from "../../../utils/apiErrorHandler";
 import ViewBooking from "./ViewBooking";
-
+import { FaRegCheckCircle } from "react-icons/fa";
+import { IoIosCheckmarkCircle } from "react-icons/io";
 export default function MyBooking() {
   // SEARCH PARAMS
   const [searchParams] = useSearchParams();
@@ -78,6 +79,53 @@ export default function MyBooking() {
       colorClass: "text-green-500",
       backgroundColorClass: "bg-green-900",
       disabledOn: [],
+      permissions: true,
+    },
+
+    {
+      name: "accept",
+      handler: handleDelete,
+      Icon: IoIosCheckmarkCircle,
+      colorClass: "text-red-600",
+      backgroundColorClass: "bg-red-200",
+      isLoading: isPendingDelete,
+      disabledOn: [
+        {
+          attributeName: "status",
+          value: "pending",
+        },
+        {
+          attributeName: "status",
+          value: "completed",
+        },
+        {
+          attributeName: "status",
+          value: "rejected_by_client",
+        },
+      ],
+      permissions: true,
+    },
+    {
+      name: "reject",
+      handler: handleDelete,
+      Icon: MdCancel,
+      colorClass: "text-red-600",
+      backgroundColorClass: "bg-red-200",
+      isLoading: isPendingDelete,
+      disabledOn: [
+        {
+          attributeName: "status",
+          value: "pending",
+        },
+        {
+          attributeName: "status",
+          value: "completed",
+        },
+        {
+          attributeName: "status",
+          value: "rejected_by_client",
+        },
+      ],
       permissions: true,
     },
 
