@@ -17,9 +17,9 @@ import Headings from "../../../components/Headings/Headings";
 import { useAuth } from "../../../context/AuthContextV2";
 import { handleApiError } from "../../../utils/apiErrorHandler";
 import Login from "../../Auth/Login";
-import JobDetailsForm from "./Steps/JobDetailsForm";
-import ReviewForm from "./Steps/ReviewForm";
-import ServiceDetailsForm from "./Steps/ServiceDetailsForm";
+import JobDetailsForm from "./StepsForJob/JobDetailsForm";
+import ReviewForm from "./StepsForJob/ReviewForm";
+import ServiceDetailsForm from "./StepsForJob/ServiceDetailsForm";
 
 export default function CreateAndUpdateJobForm() {
   const navigate = useNavigate();
@@ -37,6 +37,12 @@ export default function CreateAndUpdateJobForm() {
   });
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
+    booking_garage_package_ids: [4],
+    booking_sub_service_ids: [],
+    current_price: 0,
+    discount_price: 0,
+    garage_id: 5,
+
     // STEP 1
     service: [],
     pre_booking_sub_service_ids: [],

@@ -6,7 +6,7 @@ export default function SplitDescription({ text, length }) {
   const splitText = truncateText(text, length);
 
   return (
-    <div className={`w-full`}>
+    <div className={`w-full font-nunito`}>
       {" "}
       <div className={``}>
         <span

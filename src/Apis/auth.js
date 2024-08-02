@@ -96,12 +96,15 @@ export const getClientPreBooking = async (perPage, search, page, status) => {
 };
 
 // get client job api function
-export const getClientJobs = async (perPage, search, page, status) => {
+export const getClientJobs = async ({
+  perPage = 20, // TOTAL DATA IN A SINGLE PAGE
+  search = "", // SEARCH QUERY
+  page = 1, // PAGE NUMBER
+  status = "", // ACCEPT "completed" / "pending"
+}) => {
   return await axios
     .get(
-      `v1.0/client/jobs/${perPage}?search_key=${search}&page=${page}&status=${
-        status !== undefined ? status : ""
-      }`,
+      `v1.0/client/jobs/${perPage}?search_key=${search}&page=${page}&status=${status}`,
       getApiConfig()
     )
     .then((res) => {

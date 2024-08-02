@@ -33,7 +33,7 @@ const App = () => (
 
         {/* GARAGES  */}
         <Route path="garages" element={<GarageList />} />
-        <Route path="view-garage/:encID" element={<SingleGarage />} />
+        <Route path="view-garage/:encID/:tabName" element={<SingleGarage />} />
 
         {/* BOOKING  */}
         <Route path="booking/:encID" element={<GarageBooking />} />
