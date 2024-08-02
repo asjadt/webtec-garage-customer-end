@@ -154,13 +154,14 @@ export default function MyBooking() {
     setFilters({ ...filters, status: activeTab === "all" ? "" : activeTab });
   }, [activeTab]);
 
-  const { isPending, error, data, refetch, fetchNextPage } = useQuery({
-    queryKey: ["users", filters],
-    queryFn: ({ pageParam = 0 }) => getClientBooking(filters),
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.nextPage ? lastPage.nextPage : undefined;
-    },
-  });
+  const { isPending, error, data, refetch, isRefetching, fetchNextPage } =
+    useQuery({
+      queryKey: ["users", filters],
+      queryFn: ({ pageParam = 0 }) => getClientBooking(filters),
+      getNextPageParam: (lastPage, allPages) => {
+        return lastPage.nextPage ? lastPage.nextPage : undefined;
+      },
+    });
 
   // DELETE API
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
@@ -206,7 +207,7 @@ export default function MyBooking() {
   console.log({ data });
 
   return (
-    <div className="h-[85vh]" data-auto={"container_admin"}>
+    <div className="h-full my-10 " data-auto={"container_admin"}>
       <div className="relative h-full" data-auto="sub_container_admin">
         {/* POPUP  */}
         <CustomPopup
@@ -320,7 +321,7 @@ export default function MyBooking() {
                 setPageNo={(data) => setFilters({ ...filters, page: data })}
                 // setPerPage={setPerPage}
                 perPage={filters?.perPage}
-                isLoading={isPending}
+                isLoading={isPending || isRefetching}
                 rows={data?.data?.map((d) => ({
                   ...d,
                   id: d?.id,

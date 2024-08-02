@@ -52,7 +52,7 @@ export const menus = [
       },
       {
         title: "Pending Jobs",
-        link: "/my-account/pending/jobs",
+        link: "/my-account/pending-jobs",
         Icon: LuFileClock,
         childrens: [],
         show: JSON.parse(localStorage.getItem("user_data")),
