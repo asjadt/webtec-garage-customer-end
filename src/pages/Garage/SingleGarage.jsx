@@ -3,7 +3,7 @@ import { getSingleGarage } from "../../Apis/garage";
 import { useParams } from "react-router-dom";
 import { decryptID } from "../../utils/encryptAndDecryptID";
 import CustomLoading from "../../components/CustomLoading";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import TextLabelComponent from "../../components/label/TextLabelComponent";
 import GarageViewServiceCard from "../Home/components/GarageViewServiceCard";
 import TextTitleComponent from "../../components/label/TextTitleComponent";
@@ -20,6 +20,7 @@ import { HiOutlineMailOpen } from "react-icons/hi";
 import ContactCard from "./components/ContactCard";
 import GoBackButton from "../../components/GoBackButton";
 import { getFullImageLink } from "../../utils/getFullImageLink";
+import CustomTab from "../../components/CustomTab";
 
 const gridContainerVariants = {
   hidden: { opacity: 0 },
@@ -30,9 +31,11 @@ const gridItemVariants = {
   hidden: { opacity: 0, y: 50 },
   visible: { opacity: 1, y: 0 },
 };
+
 export default function SingleGarage() {
   const { encID } = useParams();
   const id = decryptID(encID);
+  const [activeTab, setActiveTab] = useState("services");
   const { isLoading, data } = useQuery({
     queryKey: ["singleGarage", id],
     queryFn: (params) => getSingleGarage(params.queryKey[1]),
@@ -106,6 +109,13 @@ export default function SingleGarage() {
             </div>
           </div>
         </div>
+
+        {/* TABS  */}
+        <CustomTab
+          tabs={["Details", "Services"]}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+        />
 
         {/* DESCRIPTION  */}
         {data?.garage?.about ? (
