@@ -236,6 +236,29 @@ export default function MyBooking() {
       }
     });
   };
+  // ALL ACTION BUTTONS
+  const [actions, setActions] = useState([
+    {
+      name: "view",
+      handler: handleView,
+      Icon: AiFillEye,
+      colorClass: "text-green-500",
+      backgroundColorClass: "bg-green-900",
+      disabledOn: [],
+      permissions: true,
+    },
+
+    {
+      name: "delete",
+      handler: handleDelete,
+      Icon: MdDelete,
+      colorClass: "text-red-600",
+      backgroundColorClass: "bg-red-200",
+      isLoading: isDeleteLoading,
+      disabledOn: [],
+      permissions: true,
+    },
+  ]);
   /***********************************************************************
    *                    UI RENDERING
    ***********************************************************************/

@@ -14,7 +14,11 @@ import Headings from "../../../components/Headings/Headings";
 import Table from "../../../components/Table";
 import CustomTab from "../../../components/CustomTab";
 import { useQuery } from "@tanstack/react-query";
-import { deleteClientBooking, getClientBooking } from "../../../Apis/auth";
+import {
+  deleteClientBooking,
+  getClientBooking,
+  getClientJobs,
+} from "../../../Apis/auth";
 import CustomLoading from "../../../components/CustomLoading";
 import { AiFillEye } from "react-icons/ai";
 import Swal from "sweetalert2";
@@ -63,8 +67,8 @@ export default function MyJob() {
     setPopupOption({
       ...popupOption,
       open: true,
-      type: "viewBooking",
-      title: "Booking Details",
+      type: "viewAppliedJob",
+      title: "Applied Job Details",
     });
   };
 
@@ -82,6 +86,7 @@ export default function MyJob() {
       colorClass: "text-green-500",
       backgroundColorClass: "bg-green-900",
       disabledOn: [],
+      permissions: true,
     },
     // {
     //   name: "edit",
@@ -92,15 +97,16 @@ export default function MyJob() {
     //   permissions: [EMPLOYEE_UPDATE],
     //   disabledOn: [],
     // },
-    {
-      name: "delete",
-      handler: handleDelete,
-      Icon: MdDelete,
-      colorClass: "text-red-600",
-      backgroundColorClass: "bg-red-200",
-      isLoading: isPendingDelete,
-      disabledOn: [],
-    },
+    // {
+    //   name: "delete",
+    //   handler: handleDelete,
+    //   Icon: MdDelete,
+    //   colorClass: "text-red-600",
+    //   backgroundColorClass: "bg-red-200",
+    //   isLoading: isPendingDelete,
+    //   disabledOn: [],
+    //   permissions: true,
+    // },
   ]);
 
   // ALL DISPLAYED COLUMNS IN TABLE
@@ -148,7 +154,7 @@ export default function MyJob() {
   const { isPending, error, data, refetch, isRefetching, fetchNextPage } =
     useQuery({
       queryKey: ["users", filters],
-      queryFn: ({ pageParam = 0 }) => getClientBooking(filters),
+      queryFn: ({ pageParam = 0 }) => getClientJobs(filters),
       getNextPageParam: (lastPage, allPages) => {
         return lastPage.nextPage ? lastPage.nextPage : undefined;
       },
@@ -156,42 +162,42 @@ export default function MyJob() {
 
   // DELETE API
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
-  const deleteFunc = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      customClass: {
-        title: "text-primary",
-        container: "",
-        popup: "bg-base-300 shadow-xl rounded-xl border border-primary",
-        icon: "text-red-500",
-        cancelButton: "bg-green-500",
-      },
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setIsDeleteLoading(true);
-        deleteClientBooking(id)
-          .then((res) => {
-            setIsUpdated(Math.random());
-            setSelectedIds([]);
-            refetch();
-            Swal.fire({
-              title: "Deleted!",
-              text: "Booking has been deleted.",
-              icon: "success",
-            });
-            setIsDeleteLoading(false);
-          })
-          .catch((error) => {
-            setIsDeleteLoading(false);
-            handleApiError(error, "#00121");
-          });
-      }
-    });
-  };
+  // const deleteFunc = (id) => {
+  //   Swal.fire({
+  //     title: "Are you sure?",
+  //     text: "You won't be able to revert this!",
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonText: "Yes, delete it!",
+  //     customClass: {
+  //       title: "text-primary",
+  //       container: "",
+  //       popup: "bg-base-300 shadow-xl rounded-xl border border-primary",
+  //       icon: "text-red-500",
+  //       cancelButton: "bg-green-500",
+  //     },
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       setIsDeleteLoading(true);
+  //       deleteClientBooking(id)
+  //         .then((res) => {
+  //           setIsUpdated(Math.random());
+  //           setSelectedIds([]);
+  //           refetch();
+  //           Swal.fire({
+  //             title: "Deleted!",
+  //             text: "Booking has been deleted.",
+  //             icon: "success",
+  //           });
+  //           setIsDeleteLoading(false);
+  //         })
+  //         .catch((error) => {
+  //           setIsDeleteLoading(false);
+  //           handleApiError(error, "#00121");
+  //         });
+  //     }
+  //   });
+  // };
   /***********************************************************************
    *                    UI RENDERING
    ***********************************************************************/
@@ -318,6 +324,9 @@ export default function MyJob() {
                   id: d?.id,
                   garage: d?.garage?.name,
                   car_reg: d?.car_registration_no,
+                  job_start_time: moment(d?.job_start_time, "HH:mm").format(
+                    "hh:mm A"
+                  ),
                 }))}
                 actions={actions}
                 cols={cols}
