@@ -37,12 +37,8 @@ export default function CreateAndUpdateJobForm() {
   });
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    additional_information: "",
-    automobile_make_id: 5,
-    automobile_model_id: 202,
     booking_garage_package_ids: [4],
     booking_sub_service_ids: [],
-    coupon_code: "",
     current_price: 0,
     discount_price: 0,
     garage_id: 5,
