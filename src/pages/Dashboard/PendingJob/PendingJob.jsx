@@ -68,8 +68,8 @@ export default function PendingJob() {
     setPopupOption({
       ...popupOption,
       open: true,
-      type: "viewBooking",
-      title: "Booking Details",
+      type: "viewPendingJob",
+      title: "Pending Job Details",
     });
   };
 
@@ -77,36 +77,6 @@ export default function PendingJob() {
   const handleDelete = (id) => {
     deleteFunc(id?.id);
   };
-
-  // ALL ACTION BUTTONS
-  const [actions, setActions] = useState([
-    {
-      name: "view",
-      handler: handleView,
-      Icon: AiFillEye,
-      colorClass: "text-green-500",
-      backgroundColorClass: "bg-green-900",
-      disabledOn: [],
-    },
-    // {
-    //   name: "edit",
-    //   handler: handleEdit,
-    //   Icon: RiEdit2Fill,
-    //   colorClass: "text-secondary",
-    //   backgroundColorClass: "bg-secondary-content",
-    //   permissions: [EMPLOYEE_UPDATE],
-    //   disabledOn: [],
-    // },
-    {
-      name: "delete",
-      handler: handleDelete,
-      Icon: MdDelete,
-      colorClass: "text-red-600",
-      backgroundColorClass: "bg-red-200",
-      isLoading: isPendingDelete,
-      disabledOn: [],
-    },
-  ]);
 
   // ALL DISPLAYED COLUMNS IN TABLE
   const [cols, setCols] = useState([
@@ -203,6 +173,37 @@ export default function PendingJob() {
       }
     });
   };
+  // ALL ACTION BUTTONS
+  const [actions, setActions] = useState([
+    {
+      name: "view",
+      handler: handleView,
+      Icon: AiFillEye,
+      colorClass: "text-green-500",
+      backgroundColorClass: "bg-green-900",
+      disabledOn: [],
+      permissions: true,
+    },
+    // {
+    //   name: "edit",
+    //   handler: handleEdit,
+    //   Icon: RiEdit2Fill,
+    //   colorClass: "text-secondary",
+    //   backgroundColorClass: "bg-secondary-content",
+    //   permissions: [EMPLOYEE_UPDATE],
+    //   disabledOn: [],
+    // },
+    {
+      name: "delete",
+      handler: handleDelete,
+      Icon: MdDelete,
+      colorClass: "text-red-600",
+      backgroundColorClass: "bg-red-200",
+      isLoading: isDeleteLoading,
+      disabledOn: [],
+      permissions: true,
+    },
+  ]);
   /***********************************************************************
    *                    UI RENDERING
    ***********************************************************************/
