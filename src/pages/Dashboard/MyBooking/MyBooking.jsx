@@ -1,20 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import CheckPermission from "../../../CheckPermission";
 import CustomPopup from "../../../components/CustomPopup";
-import { MdDeleteSweep } from "react-icons/md";
+import { MdDelete, MdDeleteSweep } from "react-icons/md";
 import CustomDataSet from "../../../components/CustomDataSet";
 import CustomFilter from "../../../components/Filter/CustomFilter";
 import AppliedFilters from "../../../components/Filter/AppliedFilters";
 import SplitDescription from "../../../components/SplitDescription";
 import Pagination from "../../../components/Pagination";
 import moment from "moment";
-import { EMPLOYEE_VIEW } from "../../../constant/permissions";
+import { EMPLOYEE_DELETE, EMPLOYEE_VIEW } from "../../../constant/permissions";
 import Headings from "../../../components/Headings/Headings";
 import Table from "../../../components/Table";
 import CustomTab from "../../../components/CustomTab";
 import { useQuery } from "@tanstack/react-query";
-import { getClientBooking } from "../../../Apis/auth";
+import { deleteClientBooking, getClientBooking } from "../../../Apis/auth";
+import CustomLoading from "../../../components/CustomLoading";
+import { AiFillEye } from "react-icons/ai";
+import Swal from "sweetalert2";
 
 export default function MyBooking() {
   const navigate = useNavigate();
@@ -30,7 +33,6 @@ export default function MyBooking() {
   const [defaultFilters, setDefaultFilters] = useState([]);
 
   // LOADINGS
-  const [isPending, setIsPending] = useState(false);
   const [isPendingDelete, setIsPendingDelete] = useState(true);
 
   // ALL SELECTED IDs
@@ -41,47 +43,8 @@ export default function MyBooking() {
     perPage: 20,
     page: 1,
 
-    // DATE
-    start_date: searchParams.get("start_date") || "",
-    end_date: searchParams.get("end_date") || "",
-
-    // ON HOLIDAY
-    is_on_holiday: searchParams.get("is_on_holiday") || "",
-
-    upcoming_expiries: searchParams.get("upcoming_expiries") || "",
-    sponsorship_status: searchParams.get("sponsorship_status") || "",
-    pension_scheme_status: searchParams.get("pension_scheme_status") || "",
-
-    search_key: "",
-    order_by: "DESC",
-    is_in_employee: 1,
-    // role: [`business_admin#${user?.business_id}`],
-    is_active: "",
-    response_type: "",
-    file_name: `employee_report_${moment(new Date()).format(
-      "DD-MM-YYYY_HH:mm:ss"
-    )}`,
-    designation_id: "",
-    work_location_id: "",
-    has_this_project: "",
-    immigration_status: "",
-    sponsorship_certificate_number: "",
-    sponsorship_current_certificate_status: "",
-    joining_date: "",
-    sponsorship_date_assigned: "",
-    sponsorship_expiry_date: "",
-    passport_expiry_date: "",
-    visa_issue_date: "",
-    visa_expiry_date: "",
-    visa_expires_in_day: "",
-    project_id: "",
-    department_id: "",
-    doesnt_have_payrun: "",
-
-    full_name: "",
-    employee_id: "",
-    email: "",
-    employment_status_id: "",
+    search: "",
+    status: "",
   });
 
   // POPUP OPTIONS
@@ -486,44 +449,6 @@ export default function MyBooking() {
   // console.log(admin);
   // console.log(employees);
 
-  // DELETE API
-  // const [isDeleteLoading, setIsDeleteLoading] = useState(false);
-  // const deleteFunc = (id) => {
-  //   Swal.fire({
-  //     title: "Are you sure?",
-  //     text: "You won't be able to revert this!",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonText: "Yes, delete it!",
-  //     customClass: {
-  //       title: "text-primary",
-  //       container: "",
-  //       popup: "bg-base-300 shadow-xl rounded-xl border border-primary",
-  //       icon: "text-red-500",
-  //       cancelButton: "bg-green-500",
-  //     },
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       setIsDeleteLoading(true);
-  //       deleteSingleUser(id)
-  //         .then((res) => {
-  //           setIsUpdated(Math.random());
-  //           setSelectedIds([]);
-  //           Swal.fire({
-  //             title: "Deleted!",
-  //             text: "Employee has been deleted.",
-  //             icon: "success",
-  //           });
-  //           setIsDeleteLoading(false);
-  //         })
-  //         .catch((error) => {
-  //           setIsDeleteLoading(false);
-  //           handleApiError(error, "#00121");
-  //         });
-  //     }
-  //   });
-  // };
-
   // TOGGLE API
   // const [isToggleLoading, setIsToggleLoading] = useState({
   //   id: null,
@@ -601,9 +526,9 @@ export default function MyBooking() {
   // };
 
   // HANDLE DELETE
-  // const handleDelete = (id) => {
-  //   deleteFunc(id);
-  // };
+  const handleDelete = (id) => {
+    deleteFunc(id);
+  };
 
   // HANDLE CREATE LEAVE
   // const handleAssignLeave = (id) => {
@@ -663,117 +588,69 @@ export default function MyBooking() {
   // };
 
   // ALL ACTION BUTTONS
-  // const [actions, setActions] = useState([
-  //   {
-  //     name: "view",
-  //     handler: handleView,
-  //     Icon: AiFillEye,
-  //     colorClass: "text-green-500",
-  //     backgroundColorClass: "bg-green-900",
-  //     permissions: [EMPLOYEE_VIEW],
-  //     disabledOn: [],
-  //   },
-  //   {
-  //     name: "edit",
-  //     handler: handleEdit,
-  //     Icon: RiEdit2Fill,
-  //     colorClass: "text-secondary",
-  //     backgroundColorClass: "bg-secondary-content",
-  //     permissions: [EMPLOYEE_UPDATE],
-  //     disabledOn: [],
-  //   },
-  //   {
-  //     name: "delete",
-  //     handler: handleDelete,
-  //     Icon: MdDelete,
-  //     colorClass: "text-red-600",
-  //     backgroundColorClass: "bg-red-200",
-  //     isLoading: isPendingDelete,
-  //     permissions: [EMPLOYEE_DELETE],
-  //     disabledOn: [],
-  //   },
-  //   {
-  //     name: "add attendance",
-  //     handler: handleAddAttendance,
-  //     Icon: LuCalendarPlus,
-  //     colorClass: "text-green-500",
-  //     backgroundColorClass: "bg-green-900",
-  //     permissions: [ATTENDANCE_CREATE],
-  //     disabledOn: [],
-  //   },
-  //   {
-  //     name: "create leave",
-  //     handler: handleAssignLeave,
-  //     Icon: FiClock,
-  //     colorClass: "text-green-500",
-  //     backgroundColorClass: "bg-green-900",
-  //     permissions: [LEAVE_CREATE],
-  //     disabledOn: [],
-  //   },
-  //   {
-  //     name: "edit joining date",
-  //     handler: handleChangeJoiningDate,
-  //     Icon: MdOutlineEditCalendar,
-  //     colorClass: "text-green-500",
-  //     backgroundColorClass: "bg-green-900",
-  //     permissions: [EMPLOYEE_UPDATE],
-  //     disabledOn: [],
-  //   },
-  //   {
-  //     name: "change password",
-  //     handler: handleChangePassword,
-  //     Icon: RiLockPasswordFill,
-  //     colorClass: "text-green-500",
-  //     backgroundColorClass: "bg-green-900",
-  //     permissions: [EMPLOYEE_UPDATE],
-  //     disabledOn: [
-  //       {
-  //         attribute_name: "is_business_owner",
-  //         value: false,
-  //       },
-  //     ],
-  //   },
-  // ]);
+  const [actions, setActions] = useState([
+    {
+      name: "view",
+      // handler: handleView,
+      Icon: AiFillEye,
+      colorClass: "text-green-500",
+      backgroundColorClass: "bg-green-900",
+      permissions: [EMPLOYEE_VIEW],
+      disabledOn: [],
+    },
+    // {
+    //   name: "edit",
+    //   handler: handleEdit,
+    //   Icon: RiEdit2Fill,
+    //   colorClass: "text-secondary",
+    //   backgroundColorClass: "bg-secondary-content",
+    //   permissions: [EMPLOYEE_UPDATE],
+    //   disabledOn: [],
+    // },
+    {
+      name: "delete",
+      handler: handleDelete,
+      Icon: MdDelete,
+      colorClass: "text-red-600",
+      backgroundColorClass: "bg-red-200",
+      isLoading: isPendingDelete,
+      permissions: [EMPLOYEE_DELETE],
+      disabledOn: [],
+    },
+  ]);
 
   // ALL DISPLAYED COLUMNS IN TABLE
   const [cols, setCols] = useState([
     {
-      name: "Employee ID",
-      attribute_name: "user_id",
+      name: "Garage",
+      attribute_name: "garage",
       minWidth: 10,
       show: true,
     },
     {
-      name: "Full Name",
-      attribute_name: "details",
+      name: "Car Reg",
+      attribute_name: "car_reg",
       minWidth: 25,
       show: true,
       isMainField: true,
     },
 
-    // {
-    //   name: "Employment Status",
-    //   attribute_name: "employment_status",
-    //   minWidth: 20,
-    //   show: true,
-    // },
-    { name: "email", attribute_name: "email", minWidth: 20, show: true },
     {
-      name: "Designation",
-      attribute_name: "designation",
+      name: "Job Start Date",
+      attribute_name: "job_start_date",
       minWidth: 20,
       show: true,
     },
     {
-      name: "Role",
-      attribute_name: "role",
-      minWidth: 30,
+      name: "Job Start Time",
+      attribute_name: "job_start_time",
+      minWidth: 20,
       show: true,
     },
     {
       name: "Status",
       align: "center",
-      attribute_name: "is_active",
+      attribute_name: "status",
       minWidth: 10,
       show: true,
     },
@@ -879,15 +756,59 @@ export default function MyBooking() {
     { id: "completed", title: "Completed" },
     { id: "pending", title: "Pending" },
   ]);
+
+  useEffect(() => {
+    setFilters({ ...filters, status: activeTab === "all" ? "" : activeTab });
+  }, [activeTab]);
+
   console.log({ activeTab });
 
-  const { isLoading, error, data, fetchNextPage } = useQuery({
-    queryKey: ["users"],
-    queryFn: ({ pageParam = 0 }) => getClientBooking(10, "", ""),
+  const { isPending, error, data, refetch, fetchNextPage } = useQuery({
+    queryKey: ["users", filters],
+    queryFn: ({ pageParam = 0 }) => getClientBooking(filters),
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.nextPage ? lastPage.nextPage : undefined;
     },
   });
+
+  // DELETE API
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const deleteFunc = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      customClass: {
+        title: "text-primary",
+        container: "",
+        popup: "bg-base-300 shadow-xl rounded-xl border border-primary",
+        icon: "text-red-500",
+        cancelButton: "bg-green-500",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsDeleteLoading(true);
+        deleteClientBooking(id)
+          .then((res) => {
+            setIsUpdated(Math.random());
+            setSelectedIds([]);
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Booking has been deleted.",
+              icon: "success",
+            });
+            setIsDeleteLoading(false);
+          })
+          .catch((error) => {
+            setIsDeleteLoading(false);
+            handleApiError(error, "#00121");
+          });
+      }
+    });
+  };
   /***********************************************************************
    *                    UI RENDERING
    ***********************************************************************/
@@ -1003,37 +924,41 @@ export default function MyBooking() {
               tabs={tabs}
               activeTab={activeTab}
               setActiveTab={setActiveTab}
+              gridCol="grid-cols-3"
             />
           </div>
           {/* HEADING AND TABLE */}
-          <div>
-            {/* ========================================  */}
+          {isPending ? (
+            <CustomLoading />
+          ) : (
+            <div>
+              {/* ========================================  */}
 
-            {/* ======= HEADING AND FILTERING AREA =========  */}
-            <div
-              id="header"
-              className="flex flex-col md:flex-row justify-between items-center relative gap-5"
-            >
+              {/* ======= HEADING AND FILTERING AREA =========  */}
               <div
-                id="header-content"
-                className="flex flex-col gap-2 w-full text-left"
+                id="header"
+                className="flex flex-col md:flex-row justify-between items-center relative gap-5"
               >
-                <div className={`flex items-center gap-5`}>
-                  <Headings level={1}>
-                    {activeTab === "all"
-                      ? "All Bookings"
-                      : activeTab === "completed"
-                      ? "Completed Bookings"
-                      : "Pending Bookings"}
-                  </Headings>
+                <div
+                  id="header-content"
+                  className="flex flex-col gap-2 w-full text-left"
+                >
+                  <div className={`flex items-center gap-5`}>
+                    <Headings level={1}>
+                      {activeTab === "all"
+                        ? "All Bookings"
+                        : activeTab === "completed"
+                        ? "Completed Bookings"
+                        : "Pending Bookings"}
+                    </Headings>
+                  </div>
+                  <h3>
+                    Total {data?.total}{" "}
+                    {data?.total > 1 ? "Bookings" : "Booking"} Found
+                  </h3>
                 </div>
-                <h3>
-                  Total {data?.total} {data?.total > 1 ? "Bookings" : "Booking"}{" "}
-                  Found
-                </h3>
-              </div>
 
-              {/* <CreateAndExportSection
+                {/* <CreateAndExportSection
               exportBtn={true}
               createPermission={permissions.includes(EMPLOYEE_CREATE)}
               createHandler={handleCreate}
@@ -1041,16 +966,20 @@ export default function MyBooking() {
               csvHandler={handleExport}
               dataAuto="admin"
             /> */}
-            </div>
+              </div>
 
-            {/* ================================================  */}
+              {/* ================================================  */}
 
-            {/* =========== TABLE AREA ============  */}
-            <div className="pt-5 relative">
-              {/* DATASET AND FILTERS */}
-              <div className={`flex justify-between items-center`}>
-                <CustomDataSet cols={cols} setCols={setCols} dataAuto="admin" />
-                {/* <CustomFilter
+              {/* =========== TABLE AREA ============  */}
+              <div className="pt-5 relative">
+                {/* DATASET AND FILTERS */}
+                <div className={`flex justify-between items-center`}>
+                  <CustomDataSet
+                    cols={cols}
+                    setCols={setCols}
+                    dataAuto="admin"
+                  />
+                  {/* <CustomFilter
               totalData={getEmployeesQuery?.data?.data?.length}
               isLoading={isCombineDataLoading}
               onApplyChange={(e) => {
@@ -1062,61 +991,49 @@ export default function MyBooking() {
               }}
               options={filterOptions}
               /> */}
-              </div>
-              {/* ALL APPLIED FILTERS */}
-              <div>
-                {/* <AppliedFilters setFilters={setFilters} filters={filterOptions} /> */}
-              </div>
-              <Table
-                selectedIds={selectedIds}
-                setSelectedIds={setSelectedIds}
-                itemsPerPage={filters?.perPage}
-                totalItems={data?.total}
-                setPageNo={(data) => setFilters({ ...filters, page: data })}
-                // setPerPage={setPerPage}
-                perPage={filters?.perPage}
-                isLoading={isPending}
-                rows={data?.data?.map((d) => ({
-                  ...d,
-                  name: (
-                    <SplitDescription
-                      text={d?.name}
-                      length={40}
-                      title={"Name"}
-                    />
-                  ),
-                  description: (
-                    <SplitDescription
-                      text={d?.description}
-                      length={40}
-                      title={"Description"}
-                    />
-                  ),
-                }))}
-                // actions={actions}
-                // isFullActionList={true}
-                cols={cols}
-                dataAuto="all-job-type"
-              />
-              {/* PAGINATION  */}
-              {data?.total !== 0 && (
-                <div
-                  data-auto={`admin-pagination-all-employees`}
-                  className="flex-col flex justify-center bg-base-300 items-center py-1"
-                >
-                  <Pagination
-                    forcePage={filters?.page}
-                    itemsPerPage={filters?.perPage}
-                    totalItems={data?.total}
-                    onChangePage={(page) => {
-                      setFilters({ ...filters, page: page });
-                    }}
-                    dataAuto="admin"
-                  />
                 </div>
-              )}
+                {/* ALL APPLIED FILTERS */}
+                <div>
+                  {/* <AppliedFilters setFilters={setFilters} filters={filterOptions} /> */}
+                </div>
+                <Table
+                  selectedIds={selectedIds}
+                  setSelectedIds={setSelectedIds}
+                  itemsPerPage={filters?.perPage}
+                  totalItems={data?.total}
+                  setPageNo={(data) => setFilters({ ...filters, page: data })}
+                  // setPerPage={setPerPage}
+                  perPage={filters?.perPage}
+                  isLoading={isPending}
+                  rows={data?.data?.map((d) => ({
+                    ...d,
+                    garage: d?.garage?.name,
+                    car_reg: d?.car_registration_no,
+                  }))}
+                  actions={actions}
+                  cols={cols}
+                  dataAuto="all-job-type"
+                />
+                {/* PAGINATION  */}
+                {data?.total !== 0 && (
+                  <div
+                    data-auto={`admin-pagination-all-employees`}
+                    className="flex-col flex justify-center bg-base-300 items-center py-1"
+                  >
+                    <Pagination
+                      forcePage={filters?.page}
+                      itemsPerPage={filters?.perPage}
+                      totalItems={data?.total}
+                      onChangePage={(page) => {
+                        setFilters({ ...filters, page: page });
+                      }}
+                      dataAuto="admin"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </CheckPermission>
