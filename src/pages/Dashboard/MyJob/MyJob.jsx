@@ -81,7 +81,6 @@ export default function MyJob() {
       Icon: AiFillEye,
       colorClass: "text-green-500",
       backgroundColorClass: "bg-green-900",
-      permissions: [EMPLOYEE_VIEW],
       disabledOn: [],
     },
     // {
@@ -100,7 +99,6 @@ export default function MyJob() {
       colorClass: "text-red-600",
       backgroundColorClass: "bg-red-200",
       isLoading: isPendingDelete,
-      permissions: [EMPLOYEE_DELETE],
       disabledOn: [],
     },
   ]);
