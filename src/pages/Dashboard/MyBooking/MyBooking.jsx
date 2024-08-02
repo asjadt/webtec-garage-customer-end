@@ -1,25 +1,20 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import CheckPermission from "../../../CheckPermission";
-import CustomPopup from "../../../components/CustomPopup";
-import { MdDelete, MdDeleteSweep } from "react-icons/md";
-import CustomDataSet from "../../../components/CustomDataSet";
-import CustomFilter from "../../../components/Filter/CustomFilter";
-import AppliedFilters from "../../../components/Filter/AppliedFilters";
-import SplitDescription from "../../../components/SplitDescription";
-import Pagination from "../../../components/Pagination";
-import moment from "moment";
-import { EMPLOYEE_DELETE, EMPLOYEE_VIEW } from "../../../constant/permissions";
-import Headings from "../../../components/Headings/Headings";
-import Table from "../../../components/Table";
-import CustomTab from "../../../components/CustomTab";
 import { useQuery } from "@tanstack/react-query";
-import { deleteClientBooking, getClientBooking } from "../../../Apis/auth";
-import CustomLoading from "../../../components/CustomLoading";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
+import { MdDelete, MdDeleteSweep } from "react-icons/md";
+import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import ViewBooking from "./ViewBooking";
+import { deleteClientBooking, getClientBooking } from "../../../Apis/auth";
+import CustomDataSet from "../../../components/CustomDataSet";
+import CustomLoading from "../../../components/CustomLoading";
+import CustomPopup from "../../../components/CustomPopup";
+import CustomTab from "../../../components/CustomTab";
+import Headings from "../../../components/Headings/Headings";
+import Pagination from "../../../components/Pagination";
+import Table from "../../../components/Table";
 import { handleApiError } from "../../../utils/apiErrorHandler";
+import ViewBooking from "./ViewBooking";
 
 export default function MyBooking() {
   // SEARCH PARAMS
@@ -83,16 +78,9 @@ export default function MyBooking() {
       colorClass: "text-green-500",
       backgroundColorClass: "bg-green-900",
       disabledOn: [],
+      permissions: true,
     },
-    // {
-    //   name: "edit",
-    //   handler: handleEdit,
-    //   Icon: RiEdit2Fill,
-    //   colorClass: "text-secondary",
-    //   backgroundColorClass: "bg-secondary-content",
-    //   permissions: [EMPLOYEE_UPDATE],
-    //   disabledOn: [],
-    // },
+
     {
       name: "delete",
       handler: handleDelete,
@@ -101,6 +89,7 @@ export default function MyBooking() {
       backgroundColorClass: "bg-red-200",
       isLoading: isPendingDelete,
       disabledOn: [],
+      permissions: true,
     },
   ]);
 
@@ -294,23 +283,8 @@ export default function MyBooking() {
               {/* DATASET AND FILTERS */}
               <div className={`flex justify-between items-center`}>
                 <CustomDataSet cols={cols} setCols={setCols} dataAuto="admin" />
-                {/* <CustomFilter
-              totalData={getEmployeesQuery?.data?.data?.length}
-              isLoading={isCombineDataLoading}
-              onApplyChange={(e) => {
-                console.log({ e });
-                setFilters((prev) => ({
-                  ...prev,
-                  ...e,
-                }));
-              }}
-              options={filterOptions}
-              /> */}
               </div>
-              {/* ALL APPLIED FILTERS */}
-              <div>
-                {/* <AppliedFilters setFilters={setFilters} filters={filterOptions} /> */}
-              </div>
+
               <Table
                 selectedIds={selectedIds}
                 setSelectedIds={setSelectedIds}

@@ -11,6 +11,7 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
+  createBookingWIthPackage,
   postBookingDetails,
   postPreBookingDetails,
 } from "../../../../Apis/homepageapi";
@@ -44,7 +45,6 @@ export default function CreateBookingForm({ garageData }) {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     garage_id: garageData?.garage?.id,
-
     booking_garage_package_ids: [],
 
     // STEP 1
@@ -72,7 +72,7 @@ export default function CreateBookingForm({ garageData }) {
   // CREATE FUNCTION
   const mutation = useMutation({
     mutationKey: "createJob",
-    mutationFn: postBookingDetails,
+    mutationFn: createBookingWIthPackage,
     onSuccess: () => {
       Swal.fire({
         title: "Success?",

@@ -388,6 +388,17 @@ export const postBookingDetails = async (details) => {
       throw err;
     });
 };
+// post booking details api function
+export const createBookingWIthPackage = async (details) => {
+  return await axios
+    .post(`v1.0/client/bookings`, details)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
 
 // post pre booking details api function
 export const postPackageBookingDetails = async (id, packageid, details) => {

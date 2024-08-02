@@ -9,6 +9,7 @@ export default function SelectPackagePackageForm({
   setFormData,
   garageData,
 }) {
+  const { subServices } = useData();
   const [isLoading, setIsLoading] = useState(false);
 
   const [errors, setErrors] = useState({});
@@ -17,25 +18,10 @@ export default function SelectPackagePackageForm({
 
     // VALIDATE SERVICE
     if (
-      !formData?.pre_booking_sub_service_ids ||
-      formData?.pre_booking_sub_service_ids?.length === 0
+      !formData?.booking_garage_package_ids ||
+      formData?.booking_garage_package_ids?.length === 0
     ) {
-      newErrors.pre_booking_sub_service_ids = "Service is required";
-    }
-
-    // VALIDATE CAR REG
-    if (!formData?.car_registration_no) {
-      newErrors.car_registration_no = "Car reg is required";
-    }
-
-    // VALIDATE MAKE
-    if (!formData?.automobile_make_id) {
-      newErrors.automobile_make_id = "Make is required";
-    }
-
-    // VALIDATE MODEL
-    if (!formData?.automobile_model_id) {
-      newErrors.automobile_model_id = "Model is required";
+      newErrors.booking_garage_package_ids = "Select a package first";
     }
 
     setErrors(newErrors);
@@ -61,13 +47,24 @@ export default function SelectPackagePackageForm({
             <button
               key={index}
               onClick={() => {
-                setFormData({ ...formData, package_id: pkg?.id });
+                setFormData({
+                  ...formData,
+                  booking_garage_package_ids: [pkg?.id],
+                });
               }}
-              className={`border group hover:bg-gradient-to-br from-orange-600 to-orange-400 flex flex-col items-center justify-center shadow-md rounded-md p-5`}
+              className={`${
+                formData?.booking_garage_package_ids[0] === pkg?.id
+                  ? "bg-primary hover:bg-primary-focus"
+                  : " hover:bg-primary-content"
+              } border group flex flex-col items-center justify-center shadow-md rounded-md p-5`}
             >
               {/* PACKAGE NAME  */}
               <h2
-                className={`font-medium text-primary group-hover:text-base-300`}
+                className={`font-medium ${
+                  formData?.booking_garage_package_ids[0] === pkg?.id
+                    ? "text-base-300"
+                    : "text-primary"
+                }`}
               >
                 {pkg?.name}
               </h2>
@@ -76,11 +73,27 @@ export default function SelectPackagePackageForm({
               <h2 className={`font-bold text-2xl`}>
                 {pkg?.price}{" "}
                 <span
-                  className={`text-primary text-xs group-hover:text-base-300`}
+                  className={`text-xs  ${
+                    formData?.booking_garage_package_ids[0] === pkg?.id
+                      ? "text-base-300 "
+                      : "text-primary"
+                  }`}
                 >
                   {garageData?.garage?.currency}
                 </span>
               </h2>
+
+              {/* PACKAGE SERVICES  */}
+              <span className={`block mb-5 text-center`}>
+                {subServices
+                  .filter((sub_service) =>
+                    pkg?.sub_services?.some(
+                      (sub_s, i) => sub_service?.id === sub_s?.id
+                    )
+                  )
+                  ?.map((sub_service, i) => sub_service?.name)
+                  ?.join(" • ")}
+              </span>
 
               {/* PACKAGE DESCRIPTION  */}
               <SplitDescription
@@ -94,6 +107,22 @@ export default function SelectPackagePackageForm({
           </>
         ))}
       </div>
+
+      {errors?.booking_garage_package_ids ? (
+        <label
+          data-cy={"error_message_custom_date_picker"}
+          className="label h-7 mt-2"
+        >
+          <span
+            data-cy={"error_content_custom_date_picker"}
+            className="label-text-alt text-error"
+          >
+            {errors?.booking_garage_package_ids}
+          </span>
+        </label>
+      ) : (
+        ""
+      )}
       <div className="flex w-full justify-center items-center gap-2 mt-5 flex-col md:flex-row">
         <button
           disabled={isLoading}

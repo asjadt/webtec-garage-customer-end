@@ -73,11 +73,11 @@ export default function Table({
         {header ? (
           <thead
             data-cy={"desktop_view_table_head_table"}
-            className={`${tableHeaderClass} border-b-2 border-primary-content `}
+            className={`${tableHeaderClass} border-b-2 border-primary-content bg-primary `}
           >
             <tr
               data-cy={"desktop_view_table_head_table_row_table"}
-              className="h-16 text-neutral border-b border-primary-content"
+              className="h-16 text-base-300 border-b border-primary-content"
             >
               {checkBoxes ? (
                 <th
@@ -315,10 +315,7 @@ export default function Table({
                             .slice(0, 3)
                             .map((action, index) => (
                               <Fragment key={index}>
-                                {checkPermissions(
-                                  action.permissions,
-                                  permissions
-                                ) ? (
+                                {action.permissions ? (
                                   <button
                                     onClick={() =>
                                       action.handler(
@@ -494,10 +491,7 @@ export default function Table({
                               })
                               .map((action, index) => (
                                 <React.Fragment key={index}>
-                                  {checkPermissions(
-                                    action.permissions,
-                                    permissions
-                                  ) ? (
+                                  {action.permissions ? (
                                     <button
                                       data-cy={
                                         "mobile_view_actions_button_table"

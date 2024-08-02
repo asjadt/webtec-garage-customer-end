@@ -7,6 +7,9 @@ import CustomFileUploader from "../../../../components/InputFields/CustomFileUpl
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { FileUpload } from "./UploadFiles";
+import CustomMultiSelect from "../../../../components/InputFields/CustomMultiSelect";
+import { useData } from "../../../../context/DataContext";
+import CustomFieldV2 from "../../../../components/InputFields/CustomFieldV2";
 
 export default function JobDetailsForm({
   formData,
@@ -14,7 +17,22 @@ export default function JobDetailsForm({
   setFormData,
   garageData,
 }) {
+  const { loading, makes, models } = useData();
   const [isLoading, setIsLoading] = useState(false);
+  const [isMakeChangeLoading, setIsMakeChangeLoading] = useState(false);
+  const [modelsForMultiSelect, setModelsForMultiSelect] = useState([]);
+  // CREATING A LOADING STATE FOR MULTISELECT
+  useEffect(() => {
+    setIsMakeChangeLoading(true);
+    setModelsForMultiSelect(
+      models.filter(
+        (model) => model?.automobile_make_id === formData?.automobile_make_id
+      )
+    );
+    setTimeout(() => {
+      setIsMakeChangeLoading(false);
+    }, 100);
+  }, [formData?.automobile_make_id]);
 
   const [errors, setErrors] = useState({});
   const validateForm = () => {
@@ -22,7 +40,6 @@ export default function JobDetailsForm({
 
     // Example date and time string
     const dateTimeString = `${formData?.job_start_date} ${formData?.job_start_time}`;
-    console.log({ dateTimeString });
     // Format of the date and time string
     const format = "YYYY-MM-DD HH:mm";
     // Check if the date and time string is valid
@@ -33,6 +50,21 @@ export default function JobDetailsForm({
       }
     } else {
       newErrors.job_start_date = "Job start date is required";
+    }
+
+    // VALIDATE CAR REG
+    if (!formData?.car_registration_no) {
+      newErrors.car_registration_no = "Car reg is required";
+    }
+
+    // VALIDATE MAKE
+    if (!formData?.automobile_make_id) {
+      newErrors.automobile_make_id = "Make is required";
+    }
+
+    // VALIDATE MODEL
+    if (!formData?.automobile_model_id) {
+      newErrors.automobile_model_id = "Model is required";
     }
     console.log({ newErrors });
     setErrors(newErrors);
@@ -61,7 +93,7 @@ export default function JobDetailsForm({
     <div className={``}>
       <div className="join join-vertical w-full">
         <div className="collapse collapse-arrow join-item  border border-primary">
-          <input type="checkbox" name="my-accordion-4" defaultChecked />
+          <input type="checkbox" name="my-accordion-4" />
           <div className="collapse-title columns-lg font-semibold">
             Garage Schedule
           </div>
@@ -77,6 +109,7 @@ export default function JobDetailsForm({
 
               {garageData?.garage?.garage_times?.map((item, index) => (
                 <div
+                  key={index}
                   className={`bg-base-100 w-full py-3 px-5 flex border-b border-primary-content`}
                 >
                   {!item?.is_closed ? (
@@ -171,6 +204,111 @@ export default function JobDetailsForm({
           wrapperClassName={"w-full"}
           dataAuto={`search-job_start_date`}
           error={errors?.job_start_date}
+        />
+
+        {/* CAR REG  */}
+        <CustomFieldV2
+          defaultValue={formData?.car_registration_no}
+          disable={false}
+          error={errors?.car_registration_no}
+          fieldClassName={"w-full"}
+          id={"car_registration_no"}
+          label={"Car Reg"}
+          name={"car_registration_no"}
+          onChange={handleFormChange}
+          placeholder={"Car Reg"}
+          type={"text"}
+          wrapperClassName={"w-full"}
+          required={true}
+          maxLength={50}
+          //   pattern={/^[A-Za-z\s]+$/}
+          //   patternErrorMsg="Only Capital and lowercase letters are allowed"
+          dataAuto={`name-create-department`}
+        />
+
+        {/* MAKES  */}
+        <CustomMultiSelect
+          required
+          label={"Select Make"}
+          error={errors?.automobile_make_id}
+          loading={loading}
+          placeholder="Select Makes"
+          options={makes?.filter((make) =>
+            garageData?.garage?.automobile_makes?.some(
+              (garageMake) => garageMake?.id === make?.id
+            )
+          )}
+          singleSelect
+          defaultSelectedValues={makes
+            ?.filter((make) =>
+              garageData?.garage?.automobile_makes?.some(
+                (garageMake) => garageMake?.id === make?.id
+              )
+            )
+            ?.filter((make) => formData?.automobile_make_id === make?.id)}
+          onSelect={(e) => {
+            setFormData({
+              ...formData,
+              automobile_make_id: e[0]?.id,
+              makeName: e[0]?.name,
+            });
+          }}
+          dataAuto={`work_location-create-employee`}
+        />
+
+        {/* MODEL  */}
+        <CustomMultiSelect
+          required
+          error={errors?.automobile_model_id}
+          label={"Select Model"}
+          loading={loading || isMakeChangeLoading}
+          placeholder="Select Models"
+          options={modelsForMultiSelect?.filter((model) =>
+            garageData?.garage?.automobile_models?.some(
+              (garageModel) => garageModel?.id === model?.id
+            )
+          )}
+          singleSelect
+          defaultSelectedValues={modelsForMultiSelect
+            ?.filter((model) =>
+              garageData?.garage?.automobile_models?.some(
+                (garageModel) => garageModel?.id === model?.id
+              )
+            )
+            ?.filter((make) => formData?.automobile_model_id === make?.id)}
+          onSelect={(e) => {
+            setFormData({
+              ...formData,
+              automobile_model_id: e[0]?.id,
+              modelName: e[0]?.name,
+            });
+          }}
+          dataAuto={`work_location-create-employee`}
+        />
+
+        {/* TRANSMISSION  */}
+        <CustomMultiSelect
+          label={"Select Transmission"}
+          loading={false}
+          placeholder="Transmission"
+          options={[
+            { id: 1, name: "Manual", value: "manual" },
+            { id: 2, name: "Automatic", value: "automatic" },
+          ]}
+          singleSelect
+          defaultSelectedValues={[
+            { id: 1, name: "Manual", value: "manual" },
+            { id: 2, name: "Automatic", value: "automatic" },
+          ]?.filter(
+            (transmission) => formData?.transmission === transmission?.value
+          )}
+          onSelect={(e) => {
+            setFormData({
+              ...formData,
+              transmission: e[0]?.id,
+            });
+          }}
+          dataAuto={`work_location-create-employee`}
         />
 
         {/* EXTRA NOTES  */}

@@ -7,6 +7,7 @@ export default function ReviewForm({
   setStep,
   handleOnSubmit,
   isLoading,
+  garageData,
 }) {
   const { user, isAuthenticated, logout, setIsAuthenticated, setUser } =
     useAuth();
@@ -16,11 +17,14 @@ export default function ReviewForm({
     <div className={``}>
       <table className={`w-full`}>
         <tr className={`border-b`}>
-          <td className={`h-full font-bold w-32`}>Services</td>
+          <td className={`h-full font-bold w-32`}>Package</td>
           <td className={`h-full py-5 `}>
-            {formData?.booking_sub_service_ids
-              .map(
-                (service) => subServices?.find((ss) => ss?.id === service)?.name
+            {formData?.booking_garage_package_ids
+              ?.map(
+                (pkg_id) =>
+                  garageData?.garage?.garage_packages?.find(
+                    (pkg) => pkg?.id === pkg_id
+                  )?.name
               )
               .join(", ")}
           </td>

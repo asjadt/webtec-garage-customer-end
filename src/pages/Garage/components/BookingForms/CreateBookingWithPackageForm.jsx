@@ -2,29 +2,27 @@
 // #00142
 // ===================================
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import CustomLoading from "../../../../components/CustomLoading";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import moment from "moment";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { getSingleGarage } from "../../../../Apis/garage";
-import { postPreBookingDetails } from "../../../../Apis/homepageapi";
+import {
+  createBookingWIthPackage,
+  postPreBookingDetails,
+} from "../../../../Apis/homepageapi";
 import CustomMultiStepper from "../../../../components/CustomMultiStepper";
 import CustomPopup from "../../../../components/CustomPopup";
-import GoBackButtonSm from "../../../../components/GoBackButtonSm";
 import Headings from "../../../../components/Headings/Headings";
 import { useAuth } from "../../../../context/AuthContextV2";
 import { useData } from "../../../../context/DataContext";
 import { handleApiError } from "../../../../utils/apiErrorHandler";
-import { decryptID } from "../../../../utils/encryptAndDecryptID";
 import Login from "../../../Auth/Login";
 import JobDetailsForm from "../Steps/JobDetailsForm";
 import ReviewForm from "../Steps/ReviewForm";
-import ServiceDetailsForm from "../Steps/ServiceDetailsForm";
-import ServiceDetailsPackageForm from "../Steps/ServiceDetailsPackageForm";
 import SelectPackagePackageForm from "../Steps/SelectPackagePackageForm";
 
 export default function CreateBookingWithPackageForm({ garageData }) {
@@ -44,15 +42,20 @@ export default function CreateBookingWithPackageForm({ garageData }) {
   });
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
+    garage_id: garageData?.garage?.id,
+
     // STEP 1
+    booking_garage_package_ids: [],
+
+    // STEP 2
     service: [],
-    pre_booking_sub_service_ids: [],
+    booking_sub_service_ids: [],
     car_registration_no: "",
     automobile_make_id: "",
     automobile_model_id: "",
     transmission: "manual",
 
-    // STEP 2
+    // STEP 3
     job_start_date: moment(new Date()).format("YYYY-MM-DD"),
     job_start_time: "00:00",
     job_end_date: moment().add(1, "month").format("YYYY-MM-DD"),
@@ -69,7 +72,7 @@ export default function CreateBookingWithPackageForm({ garageData }) {
   // CREATE FUNCTION
   const mutation = useMutation({
     mutationKey: "createJob",
-    mutationFn: postPreBookingDetails,
+    mutationFn: createBookingWIthPackage,
     onSuccess: () => {
       Swal.fire({
         title: "Success?",
@@ -199,21 +202,23 @@ export default function CreateBookingWithPackageForm({ garageData }) {
             />
           )}
 
-          {step === 3 && (
+          {step === 2 && (
             <JobDetailsForm
               setStep={setStep}
               formData={formData}
               setFormData={setFormData}
+              garageData={garageData}
             />
           )}
 
-          {step === 4 && (
+          {step === 3 && (
             <ReviewForm
               setStep={setStep}
               formData={formData}
               setFormData={setFormData}
               handleOnSubmit={handleOnSubmit}
               isLoading={mutation.isPending}
+              garageData={garageData}
             />
           )}
         </div>
