@@ -11,7 +11,7 @@ const ViewBooking = ({ popupOption, setPopupOption, booking }) => {
       </div>
       <div className={`flex items-center gap-1`}>
         <h2 className={`font-bold`}>Booking Price:</h2>
-        <p>£{booking?.price}</p>
+        <p>&#8364; {booking?.price}</p>
       </div>
       <div className={`flex items-center gap-1`}>
         <h2 className={`font-bold`}>Services:</h2>

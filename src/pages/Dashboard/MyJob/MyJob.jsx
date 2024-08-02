@@ -23,6 +23,7 @@ import CustomLoading from "../../../components/CustomLoading";
 import { AiFillEye } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { handleApiError } from "../../../utils/apiErrorHandler";
+import ViewJob from "./ViewJob";
 
 export default function MyJob() {
   // SEARCH PARAMS
@@ -59,11 +60,11 @@ export default function MyJob() {
   // IF ANY DATA UPDATED
   const [isUpdated, setIsUpdated] = useState();
 
-  const [booking, setBooking] = useState({});
+  const [job, setJob] = useState({});
 
   // HANDLE VIEW
   const handleView = (data) => {
-    setBooking(data);
+    setJob(data);
     setPopupOption({
       ...popupOption,
       open: true,
@@ -211,15 +212,15 @@ export default function MyJob() {
           popupClasses={`w-[70vw]`}
           popupOption={popupOption}
           setPopupOption={setPopupOption}
-          // Component={
-          //   popupOption?.type === "viewBooking" && (
-          //     <ViewBooking
-          //       booking={booking}
-          //       popupOption={popupOption}
-          //       setPopupOption={setPopupOption}
-          //     />
-          //   )
-          // }
+          Component={
+            popupOption?.type === "viewAppliedJob" && (
+              <ViewJob
+                job={job}
+                popupOption={popupOption}
+                setPopupOption={setPopupOption}
+              />
+            )
+          }
         />
         {/* ========IF MULTIPLE ID SELECTED ======== */}
         {selectedIds.length > 1 && (
@@ -322,7 +323,6 @@ export default function MyJob() {
                 rows={data?.data?.map((d) => ({
                   ...d,
                   id: d?.id,
-                  garage: d?.garage?.name,
                   car_reg: d?.car_registration_no,
                   job_start_time: moment(d?.job_start_time, "HH:mm").format(
                     "hh:mm A"
