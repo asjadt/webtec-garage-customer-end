@@ -1,12 +1,17 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const CustomTab = ({ tabs, activeTab, setActiveTab }) => {
+const CustomTab = ({
+  tabs,
+  activeTab,
+  setActiveTab,
+  gridCol = "grid-cols-1",
+}) => {
   return (
     <div data-auto={`orderType-container-mainSection`} className={``}>
       <div className={`pb-5 `}>
         <div
-          className={`bg-gray-100 text-sm transition-all duration-200 w-[320px] grid grid-cols-3 rounded-full p-1 h-10`}
+          className={`bg-gray-100 text-sm transition-all duration-200 w-[320px] grid ${gridCol} rounded-full p-1 h-10`}
         >
           {tabs.map((ot, index) => (
             <button
@@ -25,10 +30,11 @@ const CustomTab = ({ tabs, activeTab, setActiveTab }) => {
               )}
 
               <span
-                className={`relative justify-center flex items-center gap-2 ${
+                className={`relative justify-center flex items-center gap-x-1 ${
                   activeTab === ot?.id ? " text-white" : ""
                 }`}
               >
+                {ot.Icon ? <ot.Icon className={`text-lg`} /> : ""}
                 {ot?.title}
               </span>
             </button>
