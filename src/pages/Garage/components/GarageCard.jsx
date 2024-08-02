@@ -76,7 +76,7 @@ export default function GarageCard({ garage }) {
         {/* NAME  */}
         <h1
           onClick={() => {
-            navigate(`/view-garage/${encryptID(id)}`);
+            navigate(`/view-garage/${encryptID(id)}/details`);
           }}
           data-auto={`name${id}-garageCard`}
           className="text-xl inline hover:text-primary duration-150 cursor-pointer md:text-xl font-bold text-[#242E30]"
@@ -146,13 +146,13 @@ export default function GarageCard({ garage }) {
             className={`grid grid-cols-1 sm:grid-cols-3 gap-[5px] pt-2 right-0`}
           >
             <button
-              onClick={() => navigate(`/view-garage/${encryptID(id)}`)}
+              onClick={() => navigate(`/view-garage/${encryptID(id)}/details`)}
               className={`btn btn-primary btn-xs md:btn-sm w-full`}
             >
               View Details
             </button>
             <button
-              onClick={() => navigate(`/booking/${encryptID(id)}`)}
+              onClick={() => navigate(`/booking/${encryptID(id)}/booking`)}
               className={`btn btn-primary btn-xs md:btn-sm w-full`}
             >
               Book Now
@@ -160,7 +160,7 @@ export default function GarageCard({ garage }) {
             {!!is_package_available && (
               <button
                 onClick={() =>
-                  navigate(`/booking-with-package/${encryptID(id)}`)
+                  navigate(`/booking-with-package/${encryptID(id)}/packages`)
                 }
                 className={`btn btn-primary btn-xs md:btn-sm w-full`}
               >
