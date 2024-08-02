@@ -43,10 +43,10 @@ export default function ServiceDetailsForm({
 
     // VALIDATE SERVICE
     if (
-      !formData?.pre_booking_sub_service_ids ||
-      formData?.pre_booking_sub_service_ids?.length === 0
+      !formData?.booking_sub_service_ids ||
+      formData?.booking_sub_service_ids?.length === 0
     ) {
-      newErrors.pre_booking_sub_service_ids = "Service is required";
+      newErrors.booking_sub_service_ids = "Service is required";
     }
 
     // VALIDATE CAR REG
@@ -82,7 +82,7 @@ export default function ServiceDetailsForm({
         {/* SERVICE  */}
         <CustomMultiSelectWithChild
           label={"Select Service"}
-          error={errors?.pre_booking_sub_service_ids}
+          error={errors?.booking_sub_service_ids}
           loading={loading}
           groupForeignKey={"service_id"}
           options={subServices?.filter((ss) =>
@@ -98,7 +98,7 @@ export default function ServiceDetailsForm({
               garageData?.garage?.services?.some((gs) => gs?.id === ss?.id)
             )
             ?.filter((sub_service) =>
-              formData?.pre_booking_sub_service_ids?.some(
+              formData?.booking_sub_service_ids?.some(
                 (selected_sub_service_id) =>
                   sub_service?.id === selected_sub_service_id
               )
@@ -106,7 +106,7 @@ export default function ServiceDetailsForm({
           onSelect={(e) => {
             setFormData({
               ...formData,
-              pre_booking_sub_service_ids: e.map((ss) => ss?.id),
+              booking_sub_service_ids: e.map((ss) => ss?.id),
             });
           }}
           dataAuto={`sub_service-create-job`}

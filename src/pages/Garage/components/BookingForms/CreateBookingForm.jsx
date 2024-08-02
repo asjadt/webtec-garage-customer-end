@@ -10,7 +10,10 @@ import { useMutation } from "@tanstack/react-query";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { postPreBookingDetails } from "../../../../Apis/homepageapi";
+import {
+  postBookingDetails,
+  postPreBookingDetails,
+} from "../../../../Apis/homepageapi";
 import CustomMultiStepper from "../../../../components/CustomMultiStepper";
 import CustomPopup from "../../../../components/CustomPopup";
 import GoBackButtonSm from "../../../../components/GoBackButtonSm";
@@ -40,9 +43,13 @@ export default function CreateBookingForm({ garageData }) {
   });
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
+    garage_id: garageData?.garage?.id,
+
+    booking_garage_package_ids: [],
+
     // STEP 1
     service: [],
-    pre_booking_sub_service_ids: [],
+    booking_sub_service_ids: [],
     car_registration_no: "",
     automobile_make_id: "",
     automobile_model_id: "",
@@ -65,11 +72,11 @@ export default function CreateBookingForm({ garageData }) {
   // CREATE FUNCTION
   const mutation = useMutation({
     mutationKey: "createJob",
-    mutationFn: postPreBookingDetails,
+    mutationFn: postBookingDetails,
     onSuccess: () => {
       Swal.fire({
         title: "Success?",
-        text: "A new job created successfully!",
+        text: "Booked successfully!",
         icon: "success",
         confirmButtonText: "Ok",
         customClass: {
@@ -197,6 +204,7 @@ export default function CreateBookingForm({ garageData }) {
 
           {step === 2 && (
             <JobDetailsForm
+              garageData={garageData}
               setStep={setStep}
               formData={formData}
               setFormData={setFormData}
