@@ -815,150 +815,149 @@ export default function MyBooking() {
   console.log({ data });
 
   return (
-    <CheckPermission permissionArray={[EMPLOYEE_VIEW]}>
-      <div className="h-[85vh]" data-auto={"container_admin"}>
-        <div className="relative h-full" data-auto="sub_container_admin">
-          {/* POPUP  */}
-          <CustomPopup
-            popupClasses={`w-[70vw]`}
-            popupOption={popupOption}
-            setPopupOption={setPopupOption}
-            // Component={
-            //   <>
-            //     {popupOption?.type === "assignLeave" && (
-            //       <CreateLeave
-            //         selfId={popupOption?.id}
-            //         handleClosePopup={() => {
-            //           setPopupOption({
-            //             open: false,
-            //             type: "",
-            //             id: null,
-            //             onClose: () => {
-            //               setPopupOption({ ...popupOption, open: false });
-            //               setIsUpdated(Math.random());
-            //             },
-            //             overlayStyle: { background: "red" },
-            //             closeOnDocumentClick: false,
-            //           });
-            //         }}
-            //       />
-            //     )}
-            //     {popupOption?.type === "addAttandance" && (
-            //       <CreateAttendanceV2
-            //         popupOption={popupOption}
-            //         handleClosePopup={() => {
-            //           setPopupOption({
-            //             open: false,
-            //             type: "",
-            //             id: null,
-            //             selfId: null,
-            //             onClose: () => {
-            //               setPopupOption({ ...popupOption, open: false });
-            //             },
-            //             overlayStyle: { background: "red" },
-            //             closeOnDocumentClick: false,
-            //           });
-            //         }}
-            //         getAllAttendence={() => {}}
-            //       />
-            //     )}
+    <div className="h-[85vh]" data-auto={"container_admin"}>
+      <div className="relative h-full" data-auto="sub_container_admin">
+        {/* POPUP  */}
+        <CustomPopup
+          popupClasses={`w-[70vw]`}
+          popupOption={popupOption}
+          setPopupOption={setPopupOption}
+          // Component={
+          //   <>
+          //     {popupOption?.type === "assignLeave" && (
+          //       <CreateLeave
+          //         selfId={popupOption?.id}
+          //         handleClosePopup={() => {
+          //           setPopupOption({
+          //             open: false,
+          //             type: "",
+          //             id: null,
+          //             onClose: () => {
+          //               setPopupOption({ ...popupOption, open: false });
+          //               setIsUpdated(Math.random());
+          //             },
+          //             overlayStyle: { background: "red" },
+          //             closeOnDocumentClick: false,
+          //           });
+          //         }}
+          //       />
+          //     )}
+          //     {popupOption?.type === "addAttandance" && (
+          //       <CreateAttendanceV2
+          //         popupOption={popupOption}
+          //         handleClosePopup={() => {
+          //           setPopupOption({
+          //             open: false,
+          //             type: "",
+          //             id: null,
+          //             selfId: null,
+          //             onClose: () => {
+          //               setPopupOption({ ...popupOption, open: false });
+          //             },
+          //             overlayStyle: { background: "red" },
+          //             closeOnDocumentClick: false,
+          //           });
+          //         }}
+          //         getAllAttendence={() => {}}
+          //       />
+          //     )}
 
-            //     {popupOption?.type === "changeJoiningDate" && (
-            //       <ChangeJoiningDate
-            //         popupOption={popupOption}
-            //         handleClosePopup={() => {
-            //           setPopupOption({
-            //             open: false,
-            //             type: "",
-            //             id: null,
-            //             selfId: null,
-            //             onClose: () => {
-            //               setPopupOption({ ...popupOption, open: false });
-            //             },
-            //             overlayStyle: { background: "red" },
-            //             closeOnDocumentClick: false,
-            //           });
-            //         }}
-            //         getAllAttendence={() => {}}
-            //       />
-            //     )}
-            //     {popupOption?.type === "changePassword" && (
-            //       <ChangePassword
-            //         popupOption={popupOption}
-            //         handleClosePopup={() => {
-            //           setPopupOption({
-            //             open: false,
-            //             type: "",
-            //             id: null,
-            //             selfId: null,
-            //             onClose: () => {
-            //               setPopupOption({ ...popupOption, open: false });
-            //             },
-            //             overlayStyle: { background: "red" },
-            //             closeOnDocumentClick: false,
-            //           });
-            //         }}
-            //       />
-            //     )}
-            //   </>
-            // }
-          />
-          {/* ========IF MULTIPLE ID SELECTED ======== */}
-          {selectedIds.length > 1 && (
-            <div className="z-[10] absolute bg-base-300 rounded-xl px-5 py-2 left-1/2 -translate-x-1/2 border border-primary border-opacity-40 flex justify-center items-center gap-2 shadow-xl ">
-              <button
-                data-auto={`admin-delete-button-all-employees`}
-                // onClick={() => deleteFunc(selectedIds)}
-                data-tip="Delete all selected items"
-                className="tooltip tooltip-bottom tooltip-primary"
-              >
-                <MdDeleteSweep className="text-red-500 text-2xl" />
-              </button>
-            </div>
-          )}
-          {/* ========================================  */}
-
-          {/* ======= TAB AREA =========  */}
-          <div className={`flex justify-center`}>
-            <CustomTab
-              tabs={tabs}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              gridCol="grid-cols-3"
-            />
+          //     {popupOption?.type === "changeJoiningDate" && (
+          //       <ChangeJoiningDate
+          //         popupOption={popupOption}
+          //         handleClosePopup={() => {
+          //           setPopupOption({
+          //             open: false,
+          //             type: "",
+          //             id: null,
+          //             selfId: null,
+          //             onClose: () => {
+          //               setPopupOption({ ...popupOption, open: false });
+          //             },
+          //             overlayStyle: { background: "red" },
+          //             closeOnDocumentClick: false,
+          //           });
+          //         }}
+          //         getAllAttendence={() => {}}
+          //       />
+          //     )}
+          //     {popupOption?.type === "changePassword" && (
+          //       <ChangePassword
+          //         popupOption={popupOption}
+          //         handleClosePopup={() => {
+          //           setPopupOption({
+          //             open: false,
+          //             type: "",
+          //             id: null,
+          //             selfId: null,
+          //             onClose: () => {
+          //               setPopupOption({ ...popupOption, open: false });
+          //             },
+          //             overlayStyle: { background: "red" },
+          //             closeOnDocumentClick: false,
+          //           });
+          //         }}
+          //       />
+          //     )}
+          //   </>
+          // }
+        />
+        {/* ========IF MULTIPLE ID SELECTED ======== */}
+        {selectedIds.length > 1 && (
+          <div className="z-[10] absolute bg-base-300 rounded-xl px-5 py-2 left-1/2 -translate-x-1/2 border border-primary border-opacity-40 flex justify-center items-center gap-2 shadow-xl ">
+            <button
+              data-auto={`admin-delete-button-all-employees`}
+              // onClick={() => deleteFunc(selectedIds)}
+              data-tip="Delete all selected items"
+              className="tooltip tooltip-bottom tooltip-primary"
+            >
+              <MdDeleteSweep className="text-red-500 text-2xl" />
+            </button>
           </div>
-          {/* HEADING AND TABLE */}
-          {isPending ? (
-            <CustomLoading />
-          ) : (
-            <div>
-              {/* ========================================  */}
+        )}
+        {/* ========================================  */}
 
-              {/* ======= HEADING AND FILTERING AREA =========  */}
+        {/* ======= TAB AREA =========  */}
+        <div className={`flex justify-center`}>
+          <CustomTab
+            tabs={tabs}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            gridCol="grid-cols-3"
+          />
+        </div>
+        {/* HEADING AND TABLE */}
+        {isPending ? (
+          <CustomLoading />
+        ) : (
+          <div>
+            {/* ========================================  */}
+
+            {/* ======= HEADING AND FILTERING AREA =========  */}
+            <div
+              id="header"
+              className="flex flex-col md:flex-row justify-between items-center relative gap-5"
+            >
               <div
-                id="header"
-                className="flex flex-col md:flex-row justify-between items-center relative gap-5"
+                id="header-content"
+                className="flex flex-col gap-2 w-full text-left"
               >
-                <div
-                  id="header-content"
-                  className="flex flex-col gap-2 w-full text-left"
-                >
-                  <div className={`flex items-center gap-5`}>
-                    <Headings level={1}>
-                      {activeTab === "all"
-                        ? "All Bookings"
-                        : activeTab === "completed"
-                        ? "Completed Bookings"
-                        : "Pending Bookings"}
-                    </Headings>
-                  </div>
-                  <h3>
-                    Total {data?.total}{" "}
-                    {data?.total > 1 ? "Bookings" : "Booking"} Found
-                  </h3>
+                <div className={`flex items-center gap-5`}>
+                  <Headings level={1}>
+                    {activeTab === "all"
+                      ? "All Bookings"
+                      : activeTab === "completed"
+                      ? "Completed Bookings"
+                      : "Pending Bookings"}
+                  </Headings>
                 </div>
+                <h3>
+                  Total {data?.total} {data?.total > 1 ? "Bookings" : "Booking"}{" "}
+                  Found
+                </h3>
+              </div>
 
-                {/* <CreateAndExportSection
+              {/* <CreateAndExportSection
               exportBtn={true}
               createPermission={permissions.includes(EMPLOYEE_CREATE)}
               createHandler={handleCreate}
@@ -966,20 +965,16 @@ export default function MyBooking() {
               csvHandler={handleExport}
               dataAuto="admin"
             /> */}
-              </div>
+            </div>
 
-              {/* ================================================  */}
+            {/* ================================================  */}
 
-              {/* =========== TABLE AREA ============  */}
-              <div className="pt-5 relative">
-                {/* DATASET AND FILTERS */}
-                <div className={`flex justify-between items-center`}>
-                  <CustomDataSet
-                    cols={cols}
-                    setCols={setCols}
-                    dataAuto="admin"
-                  />
-                  {/* <CustomFilter
+            {/* =========== TABLE AREA ============  */}
+            <div className="pt-5 relative">
+              {/* DATASET AND FILTERS */}
+              <div className={`flex justify-between items-center`}>
+                <CustomDataSet cols={cols} setCols={setCols} dataAuto="admin" />
+                {/* <CustomFilter
               totalData={getEmployeesQuery?.data?.data?.length}
               isLoading={isCombineDataLoading}
               onApplyChange={(e) => {
@@ -991,51 +986,50 @@ export default function MyBooking() {
               }}
               options={filterOptions}
               /> */}
-                </div>
-                {/* ALL APPLIED FILTERS */}
-                <div>
-                  {/* <AppliedFilters setFilters={setFilters} filters={filterOptions} /> */}
-                </div>
-                <Table
-                  selectedIds={selectedIds}
-                  setSelectedIds={setSelectedIds}
-                  itemsPerPage={filters?.perPage}
-                  totalItems={data?.total}
-                  setPageNo={(data) => setFilters({ ...filters, page: data })}
-                  // setPerPage={setPerPage}
-                  perPage={filters?.perPage}
-                  isLoading={isPending}
-                  rows={data?.data?.map((d) => ({
-                    ...d,
-                    garage: d?.garage?.name,
-                    car_reg: d?.car_registration_no,
-                  }))}
-                  actions={actions}
-                  cols={cols}
-                  dataAuto="all-job-type"
-                />
-                {/* PAGINATION  */}
-                {data?.total !== 0 && (
-                  <div
-                    data-auto={`admin-pagination-all-employees`}
-                    className="flex-col flex justify-center bg-base-300 items-center py-1"
-                  >
-                    <Pagination
-                      forcePage={filters?.page}
-                      itemsPerPage={filters?.perPage}
-                      totalItems={data?.total}
-                      onChangePage={(page) => {
-                        setFilters({ ...filters, page: page });
-                      }}
-                      dataAuto="admin"
-                    />
-                  </div>
-                )}
               </div>
+              {/* ALL APPLIED FILTERS */}
+              <div>
+                {/* <AppliedFilters setFilters={setFilters} filters={filterOptions} /> */}
+              </div>
+              <Table
+                selectedIds={selectedIds}
+                setSelectedIds={setSelectedIds}
+                itemsPerPage={filters?.perPage}
+                totalItems={data?.total}
+                setPageNo={(data) => setFilters({ ...filters, page: data })}
+                // setPerPage={setPerPage}
+                perPage={filters?.perPage}
+                isLoading={isPending}
+                rows={data?.data?.map((d) => ({
+                  ...d,
+                  garage: d?.garage?.name,
+                  car_reg: d?.car_registration_no,
+                }))}
+                actions={actions}
+                cols={cols}
+                dataAuto="all-job-type"
+              />
+              {/* PAGINATION  */}
+              {data?.total !== 0 && (
+                <div
+                  data-auto={`admin-pagination-all-employees`}
+                  className="flex-col flex justify-center bg-base-300 items-center py-1"
+                >
+                  <Pagination
+                    forcePage={filters?.page}
+                    itemsPerPage={filters?.perPage}
+                    totalItems={data?.total}
+                    onChangePage={(page) => {
+                      setFilters({ ...filters, page: page });
+                    }}
+                    dataAuto="admin"
+                  />
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-    </CheckPermission>
+    </div>
   );
 }

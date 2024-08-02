@@ -30,33 +30,42 @@ export const menus = [
   // PRIVATE ROUTES
   // ==========================
   {
-    title: "Bookings",
-    link: "/my-account/my-booking",
-    Icon: IoBookmarkOutline,
-    childrens: [],
-    show: JSON.parse(localStorage.getItem("user_data")),
-  },
-  {
-    title: "Applied Jobs",
-    link: "/my-account/my-jobs",
-    Icon: GoBriefcase,
-    childrens: [],
-    show: JSON.parse(localStorage.getItem("user_data")),
-  },
-  {
-    title: "Pending Jobs",
-    link: "/my-account/pending/jobs",
-    Icon: LuFileClock,
-    childrens: [],
-    show: JSON.parse(localStorage.getItem("user_data")),
-  },
-  {
-    title: "My Account",
+    title: "Dashboard",
     link: "/my-account",
-    Icon: MdAccountCircle,
-    childrens: [],
+    Icon: FiPieChart,
+    childrens: [
+      {
+        title: "Bookings",
+        link: "/my-account/my-bookings",
+        Icon: IoBookmarkOutline,
+        childrens: [],
+        show: JSON.parse(localStorage.getItem("user_data")),
+      },
+      {
+        title: "Applied Jobs",
+        link: "/my-account/my-jobs",
+        Icon: GoBriefcase,
+        childrens: [],
+        show: JSON.parse(localStorage.getItem("user_data")),
+      },
+      {
+        title: "Pending Jobs",
+        link: "/my-account/pending/jobs",
+        Icon: LuFileClock,
+        childrens: [],
+        show: JSON.parse(localStorage.getItem("user_data")),
+      },
+      {
+        title: "My Account",
+        link: "/Profile",
+        Icon: MdAccountCircle,
+        childrens: [],
+        show: JSON.parse(localStorage.getItem("user_data")),
+      },
+    ],
     show: JSON.parse(localStorage.getItem("user_data")),
   },
+
   // ============================
 
   {

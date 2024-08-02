@@ -1,37 +1,41 @@
-// ==================================
-// #00106
-// ==================================
+// ===========================================
+// #00108
+// ===========================================
 
-import { Navigate, Outlet } from "react-router-dom";
+import { motion } from "framer-motion";
+import Footer from "./Footer/Footer";
 import Navbar from "./Navbar/Navbar";
 import Sidebar from "./SideBar/Sidebar";
-import { useNav } from "../context/NavContext";
+import { Outlet } from "react-router-dom";
 
 export default function DashboardLayout() {
-  const {isNavOpen} = useNav()
-  if (!JSON.parse(localStorage.getItem("user_data"))) {
-    <Navigate to={"/"} replace />;
-  } else {
-    return (
-      <div
-        className={` text-neutral h-screen w-full bg-base-200 flex justify-between items-center  pb-5`}
-      >
-        <Sidebar />
-        <main className={` w-full scrollbar h-full overflow-y-auto`}>
-          <div className="w-full fixed z-40">
-            <Navbar />
-          </div>
-          <div
-            className={`${
-              isNavOpen ? "md:pl-[11rem] md:ml-[90px]" : "md:ml-[0px]"
-            }  duration-300 transition-all pl-4 pb-5 pt-24 md:pt-[7rem] md:p-10 md:pl-9 pr-4 md:pr-9 `}
-          >
-            <Outlet />
-          </div>
-        </main>
+  return (
+    <div
+      data-cy="hrm_app"
+      className={`p-0 md:p-5 bg-base-100 md:h-[100vh] h-[97vh]`}
+    >
+      <Navbar />
 
-        {/* <footer className={`px-1 md:px-3 hidden`}>Footer</footer> */}
+      <div
+        data-cy="main_container"
+        className={`flex md:mt-3 relative h-[calc(100%-53px)] md:h-[calc(100%-90px)]`}
+      >
+        <div
+          data-cy="main-sidebar"
+          className={`main-sidebar w-[335px] md:w-[235px] absolute h-full block overflow-x-hidden transition-all duration-300
+        `}
+        >
+          <Sidebar />
+        </div>
+
+        <motion.div
+          data-cy="public_layout_outlet"
+          className={`scroll-smooth flex-grow px-5 md:px-10 overflow-y-auto bg-base-300 w-[500px] h-full md:rounded-[15px] scrollbar  transition-all duration-300 delay-300 `}
+        >
+          <Outlet />
+          {/* <Footer /> */}
+        </motion.div>
       </div>
-    );
-  }
+    </div>
+  );
 }
