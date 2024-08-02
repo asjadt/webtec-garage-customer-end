@@ -152,7 +152,7 @@ export default function GarageCard({ garage }) {
               View Details
             </button>
             <button
-              onClick={() => navigate(`/booking/${encryptID(id)}/booking`)}
+              onClick={() => navigate(`/view-garage/${encryptID(id)}/booking`)}
               className={`btn btn-primary btn-xs md:btn-sm w-full`}
             >
               Book Now
@@ -160,7 +160,7 @@ export default function GarageCard({ garage }) {
             {!!is_package_available && (
               <button
                 onClick={() =>
-                  navigate(`/booking-with-package/${encryptID(id)}/packages`)
+                  navigate(`/view-garage/${encryptID(id)}/packages`)
                 }
                 className={`btn btn-primary btn-xs md:btn-sm w-full`}
               >

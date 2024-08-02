@@ -6,34 +6,24 @@ import React, { useEffect, useState } from "react";
 
 import CustomLoading from "../../../../components/CustomLoading";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import moment from "moment";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { postPreBookingDetails } from "../../../../Apis/homepageapi";
 import CustomMultiStepper from "../../../../components/CustomMultiStepper";
 import CustomPopup from "../../../../components/CustomPopup";
+import GoBackButtonSm from "../../../../components/GoBackButtonSm";
 import Headings from "../../../../components/Headings/Headings";
 import { useAuth } from "../../../../context/AuthContextV2";
+import { useData } from "../../../../context/DataContext";
 import { handleApiError } from "../../../../utils/apiErrorHandler";
 import Login from "../../../Auth/Login";
 import JobDetailsForm from "../Steps/JobDetailsForm";
 import ReviewForm from "../Steps/ReviewForm";
 import ServiceDetailsForm from "../Steps/ServiceDetailsForm";
-import GoBackButton from "../../../../components/GoBackButton";
-import GoBackButtonSm from "../../../../components/GoBackButtonSm";
-import { decryptID } from "../../../../utils/encryptAndDecryptID";
-import { getSingleGarage } from "../../../../Apis/garage";
-import { useData } from "../../../../context/DataContext";
 
-export default function CreateBookingForm() {
-  const { encID } = useParams();
-  const garage_id = decryptID(encID);
-  const { isPending: isGarageLoading, data: garageData } = useQuery({
-    queryKey: ["singleGarageData", garage_id],
-    queryFn: (params) => getSingleGarage(params.queryKey[1]),
-  });
-
+export default function CreateBookingForm({ garageData }) {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
   const { loading } = useData();
@@ -129,11 +119,7 @@ export default function CreateBookingForm() {
     }
   };
 
-  useEffect(() => {
-    console.log({ isGarageLoading, garageData });
-  }, [isGarageLoading]);
-
-  if (loading || isGarageLoading) {
+  if (loading) {
     return <CustomLoading />;
   } else {
     return (
@@ -165,11 +151,6 @@ export default function CreateBookingForm() {
         <div
           className={`w-full border max-w-[600px] p-5 shadow-lg rounded-xl h-auto relative`}
         >
-          {/* GO BACK  */}
-          <div className={`absolute right-4 top-4`}>
-            <GoBackButtonSm />
-          </div>
-
           {/* TITLE  */}
           <div className={`flex justify-center w-full`}>
             <Headings

@@ -54,6 +54,14 @@ export default function JobDetailsForm({ formData, setStep, setFormData }) {
 
   return (
     <div className={``}>
+      <div className={`flex flex-col gap-1`}>
+        <div>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
       {/* FORM  */}
       <div>
         {/* JOB START DATE & TIME  */}

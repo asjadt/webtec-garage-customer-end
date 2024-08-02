@@ -21,6 +21,14 @@ import ContactCard from "./components/ContactCard";
 import GoBackButton from "../../components/GoBackButton";
 import { getFullImageLink } from "../../utils/getFullImageLink";
 import CustomTab from "../../components/CustomTab";
+import {
+  singleGaragePageTabs,
+  singleGaragePageTabsWithoutPackage,
+} from "../../constant/singleGaragePageTabs";
+import GarageBooking from "./GarageBooking";
+import GarageBookingWIthPackage from "./GarageBookingWIthPackage";
+import CreateBookingForm from "./components/BookingForms/CreateBookingForm";
+import CreateBookingWithPackageForm from "./components/BookingForms/CreateBookingWithPackageForm";
 
 const gridContainerVariants = {
   hidden: { opacity: 0 },
@@ -33,20 +41,31 @@ const gridItemVariants = {
 };
 
 export default function SingleGarage() {
-  const { encID } = useParams();
+  const { encID, tabName } = useParams();
   const id = decryptID(encID);
-  const [activeTab, setActiveTab] = useState("services");
+  const tabs = ["booking", "details", "packages"];
+
+  const [activeTab, setActiveTab] = useState("details");
+
   const { isLoading, data } = useQuery({
     queryKey: ["singleGarage", id],
     queryFn: (params) => getSingleGarage(params.queryKey[1]),
   });
+
+  useEffect(() => {
+    if (tabs?.includes(tabName)) {
+      setActiveTab(tabName);
+    } else {
+      setActiveTab("details");
+    }
+  }, [tabName]);
 
   if (isLoading) {
     return <CustomLoading />;
   } else {
     return (
       <div>
-        <div className={`relative mb-40`}>
+        <div className={`relative mb-44`}>
           <div className={`absolute top-4 right-4`}>
             <GoBackButton />
           </div>
@@ -111,136 +130,163 @@ export default function SingleGarage() {
         </div>
 
         {/* TABS  */}
-        <CustomTab
-          tabs={["Details", "Services"]}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-        />
-
-        {/* DESCRIPTION  */}
-        {data?.garage?.about ? (
-          <div className={`p-5 `}>
-            <div className={`flex justify-center items-center mb-5`}>
-              <TextTitleComponent text={"About Garage"} />
-            </div>
-            <p>{data?.garage?.about}</p>
-          </div>
-        ) : (
-          ""
-        )}
-
-        {/* ADDITIONAL INFORMATION  */}
-        {data?.garage?.additional_information ? (
-          <div className={`p-5 `}>
-            <div className={`flex justify-center items-center mb-5`}>
-              <TextTitleComponent text={"Additional Information"} />
-            </div>
-            <p>{data?.garage?.additional_information}</p>
-          </div>
-        ) : (
-          ""
-        )}
-
-        {/* CONTACT  */}
-        <div className={`p-5`}>
-          <div className={`flex justify-center items-center mb-5`}>
-            <TextTitleComponent text={"Contact"} />
-          </div>
-          <div className={`grid grid-cols-1 md:grid-cols-3 gap-5`}>
-            {/* EMAIL  */}
-            <ContactCard
-              Icon={HiOutlineMailOpen}
-              title={"Email Address"}
-              value={data?.garage?.email}
-            />
-
-            {/* PHONE  */}
-            <ContactCard
-              Icon={MdPhoneInTalk}
-              title={"Phone Number"}
-              value={data?.garage?.phone || data?.garage?.owner?.phone}
-            />
-
-            {/* ADDRESS  */}
-            <ContactCard
-              Icon={TiLocationOutline}
-              title={"Garage Address"}
-              value={data?.garage?.address_line_1}
-            />
-          </div>
+        <div className={`w-full flex justify-center items-center`}>
+          <CustomTab
+            gridCol={`${
+              data?.garage?.garage_packages?.length > 0
+                ? "grid-cols-3"
+                : "grid-cols-2"
+            }`}
+            tabs={
+              data?.garage?.garage_packages?.length > 0
+                ? singleGaragePageTabs
+                : singleGaragePageTabsWithoutPackage
+            }
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
         </div>
 
-        {/* SERVICE  */}
-        <div className={`p-5`}>
-          <div className={`flex justify-center items-center`}>
-            <TextTitleComponent text={"Services"} />
-          </div>
+        {/* MAIN SECTION  */}
+        <div className={`min-h-[300px]`}>
+          {/* BOOKING  */}
+          {activeTab === "booking" && <CreateBookingForm garageData={data} />}
 
-          <motion.div
-            variants={gridContainerVariants}
-            initial="hidden"
-            animate="visible"
-            className={`grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-4 py-5`}
-          >
-            {data?.garage?.services?.map((service, index) => (
-              <GarageViewServiceCard key={index} service={service} />
-            ))}
-          </motion.div>
-        </div>
+          {/* GARAGE DETAILS  */}
+          {activeTab === "details" && (
+            <>
+              {/* DESCRIPTION  */}
+              {data?.garage?.about ? (
+                <div className={`p-5 `}>
+                  <div className={`flex justify-center items-center mb-5`}>
+                    <TextTitleComponent text={"About Garage"} />
+                  </div>
+                  <p>{data?.garage?.about}</p>
+                </div>
+              ) : (
+                ""
+              )}
 
-        {/* GALLERY IMAGE   */}
-        {data?.garage?.garage_galleries?.length > 0 ? (
-          <div className={`p-5`}>
-            <div className={`flex justify-center items-center mb-5`}>
-              <TextTitleComponent text={"Gallery"} />
-            </div>
-            <motion.div
-              variants={gridContainerVariants}
-              initial="hidden"
-              animate="visible"
-              className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5`}
-            >
-              {data?.garage?.garage_galleries?.map((image, index) => (
-                <motion.div
-                  key={index}
-                  variants={gridItemVariants}
-                  exit={{ opacity: 0, y: 50 }}
-                  transition={{ stagger: 0.5 }}
-                  className={`group w-full h-[300px] rounded-lg overflow-hidden`}
-                >
-                  <img
-                    src={getFullImageLink(image?.image)}
-                    className={`group-hover:scale-125 duration-200 object-cover w-full h-full`}
-                    alt={data?.garage?.name}
+              {/* ADDITIONAL INFORMATION  */}
+              {data?.garage?.additional_information ? (
+                <div className={`p-5 `}>
+                  <div className={`flex justify-center items-center mb-5`}>
+                    <TextTitleComponent text={"Additional Information"} />
+                  </div>
+                  <p>{data?.garage?.additional_information}</p>
+                </div>
+              ) : (
+                ""
+              )}
+
+              {/* CONTACT  */}
+              <div className={`p-5`}>
+                <div className={`flex justify-center items-center mb-5`}>
+                  <TextTitleComponent text={"Contact"} />
+                </div>
+                <div className={`grid grid-cols-1 md:grid-cols-3 gap-5`}>
+                  {/* EMAIL  */}
+                  <ContactCard
+                    Icon={HiOutlineMailOpen}
+                    title={"Email Address"}
+                    value={data?.garage?.email}
                   />
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        ) : (
-          ""
-        )}
 
-        {/* MAP  */}
-        <div className={`p-5`}>
-          <div className={`flex justify-center items-center mb-5`}>
-            <TextTitleComponent text={"Location"} />
-          </div>
-          <div className={`w-full h-[400px]`}>
-            <iframe
-              style={{
-                outline: "none",
-              }}
-              title="Garage location"
-              src={`https://maps.google.com/maps?q=${data?.garage?.lat},${data?.garage?.long}&hl=es&z=14&output=embed`}
-              width="100%"
-              height="100%"
-              frameBorder={0}
-              allowFullScreen
-              aria-hidden="false"
-              tabIndex={0}
-            />
-          </div>
+                  {/* PHONE  */}
+                  <ContactCard
+                    Icon={MdPhoneInTalk}
+                    title={"Phone Number"}
+                    value={data?.garage?.phone || data?.garage?.owner?.phone}
+                  />
+
+                  {/* ADDRESS  */}
+                  <ContactCard
+                    Icon={TiLocationOutline}
+                    title={"Garage Address"}
+                    value={data?.garage?.address_line_1}
+                  />
+                </div>
+              </div>
+
+              {/* SERVICE  */}
+              <div className={`p-5`}>
+                <div className={`flex justify-center items-center`}>
+                  <TextTitleComponent text={"Services"} />
+                </div>
+
+                <motion.div
+                  variants={gridContainerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className={`grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-4 py-5`}
+                >
+                  {data?.garage?.services?.map((service, index) => (
+                    <GarageViewServiceCard key={index} service={service} />
+                  ))}
+                </motion.div>
+              </div>
+
+              {/* GALLERY IMAGE   */}
+              {data?.garage?.garage_galleries?.length > 0 ? (
+                <div className={`p-5`}>
+                  <div className={`flex justify-center items-center mb-5`}>
+                    <TextTitleComponent text={"Gallery"} />
+                  </div>
+                  <motion.div
+                    variants={gridContainerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5`}
+                  >
+                    {data?.garage?.garage_galleries?.map((image, index) => (
+                      <motion.div
+                        key={index}
+                        variants={gridItemVariants}
+                        exit={{ opacity: 0, y: 50 }}
+                        transition={{ stagger: 0.5 }}
+                        className={`group w-full h-[300px] rounded-lg overflow-hidden`}
+                      >
+                        <img
+                          src={getFullImageLink(image?.image)}
+                          className={`group-hover:scale-125 duration-200 object-cover w-full h-full`}
+                          alt={data?.garage?.name}
+                        />
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </div>
+              ) : (
+                ""
+              )}
+
+              {/* MAP  */}
+              <div className={`p-5`}>
+                <div className={`flex justify-center items-center mb-5`}>
+                  <TextTitleComponent text={"Location"} />
+                </div>
+                <div className={`w-full h-[400px]`}>
+                  <iframe
+                    style={{
+                      outline: "none",
+                    }}
+                    title="Garage location"
+                    src={`https://maps.google.com/maps?q=${data?.garage?.lat},${data?.garage?.long}&hl=es&z=14&output=embed`}
+                    width="100%"
+                    height="100%"
+                    frameBorder={0}
+                    allowFullScreen
+                    aria-hidden="false"
+                    tabIndex={0}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* PACKAGE  */}
+          {activeTab === "packages" && (
+            <CreateBookingWithPackageForm garageData={data} />
+          )}
         </div>
       </div>
     );

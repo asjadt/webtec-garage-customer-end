@@ -27,14 +27,7 @@ import ServiceDetailsForm from "../Steps/ServiceDetailsForm";
 import ServiceDetailsPackageForm from "../Steps/ServiceDetailsPackageForm";
 import SelectPackagePackageForm from "../Steps/SelectPackagePackageForm";
 
-export default function CreateBookingWithPackageForm() {
-  const { encID } = useParams();
-  const garage_id = decryptID(encID);
-  const { isPending: isGarageLoading, data: garageData } = useQuery({
-    queryKey: ["singleGarageData", garage_id],
-    queryFn: (params) => getSingleGarage(params.queryKey[1]),
-  });
-
+export default function CreateBookingWithPackageForm({ garageData }) {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
   const { loading } = useData();
@@ -130,11 +123,7 @@ export default function CreateBookingWithPackageForm() {
     }
   };
 
-  useEffect(() => {
-    console.log({ isGarageLoading, garageData });
-  }, [isGarageLoading]);
-
-  if (loading || isGarageLoading) {
+  if (loading) {
     return <CustomLoading />;
   } else {
     return (
@@ -166,11 +155,6 @@ export default function CreateBookingWithPackageForm() {
         <div
           className={`w-full border max-w-[600px] p-5 shadow-lg rounded-xl h-auto relative`}
         >
-          {/* GO BACK  */}
-          <div className={`absolute right-4 top-4`}>
-            <GoBackButtonSm />
-          </div>
-
           {/* TITLE  */}
           <div className={`flex justify-center w-full`}>
             <Headings
