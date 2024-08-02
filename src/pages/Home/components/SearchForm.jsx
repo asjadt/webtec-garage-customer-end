@@ -44,7 +44,7 @@ export default function SearchForm() {
   useEffect(() => {
     setIsMakeChangeLoading(true);
     setModelsForMultiSelect(
-      models.filter((model) =>
+      models?.filter((model) =>
         homeSearchData?.makes?.some(
           (make) => model?.automobile_make_id === make
         )
