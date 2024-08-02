@@ -24,6 +24,9 @@ import CustomLoading from "../../../components/CustomLoading";
 import { AiFillEye } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { handleApiError } from "../../../utils/apiErrorHandler";
+import { formatRole } from "../../../utils/formatRole";
+import ViewJob from "../MyJob/ViewJob";
+import ViewPendingJob from "./ViewPendingJob";
 
 export default function PendingJob() {
   // SEARCH PARAMS
@@ -63,6 +66,7 @@ export default function PendingJob() {
   const [booking, setBooking] = useState({});
 
   // HANDLE VIEW
+
   const handleView = (data) => {
     setBooking(data);
     setPopupOption({
@@ -83,7 +87,7 @@ export default function PendingJob() {
     {
       name: "Car Reg",
       attribute_name: "car_reg",
-      minWidth: 25,
+      minWidth: 35,
       show: true,
       isMainField: true,
     },
@@ -103,14 +107,15 @@ export default function PendingJob() {
     {
       name: "Garage Applied",
       attribute_name: "garage_applied",
-      minWidth: 20,
+      minWidth: 5,
       show: true,
+      align: "center",
     },
     {
       name: "Status",
       align: "center",
-      attribute_name: "status",
-      minWidth: 10,
+      attribute_name: "format_status",
+      minWidth: 20,
       show: true,
     },
   ]);
@@ -217,15 +222,15 @@ export default function PendingJob() {
           popupClasses={`w-[70vw]`}
           popupOption={popupOption}
           setPopupOption={setPopupOption}
-          // Component={
-          //   popupOption?.type === "viewBooking" && (
-          //     <ViewBooking
-          //       booking={booking}
-          //       popupOption={popupOption}
-          //       setPopupOption={setPopupOption}
-          //     />
-          //   )
-          // }
+          Component={
+            popupOption?.type === "viewPendingJob" && (
+              <ViewPendingJob
+                job={booking}
+                popupOption={popupOption}
+                setPopupOption={setPopupOption}
+              />
+            )
+          }
         />
         {/* ========IF MULTIPLE ID SELECTED ======== */}
         {selectedIds.length > 1 && (
@@ -324,15 +329,21 @@ export default function PendingJob() {
                 setPageNo={(data) => setFilters({ ...filters, page: data })}
                 // setPerPage={setPerPage}
                 perPage={filters?.perPage}
-                isLoading={isPending || isRefetching}
+                isLoading={isPending}
                 rows={data?.data?.map((d) => ({
                   ...d,
                   id: d?.id,
                   car_reg: d?.car_registration_no,
+                  job_start_date: moment(
+                    d?.job_start_date,
+                    "YYYY-MM-DD"
+                  ).format("DD-MM-YYYY"),
                   job_start_time: moment(d?.job_start_time, "HH:mm").format(
                     "hh:mm A"
                   ),
                   garage_applied: d?.job_bids?.length,
+
+                  format_status: formatRole(d?.status),
                 }))}
                 actions={actions}
                 cols={cols}

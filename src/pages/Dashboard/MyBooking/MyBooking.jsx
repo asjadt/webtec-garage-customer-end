@@ -5,7 +5,12 @@ import { AiFillEye } from "react-icons/ai";
 import { MdCancel, MdDelete, MdDeleteSweep } from "react-icons/md";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import { deleteClientBooking, getClientBooking } from "../../../Apis/auth";
+import {
+  changeBookingStatus,
+  changePassword,
+  deleteClientBooking,
+  getClientBooking,
+} from "../../../Apis/auth";
 import CustomDataSet from "../../../components/CustomDataSet";
 import CustomLoading from "../../../components/CustomLoading";
 import CustomPopup from "../../../components/CustomPopup";
@@ -13,10 +18,11 @@ import CustomTab from "../../../components/CustomTab";
 import Headings from "../../../components/Headings/Headings";
 import Pagination from "../../../components/Pagination";
 import Table from "../../../components/Table";
-import { handleApiError } from "../../../utils/apiErrorHandler";
 import ViewBooking from "./ViewBooking";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { IoIosCheckmarkCircle } from "react-icons/io";
+import { formatRole } from "../../../utils/formatRole";
+import { handleApiError } from "../../../utils/apiErrorHandler";
 export default function MyBooking() {
   // SEARCH PARAMS
   const [searchParams] = useSearchParams();
@@ -35,6 +41,26 @@ export default function MyBooking() {
     search: "",
     status: "",
   });
+
+  const [activeTab, setActiveTab] = useState("all");
+  const [tabs, setTabs] = useState([
+    { id: "all", title: "All" },
+    { id: "completed", title: "Completed" },
+    { id: "pending", title: "Pending" },
+  ]);
+
+  useEffect(() => {
+    setFilters({ ...filters, status: activeTab === "all" ? "" : activeTab });
+  }, [activeTab]);
+
+  const { isPending, error, data, refetch, isRefetching, fetchNextPage } =
+    useQuery({
+      queryKey: ["bookings", filters],
+      queryFn: ({ pageParam = 0 }) => getClientBooking(filters),
+      getNextPageParam: (lastPage, allPages) => {
+        return lastPage.nextPage ? lastPage.nextPage : undefined;
+      },
+    });
 
   // POPUP OPTIONS
   const [popupOption, setPopupOption] = useState({
@@ -65,6 +91,85 @@ export default function MyBooking() {
     });
   };
 
+  // HANDLE ACCEPT
+  const handleAccept = (data) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, accept it!",
+      customClass: {
+        title: "text-primary",
+        container: "",
+        popup: "bg-base-300 shadow-xl rounded-xl border border-primary",
+        icon: "text-red-500",
+        cancelButton: "bg-green-500",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsDeleteLoading(true);
+        changeBookingStatus({
+          id: data?.id,
+          status: "accepted",
+        })
+          .then((res) => {
+            setIsUpdated(Math.random());
+            setSelectedIds([]);
+            refetch();
+            Swal.fire({
+              title: "Accepted!",
+              text: "Booking has been accepted successfully.",
+              icon: "success",
+            });
+            setIsDeleteLoading(false);
+          })
+          .catch((error) => {
+            setIsDeleteLoading(false);
+            handleApiError(error, "#00121");
+          });
+      }
+    });
+  };
+  const handleReject = (data) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, reject it!",
+      customClass: {
+        title: "text-primary",
+        container: "",
+        popup: "bg-base-300 shadow-xl rounded-xl border border-primary",
+        icon: "text-red-500",
+        cancelButton: "bg-green-500",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsDeleteLoading(true);
+        changeBookingStatus({
+          id: data?.id,
+          status: "rejected_by_client",
+        })
+          .then((res) => {
+            setIsUpdated(Math.random());
+            setSelectedIds([]);
+            refetch();
+            Swal.fire({
+              title: "Rejected!",
+              text: "Booking has been rejected successfully.",
+              icon: "success",
+            });
+            setIsDeleteLoading(false);
+          })
+          .catch((error) => {
+            setIsDeleteLoading(false);
+            handleApiError(error, "#00121");
+          });
+      }
+    });
+  };
   // HANDLE DELETE
   const handleDelete = (id) => {
     deleteFunc(id?.id);
@@ -84,7 +189,7 @@ export default function MyBooking() {
 
     {
       name: "accept",
-      handler: handleDelete,
+      handler: handleAccept,
       Icon: IoIosCheckmarkCircle,
       colorClass: "text-red-600",
       backgroundColorClass: "bg-red-200",
@@ -107,7 +212,7 @@ export default function MyBooking() {
     },
     {
       name: "reject",
-      handler: handleDelete,
+      handler: handleReject,
       Icon: MdCancel,
       colorClass: "text-red-600",
       backgroundColorClass: "bg-red-200",
@@ -146,7 +251,7 @@ export default function MyBooking() {
     {
       name: "Garage",
       attribute_name: "garage",
-      minWidth: 10,
+      minWidth: 35,
       show: true,
     },
     {
@@ -160,43 +265,23 @@ export default function MyBooking() {
     {
       name: "Job Start Date",
       attribute_name: "job_start_date",
-      minWidth: 20,
+      minWidth: 10,
       show: true,
     },
     {
       name: "Job Start Time",
       attribute_name: "job_start_time",
-      minWidth: 20,
+      minWidth: 10,
       show: true,
     },
     {
       name: "Status",
       align: "center",
-      attribute_name: "status",
-      minWidth: 10,
+      attribute_name: "format_status",
+      minWidth: 20,
       show: true,
     },
   ]);
-
-  const [activeTab, setActiveTab] = useState("all");
-  const [tabs, setTabs] = useState([
-    { id: "all", title: "All" },
-    { id: "completed", title: "Completed" },
-    { id: "pending", title: "Pending" },
-  ]);
-
-  useEffect(() => {
-    setFilters({ ...filters, status: activeTab === "all" ? "" : activeTab });
-  }, [activeTab]);
-
-  const { isPending, error, data, refetch, isRefetching, fetchNextPage } =
-    useQuery({
-      queryKey: ["users", filters],
-      queryFn: ({ pageParam = 0 }) => getClientBooking(filters),
-      getNextPageParam: (lastPage, allPages) => {
-        return lastPage.nextPage ? lastPage.nextPage : undefined;
-      },
-    });
 
   // DELETE API
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
@@ -342,15 +427,20 @@ export default function MyBooking() {
                 setPageNo={(data) => setFilters({ ...filters, page: data })}
                 // setPerPage={setPerPage}
                 perPage={filters?.perPage}
-                isLoading={isPending || isRefetching}
+                isLoading={isPending}
                 rows={data?.data?.map((d) => ({
                   ...d,
                   id: d?.id,
                   garage: d?.garage?.name,
                   car_reg: d?.car_registration_no,
+                  job_start_date: moment(
+                    d?.job_start_date,
+                    "YYYY-MM-DD"
+                  ).format("DD-MM-YYYY"),
                   job_start_time: moment(d?.job_start_time, "HH:mm").format(
                     "hh:mm A"
                   ),
+                  format_status: formatRole(d?.status),
                 }))}
                 actions={actions}
                 cols={cols}

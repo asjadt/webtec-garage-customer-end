@@ -1,29 +1,19 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import CheckPermission from "../../../CheckPermission";
-import CustomPopup from "../../../components/CustomPopup";
-import { MdDelete, MdDeleteSweep } from "react-icons/md";
-import CustomDataSet from "../../../components/CustomDataSet";
-import CustomFilter from "../../../components/Filter/CustomFilter";
-import AppliedFilters from "../../../components/Filter/AppliedFilters";
-import SplitDescription from "../../../components/SplitDescription";
-import Pagination from "../../../components/Pagination";
-import moment from "moment";
-import { EMPLOYEE_DELETE, EMPLOYEE_VIEW } from "../../../constant/permissions";
-import Headings from "../../../components/Headings/Headings";
-import Table from "../../../components/Table";
-import CustomTab from "../../../components/CustomTab";
 import { useQuery } from "@tanstack/react-query";
-import {
-  deleteClientBooking,
-  getClientBooking,
-  getClientJobs,
-} from "../../../Apis/auth";
-import CustomLoading from "../../../components/CustomLoading";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
-import Swal from "sweetalert2";
-import { handleApiError } from "../../../utils/apiErrorHandler";
+import { MdDeleteSweep } from "react-icons/md";
+import { useSearchParams } from "react-router-dom";
+import { getClientJobs } from "../../../Apis/auth";
+import CustomDataSet from "../../../components/CustomDataSet";
+import CustomLoading from "../../../components/CustomLoading";
+import CustomPopup from "../../../components/CustomPopup";
+import CustomTab from "../../../components/CustomTab";
+import Headings from "../../../components/Headings/Headings";
+import Pagination from "../../../components/Pagination";
+import Table from "../../../components/Table";
 import ViewJob from "./ViewJob";
+import { FaStar } from "react-icons/fa";
 
 export default function MyJob() {
   // SEARCH PARAMS
@@ -73,13 +63,23 @@ export default function MyJob() {
     });
   };
 
-  // HANDLE DELETE
-  const handleDelete = (id) => {
-    deleteFunc(id?.id);
+  // HANDLE RATE
+  const handleRate = (data) => {
+    // deleteFunc(id?.id);
   };
 
   // ALL ACTION BUTTONS
   const [actions, setActions] = useState([
+    {
+      name: "rate",
+      handler: handleRate,
+      Icon: FaStar,
+      colorClass: "text-secondary",
+      backgroundColorClass: "bg-secondary-content",
+      permissions: [EMPLOYEE_UPDATE],
+      disabledOn: [],
+    },
+
     {
       name: "view",
       handler: handleView,
@@ -89,15 +89,7 @@ export default function MyJob() {
       disabledOn: [],
       permissions: true,
     },
-    // {
-    //   name: "edit",
-    //   handler: handleEdit,
-    //   Icon: RiEdit2Fill,
-    //   colorClass: "text-secondary",
-    //   backgroundColorClass: "bg-secondary-content",
-    //   permissions: [EMPLOYEE_UPDATE],
-    //   disabledOn: [],
-    // },
+
     // {
     //   name: "delete",
     //   handler: handleDelete,
@@ -319,7 +311,7 @@ export default function MyJob() {
                 setPageNo={(data) => setFilters({ ...filters, page: data })}
                 // setPerPage={setPerPage}
                 perPage={filters?.perPage}
-                isLoading={isPending || isRefetching}
+                isLoading={isPending}
                 rows={data?.data?.map((d) => ({
                   ...d,
                   id: d?.id,

@@ -44,7 +44,7 @@ export const menus = [
         show: JSON.parse(localStorage.getItem("user_data")),
       },
       {
-        title: "Applied Jobs",
+        title: "My Jobs",
         link: "/my-account/my-jobs",
         Icon: GoBriefcase,
         childrens: [],
