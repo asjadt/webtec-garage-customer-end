@@ -6,14 +6,15 @@ import CustomLoading from "../../components/CustomLoading";
 import Headings from "../../components/Headings/Headings";
 import { useData } from "../../context/DataContext";
 import { handleApiError } from "../../utils/apiErrorHandler";
-import ActionBar from "./components/ActionBar";
-import CreateAndUpdateJobForm from "./components/CreateAndUpdateJobForm";
-import GarageListComponent from "./components/GarageListComponent";
 import { useGeoLocationData } from "../../context/GeoLocationDataContext";
 import { getGaragesV2 } from "../../Apis/garage";
-import { IoMdClose } from "react-icons/io";
+import { IoIosArrowBack, IoMdClose } from "react-icons/io";
+import ActionBar from "../Garage/components/ActionBar";
+import GarageListComponent from "../Garage/components/GarageListComponent";
+import { searchKeywordFuelStation } from "../../Apis/fuelStation";
+import FuelStationListComponent from "./Components/FuelStationListComponent";
 
-export default function GarageList() {
+export default function FuelStationList() {
   const { llFromDistance, location } = useGeoLocationData();
   const {
     loading,
@@ -24,13 +25,14 @@ export default function GarageList() {
     models,
     totalGarageFound,
     setTotalGarageFound,
-    setGarageList,
+    setFuelStations,
   } = useData();
   const [locationDistanceRange, setLocationDistanceRange] = useState(3);
-  const [tab, setTab] = useState("garages"); // ACCEPT "garages" OR "job"
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   console.log({ isFilterOpen });
+  const { fuelStations } = useData();
+  console.log({ fuelStations });
 
   // HANDLE THE DISTANCE CHANGE
   const handleDistanceChange = () => {
@@ -591,38 +593,34 @@ export default function GarageList() {
         ? JSON.parse(localStorage.getItem("search_data"))
         : homeSearchData;
 
+      console.log({ filterData });
+
       setIsLoading(true);
       if (filterData) {
-        getGaragesV2({
+        searchKeywordFuelStation({
           perPage: filterData?.perPage,
+          page: filterData?.page,
           search_key: filterData?.search_key,
-          country_code: filterData?.country_code,
-          address: filterData?.address,
-          city: filterData?.city,
-          service_ids: filterData?.services,
-          sub_service_ids: filterData?.sub_services,
-          make_ids: filterData?.makes,
-          model_ids: filterData?.models,
 
+          address_line_1: filterData?.address,
+          country: filterData?.country_code,
+          city: filterData?.city,
+
+          active_option_ids: [],
           start_lat: filterData?.start_lat,
           end_lat: filterData?.end_lat,
           start_long: filterData?.start_long,
           end_long: filterData?.end_long,
-
-          wifi_available: filterData?.wifi_available,
-          is_mobile_garage: filterData?.is_mobile_garage,
-          page: filterData?.page,
-          date_time: filterData?.date_time,
+          time: filterData?.date_time,
         })
           .then((res) => {
+            console.log({ res });
             if (res?.data?.data?.length === 0) {
               setTotalGarageFound(0);
-              setGarageList([]);
-              setTab("job");
+              setFuelStations([]);
             } else {
-              setTotalGarageFound(5);
-              setGarageList(res?.data?.data);
-              setTab("garage");
+              setTotalGarageFound(res?.data?.data?.length);
+              setFuelStations(res?.data?.data);
             }
             setIsLoading(false);
           })
@@ -681,67 +679,68 @@ export default function GarageList() {
               className={`sticky z-20 bg-base-300 top-0 right-0 w-full px-5 pt-5 pb-2 shadow-md`}
             >
               {/* ACTIONS  */}
-              <ActionBar
-                tab={tab}
-                setTab={setTab}
-                isFilterOpen={isFilterOpen}
-                setIsFilterOpen={setIsFilterOpen}
-              />
+              <button
+                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                className={`${
+                  isFilterOpen ? "btn-outline" : ""
+                } btn-primary btn btn-sm mb-2`}
+              >
+                {isFilterOpen ? (
+                  <IoMdClose size={20} />
+                ) : (
+                  <IoIosArrowBack className={`rotate-180`} size={20} />
+                )}
+                Filter
+              </button>
 
-              {tab === "garage" && (
-                <>
-                  {/* SEARCH BAR  */}
-                  <div className={`flex items-center justify-between`}>
-                    <div
-                      data-auto={`search-container-home`}
-                      className={`input flex input-primary py-1 pr-1 pl-5 border outline-none focus-visible:outline-none focus-within:outline-none bg-base-300 w-full h-[2.58rem] rounded-lg text-primary`}
-                    >
-                      <input
-                        onChange={(e) => {
-                          setSearchQuery(e.target.value);
-                        }}
-                        data-auto={`searchInput-home`}
-                        type="text"
-                        placeholder="Search Here..."
-                        className={`w-full bg-transparent outline-none focus-visible:outline-none focus-within:outline-none focus:outline-none`}
-                      />
-                      <button
-                        onClick={() => {
-                          setHomeSearchData((prev) => ({
-                            ...prev,
-                            search_key: searchQuery,
-                          }));
-                        }}
-                        data-auto={`searchButton-home`}
-                        className={`btn  btn-sm  h-full btn-primary w-24 sm:w-24`}
-                      >
-                        Search
-                      </button>
-                    </div>
-                  </div>
-                  <p
-                    data-auto={`totalRestaurant-home`}
-                    className={`font-bold pt-2`}
+              <>
+                {/* SEARCH BAR  */}
+                <div className={`flex items-center justify-between`}>
+                  <div
+                    data-auto={`search-container-home`}
+                    className={`input flex input-primary py-1 pr-1 pl-5 border outline-none focus-visible:outline-none focus-within:outline-none bg-base-300 w-full h-[2.58rem] rounded-lg text-primary`}
                   >
-                    {totalGarageFound}{" "}
-                    {totalGarageFound > 1 ? "Garages" : "Garage"} were found
-                  </p>
-                </>
-              )}
+                    <input
+                      onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                      }}
+                      data-auto={`searchInput-home`}
+                      type="text"
+                      placeholder="Search Here..."
+                      className={`w-full bg-transparent outline-none focus-visible:outline-none focus-within:outline-none focus:outline-none`}
+                    />
+                    <button
+                      onClick={() => {
+                        setHomeSearchData((prev) => ({
+                          ...prev,
+                          search_key: searchQuery,
+                        }));
+                      }}
+                      data-auto={`searchButton-home`}
+                      className={`btn  btn-sm  h-full btn-primary w-24 sm:w-24`}
+                    >
+                      Search
+                    </button>
+                  </div>
+                </div>
+                <p
+                  data-auto={`totalRestaurant-home`}
+                  className={`font-bold pt-2`}
+                >
+                  {totalGarageFound}{" "}
+                  {totalGarageFound > 1 ? "Fuel Stations" : "Fuel Station"} were
+                  found
+                </p>
+              </>
             </div>
 
             {/* MAIN SECTION  */}
-            <div
-              className={`${
-                tab === "garage" ? "pt-5 px-5 " : ""
-              }  pb-5 scrollbar  overflow-y-auto`}
-            >
+            <div className={`pt-5 px-5 pb-5 scrollbar  overflow-y-auto`}>
               {isLoading ? (
                 <CustomLoading h="h-[300px]" />
               ) : (
                 <div>
-                  {tab === "garage" && <GarageListComponent />}
-                  {tab === "job" && <CreateAndUpdateJobForm />}
+                  <FuelStationListComponent />
                 </div>
               )}
             </div>

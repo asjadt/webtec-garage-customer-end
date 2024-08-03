@@ -20,6 +20,7 @@ import PendingJob from "./pages/Dashboard/PendingJob/PendingJob";
 import Profile from "./pages/Dashboard/Profile/Profile";
 import GarageBooking from "./pages/Garage/GarageBooking";
 import GarageBookingWIthPackage from "./pages/Garage/GarageBookingWIthPackage";
+import FuelStation from "./pages/FuelStation/FuelStation";
 
 const App = () => (
   <Router>
@@ -43,7 +44,7 @@ const App = () => (
         />
 
         {/* FUEL STATION  */}
-        <Route path="fuel-station" element={<Home />} />
+        <Route path="fuel-station" element={<FuelStation />} />
         <Route path="view-fuel-station-details/:encID" element={<Home />} />
 
         {/* AUTH  */}

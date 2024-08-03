@@ -143,17 +143,17 @@ export default function GarageCard({ garage }) {
         {/* ACTION  */}
         <div className={`relative`}>
           <div
-            className={`grid grid-cols-1 sm:grid-cols-3 gap-[5px] pt-2 right-0`}
+            className={`grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-[5px] pt-2 right-0`}
           >
             <button
               onClick={() => navigate(`/view-garage/${encryptID(id)}/details`)}
-              className={`btn btn-primary btn-xs md:btn-sm w-full`}
+              className={`btn btn-primary btn-sm w-full`}
             >
               View Details
             </button>
             <button
               onClick={() => navigate(`/view-garage/${encryptID(id)}/booking`)}
-              className={`btn btn-primary btn-xs md:btn-sm w-full`}
+              className={`btn btn-primary btn-sm w-full`}
             >
               Book Now
             </button>
@@ -162,7 +162,7 @@ export default function GarageCard({ garage }) {
                 onClick={() =>
                   navigate(`/view-garage/${encryptID(id)}/packages`)
                 }
-                className={`btn btn-primary btn-xs md:btn-sm w-full`}
+                className={`btn btn-primary btn-sm w-full`}
               >
                 View Offers
               </button>
