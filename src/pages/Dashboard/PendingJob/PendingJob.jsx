@@ -342,7 +342,6 @@ export default function PendingJob() {
                     "hh:mm A"
                   ),
                   garage_applied: d?.job_bids?.length,
-
                   format_status: formatRole(d?.status),
                 }))}
                 actions={actions}

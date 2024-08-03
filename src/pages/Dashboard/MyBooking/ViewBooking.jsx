@@ -1,5 +1,6 @@
 import moment from "moment";
 import React from "react";
+import { formatRole } from "../../../utils/formatRole";
 
 const ViewBooking = ({ popupOption, setPopupOption, booking }) => {
   console.log({ booking });
@@ -7,11 +8,14 @@ const ViewBooking = ({ popupOption, setPopupOption, booking }) => {
     <div className={`my-10 flex flex-col gap-4`}>
       <div className={`flex items-center gap-1`}>
         <h2 className={`font-bold`}>Garage Name:</h2>
-        <p>{booking?.garage}</p>
+        <p>{booking?.garage?.name}</p>
       </div>
       <div className={`flex items-center gap-1`}>
         <h2 className={`font-bold`}>Booking Price:</h2>
-        <p>&#8364; {booking?.price}</p>
+        <p>
+          <span className={`text-primary`}> {booking?.garage?.currency} </span>{" "}
+          {booking?.price}
+        </p>
       </div>
       <div className={`flex items-center gap-1`}>
         <h2 className={`font-bold`}>Services:</h2>
@@ -39,7 +43,7 @@ const ViewBooking = ({ popupOption, setPopupOption, booking }) => {
       </div>
       <div className={`flex items-center gap-1`}>
         <h2 className={`font-bold`}>Garage Location:</h2>
-        <p>{booking?.garage}</p>
+        <p>{booking?.garage?.address_line_1}</p>
       </div>
       <div className={`flex items-center gap-1`}>
         <h2 className={`font-bold`}>Car Make:</h2>
@@ -47,7 +51,7 @@ const ViewBooking = ({ popupOption, setPopupOption, booking }) => {
       </div>
       <div className={`flex items-center gap-1`}>
         <h2 className={`font-bold`}>Extra Notes:</h2>
-        <p>{booking?.garage}</p>
+        <p>{booking?.additional_information}</p>
       </div>
       <div className={`flex items-center gap-1`}>
         <h2 className={`font-bold`}>Job Start Date:</h2>
@@ -55,7 +59,7 @@ const ViewBooking = ({ popupOption, setPopupOption, booking }) => {
       </div>
       <div className={`flex items-center gap-1`}>
         <h2 className={`font-bold`}>Status:</h2>
-        <p>{booking?.status}</p>
+        <p>{booking?.format_status}</p>
       </div>
       <div className={`flex items-center gap-1`}>
         <h2 className={`font-bold`}>Coupon Discount:</h2>

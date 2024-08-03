@@ -26,6 +26,7 @@ export default function Table({
   tableHeaderClass = "bg-base-100",
   col1Width = "w-[30%]",
   col2Width = "w-[70%]",
+  smGrid = "sm:grid-cols-2",
 }) {
   const [allChecked, setAllChecked] = useState(false);
 
@@ -455,7 +456,7 @@ export default function Table({
           rows?.length > 0 ? (
             <div
               data-cy={"mobile_view_rows_table"}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-0 bg-base-200 "
+              className={`grid grid-cols-1 ${smGrid} gap-5 md:gap-0 bg-base-200 `}
             >
               {rows?.map((data, i) => (
                 <div

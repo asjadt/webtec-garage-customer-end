@@ -56,7 +56,10 @@ const ViewJob = ({ popupOption, setPopupOption, job }) => {
       </div>
       <div className={`flex items-center gap-1`}>
         <h2 className={`font-bold`}>Booking Price::</h2>
-        <p>&#8364; {job?.final_price}</p>
+        <p>
+          <span className={`text-primary`}> {job?.garage?.currency} </span>{" "}
+          {job?.final_price}
+        </p>
       </div>
       <div className={`flex items-center gap-1`}>
         <h2 className={`font-bold`}>Car Make:</h2>

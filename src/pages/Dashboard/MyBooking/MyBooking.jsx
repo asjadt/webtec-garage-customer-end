@@ -250,7 +250,7 @@ export default function MyBooking() {
   const [cols, setCols] = useState([
     {
       name: "Garage",
-      attribute_name: "garage",
+      attribute_name: "garage_name",
       minWidth: 35,
       show: true,
     },
@@ -431,7 +431,7 @@ export default function MyBooking() {
                 rows={data?.data?.map((d) => ({
                   ...d,
                   id: d?.id,
-                  garage: d?.garage?.name,
+                  garage_name: d?.garage?.name,
                   car_reg: d?.car_registration_no,
                   job_start_date: moment(
                     d?.job_start_date,

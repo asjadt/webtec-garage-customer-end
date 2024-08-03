@@ -76,7 +76,7 @@ export default function MyJob() {
       Icon: FaStar,
       colorClass: "text-secondary",
       backgroundColorClass: "bg-secondary-content",
-      permissions: [EMPLOYEE_UPDATE],
+      permissions: true,
       disabledOn: [],
     },
 
