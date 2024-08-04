@@ -162,12 +162,14 @@ const ViewPendingJob = ({ popupOption, setPopupOption, job }) => {
     <>
       <div className={`flex justify-center mt-7`}>
         <CustomTab
+          layoutId={"pending-jobs-tabs"}
           tabs={tabs}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           gridCol="grid-cols-2"
         />
       </div>
+
       {/* JOB DETAILS  */}
       {activeTab === "job" && (
         <div className={`my-10 flex flex-col gap-4`}>

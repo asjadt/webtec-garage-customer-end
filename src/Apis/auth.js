@@ -67,12 +67,13 @@ export const getClientBooking = async ({
   search = "", // SEARCH QUERY
   page = 1, // PAGE NUMBER
   status = "", // ACCEPT "completed" / "pending"
+  id = "",
 }) => {
   return await axios
     .get(
       `v1.0/client/bookings/${perPage}?search_key=${search}&page=${page}&status=${
         status !== undefined ? status : ""
-      }`,
+      }&id=${id}`,
       getApiConfig()
     )
     .then((res) => {
@@ -89,12 +90,13 @@ export const getClientPreBooking = async ({
   search = "", // SEARCH QUERY
   page = 1, // PAGE NUMBER
   status = "", // ACCEPT "completed" / "pending"
+  id = "",
 }) => {
   return await axios
     .get(
       `v1.0/client/pre-bookings/${perPage}?search_key=${search}&page=${page}&status=${
         status !== undefined ? status : ""
-      }`,
+      }&id=${id}`,
       getApiConfig()
     )
     .then((res) => {
@@ -111,10 +113,11 @@ export const getClientJobs = async ({
   search = "", // SEARCH QUERY
   page = 1, // PAGE NUMBER
   status = "", // ACCEPT "completed" / "pending"
+  id = "",
 }) => {
   return await axios
     .get(
-      `v1.0/client/jobs/${perPage}?search_key=${search}&page=${page}&status=${status}`,
+      `v1.0/client/jobs/${perPage}?search_key=${search}&page=${page}&status=${status}&id=${id}`,
       getApiConfig()
     )
     .then((res) => {

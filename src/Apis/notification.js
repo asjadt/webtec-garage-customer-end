@@ -26,9 +26,13 @@ export const deleteNotification = async (id) => {
     });
 };
 
-export const updateNotificationStatus = async ({notification_ids}) => {
+export const updateNotificationStatus = async ({ notification_ids }) => {
   return await axios
-    .put(`/v1.0/notifications/change-status`, notification_ids, getApiConfig())
+    .put(
+      `/v1.0/notifications/change-status`,
+      { notification_ids },
+      getApiConfig()
+    )
     .then((response) => {
       return response;
     })

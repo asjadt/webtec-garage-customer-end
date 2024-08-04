@@ -6,6 +6,7 @@ const CustomTab = ({
   activeTab,
   setActiveTab,
   gridCol = "grid-cols-1",
+  layoutId = "active-order-pil",
 }) => {
   return (
     <div data-auto={`orderType-container-mainSection`} className={``}>
@@ -24,7 +25,7 @@ const CustomTab = ({
             >
               {activeTab === ot?.id && (
                 <motion.div
-                  layoutId="active-order-pil"
+                  layoutId={layoutId}
                   className={`rounded-full bg-primary  absolute inset-0`}
                 />
               )}

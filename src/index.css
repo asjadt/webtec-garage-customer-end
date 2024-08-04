@@ -252,10 +252,12 @@ input[type="number"] {
   position: absolute;
   top: -10px;
   border-radius: 5px;
-  /* background-image: url("/assets/popupheader.svg"); */
   background-size: cover;
   background-repeat: no-repeat;
 }
+/* .popup-content {
+  margin: 100px auto !important;
+} */
 .node__root > circle {
   @apply fill-primary-content;
   @apply stroke-primary;

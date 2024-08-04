@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FiX } from "react-icons/fi";
 import Popup from "reactjs-popup";
 import { useNav } from "../context/NavContext";
@@ -11,8 +11,22 @@ export default function CustomPopup({
   closeButtonHidden = false,
   setIsOpen,
 }) {
-  const { setIsNavOpen } = useNav();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
 
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const customPopupStyle = isMobile
+    ? {
+        margin: "0px",
+        width: "100%",
+      }
+    : {
+        margin: "100px auto",
+      };
   return (
     <Popup
       open={popupOption?.open}
@@ -22,10 +36,11 @@ export default function CustomPopup({
         backdropFilter: "blur(2px)",
       }}
       closeOnDocumentClick={popupOption?.closeOnDocumentClick}
-      className="relative overflow-hidden w-1/2 rounded-xl pop"
+      className="relative overflow-hidden w-1/2 rounded-xl pop "
+      contentStyle={customPopupStyle}
     >
       <div
-        className={`relative bg-base-300 shadow-xl rounded-xl border-primary-content border-2 overflow-hidden w-[95vw] sm:w-[70vw] md:w-[70vw] lg:w-[50vw] ${popupClasses} max-h-[90vh] `}
+        className={`relative bg-base-300 shadow-xl sm:rounded-xl border-primary-content sm:border-2 overflow-hidden w-full  sm:w-[70vw] md:w-[70vw] lg:w-[50vw] ${popupClasses} max-h-screen h-screen sm:h-auto sm:min-h-auto md:max-h-[90vh] `}
       >
         {!closeButtonHidden ? (
           <button

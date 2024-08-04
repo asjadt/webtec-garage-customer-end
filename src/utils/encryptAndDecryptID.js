@@ -18,5 +18,5 @@ export function decryptID(encryptedString) {
   const idString = encryptedString.substring(10, encryptedString.length - 10);
 
   // Return the ID as a number
-  return Number(idString);
+  return idString ? Number(idString) : "";
 }

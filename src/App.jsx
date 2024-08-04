@@ -18,6 +18,7 @@ import MyJob from "./pages/Dashboard/MyJob/MyJob";
 import Notification from "./pages/Dashboard/Notification/Notification";
 import PendingJob from "./pages/Dashboard/PendingJob/PendingJob";
 import Profile from "./pages/Dashboard/Profile/Profile";
+import Rating from "./pages/Dashboard/Ratting/Rating";
 import GarageBooking from "./pages/Garage/GarageBooking";
 import GarageBookingWIthPackage from "./pages/Garage/GarageBookingWIthPackage";
 import FuelStation from "./pages/FuelStation/FuelStation";
@@ -71,6 +72,9 @@ const App = () => (
 
         {/* MY PENDING JOBS  */}
         <Route path="pending-jobs" element={<PendingJob />} />
+
+        {/* RATTING  */}
+        <Route path="ratting/:encGarageID/:encJobID" element={<Rating />} />
 
         {/* CHANGE PASSWORD  */}
         <Route path="change-password" element={<ChangePassword />} />

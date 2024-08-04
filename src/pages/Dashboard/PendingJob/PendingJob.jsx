@@ -27,10 +27,12 @@ import { handleApiError } from "../../../utils/apiErrorHandler";
 import { formatRole } from "../../../utils/formatRole";
 import ViewJob from "../MyJob/ViewJob";
 import ViewPendingJob from "./ViewPendingJob";
+import { decryptID } from "../../../utils/encryptAndDecryptID";
 
 export default function PendingJob() {
   // SEARCH PARAMS
   const [searchParams] = useSearchParams();
+  const id = decryptID(searchParams.get("id") || "");
 
   // LOADINGS
   const [isPendingDelete, setIsPendingDelete] = useState(true);
@@ -45,6 +47,8 @@ export default function PendingJob() {
 
     search: "",
     status: "",
+
+    id: id,
   });
 
   // POPUP OPTIONS
@@ -212,14 +216,13 @@ export default function PendingJob() {
   /***********************************************************************
    *                    UI RENDERING
    ***********************************************************************/
-  console.log({ data });
 
   return (
     <div className="h-full my-10 " data-auto={"container_admin"}>
       <div className="relative h-full" data-auto="sub_container_admin">
         {/* POPUP  */}
         <CustomPopup
-          popupClasses={`w-[70vw]`}
+          popupClasses={`w-full md:w-[70vw]`}
           popupOption={popupOption}
           setPopupOption={setPopupOption}
           Component={
@@ -247,15 +250,6 @@ export default function PendingJob() {
         )}
         {/* ========================================  */}
 
-        {/* ======= TAB AREA =========  */}
-        <div className={`flex justify-center`}>
-          <CustomTab
-            tabs={tabs}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            gridCol="grid-cols-3"
-          />
-        </div>
         {/* HEADING AND TABLE */}
         {isPending ? (
           <CustomLoading />
@@ -270,7 +264,7 @@ export default function PendingJob() {
             >
               <div
                 id="header-content"
-                className="flex flex-col gap-2 w-full text-left"
+                className="flex flex-col justify-center items-center gap-2 w-full text-left"
               >
                 <div className={`flex items-center gap-5`}>
                   <Headings level={1}>
@@ -285,6 +279,15 @@ export default function PendingJob() {
                   Total {data?.total}{" "}
                   {data?.total > 1 ? "Pending Jobs" : "Pending Job"} Found
                 </h3>
+                {/* ======= TAB AREA =========  */}
+                <div className={`flex justify-center`}>
+                  <CustomTab
+                    tabs={tabs}
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                    gridCol="grid-cols-3"
+                  />
+                </div>
               </div>
 
               {/* <CreateAndExportSection
@@ -342,6 +345,7 @@ export default function PendingJob() {
                     "hh:mm A"
                   ),
                   garage_applied: d?.job_bids?.length,
+
                   format_status: formatRole(d?.status),
                 }))}
                 actions={actions}

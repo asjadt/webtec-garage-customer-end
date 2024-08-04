@@ -37,6 +37,20 @@ export const menus = [
     Icon: FiPieChart,
     childrens: [
       {
+        title: "My Account",
+        link: "/Profile",
+        Icon: MdAccountCircle,
+        childrens: [],
+        show: JSON.parse(localStorage.getItem("user_data")),
+      },
+      {
+        title: "Notification",
+        link: "/my-account/all-notifications",
+        Icon: IoBookmarkOutline,
+        childrens: [],
+        show: JSON.parse(localStorage.getItem("user_data")),
+      },
+      {
         title: "Bookings",
         link: "/my-account/my-bookings",
         Icon: IoBookmarkOutline,
@@ -54,13 +68,6 @@ export const menus = [
         title: "Pending Jobs",
         link: "/my-account/pending-jobs",
         Icon: LuFileClock,
-        childrens: [],
-        show: JSON.parse(localStorage.getItem("user_data")),
-      },
-      {
-        title: "My Account",
-        link: "/Profile",
-        Icon: MdAccountCircle,
         childrens: [],
         show: JSON.parse(localStorage.getItem("user_data")),
       },

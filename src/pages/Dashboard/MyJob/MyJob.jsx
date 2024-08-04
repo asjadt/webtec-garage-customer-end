@@ -3,7 +3,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { MdDeleteSweep } from "react-icons/md";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { getClientJobs } from "../../../Apis/auth";
 import CustomDataSet from "../../../components/CustomDataSet";
 import CustomLoading from "../../../components/CustomLoading";
@@ -14,10 +14,13 @@ import Pagination from "../../../components/Pagination";
 import Table from "../../../components/Table";
 import ViewJob from "./ViewJob";
 import { FaStar } from "react-icons/fa";
+import { decryptID, encryptID } from "../../../utils/encryptAndDecryptID";
 
 export default function MyJob() {
+  const navigate = useNavigate();
   // SEARCH PARAMS
   const [searchParams] = useSearchParams();
+  const id = decryptID(searchParams.get("id") || "");
 
   // LOADINGS
   const [isPendingDelete, setIsPendingDelete] = useState(true);
@@ -32,6 +35,8 @@ export default function MyJob() {
 
     search: "",
     status: "",
+
+    id: id,
   });
 
   // POPUP OPTIONS
@@ -66,6 +71,9 @@ export default function MyJob() {
   // HANDLE RATE
   const handleRate = (data) => {
     // deleteFunc(id?.id);
+    navigate(
+      `/my-account/ratting/${encryptID(data.garage_id)}/${encryptID(data.id)}`
+    );
   };
 
   // ALL ACTION BUTTONS
@@ -77,7 +85,17 @@ export default function MyJob() {
       colorClass: "text-secondary",
       backgroundColorClass: "bg-secondary-content",
       permissions: true,
-      disabledOn: [],
+      disabledOn: [
+        {
+          attributeName: "status",
+          value: "pending",
+        },
+
+        {
+          attributeName: "status",
+          value: "rejected_by_client",
+        },
+      ],
     },
 
     {
@@ -89,17 +107,6 @@ export default function MyJob() {
       disabledOn: [],
       permissions: true,
     },
-
-    // {
-    //   name: "delete",
-    //   handler: handleDelete,
-    //   Icon: MdDelete,
-    //   colorClass: "text-red-600",
-    //   backgroundColorClass: "bg-red-200",
-    //   isLoading: isPendingDelete,
-    //   disabledOn: [],
-    //   permissions: true,
-    // },
   ]);
 
   // ALL DISPLAYED COLUMNS IN TABLE
@@ -194,7 +201,6 @@ export default function MyJob() {
   /***********************************************************************
    *                    UI RENDERING
    ***********************************************************************/
-  console.log({ data });
 
   return (
     <div className="h-full my-10 " data-auto={"container_admin"}>
@@ -229,15 +235,6 @@ export default function MyJob() {
         )}
         {/* ========================================  */}
 
-        {/* ======= TAB AREA =========  */}
-        <div className={`flex justify-center`}>
-          <CustomTab
-            tabs={tabs}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            gridCol="grid-cols-3"
-          />
-        </div>
         {/* HEADING AND TABLE */}
         {isPending ? (
           <CustomLoading />
@@ -252,7 +249,7 @@ export default function MyJob() {
             >
               <div
                 id="header-content"
-                className="flex flex-col gap-2 w-full text-left"
+                className="flex flex-col justify-center items-center gap-2 w-full text-left"
               >
                 <div className={`flex items-center gap-5`}>
                   <Headings level={1}>
@@ -267,6 +264,15 @@ export default function MyJob() {
                   Total {data?.total}{" "}
                   {data?.total > 1 ? "Applied Jobs" : "Applied Job"} Found
                 </h3>
+                {/* ======= TAB AREA =========  */}
+                <div className={`flex justify-center`}>
+                  <CustomTab
+                    tabs={tabs}
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                    gridCol="grid-cols-3"
+                  />
+                </div>
               </div>
 
               {/* <CreateAndExportSection

@@ -23,10 +23,12 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { formatRole } from "../../../utils/formatRole";
 import { handleApiError } from "../../../utils/apiErrorHandler";
+import { decryptID } from "../../../utils/encryptAndDecryptID";
 export default function MyBooking() {
   // SEARCH PARAMS
   const [searchParams] = useSearchParams();
 
+  const id = decryptID(searchParams.get("id") || "");
   // LOADINGS
   const [isPendingDelete, setIsPendingDelete] = useState(true);
 
@@ -40,6 +42,8 @@ export default function MyBooking() {
 
     search: "",
     status: "",
+
+    id: id,
   });
 
   const [activeTab, setActiveTab] = useState("all");
@@ -325,7 +329,6 @@ export default function MyBooking() {
   /***********************************************************************
    *                    UI RENDERING
    ***********************************************************************/
-  console.log({ data });
 
   return (
     <div className="h-full my-10 " data-auto={"container_admin"}>
@@ -360,22 +363,11 @@ export default function MyBooking() {
         )}
         {/* ========================================  */}
 
-        {/* ======= TAB AREA =========  */}
-        <div className={`flex justify-center`}>
-          <CustomTab
-            tabs={tabs}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            gridCol="grid-cols-3"
-          />
-        </div>
         {/* HEADING AND TABLE */}
         {isPending ? (
           <CustomLoading />
         ) : (
           <div>
-            {/* ========================================  */}
-
             {/* ======= HEADING AND FILTERING AREA =========  */}
             <div
               id="header"
@@ -383,7 +375,7 @@ export default function MyBooking() {
             >
               <div
                 id="header-content"
-                className="flex flex-col gap-2 w-full text-left"
+                className="flex flex-col justify-center items-center gap-2 w-full text-left"
               >
                 <div className={`flex items-center gap-5`}>
                   <Headings level={1}>
@@ -398,19 +390,17 @@ export default function MyBooking() {
                   Total {data?.total} {data?.total > 1 ? "Bookings" : "Booking"}{" "}
                   Found
                 </h3>
+                {/* ======= TAB AREA =========  */}
+                <div className={`flex justify-center`}>
+                  <CustomTab
+                    tabs={tabs}
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                    gridCol="grid-cols-3"
+                  />
+                </div>
               </div>
-
-              {/* <CreateAndExportSection
-              exportBtn={true}
-              createPermission={permissions.includes(EMPLOYEE_CREATE)}
-              createHandler={handleCreate}
-              pdfHandler={handleExport}
-              csvHandler={handleExport}
-              dataAuto="admin"
-            /> */}
             </div>
-
-            {/* ================================================  */}
 
             {/* =========== TABLE AREA ============  */}
             <div className="pt-5 relative">
