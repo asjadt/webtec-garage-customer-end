@@ -139,6 +139,7 @@ export default function CustomFieldV2({
           taskField ? "focus:input-bordered font-bold" : "input-bordered"
         } ${fieldClassName}`}
       />
+      {console.log({ error })}
       {/* VALIDATION MESSAGE  */}
       {(error || regexError) && (
         <label data-cy={"error_message_custom_field_v2"} className="label ">

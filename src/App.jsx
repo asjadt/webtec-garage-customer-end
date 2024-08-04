@@ -17,11 +17,11 @@ import MyBooking from "./pages/Dashboard/MyBooking/MyBooking";
 import MyJob from "./pages/Dashboard/MyJob/MyJob";
 import Notification from "./pages/Dashboard/Notification/Notification";
 import PendingJob from "./pages/Dashboard/PendingJob/PendingJob";
-import Profile from "./pages/Dashboard/Profile/Profile";
 import Rating from "./pages/Dashboard/Ratting/Rating";
 import GarageBooking from "./pages/Garage/GarageBooking";
 import GarageBookingWIthPackage from "./pages/Garage/GarageBookingWIthPackage";
 import FuelStation from "./pages/FuelStation/FuelStation";
+import Profile from "./pages/Profile/Profile";
 
 const App = () => (
   <Router>

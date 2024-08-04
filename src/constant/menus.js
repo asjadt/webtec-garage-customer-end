@@ -38,7 +38,7 @@ export const menus = [
     childrens: [
       {
         title: "My Account",
-        link: "/Profile",
+        link: "/my-account/Profile",
         Icon: MdAccountCircle,
         childrens: [],
         show: JSON.parse(localStorage.getItem("user_data")),
