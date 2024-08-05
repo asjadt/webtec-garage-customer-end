@@ -13,6 +13,7 @@ import ActionBar from "../Garage/components/ActionBar";
 import GarageListComponent from "../Garage/components/GarageListComponent";
 import { searchKeywordFuelStation } from "../../Apis/fuelStation";
 import FuelStationListComponent from "./Components/FuelStationListComponent";
+import SearchField from "../../components/InputFields/SearchField";
 
 export default function FuelStationList() {
   const { llFromDistance, location } = useGeoLocationData();
@@ -353,145 +354,12 @@ export default function FuelStationList() {
           </div>
         ),
         Content: (
-          <div
-            className={`flex  flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
-          >
-            {subServices?.map((service, index) => (
-              <label
-                key={index}
-                htmlFor={`${service}-${index}`}
-                className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
-              >
-                <input
-                  type="checkbox"
-                  id={`${service}-${index}`}
-                  checked={homeSearchData?.sub_services?.some(
-                    (s) => s === service.id
-                  )}
-                  className={`checkbox-primary checkbox checkbox-sm`}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setHomeSearchData({
-                        ...homeSearchData,
-                        sub_services: [
-                          ...homeSearchData.sub_services,
-                          service.id,
-                        ],
-                      });
-                    } else {
-                      setHomeSearchData({
-                        ...homeSearchData,
-                        sub_services: homeSearchData.sub_services.filter(
-                          (sub) => sub !== service.id
-                        ),
-                      });
-                    }
-                  }}
-                />{" "}
-                {service?.name}
-              </label>
-            ))}
+          <div className={`py-5`}>
+            <SearchField contentWidth={"w-[90%]"} />
           </div>
         ),
       },
-      // MAKES
-      {
-        title: (
-          <div className={`flex justify-between items-center gap-x-3`}>
-            <span>Makes</span>
-            <span
-              className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
-            >
-              {homeSearchData?.makes?.length}
-            </span>
-          </div>
-        ),
-        Content: (
-          <div
-            className={`flex flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
-          >
-            {makes?.map((make, index) => (
-              <label
-                key={index}
-                htmlFor={`${make}-${index}`}
-                className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
-              >
-                <input
-                  type="checkbox"
-                  id={`${make}-${index}`}
-                  checked={homeSearchData?.makes?.some((s) => s === make.id)}
-                  className={`checkbox-primary checkbox checkbox-sm`}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setHomeSearchData({
-                        ...homeSearchData,
-                        makes: [...homeSearchData.makes, make.id],
-                      });
-                    } else {
-                      setHomeSearchData({
-                        ...homeSearchData,
-                        makes: homeSearchData.makes.filter(
-                          (sub) => sub !== make.id
-                        ),
-                      });
-                    }
-                  }}
-                />{" "}
-                {make?.name}
-              </label>
-            ))}
-          </div>
-        ),
-      },
-      // MODELS
-      {
-        title: (
-          <div className={`flex justify-between items-center gap-x-3`}>
-            <span>Models</span>
-            <span
-              className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
-            >
-              {homeSearchData?.models?.length}
-            </span>
-          </div>
-        ),
-        Content: (
-          <div
-            className={`flex flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
-          >
-            {models?.map((model, index) => (
-              <label
-                key={index}
-                htmlFor={`${model}-${index}`}
-                className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
-              >
-                <input
-                  type="checkbox"
-                  id={`${model}-${index}`}
-                  checked={homeSearchData?.models?.some((s) => s === model.id)}
-                  className={`checkbox-primary checkbox checkbox-sm`}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setHomeSearchData({
-                        ...homeSearchData,
-                        models: [...homeSearchData.models, model.id],
-                      });
-                    } else {
-                      setHomeSearchData({
-                        ...homeSearchData,
-                        models: homeSearchData.models.filter(
-                          (sub) => sub !== model.id
-                        ),
-                      });
-                    }
-                  }}
-                />{" "}
-                {model?.name}
-              </label>
-            ))}
-          </div>
-        ),
-      },
+
       // Location Distance Range
       {
         title: (
@@ -523,21 +391,15 @@ export default function FuelStationList() {
           </div>
         ),
       },
-      // Others
+      // Garage Timing
       {
         title: (
           <div className={`flex justify-between items-center gap-x-3`}>
-            <span>Others</span>
+            <span>Garage Timing</span>
             <span
               className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
             >
-              {!!homeSearchData?.wifi_available &&
-              !!homeSearchData?.is_mobile_garage
-                ? 2
-                : !!homeSearchData?.wifi_available ||
-                  !!homeSearchData?.is_mobile_garage
-                ? 1
-                : 0}
+              {!!homeSearchData?.open_now ? 1 : 0}
             </span>
           </div>
         ),
@@ -547,42 +409,22 @@ export default function FuelStationList() {
           >
             {/* WIFI  */}
             <label
-              htmlFor={`wifi`}
+              htmlFor={`openNow`}
               className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
             >
               <input
                 type="checkbox"
-                id={`wifi`}
-                checked={homeSearchData?.wifi_available}
+                id={`open_now`}
+                checked={homeSearchData?.open_now}
                 className={`checkbox-primary checkbox checkbox-sm`}
                 onChange={(e) => {
                   setHomeSearchData({
                     ...homeSearchData,
-                    wifi_available: !!e.target.checked,
+                    open_now: !!e.target.checked,
                   });
                 }}
               />
-              Wifi
-            </label>
-
-            {/* Remote Garage  */}
-            <label
-              htmlFor={`remote_garage`}
-              className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
-            >
-              <input
-                type="checkbox"
-                id={`remote_garage`}
-                checked={homeSearchData?.is_mobile_garage}
-                className={`checkbox-primary checkbox checkbox-sm`}
-                onChange={(e) => {
-                  setHomeSearchData({
-                    ...homeSearchData,
-                    is_mobile_garage: !!e.target.checked,
-                  });
-                }}
-              />
-              Remote Garage
+              Open Now
             </label>
           </div>
         ),

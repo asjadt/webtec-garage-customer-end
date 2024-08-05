@@ -22,6 +22,7 @@ import GarageBooking from "./pages/Garage/GarageBooking";
 import GarageBookingWIthPackage from "./pages/Garage/GarageBookingWIthPackage";
 import FuelStation from "./pages/FuelStation/FuelStation";
 import Profile from "./pages/Profile/Profile";
+import FuelStationDetails from "./pages/FuelStation/Components/FuelStationDetails";
 
 const App = () => (
   <Router>
@@ -46,7 +47,10 @@ const App = () => (
 
         {/* FUEL STATION  */}
         <Route path="fuel-station" element={<FuelStation />} />
-        <Route path="view-fuel-station-details/:encID" element={<Home />} />
+        <Route
+          path="view-fuel-station-details/:encID"
+          element={<FuelStationDetails />}
+        />
 
         {/* AUTH  */}
         <Route path="reset-password" element={<Home />} />

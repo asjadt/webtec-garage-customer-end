@@ -73,7 +73,7 @@ export default function SearchForm() {
   const onFormDataChange = (e) => {
     setHomeSearchData((prev) => ({
       ...prev,
-      address: e.target.vale,
+      address: e.target.value,
     }));
   };
 
