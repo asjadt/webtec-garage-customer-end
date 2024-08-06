@@ -11,6 +11,7 @@ import Step3 from "./Steps/Step3";
 import Step4 from "./Steps/Step4";
 import Step5 from "./Steps/Step5";
 import CustomMultiStepper from "../../../../../components/CustomMultiStepper";
+import moment from "moment/moment";
 
 export default function GarageOwner() {
   const {
@@ -148,9 +149,6 @@ export default function GarageOwner() {
         window.location.href = `${
           import.meta.env.VITE_REACT_APP_REDIRECT_URL
         }?token=${res?.user?.token}`;
-
-        setIsLoading(false);
-        handleClosePopup();
       });
     },
   });
@@ -172,23 +170,31 @@ export default function GarageOwner() {
   // HANDLE REGISTRATION
   const handleGarageRegistration = () => {
     try {
-      mutation.mutate(formData);
+      const formattedData = {
+        ...formData,
+        times: formData.times.map((time) => ({
+          ...time,
+          opening_time: moment(time.opening_time, "HH:mm:ss").format("HH:mm"),
+          closing_time: moment(time.closing_time, "HH:mm:ss").format("HH:mm"),
+        })),
+      };
+      mutation.mutate(formattedData);
     } catch (error) {
       console.log({ error });
     }
   };
   // HANDLE NEXT
   const handleNext = async () => {
-    // if (validateForm()) {
-
-    // }
-
-    setStep((prevStep) => prevStep + 1);
-
     if (step === 5) {
       handleGarageRegistration();
+    } else {
+      setStep((prevStep) => prevStep + 1);
     }
   };
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   return (
     <div className={`pb-5`}>
@@ -263,6 +269,7 @@ export default function GarageOwner() {
             setFormData={setFormData}
             handlePrevious={handlePrevious}
             handleNext={handleNext}
+            mutation={mutation}
           />
         )}
       </>

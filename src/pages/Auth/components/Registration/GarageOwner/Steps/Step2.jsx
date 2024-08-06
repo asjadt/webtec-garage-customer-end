@@ -45,7 +45,7 @@ export default function Step2({
         setFormData((prev) => ({
           ...prev,
           garage: {
-            ...prev.user,
+            ...prev.garage,
             email: email,
           },
         }));
@@ -58,7 +58,7 @@ export default function Step2({
         setFormData((prev) => ({
           ...prev,
           garage: {
-            ...prev.user,
+            ...prev.garage,
             email: "",
           },
         }));
@@ -165,6 +165,10 @@ export default function Step2({
     ) {
       newErrors.is_mobile_garage = "This field is required";
     }
+    // Validate is_mobile_garage
+    if (!formData?.garage?.time_format) {
+      newErrors.time_format = "Time format is required";
+    }
     setErrors(newErrors);
 
     console.log({ newErrors });
@@ -215,10 +219,6 @@ export default function Step2({
     }
   }, [formData?.garage?.country]);
 
-  useEffect(() => {
-    console.log({ g: formData });
-  }, [formData]);
-
   return (
     <>
       <div className={`grid grid-cols-1 md:grid-cols-2 grid-2 md:gap-x-5`}>
@@ -263,7 +263,15 @@ export default function Step2({
           label={"Phone"}
           min={0}
           name={"phone"}
-          onChange={handleFormChange}
+          onChange={(e) => {
+            setFormData({
+              ...formData,
+              garage: {
+                ...formData.garage,
+                phone: e.target.value,
+              },
+            });
+          }}
           value={formData?.garage?.phone}
           placeholder={"Phone"}
           error={errors?.phone}
@@ -302,7 +310,6 @@ export default function Step2({
               });
             }}
             onLocationChange={(place) => {
-              console.log({ place });
               setFormData({
                 ...formData,
                 garage: {
@@ -476,6 +483,7 @@ export default function Step2({
 
         {/* MOBILE GARAGE  */}
         <CustomMultiSelect
+          error={errors?.is_mobile_garage}
           singleSelect
           loading={false}
           label={"Mobile Garage"}
@@ -505,6 +513,7 @@ export default function Step2({
 
         {/* WIFI AVAILABILITY  */}
         <CustomMultiSelect
+          error={errors?.wifi_available}
           singleSelect
           loading={false}
           label={"WIFI Availability"}
@@ -534,6 +543,7 @@ export default function Step2({
         <CustomMultiSelect
           singleSelect
           top
+          error={errors?.currency}
           loading={isCurrencyLoading}
           label={"Currency"}
           placeholder="Currency"
@@ -556,6 +566,7 @@ export default function Step2({
 
         {/* TIME FORMAT  */}
         <CustomMultiSelect
+          error={errors?.time_format}
           singleSelect
           loading={false}
           label={"Time Format"}
@@ -582,7 +593,9 @@ export default function Step2({
         />
       </div>
 
-      <div className={`flex mt-5 items-center justify-between`}>
+      <div
+        className={`flex flex-col-reverse md:flex-row gap-y-2 mt-5 w-full items-center justify-between`}
+      >
         {/* PREVIOUS BUTTON  */}
         <button
           onClick={handlePrevious}

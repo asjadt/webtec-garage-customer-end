@@ -33,58 +33,8 @@ export default function Step3({
 
     if (!formData?.makesIds.includes(id)) {
       setSelectedMakes([...makeIDs, id]);
-      setFormData({
-        ...formData,
-        makesIds: [...formData?.makesIds, id],
-        service: [
-          {
-            automobile_category_id: 1,
-            services: [],
-            automobile_makes: makes?.map((make) => {
-              if ([...makeIDs, id]?.some((mk) => mk === make?.id)) {
-                return {
-                  id: make?.id,
-                  checked: true,
-                };
-              } else {
-                return {
-                  id: make?.id,
-                  checked: false,
-                };
-              }
-            }),
-          },
-        ],
-      });
     } else {
       setSelectedMakes(makeIDs?.filter((res) => res !== id));
-      setFormData({
-        ...formData,
-        makesIds: formData?.makesIds?.filter((res) => res !== id),
-        service: [
-          {
-            automobile_category_id: 1,
-            services: [],
-            automobile_makes: makes?.map((make) => {
-              if (
-                formData?.makesIds
-                  ?.filter((res) => res !== id)
-                  ?.some((mk) => mk === make?.id)
-              ) {
-                return {
-                  id: make?.id,
-                  checked: true,
-                };
-              } else {
-                return {
-                  id: make?.id,
-                  checked: false,
-                };
-              }
-            }),
-          },
-        ],
-      });
       setIsCheckboxChecked(false);
     }
   };
@@ -169,7 +119,7 @@ export default function Step3({
 
       {/* SELECT MODELS */}
       {!loading ? (
-        <div className={`grid grid-cols-3 gap-3`}>
+        <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3`}>
           {/* LIST OF MAKES  */}
           {makes?.map((res, i) => (
             <div key={i}>
@@ -196,7 +146,9 @@ export default function Step3({
         <CustomLoading h="h-[300px]" />
       )}
 
-      <div className={`flex mt-5 items-center justify-between`}>
+      <div
+        className={`flex flex-col-reverse md:flex-row gap-y-2 mt-5 w-full items-center justify-between`}
+      >
         {/* PREVIOUS BUTTON  */}
         <button
           onClick={handlePrevious}

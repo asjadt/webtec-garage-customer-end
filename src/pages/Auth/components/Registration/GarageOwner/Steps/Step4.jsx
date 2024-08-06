@@ -247,7 +247,9 @@ export default function Step4({
         <CustomLoading h="h-[300px]" />
       )}
 
-      <div className={`flex mt-5 items-center justify-between`}>
+      <div
+        className={`flex flex-col-reverse md:flex-row gap-y-2 mt-5 w-full items-center justify-between`}
+      >
         {/* PREVIOUS BUTTON  */}
         <button
           onClick={handlePrevious}

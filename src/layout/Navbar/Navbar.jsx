@@ -11,7 +11,7 @@ import { useNav } from "../../context/NavContext";
 import { formatRole } from "../../utils/formatRole";
 import { getFullImageLink } from "../../utils/getFullImageLink";
 import { useAuth } from "../../context/AuthContextV2";
-import { TbLogout2 } from "react-icons/tb";
+import { TbBell, TbLogout2 } from "react-icons/tb";
 import ButtonLoading from "../../components/ButtonLoading";
 
 export default function Navbar() {
@@ -166,7 +166,7 @@ export default function Navbar() {
                   <button
                     data-auto={`navbar-profile-inside-button-every-page`}
                     className=" flex justify-start gap-3 items-center "
-                    onClick={() => navigate("/profile")}
+                    onClick={() => navigate("/my-account/profile")}
                   >
                     {user?.image ? (
                       <div className="avatar">
@@ -204,10 +204,10 @@ export default function Navbar() {
                   data-auto={`navbar-logout-button-every-page`}
                   className="px-5 group py-3 w-full text-left text-primary300 hover:bg-primary hover:text-base-300 flex items-center gap-3"
                   onClick={() => {
-                    navigate("/my-account/profile");
+                    navigate("/my-account/all-notifications");
                   }}
                 >
-                  <TbLogout2 className="text-xl" />
+                  <TbBell className="text-xl" />
                   Notification
                 </button>
                 <button

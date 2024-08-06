@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import CustomTimePicker from "../../../../../../components/InputFields/CustomTimePicker";
 import { convertTo24HourFormat } from "../../../../../../utils/convertTo24HourFormat";
+import ButtonLoading from "../../../../../../components/ButtonLoading";
 
 export default function Step5({
   formData,
   setFormData,
   handlePrevious,
   handleNext,
+  mutation,
 }) {
   const [errors, setErrors] = useState({});
   const mediumTimingData = [...formData?.times];
@@ -196,6 +198,29 @@ export default function Step5({
       ) : (
         ""
       )}
+
+      <div
+        className={`flex flex-col-reverse md:flex-row gap-y-2 mt-5 w-full items-center justify-between`}
+      >
+        {/* PREVIOUS BUTTON  */}
+        <button
+          onClick={handlePrevious}
+          className={`btn btn-primary btn-outline w-full md:w-52`}
+        >
+          Previous
+        </button>
+
+        {/* NEXT BUTTON  */}
+        <button
+          disabled={mutation?.isPending}
+          onClick={() => {
+            handleNext();
+          }}
+          className={`btn btn-primary w-full md:w-52`}
+        >
+          {mutation?.isPending ? <ButtonLoading /> : "Submit"}
+        </button>
+      </div>
     </div>
   );
 }

@@ -50,14 +50,20 @@ export default function Login() {
     loginUser(formData)
       .then((res) => {
         if (res.ok === true) {
-          setIsAuthenticated(true);
-          setUser(res?.data);
-          localStorage.setItem("user_data", JSON.stringify(res?.data));
-          axios.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${res?.data?.token}`;
-          setIsLoading(false);
-          handleClosePopup();
+          if (res?.data?.roles[0]?.name !== "customer") {
+            window.location.href = `${
+              import.meta.env.VITE_REACT_APP_REDIRECT_URL
+            }?token=${res?.data?.token}`;
+          } else {
+            setIsAuthenticated(true);
+            setUser(res?.data);
+            localStorage.setItem("user_data", JSON.stringify(res?.data));
+            axios.defaults.headers.common[
+              "Authorization"
+            ] = `Bearer ${res?.data?.token}`;
+            setIsLoading(false);
+            handleClosePopup();
+          }
         }
       })
       .catch((error) => {
@@ -145,8 +151,7 @@ export default function Login() {
               onClick={handleSubmit}
               className="btn w-full btn-primary font-semibold hover:scale-105 active:scale-95 rounded-[5px] transition-all duration-200"
             >
-              {/* {isLoading ? <ButtonLoading color="text-white" /> : "Login"} */}
-              Login
+              {isLoading ? <ButtonLoading color="text-white" /> : "Login"}
             </button>
           </div>
 
