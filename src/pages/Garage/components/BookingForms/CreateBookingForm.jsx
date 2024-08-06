@@ -132,7 +132,7 @@ export default function CreateBookingForm({ garageData }) {
     return (
       <div className="py-5 px-5 md:px-5 flex justify-center items-center bg-base-300 h-full">
         <CustomPopup
-          popupClasses={`w-[70vw]`}
+          popupClasses={`w-full sm:w-[70vw] md:w-[70vw] lg:w-[50vw]`}
           popupOption={popupOption}
           setPopupOption={setPopupOption}
           Component={

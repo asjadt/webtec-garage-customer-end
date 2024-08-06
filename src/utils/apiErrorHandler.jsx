@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
 export const handleApiError = (error, errorId = "#00143") => {
-
   console.log({ error });
   let errorMessage = "An unexpected error occurred";
   let errors = [];
@@ -11,7 +10,8 @@ export const handleApiError = (error, errorId = "#00143") => {
   if (error.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
-    errorMessage = error.response.data?.message || "Server responded with an error";
+    errorMessage =
+      error.response.data?.message || "Server responded with an error";
     errors = error.response.data?.errors || [];
   } else if (error.request) {
     // The request was made but no response was received
@@ -30,15 +30,12 @@ export const handleApiError = (error, errorId = "#00143") => {
     return;
   }
 
-
-
-
   if (error?.response?.status >= 400 && error?.response?.status < 500) {
     Swal.fire({
       title: "Warning!",
-      text: error.response.data?.message.split("-")[2],
+      text: error.response.data?.message,
       icon: "warning",
-    })
+    });
   } else {
     toast.custom((t) => (
       <CustomToaster
@@ -49,14 +46,4 @@ export const handleApiError = (error, errorId = "#00143") => {
       />
     ));
   }
-
-
-
-
-
-
-
-
-
-
 };

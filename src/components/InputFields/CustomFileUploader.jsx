@@ -77,7 +77,13 @@ export default function CustomFileUploader({
 
   const isImageFile = (file) => {
     if (typeof file === "string") {
-      return file.endsWith(".png") || file.endsWith(".jpg") || file.endsWith(".jpeg") || file.endsWith(".JPEG") || file.endsWith(".JPG");
+      return (
+        file.endsWith(".png") ||
+        file.endsWith(".jpg") ||
+        file.endsWith(".jpeg") ||
+        file.endsWith(".JPEG") ||
+        file.endsWith(".JPG")
+      );
     } else if (file instanceof File) {
       return file.type.startsWith("image/");
     }
@@ -87,7 +93,7 @@ export default function CustomFileUploader({
   return (
     <div data-cy={`container_custom_file_uploader`}>
       <CustomPopup
-        popupClasses={`w-[70vw]`}
+        popupClasses={`w-full sm:w-[70vw] md:w-[70vw] lg:w-[50vw]`}
         popupOption={popupOption}
         setPopupOption={setPopupOption}
         Component={
@@ -177,7 +183,9 @@ export default function CustomFileUploader({
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
-            className={`${dragOver ? "opacity-70" : "opacity-100"} relative flex justify-center px-5 items-center border-2 h-auto border-gray-500 border-dashed  py-10 rounded-xl flex-col`}
+            className={`${
+              dragOver ? "opacity-70" : "opacity-100"
+            } relative flex justify-center px-5 items-center border-2 h-auto border-gray-500 border-dashed  py-10 rounded-xl flex-col`}
           >
             {files?.length === 0 && (
               <label
@@ -242,7 +250,11 @@ export default function CustomFileUploader({
                           {isImageFile(file) ? (
                             <img
                               data-cy={`files_container_image_custom_file_uploader`}
-                              src={typeof file === "string" ? getFullImageLink(file) : URL.createObjectURL(file)}
+                              src={
+                                typeof file === "string"
+                                  ? getFullImageLink(file)
+                                  : URL.createObjectURL(file)
+                              }
                               alt={file.name}
                               className="h-full w-full duration-200 absolute top-0 cursor-pointer  rounded-xl  right-0 object-cover group-hover:opacity-20"
                             />
@@ -251,7 +263,9 @@ export default function CustomFileUploader({
                               data-cy={`files_container_no_image_custom_file_uploader`}
                               className="h-full w-full duration-200 absolute top-0 cursor-pointer  rounded-xl  right-0 object-cover group-hover:opacity-20 flex justify-center items-center"
                             >
-                              <FaRegFileLines className={`text-4xl text-primary`} />
+                              <FaRegFileLines
+                                className={`text-4xl text-primary`}
+                              />
                             </div>
                           )}
                         </div>

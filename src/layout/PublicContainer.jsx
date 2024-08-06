@@ -7,16 +7,16 @@ import PublicLayout from "./PublicLayout";
 
 export default function PublicContainer() {
   return (
-    <AuthProvider>
-      <GeoLocationDataContextProvider>
-        <DataContextProvider>
-          <NavProvider>
-            <PermissionProvider>
+    <GeoLocationDataContextProvider>
+      <DataContextProvider>
+        <AuthProvider>
+          <PermissionProvider>
+            <NavProvider>
               <PublicLayout />
-            </PermissionProvider>
-          </NavProvider>
-        </DataContextProvider>
-      </GeoLocationDataContextProvider>
-    </AuthProvider>
+            </NavProvider>
+          </PermissionProvider>
+        </AuthProvider>
+      </DataContextProvider>
+    </GeoLocationDataContextProvider>
   );
 }

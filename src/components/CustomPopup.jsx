@@ -40,7 +40,7 @@ export default function CustomPopup({
       contentStyle={customPopupStyle}
     >
       <div
-        className={`relative bg-base-300 shadow-xl sm:rounded-xl border-primary-content sm:border-2 overflow-hidden w-full  sm:w-[70vw] md:w-[70vw] lg:w-[50vw] ${popupClasses} max-h-screen h-screen sm:h-auto sm:min-h-auto md:max-h-[90vh] `}
+        className={`relative bg-base-300 shadow-xl sm:rounded-xl border-primary-content sm:border-2 overflow-hidden max-h-screen h-screen sm:h-auto sm:min-h-auto md:max-h-[90vh]  ${popupClasses}`}
       >
         {!closeButtonHidden ? (
           <button
@@ -65,7 +65,7 @@ export default function CustomPopup({
           </div>
         )}
 
-        <div className="px-5 max-h-[90vh] overflow-y-auto overflow-x-hidden scrollbar pt-14">
+        <div className="px-5 max-h-full sm:max-h-[70vh] overflow-y-auto overflow-x-hidden scrollbar pt-14">
           {Component}
         </div>
       </div>

@@ -5,6 +5,9 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import CustomPopup from "../components/CustomPopup";
+import Login from "../pages/Auth/Login";
+import Register from "../pages/Auth/Register";
 
 // Create the authentication context
 export const AuthContext = createContext();
@@ -37,9 +40,11 @@ export const AuthProvider = ({ children }) => {
       },
     }).then((result) => {
       if (result.isConfirmed) {
+        setIsLoading(true);
         setIsAuthenticated(false);
         setUser(null);
         localStorage.removeItem("user_data");
+        setIsLoading(false);
       }
     });
   };
@@ -59,6 +64,65 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  useEffect(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, [isAuthenticated]);
+
+  // POPUP OPTIONS
+  const [popupOption, setPopupOption] = useState({
+    open: false,
+    type: "",
+    onClose: () => {
+      setPopupOption({ ...popupOption, open: false });
+    },
+    overlayStyle: { background: "red" },
+    closeOnDocumentClick: false,
+  });
+
+  // HANDLER FOR CLOSE POPUP
+  const handleClosePopup = (e) => {
+    setPopupOption({
+      open: false,
+      type: "",
+      onClose: () => {
+        setPopupOption({ ...popupOption, open: false });
+      },
+      overlayStyle: { background: "red" },
+      closeOnDocumentClick: false,
+    });
+  };
+
+  // HANDLER OPEN LOGIN POPUP
+  const handleOpenLoginPopup = (e) => {
+    setPopupOption({
+      open: true,
+      type: "login",
+      title: "Login",
+      onClose: () => {
+        setPopupOption({ ...popupOption, open: false });
+      },
+      overlayStyle: { background: "red" },
+      closeOnDocumentClick: false,
+    });
+  };
+
+  // HANDLER OPEN SIGN UP POPUP
+  const handleOpenSignUpPopup = (e) => {
+    setPopupOption({
+      open: true,
+      type: "register",
+      title: "Register",
+      onClose: () => {
+        setPopupOption({ ...popupOption, open: false });
+      },
+      overlayStyle: { background: "red" },
+      closeOnDocumentClick: false,
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -72,8 +136,26 @@ export const AuthProvider = ({ children }) => {
         setUser,
 
         logout,
+        handleClosePopup,
+        handleOpenLoginPopup,
+        handleOpenSignUpPopup,
       }}
     >
+      <CustomPopup
+        popupClasses={
+          popupOption?.type === "register"
+            ? `w-full sm:w-[80vw] md:w-[90vw] lg:w-[80vw]`
+            : `w-full sm:w-[70vw] md:w-[70vw] lg:w-[50vw]`
+        }
+        popupOption={popupOption}
+        setPopupOption={setPopupOption}
+        Component={
+          <>
+            {popupOption?.type === "login" && <Login />}
+            {popupOption?.type === "register" && <Register />}
+          </>
+        }
+      />
       {children}
     </AuthContext.Provider>
   );
@@ -91,6 +173,10 @@ export const useAuth = () => {
     setUser,
 
     logout,
+
+    handleClosePopup,
+    handleOpenLoginPopup,
+    handleOpenSignUpPopup,
   } = useContext(AuthContext);
 
   return {
@@ -104,5 +190,9 @@ export const useAuth = () => {
     setUser,
 
     logout,
+
+    handleClosePopup,
+    handleOpenLoginPopup,
+    handleOpenSignUpPopup,
   };
 };

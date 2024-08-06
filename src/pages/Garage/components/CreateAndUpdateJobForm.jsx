@@ -23,8 +23,7 @@ import ServiceDetailsForm from "./StepsForJob/ServiceDetailsForm";
 
 export default function CreateAndUpdateJobForm() {
   const navigate = useNavigate();
-  const { user, isAuthenticated, logout, setIsAuthenticated, setUser } =
-    useAuth();
+  const { user, isAuthenticated, handleOpenLoginPopup } = useAuth();
   // POPUP OPTIONS
   const [popupOption, setPopupOption] = useState({
     open: false,
@@ -103,16 +102,7 @@ export default function CreateAndUpdateJobForm() {
       createFunction();
     } else {
       // OPEN THE LOGIN POPUP
-      console.log("login");
-      setPopupOption({
-        open: true,
-        type: "login",
-        onClose: () => {
-          setPopupOption({ ...popupOption, open: false });
-        },
-        overlayStyle: { background: "red" },
-        closeOnDocumentClick: false,
-      });
+      handleOpenLoginPopup();
     }
   };
 
@@ -121,30 +111,6 @@ export default function CreateAndUpdateJobForm() {
   } else {
     return (
       <div className="py-5 px-5 md:px-5 flex justify-center items-center bg-base-300 h-full">
-        <CustomPopup
-          popupClasses={`w-[70vw]`}
-          popupOption={popupOption}
-          setPopupOption={setPopupOption}
-          Component={
-            <>
-              {popupOption?.type === "login" && (
-                <Login
-                  handleClosePopup={(e) => {
-                    setPopupOption({
-                      open: false,
-                      type: "",
-                      onClose: () => {
-                        setPopupOption({ ...popupOption, open: false });
-                      },
-                      overlayStyle: { background: "red" },
-                      closeOnDocumentClick: false,
-                    });
-                  }}
-                />
-              )}
-            </>
-          }
-        />
         <div
           className={`w-full border max-w-[600px] p-5 shadow-lg rounded-xl h-auto`}
         >

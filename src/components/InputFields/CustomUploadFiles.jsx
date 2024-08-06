@@ -87,7 +87,7 @@ export default function CustomUploadFiles({
   return (
     <div>
       <CustomPopup
-        popupClasses={`w-[70vw]`}
+        popupClasses={`w-full sm:w-[70vw] md:w-[70vw] lg:w-[50vw]`}
         popupOption={popupOption}
         setPopupOption={setPopupOption}
         Component={

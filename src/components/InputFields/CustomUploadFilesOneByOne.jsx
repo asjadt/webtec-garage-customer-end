@@ -97,7 +97,7 @@ export default function CustomUploadFilesOneByOne({
   return (
     <div>
       <CustomPopup
-        popupClasses={`w-[70vw]`}
+        popupClasses={`w-full sm:w-[70vw] md:w-[70vw] lg:w-[50vw]`}
         popupOption={popupOption}
         setPopupOption={setPopupOption}
         Component={
@@ -155,8 +155,9 @@ export default function CustomUploadFilesOneByOne({
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
-            className={`${dragOver ? "opacity-70" : "opacity-100"
-              } relative flex justify-center px-5 items-center border-2 h-auto border-gray-500 border-dashed  py-10 rounded-xl flex-col`}
+            className={`${
+              dragOver ? "opacity-70" : "opacity-100"
+            } relative flex justify-center px-5 items-center border-2 h-auto border-gray-500 border-dashed  py-10 rounded-xl flex-col`}
           >
             {files?.length === 0 && (
               <label
@@ -201,10 +202,10 @@ export default function CustomUploadFilesOneByOne({
                       {file !== "" && (
                         <div onClick={() => handleViewFiles([file])}>
                           {file.endsWith(".png") ||
-                            file.endsWith(".jpg") ||
-                            file.endsWith(".jpeg") ||
-                            file.endsWith(".JPEG") ||
-                            file.endsWith(".JPG") ? (
+                          file.endsWith(".jpg") ||
+                          file.endsWith(".jpeg") ||
+                          file.endsWith(".JPEG") ||
+                          file.endsWith(".JPG") ? (
                             <img
                               src={getFullImageLink(file)}
                               alt={file.name}

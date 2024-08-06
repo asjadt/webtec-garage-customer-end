@@ -24,6 +24,7 @@ export default function CustomTimePicker({
   wrapperClassName,
   fieldClassName,
   visibleBorder = false,
+  right = false,
 }) {
   const [selectedHour, setSelectedHour] = useState(
     value ? parseInt(convertTo12HourFormat(value, 30)?.split(":")[0]) : 0
@@ -175,11 +176,6 @@ export default function CustomTimePicker({
       }}
       className={`relative w-full ${wrapperClassName}`}
     >
-      {/* <FaRegClock
-        className={`absolute right-1 ${
-          label ? "top-[50px]" : "top-[14px]"
-        } text-xl text-primary `}
-      /> */}
       {/* LABEL */}
       {label ? (
         <label htmlFor={id} className="label">
@@ -195,6 +191,7 @@ export default function CustomTimePicker({
       ) : (
         ""
       )}
+
       {/* FIELD  */}
       <input
         onClick={() => {
@@ -227,6 +224,7 @@ export default function CustomTimePicker({
         }  ${fieldClassName}
         `}
       />
+
       {/* VALIDATION MESSAGE  */}
       {(error || (openTimeSelector && errorForRestrictions)) && (
         <label className="label h-7">
@@ -235,10 +233,12 @@ export default function CustomTimePicker({
           </span>
         </label>
       )}
-      {/* TIME PICKER  */}
 
+      {/* TIME PICKER  */}
       <div
-        className={`px-2 mt-2 absolute border flex flex-col border-primary-content shadow-primary-content high-zindex top-full rounded-xl shadow-md duration-300 items-center bg-base-300  ${
+        className={`px-2 mt-2 absolute border flex flex-col border-primary-content shadow-primary-content high-zindex top-full rounded-xl shadow-md duration-300 items-center bg-base-300 ${
+          right ? "right-0" : ""
+        }  ${
           openTimeSelector
             ? `${
                 minTime || maxTime

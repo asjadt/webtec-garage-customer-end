@@ -45,7 +45,7 @@ export default function TimingPopup({ data, title }) {
   return (
     <div className={`w-full`}>
       <CustomPopup
-        popupClasses={`w-[70vw]`}
+        popupClasses={`w-full sm:w-[70vw] md:w-[70vw] lg:w-[50vw]`}
         popupOption={popupOption}
         setPopupOption={setPopupOption}
         setIsOpen={setIsOpen}

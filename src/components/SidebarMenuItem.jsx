@@ -15,9 +15,7 @@ export default function SidebarMenuItem({
   return (
     <Fragment key={i}>
       {show && (
-        <div
-          className={`flex items-center w-full justify-start`}
-        >
+        <div className={`flex items-center w-full justify-start`}>
           <NavLink
             data-cy={`all-page-${title}-button-sidebar-menu-item`}
             data-tip={!isNavOpen ? title : ""}

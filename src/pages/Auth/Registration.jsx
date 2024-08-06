@@ -17,14 +17,8 @@ import toast from "react-hot-toast";
 import CustomToaster from "../../components/CustomToaster";
 import axios from "axios";
 
-export default function Login() {
-  const {
-    user,
-    setIsAuthenticated,
-    setUser,
-    handleClosePopup,
-    handleOpenSignUpPopup,
-  } = useAuth();
+export default function Registration({ handleClosePopup }) {
+  const { user, setIsAuthenticated, setUser } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -78,8 +72,9 @@ export default function Login() {
     return <CustomLoading h="h-[300px]" />;
   }
   return (
-    <div className={`pb-10 mt-5`}>
+    <div className={`pb-10`}>
       <div className=" px-5 sm:px-8 gap-3 sm:gap-6">
+        <h1 className="font-bold text-3xl text-center text-primary">Sign in</h1>
         <div data-cy="login-form" className="h-full  w-full">
           <CustomField
             id={"email"}
@@ -160,10 +155,10 @@ export default function Login() {
           <button
             data-cy="login_register_business"
             disabled={isLoading}
-            onClick={handleOpenSignUpPopup}
+            onClick={() => navigate(`/auth/register`)}
             className="btn btn-outline  w-full btn-primary font-semibold text-sm sm:text-base hover:scale-105 active:scale-95 rounded-[5px] transition-all duration-200"
           >
-            Register A New Garage
+            Register A New Business
           </button>
         </div>
       </div>

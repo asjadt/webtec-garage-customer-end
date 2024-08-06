@@ -93,7 +93,7 @@ export default function CustomSingleFileUploader({
   return (
     <div data-cy={`container_custom_single_file_uploader`}>
       <CustomPopup
-        popupClasses={`w-[70vw]`}
+        popupClasses={`w-full sm:w-[70vw] md:w-[70vw] lg:w-[50vw]`}
         popupOption={popupOption}
         setPopupOption={setPopupOption}
         Component={
@@ -172,8 +172,9 @@ export default function CustomSingleFileUploader({
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
-            className={`${dragOver ? "opacity-70" : "opacity-100"
-              } relative flex justify-center px-5 items-center border-2 h-auto border-gray-500 border-dashed  py-5 rounded-xl flex-col`}
+            className={`${
+              dragOver ? "opacity-70" : "opacity-100"
+            } relative flex justify-center px-5 items-center border-2 h-auto border-gray-500 border-dashed  py-5 rounded-xl flex-col`}
           >
             {files?.length === 0 && (
               <label
@@ -240,10 +241,10 @@ export default function CustomSingleFileUploader({
                       onClick={() => handleViewFiles([files[0]])}
                     >
                       {files[0]?.endsWith(".png") ||
-                        files[0]?.endsWith(".jpg") ||
-                        files[0]?.endsWith(".jpeg") ||
-                        files[0]?.endsWith(".JPEG") ||
-                        files[0]?.endsWith(".JPG") ? (
+                      files[0]?.endsWith(".jpg") ||
+                      files[0]?.endsWith(".jpeg") ||
+                      files[0]?.endsWith(".JPEG") ||
+                      files[0]?.endsWith(".JPG") ? (
                         <img
                           data-cy={`upload_image_container_custom_single_file_uploader`}
                           src={getFullImageLink(files[0])}

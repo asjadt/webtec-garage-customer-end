@@ -9,7 +9,7 @@ export default function CustomMultiStepper({ steps = [], currentStep = 1 }) {
           role="button"
           key={index}
           data-content={currentStep > step?.serial ? "✓" : null}
-          className={`step text-sm ${
+          className={`step text-xs md:text-sm ${
             currentStep >= step?.serial ? "step-primary" : "step-custom"
           } `}
         >

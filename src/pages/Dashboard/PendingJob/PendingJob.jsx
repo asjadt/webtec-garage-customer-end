@@ -222,7 +222,7 @@ export default function PendingJob() {
       <div className="relative h-full" data-auto="sub_container_admin">
         {/* POPUP  */}
         <CustomPopup
-          popupClasses={`w-full md:w-[70vw]`}
+          popupClasses={`w-full sm:w-[70vw] md:w-[70vw] lg:w-[50vw]`}
           popupOption={popupOption}
           setPopupOption={setPopupOption}
           Component={
