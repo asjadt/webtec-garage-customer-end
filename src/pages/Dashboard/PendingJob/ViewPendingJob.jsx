@@ -6,14 +6,18 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
 import { preBookingsBisManage } from "../../../Apis/auth";
 import { formatRole } from "../../../utils/formatRole";
+import Swal from "sweetalert2";
+import { handleApiError } from "../../../utils/apiErrorHandler";
 
-const ViewPendingJob = ({ popupOption, setPopupOption, job }) => {
+const ViewPendingJob = ({ popupOption, setPopupOption, job, refetch }) => {
+  const [isUpdated, setIsUpdated] = useState();
   const [tabs, setTabs] = useState([
     { id: "job", title: "Details" },
     { id: "applications", title: "Applications" },
   ]);
   const [activeTab, setActiveTab] = useState("job");
-
+  console.log({ job });
+  const [isAccept, setIsAccept] = useState(false);
   // HANDLE ACCEPT
   const handleAccept = (data) => {
     Swal.fire({
@@ -31,7 +35,7 @@ const ViewPendingJob = ({ popupOption, setPopupOption, job }) => {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        setIsDeleteLoading(true);
+        setIsAccept(true);
         preBookingsBisManage({
           is_confirmed: true,
           job_bid_id: data?.id,
@@ -39,17 +43,19 @@ const ViewPendingJob = ({ popupOption, setPopupOption, job }) => {
         })
           .then((res) => {
             setIsUpdated(Math.random());
-            setSelectedIds([]);
-            refetch();
+            setSingleJob({
+              ...job,
+              job_bids: { ...job.job_bids, status: "accepted" },
+            });
             Swal.fire({
               title: "Accepted!",
               text: "Booking has been accepted successfully.",
               icon: "success",
             });
-            setIsDeleteLoading(false);
+            setIsAccept(false);
           })
           .catch((error) => {
-            setIsDeleteLoading(false);
+            setIsAccept(false);
             handleApiError(error, "#00121");
           });
       }
@@ -71,7 +77,7 @@ const ViewPendingJob = ({ popupOption, setPopupOption, job }) => {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        setIsDeleteLoading(true);
+        setIsAccept(true);
         preBookingsBisManage({
           is_confirmed: false,
           job_bid_id: data?.id,
@@ -79,17 +85,16 @@ const ViewPendingJob = ({ popupOption, setPopupOption, job }) => {
         })
           .then((res) => {
             setIsUpdated(Math.random());
-            setSelectedIds([]);
             refetch();
             Swal.fire({
               title: "Rejected!",
               text: "Booking has been rejected successfully.",
               icon: "success",
             });
-            setIsDeleteLoading(false);
+            setIsAccept(false);
           })
           .catch((error) => {
-            setIsDeleteLoading(false);
+            setIsAccept(false);
             handleApiError(error, "#00121");
           });
       }
@@ -247,10 +252,13 @@ const ViewPendingJob = ({ popupOption, setPopupOption, job }) => {
               dataAuto="all-job-type"
               getFullDataToActionHandler={true}
               smGrid="sm:grid-cols-1"
+              onlyCard={true}
             />
           </div>
         ) : (
-          <div>No Garage Applied Yet!</div>
+          <div className={`py-40 flex justify-center text-primary`}>
+            <p>No Garage Applied Yet!</p>
+          </div>
         ))}
     </>
   );

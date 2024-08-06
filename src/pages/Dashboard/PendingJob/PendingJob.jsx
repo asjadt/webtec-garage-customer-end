@@ -143,6 +143,7 @@ export default function PendingJob() {
         return lastPage.nextPage ? lastPage.nextPage : undefined;
       },
     });
+  console.log({ data });
 
   // DELETE API
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
@@ -231,6 +232,7 @@ export default function PendingJob() {
                 job={booking}
                 popupOption={popupOption}
                 setPopupOption={setPopupOption}
+                refetch={refetch}
               />
             )
           }
@@ -344,7 +346,9 @@ export default function PendingJob() {
                   job_start_time: moment(d?.job_start_time, "HH:mm").format(
                     "hh:mm A"
                   ),
-                  garage_applied: d?.job_bids?.length,
+                  garage_applied: d?.job_bids
+                    ? d?.job_bids?.length
+                    : "loading...",
 
                   format_status: formatRole(d?.status),
                 }))}

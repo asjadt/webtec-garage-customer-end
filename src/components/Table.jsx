@@ -27,6 +27,7 @@ export default function Table({
   col1Width = "w-[30%]",
   col2Width = "w-[70%]",
   smGrid = "sm:grid-cols-2",
+  onlyCard = false,
 }) {
   const [allChecked, setAllChecked] = useState(false);
 
@@ -56,6 +57,189 @@ export default function Table({
   };
 
   const htmlMode = document.documentElement.getAttribute("data-theme");
+
+  if (onlyCard) {
+    return (
+      <div
+        data-cy={"container_table"}
+        className={`overflow-x-auto scrollbarX  top-0 w-full bg-base-200 md:bg-base-200 min-h-[300px]`}
+      >
+        {/* FOR MOBILE VIEW  */}
+        <div data-cy={"mobile_view_container_table"} className={`w-full`}>
+          {!isLoading ? (
+            rows?.length > 0 ? (
+              <div
+                data-cy={"mobile_view_rows_table"}
+                className={`grid grid-cols-1 ${smGrid} gap-5 md:gap-0 bg-base-200 `}
+              >
+                {rows?.map((data, i) => (
+                  <div
+                    data-cy={"mobile_view_rows_container_table"}
+                    key={i}
+                    className="p-5 my-2 rounded-xl bg-base-300 border border-primary-content shadow-md shadow-primary-content flex flex-col overflow-auto scrollbar-none"
+                  >
+                    <div
+                      data-cy={"mobile_view_actions_container_table"}
+                      className={`w-full flex justify-center pt-1 pb-5`}
+                    >
+                      {actions.filter((action) => {
+                        return !action.disabledOn.some((disable) => {
+                          const conditionValue = data[disable.attributeName];
+                          return conditionValue === disable.value;
+                        });
+                      })?.length > 0 ? (
+                        <td
+                          data-cy={"mobile_view_actions_sub_container_table"}
+                          className="text-right p-0"
+                        >
+                          {!isFullActionList ? (
+                            <CustomDropDownForTable
+                              isDeleteDisabled={data?.is_system_default}
+                              disabled={selectedIds.length > 1}
+                              fullData={rows}
+                              index={i}
+                              isDataLoading={isLoading}
+                              isShareDataLoading={isLoading}
+                              data={data}
+                              actions={actions}
+                            />
+                          ) : (
+                            <div
+                              data-cy={"mobile_view_actions_table"}
+                              className="flex gap-2 justify-end items-center"
+                            >
+                              {actions
+                                .filter((action) => {
+                                  return !action.disabledOn.some((disable) => {
+                                    const conditionValue =
+                                      data[disable.attributeName];
+                                    return conditionValue === disable.value;
+                                  });
+                                })
+                                .map((action, index) => (
+                                  <React.Fragment key={index}>
+                                    {action.permissions ? (
+                                      <button
+                                        data-cy={
+                                          "mobile_view_actions_button_table"
+                                        }
+                                        onClick={() =>
+                                          action.handler(
+                                            getFullDataToActionHandler
+                                              ? data
+                                              : data?.id
+                                          )
+                                        }
+                                        data-tip={action.name}
+                                        className={`tooltip tooltip-bottom tooltip-primary`}
+                                        key={index}
+                                      >
+                                        <action.Icon
+                                          className={`text-xl ${
+                                            action.name === "delete"
+                                              ? " text-red-500"
+                                              : "text-primary"
+                                          }`}
+                                        />
+                                      </button>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </React.Fragment>
+                                ))}
+                            </div>
+                          )}
+                        </td>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                    {/* DATA  */}
+                    <table
+                      data-cy={"mobile_view_table_table"}
+                      className="table w-full "
+                    >
+                      <tbody data-cy={"mobile_view_table_body_table"}>
+                        {cols.map((col, j) => (
+                          <Fragment key={j}>
+                            {col?.show ? (
+                              <>
+                                {data[col?.attribute_name] ? (
+                                  <tr
+                                    data-cy={"mobile_view_cols_tr_table"}
+                                    key={j}
+                                    className={`px-5 border-y border-primary-content w-full`}
+                                  >
+                                    <td
+                                      data-cy={"mobile_view_cols_td_table"}
+                                      className={`font-bold border border-primary-content text-primary ${col1Width}`}
+                                    >
+                                      {col.name}:
+                                    </td>
+                                    <td
+                                      data-cy={"mobile_view_cols_td2_table"}
+                                      className={`border border-primary-content overflow-wrap-anywhere ${col2Width}`}
+                                    >
+                                      {data[col?.attribute_name]}
+                                    </td>
+                                  </tr>
+                                ) : (
+                                  ""
+                                )}
+                              </>
+                            ) : (
+                              ""
+                            )}
+                          </Fragment>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div
+                data-cy={"mobile_view_no_data_container_table"}
+                className="flex justify-center items-center flex-col bg-base-200 p-5  rounded-xl"
+              >
+                <div
+                  data-cy={"mobile_view_no_data_sub_container_table"}
+                  className="w-[200px] flex flex-col gap-2 justify-center items-center"
+                >
+                  <img
+                    data-cy={"mobile_view_no_data_image_table"}
+                    className="w-20"
+                    src="/assets/nodatafound.svg"
+                    alt="no data found"
+                  />
+                  <div
+                    data-cy={"mobile_view_no_data_message_container_table"}
+                    className={`flex justify-center items-center flex-col`}
+                  >
+                    <h4
+                      data-cy={"mobile_view_no_data_message_content_table"}
+                      className="font-medium text-lg text-center"
+                    >
+                      Nothing Found!
+                    </h4>
+                    <p
+                      data-cy={"mobile_view_no_data_message_sub_content_table"}
+                      className="font-light text-center"
+                    >
+                      Please add a new entity to see the content here. Thank
+                      you!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )
+          ) : (
+            <CustomLoading h={"h-[40vh]"} />
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

@@ -34,6 +34,7 @@ const Profile = () => {
     setLoading(true);
     getUser()
       .then((res) => {
+        console.log({ res });
         setSignUpDetails(res);
         setAddressData2({
           address_line_2: res.address_line_2,
@@ -191,7 +192,11 @@ const Profile = () => {
         <CustomLoading h="h-[300px]" />
       ) : (
         <div className="ltn__myaccount-tab-content-inner">
-          <h1 className={`text-2xl font-semibold text-center pb-5`}>Profile</h1>
+          <h1
+            className={`text-2xl font-semibold text-center text-primary pb-5`}
+          >
+            Profile
+          </h1>
 
           <div className={`grid grid-cols-1 md:grid-cols-2 grid-2 md:gap-5`}>
             <div>

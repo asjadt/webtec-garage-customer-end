@@ -16,6 +16,7 @@ import ButtonLoading from "../../components/ButtonLoading";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
+  console.log({ user });
 
   const { isNavOpen, setIsNavOpen } = useNav();
   const navigate = useNavigate();
