@@ -2,7 +2,7 @@ import axios from "axios";
 import { getApiConfig } from "./apiConfig";
 
 // notification api function
-export const getNotification = async ({ perPage = 10, pageNo = 1 }) => {
+export const getNotification = async (perPage = 10, pageNo = 1) => {
   if (JSON.parse(localStorage.getItem("user_data"))) {
     return await axios
       .get(`/v1.0/notifications/${perPage}?page=${pageNo}`, getApiConfig())

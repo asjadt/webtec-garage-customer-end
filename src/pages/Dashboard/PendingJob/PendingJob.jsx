@@ -288,6 +288,8 @@ export default function PendingJob() {
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
                     gridCol="grid-cols-3"
+                    filters={filters}
+                    setFilters={setFilters}
                   />
                 </div>
               </div>
@@ -361,7 +363,7 @@ export default function PendingJob() {
               {data?.total !== 0 && (
                 <div
                   data-auto={`admin-pagination-all-employees`}
-                  className="flex-col flex justify-center bg-base-300 items-center py-1"
+                  className="flex-col flex justify-center bg-base-300 items-center py-5"
                 >
                   <Pagination
                     forcePage={filters?.page}

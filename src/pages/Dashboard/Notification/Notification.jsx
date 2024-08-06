@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import CustomLoading from "../../../components/CustomLoading";
 import moment from "moment/moment";
 import { decryptID, encryptID } from "../../../utils/encryptAndDecryptID";
+import Pagination from "../../../components/Pagination";
 
 export default function Notifications() {
   const [searchKey, setSearchKey] = useState("");
@@ -16,21 +17,30 @@ export default function Notifications() {
   const { string_id, pageNumber } = useParams();
   const id = decryptID(string_id || "");
   const [notifications, setNotifications] = useState([]);
+  const [total, setTotal] = useState("");
+  console.log({ total });
+  console.log({ notifications });
   const [isLoading, setIsLoading] = useState(true);
-  const [perPage, setPerPage] = useState(10);
-  const [pageNo, setPageNo] = useState(parseInt(pageNumber));
   const [lastPage, setLastPage] = useState(1);
-  const [isUpdate, setIsUpdate] = useState(Math.random());
   const [isFirstTime, setIsFirstTime] = useState(true);
 
-  const fetchClientNotifications = (perPage, pageNo) => {
+  const [filters, setFilters] = useState({
+    perPage: 10,
+    page: 1,
+  });
+
+  console.log({ filters });
+
+  const fetchClientNotifications = (perPage, page) => {
     if (isFirstTime) {
       setIsLoading(true);
-      getNotification(perPage, pageNo)
+      getNotification(perPage, page)
         .then((res) => {
+          console.log({ res });
           setLastPage(res?.last_page);
           setIsLoading(false);
           setNotifications(res?.data);
+          setTotal(res?.total);
           setIsFirstTime(false);
         })
         .catch((error) => {
@@ -45,13 +55,16 @@ export default function Notifications() {
           setIsLoading(false);
         });
     } else {
-      getNotification(perPage, pageNo)
+      setIsLoading(true);
+      getNotification(perPage, page)
         .then((res) => {
           setLastPage(res?.last_page);
           setNotifications(res?.data);
           setIsFirstTime(false);
+          setIsLoading(false);
         })
         .catch((error) => {
+          setIsLoading(false);
           toast.custom((t) => (
             <CustomToaster
               t={t}
@@ -66,14 +79,16 @@ export default function Notifications() {
   };
 
   useEffect(() => {
+    console.log("Filters changed:", filters);
     // GET ALL NOTIFICATIONS
-    fetchClientNotifications(perPage, pageNo);
-  }, [perPage, pageNo, isUpdate]);
+    fetchClientNotifications(filters?.perPage, filters?.page);
+  }, [filters]);
 
   //   REDIRECT THE NOTIFICATION
   const handleRedirectNotification = (data) => {
     updateNotificationStatus({ notification_ids: [data?.id] }).then((res) => {
-      fetchClientNotifications(perPage, pageNo);
+      console.log("Filters changed sss:", filters);
+      fetchClientNotifications(filters?.perPage, filters?.page);
       if (data?.booking_id !== null) {
         navigate(`/my-account/my-bookings?id=${encryptID(data?.booking_id)}`);
       } else if (data?.pre_booking_id !== null) {
@@ -133,6 +148,24 @@ export default function Notifications() {
                   )}
                 </div>
               ))}
+              {notifications !== 0 && (
+                <div
+                  // style={{ minWidth: minWidth }}
+                  className=" my-2 flex-col flex justify-center bg-base-300 items-center"
+                >
+                  <Pagination
+                    forcePage={filters?.page}
+                    itemsPerPage={filters?.perPage}
+                    totalItems={total}
+                    onChangePage={(page) => {
+                      setFilters((prevFilters) => ({
+                        ...prevFilters,
+                        page: page,
+                      }));
+                    }}
+                  />
+                </div>
+              )}
             </div>
           )}
         </Fragment>

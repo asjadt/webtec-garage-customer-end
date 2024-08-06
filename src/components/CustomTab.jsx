@@ -7,6 +7,8 @@ const CustomTab = ({
   setActiveTab,
   gridCol = "grid-cols-1",
   layoutId = "active-order-pil",
+  filters,
+  setFilters,
 }) => {
   return (
     <div data-auto={`orderType-container-mainSection`} className={``}>
@@ -18,7 +20,10 @@ const CustomTab = ({
             <button
               data-auto={`orderType${index + 1}-mainSection`}
               key={index}
-              onClick={() => setActiveTab(ot?.id)}
+              onClick={() => {
+                setActiveTab(ot?.id);
+                setFilters({ ...filters, page: 1 });
+              }}
               className={`${
                 activeTab === ot?.id ? "" : ""
               } relative  rounded-full`}
