@@ -9,6 +9,7 @@ import Sidebar from "./SideBar/Sidebar";
 import { Outlet } from "react-router-dom";
 
 export default function PublicLayout() {
+  // const { isNavOpen, isDark } = useNav();
   return (
     <div
       data-cy="hrm_app"
@@ -18,15 +19,9 @@ export default function PublicLayout() {
 
       <div
         data-cy="main_container"
-        className={`flex md:mt-3 relative h-[calc(100%-80px)] md:h-[calc(100%-80px)]`}
+        className={`flex md:mt-3 relative h-[calc(100%-80px)]`}
       >
-        <div
-          data-cy="main-sidebar"
-          className={`main-sidebar w-[335px] md:w-[235px] absolute h-full block transition-all duration-300
-        `}
-        >
-          <Sidebar />
-        </div>
+        <Sidebar />
 
         <motion.div
           data-cy="public_layout_outlet"
