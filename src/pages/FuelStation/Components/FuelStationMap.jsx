@@ -73,7 +73,7 @@ const FuelStationMap = () => {
           lng: 90.324357,
         },
       ]);
-    }, 5000);
+    }, 2000);
   }, []);
 
   return (
