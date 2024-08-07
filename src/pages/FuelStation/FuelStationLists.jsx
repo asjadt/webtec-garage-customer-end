@@ -108,104 +108,7 @@ export default function FuelStationList() {
         </div>
       ),
     },
-    // MAKES
-    {
-      title: (
-        <div className={`flex justify-between items-center gap-x-3`}>
-          <span>Makes</span>
-          <span
-            className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
-          >
-            {homeSearchData?.makes?.length}
-          </span>
-        </div>
-      ),
-      Content: (
-        <div
-          className={`flex flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
-        >
-          {makes?.map((make, index) => (
-            <label
-              key={index}
-              htmlFor={`${make}-${index}`}
-              className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
-            >
-              <input
-                type="checkbox"
-                id={`${make}-${index}`}
-                checked={homeSearchData?.makes?.some((s) => s === make.id)}
-                className={`checkbox-primary checkbox checkbox-sm`}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setHomeSearchData({
-                      ...homeSearchData,
-                      makes: [...homeSearchData.makes, make.id],
-                    });
-                  } else {
-                    setHomeSearchData({
-                      ...homeSearchData,
-                      makes: homeSearchData.makes.filter(
-                        (sub) => sub !== make.id
-                      ),
-                    });
-                  }
-                }}
-              />{" "}
-              {make?.name}
-            </label>
-          ))}
-        </div>
-      ),
-    },
-    // MODELS
-    {
-      title: (
-        <div className={`flex justify-between items-center gap-x-3`}>
-          <span>Models</span>
-          <span
-            className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
-          >
-            {homeSearchData?.models?.length}
-          </span>
-        </div>
-      ),
-      Content: (
-        <div
-          className={`flex flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
-        >
-          {models?.map((model, index) => (
-            <label
-              key={index}
-              htmlFor={`${model}-${index}`}
-              className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
-            >
-              <input
-                type="checkbox"
-                id={`${model}-${index}`}
-                checked={homeSearchData?.models?.some((s) => s === model.id)}
-                className={`checkbox-primary checkbox checkbox-sm`}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setHomeSearchData({
-                      ...homeSearchData,
-                      models: [...homeSearchData.models, model.id],
-                    });
-                  } else {
-                    setHomeSearchData({
-                      ...homeSearchData,
-                      models: homeSearchData.models.filter(
-                        (sub) => sub !== model.id
-                      ),
-                    });
-                  }
-                }}
-              />{" "}
-              {model?.name}
-            </label>
-          ))}
-        </div>
-      ),
-    },
+
     // Location Distance Range
     {
       title: (
@@ -235,21 +138,15 @@ export default function FuelStationList() {
         </div>
       ),
     },
-    // Others
+    // FUEL TIMING
     {
       title: (
         <div className={`flex justify-between items-center gap-x-3`}>
-          <span>Others</span>
+          <span>Timing</span>
           <span
             className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
           >
-            {!!homeSearchData?.wifi_available &&
-            !!homeSearchData?.is_mobile_garage
-              ? 2
-              : !!homeSearchData?.wifi_available ||
-                !!homeSearchData?.is_mobile_garage
-              ? 1
-              : 0}
+            {!!homeSearchData?.open_now ? 1 : 0}
           </span>
         </div>
       ),
@@ -257,44 +154,24 @@ export default function FuelStationList() {
         <div
           className={`flex flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
         >
-          {/* WIFI  */}
+          {/* OPEN NOW  */}
           <label
-            htmlFor={`wifi`}
+            htmlFor={`openNow`}
             className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
           >
             <input
               type="checkbox"
-              id={`wifi`}
-              checked={homeSearchData?.wifi_available}
+              id={`open_now`}
+              checked={homeSearchData?.open_now}
               className={`checkbox-primary checkbox checkbox-sm`}
               onChange={(e) => {
                 setHomeSearchData({
                   ...homeSearchData,
-                  wifi_available: !!e.target.checked,
+                  open_now: !!e.target.checked,
                 });
               }}
             />
-            Wifi
-          </label>
-
-          {/* Remote Garage  */}
-          <label
-            htmlFor={`remote_garage`}
-            className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
-          >
-            <input
-              type="checkbox"
-              id={`remote_garage`}
-              checked={homeSearchData?.is_mobile_garage}
-              className={`checkbox-primary checkbox checkbox-sm`}
-              onChange={(e) => {
-                setHomeSearchData({
-                  ...homeSearchData,
-                  is_mobile_garage: !!e.target.checked,
-                });
-              }}
-            />
-            Remote Garage
+            Open Now
           </label>
         </div>
       ),
@@ -391,11 +268,11 @@ export default function FuelStationList() {
           </div>
         ),
       },
-      // Garage Timing
+      // FUEL TIMING
       {
         title: (
           <div className={`flex justify-between items-center gap-x-3`}>
-            <span>Garage Timing</span>
+            <span>Timing</span>
             <span
               className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
             >
@@ -407,7 +284,7 @@ export default function FuelStationList() {
           <div
             className={`flex flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
           >
-            {/* WIFI  */}
+            {/* OPEN NOW  */}
             <label
               htmlFor={`openNow`}
               className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
@@ -484,7 +361,7 @@ export default function FuelStationList() {
         >
           <div
             className={` fixed md:sticky bg-base-300 left-0 top-20 bottom-0 z-30 md:z-20  ${
-              isFilterOpen ? "w-[300px] md:w-[400px]" : "w-0"
+              isFilterOpen ? "w-full sm:w-[300px] md:w-[400px]" : "w-0"
             }`}
           >
             {/* FILTERS  */}

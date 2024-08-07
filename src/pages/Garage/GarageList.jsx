@@ -644,7 +644,7 @@ export default function GarageList() {
         >
           <div
             className={` fixed md:sticky bg-base-300 left-0 top-20 bottom-0 z-30 md:z-20  ${
-              isFilterOpen ? "w-[300px] md:w-[400px]" : "w-0"
+              isFilterOpen ? "w-full sm:w-[300px] md:w-[400px]" : "w-0"
             }`}
           >
             {/* FILTERS  */}
