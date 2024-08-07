@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import CustomTab from "../../components/CustomTab";
 import FuelStationList from "./FuelStationLists";
-import Map from "./Components/Map";
+import Map from "./Components/FuelStationMap";
 import Headings from "../../components/Headings/Headings";
+import FuelStationMap from "./Components/FuelStationMap";
 
 const FuelStation = () => {
   const [activeTab, setActiveTab] = useState("map");
@@ -12,10 +13,8 @@ const FuelStation = () => {
   ]);
   return (
     <div>
-      <div className={`flex flex-col justify-center items-center my-10 gap-10`}>
-        <Headings level={1} className={"text-primary"}>
-          Fuel Stations
-        </Headings>
+      <div className={`flex flex-col justify-center items-center py-10 gap-10`}>
+        <h1 className={`text-2xl font-bold text-primary`}>Fuel Stations</h1>
         <CustomTab
           tabs={tabs}
           activeTab={activeTab}
@@ -24,7 +23,7 @@ const FuelStation = () => {
         />
       </div>
       <div>
-        {activeTab === "map" && <Map />}
+        {activeTab === "map" && <FuelStationMap />}
         {activeTab === "list" && <FuelStationList />}
       </div>
     </div>

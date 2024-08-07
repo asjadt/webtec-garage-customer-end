@@ -12,7 +12,7 @@ const CustomTab = ({
 }) => {
   return (
     <div data-auto={`orderType-container-mainSection`} className={``}>
-      <div className={`pb-5 `}>
+      <div className={`pb-5`}>
         <div
           className={`bg-gray-100 text-sm transition-all duration-200 w-[320px] grid ${gridCol} rounded-full p-1 h-10`}
         >
