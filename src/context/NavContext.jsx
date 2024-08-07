@@ -2,7 +2,7 @@
 // #00102
 // ===========================================
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 // Create the authentication context
 export const NavContext = createContext();
@@ -25,6 +25,11 @@ export const NavProvider = ({ children }) => {
 export const useNav = () => {
   const { isNavOpen, setIsNavOpen } = useContext(NavContext);
   const [isDark, setIsDark] = useState(false);
+
+  // IF THE ROUTE IS CHANGED NEED TO CLOSE THE NAVIGATION
+  useEffect(() => {
+    setIsNavOpen(false);
+  }, [window.location.href]);
   return {
     isNavOpen,
     setIsNavOpen,
