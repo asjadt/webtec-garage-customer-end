@@ -26,8 +26,10 @@ const FuelStationDetails = () => {
   return (
     <div className={`space-y-10 `}>
       <div className={`mx-6 mt-6 space-y-10`}>
-        <div className={`space-y-5`}>
-          <h1 className={`text-3xl font-black text-primary`}>{data?.name}</h1>
+        <div className={`space-y-3 sm:space-y-5`}>
+          <h1 className={`text-xl sm:text-3xl font-black text-primary`}>
+            {data?.name}
+          </h1>
           {/* ADDRESS  */}
           <div>
             <address
@@ -40,17 +42,18 @@ const FuelStationDetails = () => {
             </address>
           </div>
         </div>
-        <div className={`space-y-5`}>
+        <div className={`space-y-3 sm:space-y-5`}>
           <TextTitleComponent text={"Fuel Services"} />
-          <div className={`flex items-center gap-6`}>
-            {data?.options?.map((option) => (
-              <div className={`flex items-center gap-2`}>
+          <div
+            className={`flex flex-col sm:flex-row sm:items-center flex-wrap gap-6`}
+          >
+            {data?.options?.map((option, i) => (
+              <div key={i} className={`flex items-center gap-2`}>
                 <div
                   className={`font-bold text-2xl text-primary p-3 rounded-md bg-primary-content`}
                 >
                   <i className={option.option.icon} />
                 </div>
-                {/* <option.option.icon /> */}
                 <div>
                   <h3
                     className={`font-medium text-primary text-[14px] sm:text-base`}
