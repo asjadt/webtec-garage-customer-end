@@ -15,6 +15,41 @@ export default {
         nunito: ["Nunito Sans", "sans-serif"],
       },
     },
+
+    screens: {
+      sm: "640px",
+      // => @media (min-width: 640px) { ... }
+
+      screen724: "724px",
+      // => @media (min-width: 720px) { ... }
+
+      md: "768px",
+      // => @media (min-width: 768px) { ... }
+
+      screen864: "864px",
+      // => @media (min-width: 864px) { ... }
+
+      lg: "1024px",
+      // => @media (min-width: 1024px) { ... }
+
+      screen1100: "1100px",
+      // => @media (min-width: 1100px) { ... }
+
+      screen1200: "1200px",
+      // => @media (min-width: 1200px) { ... }
+
+      screen1250: "1250px",
+      // => @media (min-width: 1200px) { ... }
+
+      screen1500: "1500px",
+      // => @media (min-width: 1500px) { ... }
+
+      xl: "1280px",
+      // => @media (min-width: 1280px) { ... }
+
+      "2xl": "1536px",
+      // => @media (min-width: 1536px) { ... }
+    },
   },
   daisyui: {
     themes: [

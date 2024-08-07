@@ -6,6 +6,7 @@ import { useGeoLocationData } from "../../context/GeoLocationDataContext";
 import GoogleMapForGarages from "./components/GoogleMapForGarages";
 import SearchForm from "./components/SearchForm";
 import ServiceList from "./components/ServiceList";
+import HowItsWork from "./components/HowItsWork";
 
 export default function Home() {
   const { location } = useGeoLocationData();
@@ -70,6 +71,9 @@ export default function Home() {
 
         {/* SEARCH FORM  */}
         <SearchForm />
+
+        {/* HOW ITS WORK SECTION  */}
+        <HowItsWork />
 
         {/* SERVICES LIST  */}
         <ServiceList />

@@ -5,6 +5,7 @@ export default function TextLabelComponent({
   text,
   color = "text-primary",
   bgColor = "bg-primary-content",
+  customClassName = "",
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -19,7 +20,7 @@ export default function TextLabelComponent({
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={imageVariants}
-      className={`py-2 px-3 overflow-hidden rounded-full ${bgColor} ${color} w-32 text-center font-semibold`}
+      className={`py-2 px-5 overflow-hidden rounded-full ${bgColor} ${color} ${customClassName} w-auto text-center font-semibold`}
     >
       {text}
     </motion.div>
