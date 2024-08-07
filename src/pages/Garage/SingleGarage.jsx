@@ -29,6 +29,7 @@ import GarageBooking from "./GarageBooking";
 import GarageBookingWIthPackage from "./GarageBookingWIthPackage";
 import CreateBookingForm from "./components/BookingForms/CreateBookingForm";
 import CreateBookingWithPackageForm from "./components/BookingForms/CreateBookingWithPackageForm";
+import { Map, Marker } from "@vis.gl/react-google-maps";
 
 const gridContainerVariants = {
   hidden: { opacity: 0 },
@@ -51,6 +52,8 @@ export default function SingleGarage() {
     queryKey: ["singleGarage", id],
     queryFn: (params) => getSingleGarage(params.queryKey[1]),
   });
+
+  console.log(data?.garage?.garage_times);
 
   useEffect(() => {
     if (tabs?.includes(tabName)) {
@@ -208,6 +211,13 @@ export default function SingleGarage() {
                 </div>
               </div>
 
+              {/* OPENING TIME  */}
+              {/* <div className={`p-5`}>
+                <div className={`flex justify-center items-center mb-5`}>
+                  <TextTitleComponent text={"Opening time"} />
+                </div>
+              </div> */}
+
               {/* SERVICE  */}
               <div className={`p-5`}>
                 <div className={`flex justify-center items-center`}>
@@ -264,20 +274,31 @@ export default function SingleGarage() {
                 <div className={`flex justify-center items-center mb-5`}>
                   <TextTitleComponent text={"Location"} />
                 </div>
-                <div className={`w-full h-[400px]`}>
-                  <iframe
-                    style={{
-                      outline: "none",
-                    }}
-                    title="Garage location"
-                    src={`https://maps.google.com/maps?q=${data?.garage?.lat},${data?.garage?.long}&hl=es&z=14&output=embed`}
-                    width="100%"
-                    height="100%"
-                    frameBorder={0}
-                    allowFullScreen
-                    aria-hidden="false"
-                    tabIndex={0}
-                  />
+                <div className={`relative`}>
+                  <div
+                    className={`w-full flex justify-center items-center absolute top-48`}
+                  >
+                    <Map
+                      defaultCenter={{
+                        lat: parseFloat(data?.garage?.lat),
+                        lng: parseFloat(data?.garage?.long),
+                      }}
+                      defaultZoom={8}
+                      gestureHandling={"greedy"}
+                      disableDefaultUI={true}
+                      disableDoubleClickZoom={true}
+                      scaleControl={true}
+                      className="w-full h-[calc(100vh-322px)] absolute outline-none border-none active:border-none"
+                      defaultTilt={10}
+                    >
+                      <Marker
+                        position={{
+                          lat: parseFloat(data?.garage?.lat),
+                          lng: parseFloat(data?.garage?.long),
+                        }}
+                      />
+                    </Map>
+                  </div>
                 </div>
               </div>
             </>

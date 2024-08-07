@@ -51,34 +51,6 @@ export default function FuelStationCard({ fuel }) {
       data-auto={`container${id}-garageCard`}
       className={`md:flex relative items-center overflow-hidden md:space-x-2 space-y-3 md:space-y-0 border w-full rounded-md p-3 bg-base-300 shadow-lg`}
     >
-      {/* LOGO IMAGE */}
-      <img
-        data-auto={`logo${id}-garageCard`}
-        className={`absolute rounded-[5px] shadow-md top-4 right-4 md:top-4 md:right-4 w-12 h-auto`}
-        src={
-          logo
-            ? logo
-            : "https://i.postimg.cc/d13x1Cd6/ksnip-20240730-175628.png"
-        }
-        alt="Garage Logo"
-      />
-      {/* <div
-        className={`w-full md:w-[250px] h-[150px] md:h-full bg-black object-cover rounded-md relative`}
-      > */}
-      {/* COVER IMAGE */}
-      {/* <img
-          data-auto={`coverImage${id}-garageCard`}
-          className={`w-full md:w-[250px] h-[150px] md:h-full object-cover rounded-md`}
-          src={
-            background_image
-              ? background_image
-              : "https://garagewire.co.uk/wp-content/uploads/2017/09/bigstock-auto-service-repair-maintena-1505041221-760x500.jpg"
-          }
-          alt="Garage Cover Pic"
-        /> */}
-
-      {/* </div> */}
-
       {/* MAIN SECTION */}
       <div
         data-auto={`mainSection${id}-garageCard`}

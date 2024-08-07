@@ -106,6 +106,20 @@ html {
   color: #fff;
 }
 
+/* custom step color */
+.steps .step-custom:before {
+  background-color: #e1e1e1;
+  height: 0.5rem /* 8px */;
+  width: 100%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
+    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.steps .step-custom:after {
+  background-color: #e1e1e1;
+  color: #000;
+}
+
 /* CUSTOM POPUP  */
 .addCustomerPopup-content {
   overflow: hidden;

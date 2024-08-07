@@ -28,6 +28,7 @@ export default function GarageList() {
   } = useData();
   const [locationDistanceRange, setLocationDistanceRange] = useState(3);
   const [tab, setTab] = useState("garages"); // ACCEPT "garages" OR "job"
+  console.log({ tab });
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   console.log({ isFilterOpen });
@@ -514,6 +515,7 @@ export default function GarageList() {
               className="range range-primary range-sm"
               step={1}
               onChange={(e) => {
+                console.log(e?.target?.value);
                 setLocationDistanceRange(parseInt(e.target.value));
               }}
               onMouseUp={handleDistanceChange}

@@ -54,37 +54,43 @@ export default function SelectPackagePackageForm({
               }}
               className={`${
                 formData?.booking_garage_package_ids[0] === pkg?.id
-                  ? "bg-primary hover:bg-primary-focus"
-                  : " hover:bg-primary-content"
-              } border group flex flex-col items-center justify-center shadow-md rounded-md p-5`}
+                  ? "bg-primary-content"
+                  : ""
+              } border group flex flex-col items-center justify-center shadow-md rounded-md p-5 hover:text-primary`}
             >
               {/* PACKAGE NAME  */}
               <h2
                 className={`font-medium ${
                   formData?.booking_garage_package_ids[0] === pkg?.id
-                    ? "text-base-300"
-                    : "text-primary"
+                    ? "text-primary"
+                    : ""
                 }`}
               >
                 {pkg?.name}
               </h2>
 
               {/* PACKAGE PRICE  */}
-              <h2 className={`font-bold text-2xl`}>
+              <h2
+                className={`font-bold text-2xl ${
+                  formData?.booking_garage_package_ids[0] === pkg?.id
+                    ? "text-primary"
+                    : ""
+                }`}
+              >
                 {pkg?.price}{" "}
-                <span
-                  className={`text-xs  ${
-                    formData?.booking_garage_package_ids[0] === pkg?.id
-                      ? "text-base-300 "
-                      : "text-primary"
-                  }`}
-                >
+                <span className={`text-xs`}>
                   {garageData?.garage?.currency}
                 </span>
               </h2>
 
               {/* PACKAGE SERVICES  */}
-              <span className={`block mb-5 text-center`}>
+              <span
+                className={`block mb-5 text-center ${
+                  formData?.booking_garage_package_ids[0] === pkg?.id
+                    ? "text-primary"
+                    : ""
+                }`}
+              >
                 {subServices
                   .filter((sub_service) =>
                     pkg?.sub_services?.some(
@@ -96,11 +102,19 @@ export default function SelectPackagePackageForm({
               </span>
 
               {/* PACKAGE DESCRIPTION  */}
-              <SplitDescription
-                text={pkg?.description}
-                length={40}
-                title={"Description"}
-              />
+              <div
+                className={`${
+                  formData?.booking_garage_package_ids[0] === pkg?.id
+                    ? "text-primary"
+                    : ""
+                }`}
+              >
+                <SplitDescription
+                  text={pkg?.description}
+                  length={40}
+                  title={"Description"}
+                />
+              </div>
 
               {/* PACKAGE SERVICES  */}
             </button>

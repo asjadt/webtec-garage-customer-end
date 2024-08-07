@@ -102,8 +102,8 @@ export default function JobDetailsForm({
               <div
                 className={`bg-primary text-base-300 w-full py-3 px-5 flex font-semibold`}
               >
-                <span className={`w-[60%] block`}>Day</span>
-                <span className={`w-[20%] block`}>Start at</span>
+                <span className={`w-[40%] block`}>Day</span>
+                <span className={`w-[40%] block`}>Start at</span>
                 <span className={`w-[20%] block`}>Until</span>
               </div>
 
@@ -114,7 +114,7 @@ export default function JobDetailsForm({
                 >
                   {!item?.is_closed ? (
                     <>
-                      <span className={`w-[60%] block`}>
+                      <span className={`w-[40%] block`}>
                         {item?.day === 0
                           ? "Sunday"
                           : item?.day === 1
@@ -131,7 +131,7 @@ export default function JobDetailsForm({
                           ? "Saturday"
                           : ""}
                       </span>
-                      <span className={`w-[20%] block`}>
+                      <span className={`w-[40%] block`}>
                         {moment(item?.opening_time, "HH:mm").format("hh:mmA")}
                       </span>
                       <span className={`w-[20%] block`}>
