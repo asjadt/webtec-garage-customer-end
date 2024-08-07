@@ -19,6 +19,7 @@ import App from "./App";
 import "./calendar.css";
 import CustomLoading from "./components/CustomLoading";
 import ToastProvider from "./components/Toast-Notification/ToastProvider";
+import { APIProvider } from "@vis.gl/react-google-maps";
 
 // SETTING API BASE URL
 axios.defaults.baseURL = `${import.meta.env.VITE_BASE_URL}`;
@@ -38,8 +39,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <ToastProvider>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider>
-            <Toaster position="top-right" reverseOrder={false} />
-            <App />
+            <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAP_API}>
+              <Toaster position="top-right" reverseOrder={false} />
+              <App />
+            </APIProvider>
           </ThemeProvider>
         </QueryClientProvider>
       </ToastProvider>

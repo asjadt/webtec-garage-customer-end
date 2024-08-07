@@ -32,7 +32,7 @@ export const menus = () => {
     // PRIVATE ROUTES
     // ==========================
     {
-      title: "Dashboard",
+      title: "My Account",
       link: "/my-account",
       Icon: FiPieChart,
       childrens: [

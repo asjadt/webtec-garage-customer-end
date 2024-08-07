@@ -27,7 +27,7 @@ const FuelStationDetails = () => {
     <div className={`space-y-10 `}>
       <div className={`mx-6 mt-6 space-y-10`}>
         <div className={`space-y-5`}>
-          <h1 className={`text-3xl font-black text-primary`}>{data?.name}</h1>
+          <h1 className={`text-3xl font-black`}>{data?.name}</h1>
           {/* ADDRESS  */}
           <div>
             <address
@@ -40,31 +40,38 @@ const FuelStationDetails = () => {
             </address>
           </div>
         </div>
-        <div className={`space-y-5`}>
-          <TextTitleComponent text={"Fuel Services"} />
-          <div className={`flex items-center gap-6`}>
-            {data?.options?.map((option) => (
-              <div className={`flex items-center gap-2`}>
-                <div
-                  className={`font-bold text-2xl text-primary p-3 rounded-md bg-primary-content`}
-                >
-                  <i className={option.option.icon} />
-                </div>
-                {/* <option.option.icon /> */}
-                <div>
-                  <h3
-                    className={`font-medium text-primary text-[14px] sm:text-base`}
+
+        {!!data?.options?.length > 0 && (
+          <div className={`space-y-5`}>
+            <TextTitleComponent text={"Fuel Services"} />
+            <div
+              className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5`}
+            >
+              {data?.options?.map((option, i) => (
+                <div key={i} className={`flex items-start justify-start gap-2`}>
+                  <div
+                    className={`font-bold text-lg text-primary w-10 h-10 flex justify-center items-center rounded-md bg-primary-content`}
                   >
-                    {option?.option?.name}
-                  </h3>
-                  <p className={`text-[12px] sm:text-[14px] text-gray-500`}>
-                    {option?.option?.is_active ? "Available" : "Unavailable"}
-                  </p>
+                    <i className={option.option.icon} />
+                  </div>
+                  {/* <option.option.icon /> */}
+                  <div>
+                    <h3
+                      className={`font-medium text-primary text-sm sm:text-base `}
+                    >
+                      {option?.option?.name}
+                    </h3>
+                    <p
+                      className={`text-[12px] sm:text-[14px] text-gray-400 font-nunito`}
+                    >
+                      {option?.option?.is_active ? "Available" : "Unavailable"}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
       {/* MAP  */}
       <div className={`p-5`}>
