@@ -18,7 +18,7 @@ export default function DashboardLayout() {
 
       <div
         data-cy="main_container"
-        className={`flex md:mt-3 relative h-[calc(100%-53px)] md:h-[calc(100%-90px)]`}
+        className={`flex md:mt-3 relative h-[calc(100%-80px)]`}
       >
         <div
           data-cy="main-sidebar"
