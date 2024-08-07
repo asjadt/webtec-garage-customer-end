@@ -27,7 +27,7 @@ export default function Sidebar() {
 
   return (
     <div
-      className={`absolute  z-40  transition-all group duration-300 w-[220px] md:w-[220px] ${
+      className={`absolute z-40  transition-all group duration-300 w-[220px] md:w-[220px] ${
         isNavOpen ? "left-[0px]" : "left-[-250px]"
       }  rounded-r-none md:rounded-xl overflow-y-auto  scrollbar-none  bg-base-300 shadow-xl text-base-100 flex-col flex h-full`}
     >

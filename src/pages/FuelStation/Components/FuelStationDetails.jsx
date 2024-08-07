@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { decryptID } from "../../../utils/encryptAndDecryptID";
 import { TiLocationOutline } from "react-icons/ti";
 import CustomLoading from "../../../components/CustomLoading";
+import { Map, Marker } from "@vis.gl/react-google-maps";
 
 const FuelStationDetails = () => {
   const { encID } = useParams();
@@ -78,20 +79,31 @@ const FuelStationDetails = () => {
         <div className={`flex justify-center items-center mb-5`}>
           <TextTitleComponent text={"Location"} />
         </div>
-        <div className={`w-full h-[400px]`}>
-          <iframe
-            style={{
-              outline: "none",
-            }}
-            title="Garage location"
-            src={`https://maps.google.com/maps?q=${data?.lat},${data?.long}&hl=es&z=14&output=embed`}
-            width="100%"
-            height="100%"
-            frameBorder={0}
-            allowFullScreen
-            aria-hidden="false"
-            tabIndex={0}
-          />
+        <div className={`relative`}>
+          <div
+            className={`w-full flex justify-center items-center absolute top-48`}
+          >
+            <Map
+              defaultCenter={{
+                lat: parseFloat(data?.lat),
+                lng: parseFloat(data?.long),
+              }}
+              defaultZoom={8}
+              gestureHandling={"greedy"}
+              disableDefaultUI={true}
+              disableDoubleClickZoom={true}
+              scaleControl={true}
+              className="w-full h-[calc(100vh-322px)] absolute outline-none border-none active:border-none"
+              defaultTilt={10}
+            >
+              <Marker
+                position={{
+                  lat: parseFloat(data?.lat),
+                  lng: parseFloat(data?.long),
+                }}
+              />
+            </Map>
+          </div>
         </div>
       </div>
     </div>

@@ -43,10 +43,10 @@ const ViewPendingJob = ({ popupOption, setPopupOption, job, refetch }) => {
         })
           .then((res) => {
             setIsUpdated(Math.random());
-            setSingleJob({
-              ...job,
-              job_bids: { ...job.job_bids, status: "accepted" },
-            });
+            // setSingleJob({
+            //   ...job,
+            //   job_bids: { ...job.job_bids, status: "accepted" },
+            // });
             Swal.fire({
               title: "Accepted!",
               text: "Booking has been accepted successfully.",
