@@ -217,7 +217,7 @@ export default function SingleGarage() {
                 <div className={`flex justify-center items-center mb-5`}>
                   <TextTitleComponent text={"Opening time"} />
                 </div>
-                <div className={`text-sm`}>
+                <div className={`text-sm max-w-screen-xl mx-auto`}>
                   <div
                     className={`bg-primary text-base-300 w-full py-3 px-5 flex font-semibold`}
                   >

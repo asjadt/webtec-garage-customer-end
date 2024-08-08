@@ -12,7 +12,9 @@ export default function ServiceDetailsForm({
   garageData,
 }) {
   console.log({ garageData });
-  const { loading, subServices, services, makes, models } = useData();
+  const { loading, subServices, services, makes, models, homeSearchData } =
+    useData();
+  console.log({ homeSearchData, subServices });
   const [isLoading, setIsLoading] = useState(false);
   const [isMakeChangeLoading, setIsMakeChangeLoading] = useState(false);
   const [modelsForMultiSelect, setModelsForMultiSelect] = useState([]);
@@ -94,16 +96,24 @@ export default function ServiceDetailsForm({
           )}
           required={true}
           placeholder="Select Services"
-          defaultSelectedValues={subServices
-            ?.filter((ss) =>
-              garageData?.garage?.services?.some((gs) => gs?.id === ss?.id)
-            )
-            ?.filter((sub_service) =>
-              formData?.booking_sub_service_ids?.some(
-                (selected_sub_service_id) =>
-                  sub_service?.id === selected_sub_service_id
-              )
-            )}
+          defaultSelectedValues={
+            homeSearchData?.sub_services?.length > 0
+              ? subServices?.filter((ss) =>
+                  homeSearchData?.sub_services?.some((gs) => gs === ss?.id)
+                )
+              : subServices
+                  ?.filter((ss) =>
+                    garageData?.garage?.services?.some(
+                      (gs) => gs?.id === ss?.id
+                    )
+                  )
+                  ?.filter((sub_service) =>
+                    formData?.booking_sub_service_ids?.some(
+                      (selected_sub_service_id) =>
+                        sub_service?.id === selected_sub_service_id
+                    )
+                  )
+          }
           onSelect={(e) => {
             setFormData({
               ...formData,
@@ -146,13 +156,21 @@ export default function ServiceDetailsForm({
             )
           )}
           singleSelect
-          defaultSelectedValues={makes
-            ?.filter((make) =>
-              garageData?.garage?.automobile_makes?.some(
-                (garageMake) => garageMake?.id === make?.id
-              )
-            )
-            ?.filter((make) => formData?.automobile_make_id === make?.id)}
+          defaultSelectedValues={
+            homeSearchData?.makes?.length > 0
+              ? makes?.filter((make) =>
+                  homeSearchData?.makes?.some(
+                    (garageMake) => garageMake === make?.id
+                  )
+                )
+              : makes
+                  ?.filter((make) =>
+                    garageData?.garage?.automobile_makes?.some(
+                      (garageMake) => garageMake?.id === make?.id
+                    )
+                  )
+                  ?.filter((make) => formData?.automobile_make_id === make?.id)
+          }
           onSelect={(e) => {
             setFormData({
               ...formData,
@@ -176,13 +194,21 @@ export default function ServiceDetailsForm({
             )
           )}
           singleSelect
-          defaultSelectedValues={modelsForMultiSelect
-            ?.filter((model) =>
-              garageData?.garage?.automobile_models?.some(
-                (garageModel) => garageModel?.id === model?.id
-              )
-            )
-            ?.filter((make) => formData?.automobile_model_id === make?.id)}
+          defaultSelectedValues={
+            homeSearchData?.models?.length > 0
+              ? models?.filter((model) =>
+                  homeSearchData?.models?.some(
+                    (garageModel) => garageModel === model?.id
+                  )
+                )
+              : modelsForMultiSelect
+                  ?.filter((model) =>
+                    garageData?.garage?.automobile_models?.some(
+                      (garageModel) => garageModel?.id === model?.id
+                    )
+                  )
+                  ?.filter((make) => formData?.automobile_model_id === make?.id)
+          }
           onSelect={(e) => {
             setFormData({
               ...formData,

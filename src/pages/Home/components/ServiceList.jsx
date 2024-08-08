@@ -1,7 +1,9 @@
+import { useContext } from "react";
 import Headings from "../../../components/Headings/Headings";
 import TextLabelComponent from "../../../components/label/TextLabelComponent";
 import { useData } from "../../../context/DataContext";
 import { motion } from "framer-motion";
+import { AuthContext } from "../../../context/AuthContextV2";
 
 const gridContainerVariants = {
   hidden: { opacity: 0 },
@@ -15,6 +17,8 @@ const gridItemVariants = {
 
 export default function ServiceList() {
   const { services, loading } = useData();
+  const { authPopupOptions, setAuthPopupOptions } = useContext(AuthContext);
+  console.log(services?.slice(0, 8));
   return (
     <div className={`w-full max-w-screen-xl`}>
       <div className={`flex justify-center items-center mb-5`}>
@@ -43,31 +47,48 @@ export default function ServiceList() {
           ))}
         </div>
       ) : (
-        <motion.div
-          variants={gridContainerVariants}
-          initial="hidden"
-          animate="visible"
-          className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5`}
-        >
-          {services?.map((service, index) => (
-            <motion.div
-              key={index}
-              variants={gridItemVariants}
-              exit={{ opacity: 0, y: 50 }}
-              transition={{ stagger: 0.5 }}
-              className={`w-full h-[250px] rounded-xl shadow-lg overflow-hidden`}
+        <div className={`flex flex-col gap-10`}>
+          <motion.div
+            variants={gridContainerVariants}
+            initial="hidden"
+            animate="visible"
+            className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5`}
+          >
+            {services?.slice(0, 8)?.map((service, index) => (
+              <motion.div
+                key={index}
+                variants={gridItemVariants}
+                exit={{ opacity: 0, y: 50 }}
+                transition={{ stagger: 0.5 }}
+                className={`w-full h-[250px] rounded-xl shadow-lg overflow-hidden`}
+              >
+                <img
+                  className={`w-full h-[200px] object-cover`}
+                  src="https://media.istockphoto.com/id/1347150429/photo/professional-mechanic-working-on-the-engine-of-the-car-in-the-garage.jpg?s=612x612&w=0&k=20&c=5zlDGgLNNaWsp_jq_L1AsGT85wrzpdl3kVH-75S-zTU="
+                  alt=""
+                />
+                <h3 className={`text-center py-2 font-medium`}>
+                  {service?.name}
+                </h3>
+              </motion.div>
+            ))}
+          </motion.div>
+          <div className={`w-full flex justify-center items-center mb-5`}>
+            <button
+              onClick={() =>
+                setAuthPopupOptions({
+                  ...authPopupOptions,
+                  open: true,
+                  type: "services",
+                  title: "Services",
+                })
+              }
+              className={`btn btn-primary`}
             >
-              <img
-                className={`w-full h-[200px] object-cover`}
-                src="https://media.istockphoto.com/id/1347150429/photo/professional-mechanic-working-on-the-engine-of-the-car-in-the-garage.jpg?s=612x612&w=0&k=20&c=5zlDGgLNNaWsp_jq_L1AsGT85wrzpdl3kVH-75S-zTU="
-                alt=""
-              />
-              <h3 className={`text-center py-2 font-medium`}>
-                {service?.name}
-              </h3>
-            </motion.div>
-          ))}
-        </motion.div>
+              See More
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
