@@ -24,6 +24,7 @@ export default function Login() {
     setUser,
     handleClosePopup,
     handleOpenSignUpPopup,
+    authPopupOptions,
   } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -165,7 +166,9 @@ export default function Login() {
           <button
             data-cy="login_register_business"
             disabled={isLoading}
-            onClick={handleOpenSignUpPopup}
+            onClick={() => {
+              handleOpenSignUpPopup(authPopupOptions?.forms);
+            }}
             className="btn btn-outline  w-full btn-primary font-semibold text-sm sm:text-base hover:scale-105 active:scale-95 rounded-[5px] transition-all duration-200"
           >
             Register A New Garage

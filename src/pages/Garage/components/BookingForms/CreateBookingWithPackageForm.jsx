@@ -27,19 +27,10 @@ import SelectPackagePackageForm from "../Steps/SelectPackagePackageForm";
 
 export default function CreateBookingWithPackageForm({ garageData }) {
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, setAuthPopupOptions, handleOpenLoginPopup } =
+    useAuth();
   const { loading } = useData();
 
-  // POPUP OPTIONS
-  const [popupOption, setPopupOption] = useState({
-    open: false,
-    type: "",
-    onClose: () => {
-      setPopupOption({ ...popupOption, open: false });
-    },
-    overlayStyle: { background: "red" },
-    closeOnDocumentClick: false,
-  });
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     garage_id: garageData?.garage?.id,
@@ -112,16 +103,10 @@ export default function CreateBookingWithPackageForm({ garageData }) {
     if (user || isAuthenticated) {
       createFunction();
     } else {
+      console.error("hii");
       // OPEN THE LOGIN POPUP
-      console.log("login");
-      setPopupOption({
-        open: true,
-        type: "login",
-        onClose: () => {
-          setPopupOption({ ...popupOption, open: false });
-        },
-        overlayStyle: { background: "red" },
-        closeOnDocumentClick: false,
+      handleOpenLoginPopup({
+        garageRegistration: false,
       });
     }
   };
@@ -131,30 +116,6 @@ export default function CreateBookingWithPackageForm({ garageData }) {
   } else {
     return (
       <div className="py-5 px-5 md:px-5 flex justify-center items-center bg-base-300 h-full">
-        <CustomPopup
-          popupClasses={`w-full sm:w-[70vw] md:w-[70vw] lg:w-[50vw]`}
-          popupOption={popupOption}
-          setPopupOption={setPopupOption}
-          Component={
-            <>
-              {popupOption?.type === "login" && (
-                <Login
-                  handleClosePopup={(e) => {
-                    setPopupOption({
-                      open: false,
-                      type: "",
-                      onClose: () => {
-                        setPopupOption({ ...popupOption, open: false });
-                      },
-                      overlayStyle: { background: "red" },
-                      closeOnDocumentClick: false,
-                    });
-                  }}
-                />
-              )}
-            </>
-          }
-        />
         <div
           className={`w-full border max-w-[600px] p-5 shadow-lg rounded-xl h-auto relative`}
         >

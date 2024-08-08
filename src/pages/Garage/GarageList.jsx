@@ -12,6 +12,7 @@ import GarageListComponent from "./components/GarageListComponent";
 import { useGeoLocationData } from "../../context/GeoLocationDataContext";
 import { getGaragesV2 } from "../../Apis/garage";
 import { IoMdClose } from "react-icons/io";
+import axios from "axios";
 
 export default function GarageList() {
   const { llFromDistance, location } = useGeoLocationData();
@@ -31,21 +32,20 @@ export default function GarageList() {
   console.log({ tab });
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  console.log({ isFilterOpen });
 
   // HANDLE THE DISTANCE CHANGE
   const handleDistanceChange = () => {
     const distanceData = llFromDistance({
-      latitude: homeSearchData.start_lat || location?.latitude,
-      longitude: homeSearchData.start_long || location?.longitude,
+      latitude: location?.latitude,
+      longitude: location?.longitude,
       distance: Math.sqrt(2) * (locationDistanceRange * 1),
       bearing: 135,
     });
 
     setHomeSearchData((prev) => ({
       ...prev,
-      start_lat: homeSearchData?.start_lat || location?.latitude,
-      start_long: homeSearchData?.start_ong || location?.longitude,
+      start_lat: location?.latitude,
+      start_long: location?.longitude,
       end_lat: distanceData?.latitude,
       end_long: distanceData?.longitude,
     }));

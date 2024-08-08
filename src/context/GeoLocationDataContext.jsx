@@ -3,6 +3,7 @@
 // ===========================================
 
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { handleApiError } from "../utils/apiErrorHandler";
 
 // Create the authentication context
 export const GeoLocationDataContext = createContext();
@@ -17,29 +18,6 @@ export const GeoLocationDataContextProvider = ({ children }) => {
 
   // HELPER FUNCTION
   let llFromDistance = function ({ latitude, longitude, distance, bearing }) {
-    // const R = 6378.1; // Radius of the Earth
-
-    // const brng = (bearing * Math.PI) / 180; // Convert bearing to radian
-
-    // let lat = (latitude * Math.PI) / 180; // Current coords to radians
-    // let lon = (longitude * Math.PI) / 180;
-
-    // // Do the math magic
-    // lat = Math.asin(
-    //   Math.sin(lat) * Math.cos(distance / R) +
-    //     Math.cos(lat) * Math.sin(distance / R) * Math.cos(brng)
-    // );
-
-    // lon += Math.atan2(
-    //   Math.sin(brng) * Math.sin(distance / R) * Math.cos(lat),
-    //   Math.cos(distance / R) - Math.sin(lat) * Math.sin(lat)
-    // );
-
-    // return {
-    //   latitude: (lat * 180) / Math.PI,
-    //   longitude: (lon * 180) / Math.PI,
-    // };
-
     const R = 6378.1; // Radius of the Earth in km
 
     const brng = (bearing * Math.PI) / 180; // Convert bearing to radian
@@ -68,33 +46,96 @@ export const GeoLocationDataContextProvider = ({ children }) => {
 
   // GETTING EXACT LOCATION
   useEffect(() => {
-    if (navigator?.geolocation) {
-      navigator?.geolocation?.getCurrentPosition(
-        function (position) {
-          // Coords back to degrees and return
-          setCurrentLat(
-            llFromDistance({
+    // Function to fetch location using IP address as a fallback
+    const fetchLocationByIP = async () => {
+      try {
+        const response = await fetch(
+          `https://api.ip2location.io/?key=${
+            import.meta.env.VITE_IP2LOCATION_API_KEY
+          }`
+        );
+        const data = await response.json();
+        setCurrentLat(
+          llFromDistance({
+            latitude: data.latitude,
+            longitude: data.longitude,
+            distance: Math.sqrt(2) * 31,
+            bearing: 135,
+          })
+        );
+
+        setLocation({
+          latitude: data.latitude,
+          longitude: data.longitude,
+        });
+      } catch (error) {
+        console.error("Error fetching location by IP:", error);
+      }
+    };
+
+    // Function to fetch location using Geolocation API
+    const fetchLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setCurrentLat(
+              llFromDistance({
+                latitude: position?.coords?.latitude,
+                longitude: position?.coords?.longitude,
+                distance: Math.sqrt(2) * 31,
+                bearing: 135,
+              })
+            );
+
+            setLocation({
               latitude: position?.coords?.latitude,
               longitude: position?.coords?.longitude,
-              distance: Math.sqrt(2) * 31,
-              bearing: 135,
-            })
-          );
+            });
+          },
+          (error) => {
+            console.error(
+              "Error fetching location using Geolocation API:",
+              error
+            );
+            fetchLocationByIP(); // Fallback to IP-based location if Geolocation API fails
+          }
+        );
+      } else {
+        fetchLocationByIP(); // Fallback if Geolocation API is not supported
+      }
+    };
 
-          setLocation({
-            latitude: position?.coords?.latitude,
-            longitude: position?.coords?.longitude,
-          });
-        },
-        function (error) {
-          handleApiError(error);
-        },
-        { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
+    fetchLocation();
   }, []);
+
+  //   if (navigator?.geolocation) {
+  //     navigator?.geolocation?.getCurrentPosition(
+  //       function (position) {
+  //         // Coords back to degrees and return
+  //         setCurrentLat(
+  //           llFromDistance({
+  //             latitude: position?.coords?.latitude,
+  //             longitude: position?.coords?.longitude,
+  //             distance: Math.sqrt(2) * 31,
+  //             bearing: 135,
+  //           })
+  //         );
+
+  //         setLocation({
+  //           latitude: position?.coords?.latitude,
+  //           longitude: position?.coords?.longitude,
+  //         });
+  //       },
+  //       function (error) {
+  //         console.log({ error });
+  //         handleApiError(error);
+  //       },
+  //       { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+  //     );
+  //   } else {
+  //     console.error("Geolocation is not supported by this browser.");
+  //   }
+  // }, []);
 
   return (
     <GeoLocationDataContext.Provider

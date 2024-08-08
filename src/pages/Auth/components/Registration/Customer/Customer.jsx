@@ -22,6 +22,7 @@ export default function Customer() {
     setIsLoading,
     handleClosePopup,
     handleOpenLoginPopup,
+    authPopupOptions,
   } = useAuth();
 
   // FORM DATA
@@ -396,7 +397,7 @@ export default function Customer() {
         <span className={`text-center font-medium py-5`}>
           Already have an account?{" "}
           <span
-            onClick={handleOpenLoginPopup}
+            onClick={() => handleOpenLoginPopup(authPopupOptions?.forms)}
             className={`text-primary cursor-pointer`}
           >
             Login

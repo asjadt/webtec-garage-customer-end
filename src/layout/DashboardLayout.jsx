@@ -7,6 +7,7 @@ import Footer from "./Footer/Footer";
 import Navbar from "./Navbar/Navbar";
 import Sidebar from "./SideBar/Sidebar";
 import { Outlet } from "react-router-dom";
+import NavbarForDashboard from "./Navbar/NavbarForDashboard";
 
 export default function DashboardLayout() {
   return (
@@ -14,7 +15,7 @@ export default function DashboardLayout() {
       data-cy="hrm_app"
       className={`p-0 md:p-5 bg-base-100 md:h-[100vh] h-[97vh]`}
     >
-      <Navbar />
+      <NavbarForDashboard />
 
       <div
         data-cy="main_container"

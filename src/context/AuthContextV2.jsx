@@ -72,54 +72,73 @@ export const AuthProvider = ({ children }) => {
   }, [isAuthenticated]);
 
   // POPUP OPTIONS
-  const [popupOption, setPopupOption] = useState({
+  const [authPopupOptions, setAuthPopupOptions] = useState({
     open: false,
     type: "",
     onClose: () => {
-      setPopupOption({ ...popupOption, open: false });
+      setAuthPopupOptions({ ...authPopupOptions, open: false });
     },
     overlayStyle: { background: "red" },
     closeOnDocumentClick: false,
   });
 
   // HANDLER FOR CLOSE POPUP
-  const handleClosePopup = (e) => {
-    setPopupOption({
+  const handleClosePopup = () => {
+    setAuthPopupOptions({
       open: false,
       type: "",
       onClose: () => {
-        setPopupOption({ ...popupOption, open: false });
+        setAuthPopupOptions({ ...authPopupOptions, open: false });
       },
       overlayStyle: { background: "red" },
       closeOnDocumentClick: false,
+      forms: {
+        customerRegistration: true,
+        garageRegistration: true,
+      },
     });
   };
 
   // HANDLER OPEN LOGIN POPUP
-  const handleOpenLoginPopup = (e) => {
-    setPopupOption({
+  const handleOpenLoginPopup = ({
+    customerRegistration = true,
+    garageRegistration = true,
+  }) => {
+    setAuthPopupOptions({
       open: true,
       type: "login",
       title: "Login",
       onClose: () => {
-        setPopupOption({ ...popupOption, open: false });
+        setAuthPopupOptions({ ...authPopupOptions, open: false });
       },
       overlayStyle: { background: "red" },
       closeOnDocumentClick: false,
+      forms: {
+        customerRegistration,
+        garageRegistration,
+      },
     });
   };
 
   // HANDLER OPEN SIGN UP POPUP
-  const handleOpenSignUpPopup = (e) => {
-    setPopupOption({
+  const handleOpenSignUpPopup = ({
+    customerRegistration = true,
+    garageRegistration = true,
+  }) => {
+    setAuthPopupOptions({
       open: true,
       type: "register",
       title: "Register",
       onClose: () => {
-        setPopupOption({ ...popupOption, open: false });
+        setAuthPopupOptions({ ...authPopupOptions, open: false });
       },
       overlayStyle: { background: "red" },
       closeOnDocumentClick: false,
+
+      forms: {
+        customerRegistration,
+        garageRegistration,
+      },
     });
   };
 
@@ -136,6 +155,9 @@ export const AuthProvider = ({ children }) => {
         setUser,
 
         logout,
+
+        authPopupOptions,
+        setAuthPopupOptions,
         handleClosePopup,
         handleOpenLoginPopup,
         handleOpenSignUpPopup,
@@ -143,16 +165,16 @@ export const AuthProvider = ({ children }) => {
     >
       <CustomPopup
         popupClasses={
-          popupOption?.type === "register"
+          authPopupOptions?.type === "register"
             ? `w-full sm:w-[80vw] md:w-[90vw] lg:w-[80vw]`
             : `w-full sm:w-[70vw] md:w-[70vw] lg:w-[50vw]`
         }
-        popupOption={popupOption}
-        setPopupOption={setPopupOption}
+        popupOption={authPopupOptions}
+        setPopupOption={setAuthPopupOptions}
         Component={
           <>
-            {popupOption?.type === "login" && <Login />}
-            {popupOption?.type === "register" && <Register />}
+            {authPopupOptions?.type === "login" && <Login />}
+            {authPopupOptions?.type === "register" && <Register />}
           </>
         }
       />
@@ -174,6 +196,8 @@ export const useAuth = () => {
 
     logout,
 
+    authPopupOptions,
+    setAuthPopupOptions,
     handleClosePopup,
     handleOpenLoginPopup,
     handleOpenSignUpPopup,
@@ -191,6 +215,8 @@ export const useAuth = () => {
 
     logout,
 
+    authPopupOptions,
+    setAuthPopupOptions,
     handleClosePopup,
     handleOpenLoginPopup,
     handleOpenSignUpPopup,

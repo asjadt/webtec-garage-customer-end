@@ -4,16 +4,12 @@
 import { NavLink } from "react-router-dom";
 
 import { useEffect, useState } from "react";
-import { menus } from "../../constant/menus";
-import SidebarGenerator from "../../utils/SidebarGenerator";
-import { useNav } from "../../context/NavContext";
-import { useAuth } from "../../context/AuthContextV2";
-import CustomMenuLoading from "../../components/CustomMenuLoading";
 import { FiArrowRightCircle, FiUserPlus } from "react-icons/fi";
-import CustomPopup from "../../components/CustomPopup";
-import Login from "../../pages/Auth/Login";
-import Registration from "../../pages/Auth/Registration";
-import Register from "../../pages/Auth/Register";
+import CustomMenuLoading from "../../components/CustomMenuLoading";
+import { menus } from "../../constant/menus";
+import { useAuth } from "../../context/AuthContextV2";
+import { useNav } from "../../context/NavContext";
+import SidebarGenerator from "../../utils/SidebarGenerator";
 
 export default function Sidebar() {
   const { isLoading, handleOpenLoginPopup, handleOpenSignUpPopup } = useAuth();

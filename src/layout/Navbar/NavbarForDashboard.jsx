@@ -14,7 +14,7 @@ import { useAuth } from "../../context/AuthContextV2";
 import { TbBell, TbLogout2 } from "react-icons/tb";
 import ButtonLoading from "../../components/ButtonLoading";
 
-export default function Navbar() {
+export default function NavbarForDashboard() {
   const { user, logout } = useAuth();
   console.log({ user });
 
@@ -46,7 +46,7 @@ export default function Navbar() {
   return (
     <motion.nav
       data-cy="header_nav"
-      className="pl-4  w-full z-50 pr-8  shadow-lg h-20 flex items-center justify-between absolute bg-base-300"
+      className="pl-4  w-full z-50 pr-8 md:rounded-[15px] shadow-sm h-20 flex items-center justify-between relative bg-base-300"
     >
       <div className="flex flex-row w-full items-center justify-start gap-x-5 ">
         {/* toggle btn  */}

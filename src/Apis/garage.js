@@ -68,3 +68,14 @@ export const getSingleGarage = async (id) => {
       handleApiError(error);
     });
 };
+
+export const getAllGaragesForMap = async () => {
+  return await axios
+    .get(`v3.0/client/garages`, getApiConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      handleApiError(error);
+    });
+};
