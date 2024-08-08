@@ -14,6 +14,7 @@ import GarageListComponent from "../Garage/components/GarageListComponent";
 import { searchKeywordFuelStation } from "../../Apis/fuelStation";
 import FuelStationListComponent from "./Components/FuelStationListComponent";
 import SearchField from "../../components/InputFields/SearchField";
+import moment from "moment";
 
 export default function FuelStationList() {
   const { llFromDistance, location } = useGeoLocationData();
@@ -22,32 +23,32 @@ export default function FuelStationList() {
     homeSearchData,
     setHomeSearchData,
     subServices,
-    makes,
-    models,
     totalGarageFound,
     setTotalGarageFound,
     setFuelStations,
+    fuelStationsFilter,
+    setFuelStationsFilter,
   } = useData();
   const [locationDistanceRange, setLocationDistanceRange] = useState(3);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   console.log({ isFilterOpen });
   const { fuelStations } = useData();
-  console.log({ fuelStations });
+  console.log({ fuelStationsFilter });
 
   // HANDLE THE DISTANCE CHANGE
   const handleDistanceChange = () => {
     const distanceData = llFromDistance({
-      latitude: homeSearchData.start_lat || location?.latitude,
-      longitude: homeSearchData.start_long || location?.longitude,
+      latitude: fuelStationsFilter.start_lat || location?.latitude,
+      longitude: fuelStationsFilter.start_long || location?.longitude,
       distance: Math.sqrt(2) * (locationDistanceRange * 1),
       bearing: 135,
     });
 
-    setHomeSearchData((prev) => ({
+    setFuelStationsFilter((prev) => ({
       ...prev,
-      start_lat: homeSearchData?.start_lat || location?.latitude,
-      start_long: homeSearchData?.start_ong || location?.longitude,
+      start_lat: fuelStationsFilter?.start_lat || location?.latitude,
+      start_long: fuelStationsFilter?.start_ong || location?.longitude,
       end_lat: distanceData?.latitude,
       end_long: distanceData?.longitude,
     }));
@@ -62,7 +63,7 @@ export default function FuelStationList() {
           <span
             className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
           >
-            {homeSearchData?.sub_services?.length}
+            {fuelStationsFilter?.sub_services?.length}
           </span>
         </div>
       ),
@@ -146,7 +147,7 @@ export default function FuelStationList() {
           <span
             className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
           >
-            {!!homeSearchData?.open_now ? 1 : 0}
+            {!!fuelStationsFilter?.time ? 1 : 0}
           </span>
         </div>
       ),
@@ -162,12 +163,13 @@ export default function FuelStationList() {
             <input
               type="checkbox"
               id={`open_now`}
-              checked={homeSearchData?.open_now}
+              checked={fuelStationsFilter?.is_checked}
               className={`checkbox-primary checkbox checkbox-sm`}
               onChange={(e) => {
-                setHomeSearchData({
-                  ...homeSearchData,
-                  open_now: !!e.target.checked,
+                setFuelStationsFilter({
+                  ...fuelStationsFilter,
+                  is_checked: !e.target.checked,
+                  time: !!e.target.checked ? moment().format("HH:mm") : "",
                 });
               }}
             />
@@ -276,7 +278,7 @@ export default function FuelStationList() {
             <span
               className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
             >
-              {!!homeSearchData?.open_now ? 1 : 0}
+              {!!fuelStationsFilter?.time ? 1 : 0}
             </span>
           </div>
         ),
@@ -292,12 +294,13 @@ export default function FuelStationList() {
               <input
                 type="checkbox"
                 id={`open_now`}
-                checked={homeSearchData?.open_now}
+                checked={fuelStationsFilter?.is_checked}
                 className={`checkbox-primary checkbox checkbox-sm`}
                 onChange={(e) => {
-                  setHomeSearchData({
-                    ...homeSearchData,
-                    open_now: !!e.target.checked,
+                  setFuelStationsFilter({
+                    ...fuelStationsFilter,
+                    is_checked: !e.target.checked,
+                    time: !!e.target.checked ? moment().format("HH:mm") : "",
                   });
                 }}
               />

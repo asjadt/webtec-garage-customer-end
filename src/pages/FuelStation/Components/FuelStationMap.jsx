@@ -3,8 +3,9 @@ import CustomAutoComplete from "../../../components/CustomAutoComplete";
 import { useData } from "../../../context/DataContext";
 import CustomLoading from "../../../components/CustomLoading";
 import { Map, Marker } from "@vis.gl/react-google-maps";
+import axios from "axios";
 
-const FuelStationMap = () => {
+const FuelStationMap = ({ setActiveTab }) => {
   const { homeSearchData, setHomeSearchData } = useData();
   console.log({ homeSearchData });
   const onFormDataChange = (e) => {
@@ -82,21 +83,29 @@ const FuelStationMap = () => {
         className={`w-full flex justify-center items-center z-30 absolute top-5`}
       >
         <div
-          className={`bg-base-300 shadow-lg rounded-md p-2 w-[calc(100vw-40px)] md:w-1/2`}
+          className={`bg-base-300 shadow-lg rounded-md p-2 w-[calc(100vw-40px)] flex gap-3 md:w-1/2`}
         >
-          {/* LOCATION  */}
-          <CustomAutoComplete
-            disable={false}
-            className={`input input-bordered rounded-md w-full`}
-            placeholder="Address"
-            type="text"
-            name="address"
-            onChange={onFormDataChange}
-            searchData={homeSearchData}
-            setFormData={setHomeSearchData}
-            defaultValue={homeSearchData?.address}
-            dataAuto={`homepage-address-searchPlace`}
-          />
+          <div className="flex-grow">
+            {/* LOCATION  */}
+            <CustomAutoComplete
+              disable={false}
+              className={`input input-bordered rounded-md w-full`}
+              placeholder="Address"
+              type="text"
+              name="address"
+              onChange={onFormDataChange}
+              searchData={homeSearchData}
+              setFormData={setHomeSearchData}
+              defaultValue={homeSearchData?.address}
+              dataAuto={`homepage-address-searchPlace`}
+            />
+          </div>
+          <button
+            onClick={() => setActiveTab("list")}
+            className={`btn btn-primary`}
+          >
+            Search
+          </button>
         </div>
       </div>
       <>
