@@ -23,7 +23,7 @@ const FuelStation = () => {
         />
       </div>
       <div>
-        {activeTab === "map" && <FuelStationMap />}
+        {activeTab === "map" && <FuelStationMap setActiveTab={setActiveTab} />}
         {activeTab === "list" && <FuelStationList />}
       </div>
     </div>

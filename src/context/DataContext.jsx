@@ -56,9 +56,42 @@ export const DataContextProvider = ({ children }) => {
     is_mobile_garage: false,
     date_time: "",
   });
+  const [fuelStationsFilter, setFuelStationsFilter] = useState({
+    page: 1,
+    perPage: 20,
 
+    search_key: "",
+    time: "",
+    is_checked: "",
+
+    services: [],
+    sub_services: [],
+    makes: [],
+    models: [],
+
+    address: "",
+    city: "",
+    country_code: "",
+
+    start_lat: "",
+    end_lat: "",
+    start_long: "",
+    end_long: "",
+
+    locationDetails: {
+      start_lat: "",
+      start_long: "",
+      end_lat: "",
+      end_long: "",
+    },
+
+    wifi_available: false,
+    is_mobile_garage: false,
+    date_time: "",
+  });
   const [totalGarageFound, setTotalGarageFound] = useState(0);
   const [fuelStations, setFuelStations] = useState({});
+
   const [garageList, setGarageList] = useState([]);
   const [makeJob, setMakeJob] = useState(false);
   const [fuelStationServices, setFuelStationServices] = useState([]);
@@ -120,6 +153,8 @@ export const DataContextProvider = ({ children }) => {
         setFuelStations,
         fuelStationServices,
         setFuelStationServices,
+        fuelStationsFilter,
+        setFuelStationsFilter,
 
         garageList,
         setGarageList,
@@ -159,6 +194,8 @@ export const useData = () => {
     setFuelStations,
     fuelStationServices,
     setFuelStationServices,
+    fuelStationsFilter,
+    setFuelStationsFilter,
 
     garageList,
     setGarageList,
@@ -192,6 +229,8 @@ export const useData = () => {
     setFuelStations,
     fuelStationServices,
     setFuelStationServices,
+    fuelStationsFilter,
+    setFuelStationsFilter,
 
     garageList,
     setGarageList,
