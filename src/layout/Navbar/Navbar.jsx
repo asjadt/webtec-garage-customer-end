@@ -25,6 +25,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [profileToggle, setProfileToggle] = useState(false);
   const location = useLocation();
+  const [openDropdown, setOpenDropDown] = useState(false);
 
   // NOTIFICATION RELATED WORK
   // FILTERS
@@ -113,9 +114,42 @@ export default function Navbar() {
             {menus()?.map((menu, i) => (
               <Fragment key={i}>
                 {menu?.show && (
-                  <NavLink key={i} to={menu?.link} className={`text-primary`}>
-                    {menu?.title}
-                  </NavLink>
+                  <div className={`relative`}>
+                    <NavLink
+                      onClick={() =>
+                        menu?.childrens?.length > 0 &&
+                        setOpenDropDown(!openDropdown)
+                      }
+                      key={i}
+                      to={menu?.childrens?.length > 0 ? "" : menu?.link}
+                      className={`text-primary font-semibold`}
+                    >
+                      {menu?.title}
+                    </NavLink>
+
+                    {menu?.childrens?.length > 0 ? (
+                      <ul
+                        className={`absolute top-5 w-[200px] z-50 transition-[height] px-5 duration-200 h-0 ${
+                          !openDropdown ? "h-0" : "h-[190px]"
+                        } overflow-hidden translate-y-3 -translate-x-6 bg-white rounded`}
+                      >
+                        {menu?.childrens?.map((children) => (
+                          <li className="my-1 py-1 px-2 rounded hover:bg-primary-content relative overflow-hidden">
+                            <NavLink to={children?.link}>
+                              <span
+                                data-text="Children"
+                                className="block duration-200 text-primary"
+                              >
+                                {children?.title}
+                              </span>
+                            </NavLink>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 )}
               </Fragment>
             ))}
