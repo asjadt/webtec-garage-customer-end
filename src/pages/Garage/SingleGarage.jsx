@@ -30,6 +30,7 @@ import GarageBookingWIthPackage from "./GarageBookingWIthPackage";
 import CreateBookingForm from "./components/BookingForms/CreateBookingForm";
 import CreateBookingWithPackageForm from "./components/BookingForms/CreateBookingWithPackageForm";
 import { Map, Marker } from "@vis.gl/react-google-maps";
+import moment from "moment";
 
 const gridContainerVariants = {
   hidden: { opacity: 0 },
@@ -53,7 +54,7 @@ export default function SingleGarage() {
     queryFn: (params) => getSingleGarage(params.queryKey[1]),
   });
 
-  console.log(data?.garage?.garage_times);
+  console.log(data);
 
   useEffect(() => {
     if (tabs?.includes(tabName)) {
@@ -212,11 +213,82 @@ export default function SingleGarage() {
               </div>
 
               {/* OPENING TIME  */}
-              {/* <div className={`p-5`}>
+              <div className={`p-5`}>
                 <div className={`flex justify-center items-center mb-5`}>
                   <TextTitleComponent text={"Opening time"} />
                 </div>
-              </div> */}
+                <div className={`text-sm`}>
+                  <div
+                    className={`bg-primary text-base-300 w-full py-3 px-5 flex font-semibold`}
+                  >
+                    <span className={`w-[40%] block`}>Day</span>
+                    <span className={`w-[40%] block`}>Start at</span>
+                    <span className={`w-[20%] block`}>Until</span>
+                  </div>
+
+                  {data?.garage?.garage_times?.map((item, index) => (
+                    <div
+                      key={index}
+                      className={` w-full py-3 px-5 flex border-b border-primary-content ${
+                        item?.is_closed ? "bg-red-300" : "bg-base-100"
+                      }`}
+                    >
+                      {!item?.is_closed ? (
+                        <>
+                          <span className={`w-[40%] block`}>
+                            {item?.day === 0
+                              ? "Sunday"
+                              : item?.day === 1
+                              ? "Moneday"
+                              : item?.day === 2
+                              ? "Tuesday"
+                              : item?.day === 3
+                              ? "Wuesday"
+                              : item?.day === 4
+                              ? "Thursday"
+                              : item?.day === 5
+                              ? "Friday"
+                              : item?.day === 6
+                              ? "Saturday"
+                              : ""}
+                          </span>
+                          <span className={`w-[40%] block`}>
+                            {moment(item?.opening_time, "HH:mm").format(
+                              "hh:mmA"
+                            )}
+                          </span>
+                          <span className={`w-[20%] block`}>
+                            {moment(item?.closing_time, "HH:mm").format(
+                              "hh:mmA"
+                            )}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span className={`w-[60%] block `}>
+                            {item?.day === 0
+                              ? "Sunday"
+                              : item?.day === 1
+                              ? "Moneday"
+                              : item?.day === 2
+                              ? "Tuesday"
+                              : item?.day === 3
+                              ? "Wuesday"
+                              : item?.day === 4
+                              ? "Thursday"
+                              : item?.day === 5
+                              ? "Friday"
+                              : item?.day === 6
+                              ? "Saturday"
+                              : ""}
+                          </span>
+                          <span className={`w-[40%] block`}>Close</span>
+                        </>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
 
               {/* SERVICE  */}
               <div className={`p-5`}>

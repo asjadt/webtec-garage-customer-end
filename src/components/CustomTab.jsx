@@ -22,7 +22,7 @@ const CustomTab = ({
               key={index}
               onClick={() => {
                 setActiveTab(ot?.id);
-                setFilters({ ...filters, page: 1 });
+                // setFilters({ ...filters, page: 1 });
               }}
               className={`${
                 activeTab === ot?.id ? "" : ""
