@@ -16,7 +16,7 @@ const gridItemVariants = {
 export default function ServiceList() {
   const { services, loading } = useData();
   return (
-    <div className={`py-2 px-5 sm:py-5 md:px-20 lg:px-32`}>
+    <div className={`w-full max-w-screen-xl`}>
       <div className={`flex justify-center items-center mb-5`}>
         <TextLabelComponent text={"Services"} />
       </div>

@@ -1,9 +1,9 @@
 export default function BenefitCard({ data }) {
   return (
     <div
-      className={`flex flex-col justify-center items-center gap-x-2  w-full py-2 px-10 rounded-md shadow-md border`}
+      className={`flex flex-col justify-center items-center gap-x-2  w-full py-2 px-10`}
     >
-      <img src={data?.IconImage} className={`w-20 h-20 mt-1`} alt="" />
+      <img src={data?.IconImage} className={`w-12 h-12 mt-1`} alt="" />
 
       <div className={`flex flex-col`}>
         <h3 className={`text-lg text-center font-semibold`}>{data?.title}</h3>

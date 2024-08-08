@@ -184,7 +184,7 @@ export default function SearchForm() {
       initial={{ bottom: "-330px" }}
       animate={{ bottom: "-230px" }}
       transition={{ duration: 1, ease: "easeInOut" }}
-      className={`relative w-[90%] sm:w-[80%] md:w-[80%] lg:w-[70%] bg-base-300 z-60 -bottom-[230px] left-1/2 -translate-x-1/2 rounded-xl p-5 border border-base-300 shadow-xl`}
+      className={`relative  w-full max-w-screen-xl bg-base-300 z-60 -bottom-[230px] left-1/2 -translate-x-1/2 rounded-xl p-5 border border-base-300 shadow-xl`}
     >
       <motion.div className="w-full ">
         <Headings level={2} className={`text-center mb-5 text-primary`}>

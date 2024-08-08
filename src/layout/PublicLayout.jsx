@@ -11,7 +11,7 @@ import { Outlet } from "react-router-dom";
 export default function PublicLayout() {
   // const { isNavOpen, isDark } = useNav();
   return (
-    <div data-cy="hrm_app" className={`p-0 bg-base-100 md:h-[100vh] h-[97vh]`}>
+    <div data-cy="hrm_app" className={`p-0 bg-base-100`}>
       <Navbar />
 
       <div data-cy="main_container" className={`flex relative h-screen`}>
@@ -19,10 +19,9 @@ export default function PublicLayout() {
 
         <motion.div
           data-cy="public_layout_outlet"
-          className={`scroll-smooth mt-[5rem] flex-grow overflow-x-hidden overflow-y-auto bg-base-300 w-[500px] h-full scrollbar  transition-all duration-300 delay-300 `}
+          className={`scroll-smooth mt-[5rem] flex-grow overflow-x-hidden overflow-y-auto bg-base-300 w-[500px] h-full scrollbar transition-all duration-300 delay-300 `}
         >
           <Outlet />
-          {/* <Footer /> */}
         </motion.div>
       </div>
     </div>

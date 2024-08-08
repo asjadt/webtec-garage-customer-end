@@ -46,9 +46,9 @@ export default function Navbar() {
   return (
     <motion.nav
       data-cy="header_nav"
-      className="pl-4  w-full z-50 pr-8  shadow-lg h-20 flex items-center justify-between absolute bg-base-300"
+      className="pl-4  w-full z-50 pr-8  shadow-lg h-20 flex items-center justify-between fixed bg-base-300"
     >
-      <div className="flex flex-row w-full items-center justify-start gap-x-5 ">
+      <div className="flex md:hidden flex-row w-full items-center justify-start gap-x-5 ">
         {/* toggle btn  */}
         <motion.button
           data-auto={`navbar-toggle-button-every-page`}
@@ -66,13 +66,12 @@ export default function Navbar() {
           )}
         </motion.button>
       </div>
-
       {/* LOGO  */}
       <NavLink
         data-auto={`navbar-logo-every-page`}
         to={`/`}
         data-tip={"Garage Booking"}
-        className={`w-full overflow-hidden tooltip duration-300 tooltip-bottom tooltip-primary hidden md:flex flex-col justify-start gap-x-5 items-center`}
+        className={`w-full overflow-hidden tooltip duration-300 tooltip-bottom tooltip-primary flex flex-col justify-start gap-x-5 items-center`}
       >
         <motion.div
           className={`flex`}
@@ -93,13 +92,12 @@ export default function Navbar() {
           animate={{ translateY: 0 }}
           transition={{ duration: 1, ease: "easeInOut" }}
           data-auto={`navbar-logo-business-name-every-page`}
-          className="text-lg  text-primary font-bold"
+          className="text-lg hidden md:block text-primary font-bold"
         >
           Garage Booking
         </motion.h1>
       </NavLink>
-
-      {/* MOBILE VIEW LOGO */}
+      {/* MOBILE VIEW LOGO
       <NavLink
         data-auto={`navbar-mobile-logo-every-page`}
         to={`/`}
@@ -118,8 +116,7 @@ export default function Navbar() {
             alt={""}
           />
         </motion.div>
-      </NavLink>
-
+      </NavLink> */}
       <motion.div
         data-cy="header_profile_container"
         className="w-full flex justify-end items-center gap-x-8"

@@ -70,13 +70,16 @@ export default function Home() {
         <GoogleMapForGarages defaultProps={defaultProps} />
 
         {/* SEARCH FORM  */}
-        <SearchForm />
-
+        <div className={`px-5 xl:px-0`}>
+          <SearchForm />
+        </div>
         {/* HOW ITS WORK SECTION  */}
         <HowItsWork />
 
         {/* SERVICES LIST  */}
-        <ServiceList />
+        <div className={`px-5 xl:px-0 flex justify-center`}>
+          <ServiceList />
+        </div>
       </div>
     );
   }

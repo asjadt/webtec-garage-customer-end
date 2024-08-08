@@ -5,6 +5,13 @@ export default function HowItsWorkCard({ data }) {
     >
       <img src={data?.IconImage} className={`w-auto h-20 mt-1`} alt="" />
 
+      <div className={`flex justify-center items-center w-full`}>
+        <div
+          className={`px-4 bg-primary-content rounded-full py-1 text-primary font-medium`}
+        >
+          Step {data?.id}
+        </div>
+      </div>
       <div className={`flex flex-col gap-3`}>
         <h3 className={`text-2xl screen864:text-2xl text-center font-semibold`}>
           {data?.title}
