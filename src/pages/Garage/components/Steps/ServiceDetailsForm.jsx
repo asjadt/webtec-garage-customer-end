@@ -11,6 +11,7 @@ export default function ServiceDetailsForm({
   setFormData,
   garageData,
 }) {
+  console.log({ garageData });
   const { loading, subServices, services, makes, models } = useData();
   const [isLoading, setIsLoading] = useState(false);
   const [isMakeChangeLoading, setIsMakeChangeLoading] = useState(false);
@@ -86,10 +87,10 @@ export default function ServiceDetailsForm({
           loading={loading}
           groupForeignKey={"service_id"}
           options={subServices?.filter((ss) =>
-            garageData?.garage?.services?.some((gs) => gs?.id === ss?.id)
+            garageData?.garage?.sub_services?.some((gs) => gs?.id === ss?.id)
           )}
           groups={services?.filter((s) =>
-            garageData?.garage?.sub_services?.some((gss) => gss?.id === s?.id)
+            garageData?.garage?.services?.some((gss) => gss?.id === s?.id)
           )}
           required={true}
           placeholder="Select Services"

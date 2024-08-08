@@ -26,6 +26,7 @@ import Login from "../../../Auth/Login";
 import JobDetailsForm from "../Steps/JobDetailsForm";
 import ReviewForm from "../Steps/ReviewForm";
 import ServiceDetailsForm from "../Steps/ServiceDetailsForm";
+import GarageJobDetailsForm from "../Steps/GarageJobDetailsForm";
 
 export default function CreateBookingForm({ garageData }) {
   const navigate = useNavigate();
@@ -203,7 +204,7 @@ export default function CreateBookingForm({ garageData }) {
           )}
 
           {step === 2 && (
-            <JobDetailsForm
+            <GarageJobDetailsForm
               garageData={garageData}
               setStep={setStep}
               formData={formData}
