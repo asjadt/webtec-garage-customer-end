@@ -8,25 +8,25 @@ export default function HowItsWork({}) {
   const [benefits, setBenefits] = useState([
     {
       id: 1,
-      IconImage: "/assets/Home/Ben1.svg",
+      IconImage: "/assets/Home/Ben1.png",
       title: "Up to 47% cheaper",
       description: "Versus franchise garages",
     },
     {
       id: 2,
-      IconImage: "/assets/Home/Ben2.svg",
+      IconImage: "/assets/Home/Ben2.png",
       title: "Fully vetted & qualified mechanics",
       description: "Nationwide mechanics",
     },
     {
       id: 3,
-      IconImage: "/assets/Home/Ben3.svg",
+      IconImage: "/assets/Home/Ben3.png",
       title: "1-year warranty",
       description: "On all parts and repairs",
     },
     {
       id: 4,
-      IconImage: "/assets/Home/Ben4.svg",
+      IconImage: "/assets/Home/Ben4.png",
       title: "Same or next-day bookings",
       description: "At your home or office",
     },
@@ -55,7 +55,7 @@ export default function HowItsWork({}) {
     },
     {
       id: 4,
-      IconImage: "/assets/Home/HowWork3.png",
+      IconImage: "/assets/Home/HowWork4.png",
       title: "Receive a quote and schedule your vehicle repair today!",
       description:
         "No need to go to the garage - once booked just sit back and relax while the mechanic comes to you.",

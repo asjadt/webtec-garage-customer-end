@@ -235,6 +235,7 @@ export default function SearchForm() {
             {/* MAKES  */}
             <div className="w-full">
               <CustomMultiSelect
+                singleSelect
                 loading={loading}
                 placeholder="Select Makes"
                 options={makes}
@@ -280,6 +281,7 @@ export default function SearchForm() {
                       (selected_model_id) => model?.id === selected_model_id
                     )
                   )}
+                  singleSelect
                   onSelect={(e) => {
                     setHomeSearchData({
                       ...homeSearchData,

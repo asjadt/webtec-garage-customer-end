@@ -58,29 +58,17 @@ export default function MobileMenu() {
           }}
           className={`${
             isNavOpen
-              ? "text-primary bg-base-300 border-base-300 hover:border-b-primary"
-              : "bg-primary text-base-300 border-primary hover:border-b-base-300"
-          } flex w-full cursor-pointer flex-col justify-end items-center border-y-4 duration-200 h-full`}
+              ? "bg-primary-focus border-t-primary-focus border-b-primary-focus"
+              : "bg-primary text-base-300 border-primary"
+          } flex w-full cursor-pointer  hover:border-b-base-300 flex-col justify-end items-center border-y-4 duration-200 h-full`}
         >
           {isNavOpen ? (
-            <FiX
-              className={`text-2xl  ${
-                isNavOpen ? " text-primary" : " text-base-300"
-              }`}
-            />
+            <FiX className={`text-2xl text-base-300`} />
           ) : (
-            <FiMenu
-              className={`text-2xl   ${
-                isNavOpen ? " text-primary" : " text-base-300"
-              }`}
-            />
+            <FiMenu className={`text-2xl text-base-300`} />
           )}
 
-          <span
-            className={`text-xs font-medium   ${
-              isNavOpen ? " text-primary" : " text-base-300"
-            } font-nunito`}
-          >
+          <span className={`text-xs font-medium text-base-300 font-nunito`}>
             Menu
           </span>
         </div>
@@ -88,22 +76,16 @@ export default function MobileMenu() {
         {/* BOOKING  */}
         <NavLink
           to={"/my-account/my-bookings"}
-          className={`${
-            isNavOpen
-              ? "text-primary bg-base-300 border-base-300 hover:border-b-primary"
-              : "bg-primary text-base-300 border-primary hover:border-b-base-300"
-          } flex w-full cursor-pointer flex-col justify-end items-center border-y-4 duration-200 h-full`}
+          className={({ isActive }) =>
+            `${
+              isActive
+                ? "bg-primary-focus border-t-primary-focus border-b-primary-focus"
+                : "bg-primary text-base-300 border-primary"
+            } flex w-full cursor-pointer  hover:border-b-base-300 flex-col justify-end items-center border-y-4 duration-200 h-full`
+          }
         >
-          <IoBookmark
-            className={`text-2xl text-base-300 ${
-              isNavOpen ? " text-primary" : " text-base-300"
-            }`}
-          />
-          <span
-            className={`text-xs font-medium text-base-300 font-nunito ${
-              isNavOpen ? " text-primary" : " text-base-300"
-            }`}
-          >
+          <IoBookmark className={`text-2xl text-base-300`} />
+          <span className={`text-xs font-medium text-base-300 font-nunito `}>
             Booking
           </span>
         </NavLink>
@@ -111,22 +93,16 @@ export default function MobileMenu() {
         {/* HOME  */}
         <NavLink
           to={`/`}
-          className={`${
-            isNavOpen
-              ? "text-primary bg-base-300 border-base-300 hover:border-b-primary"
-              : "bg-primary text-base-300 border-primary hover:border-b-base-300"
-          } flex w-full cursor-pointer flex-col justify-end items-center border-y-4 duration-200 h-full`}
+          className={({ isActive }) =>
+            `${
+              isActive
+                ? "bg-primary-focus border-t-primary-focus border-b-primary-focus"
+                : "bg-primary text-base-300 border-primary"
+            } flex w-full cursor-pointer  hover:border-b-base-300 flex-col justify-end items-center border-y-4 duration-200 h-full`
+          }
         >
-          <GoHomeFill
-            className={`text-2xl text-base-300 ${
-              isNavOpen ? " text-primary" : " text-base-300"
-            }`}
-          />
-          <span
-            className={`text-xs font-medium text-base-300 font-nunito ${
-              isNavOpen ? " text-primary" : " text-base-300"
-            }`}
-          >
+          <GoHomeFill className={`text-2xl text-base-300 `} />
+          <span className={`text-xs font-medium text-base-300 font-nunito `}>
             Home
           </span>
         </NavLink>
@@ -134,22 +110,16 @@ export default function MobileMenu() {
         {/* NOTIFICATION  */}
         <NavLink
           to={`/my-account/all-notifications`}
-          className={`${
-            isNavOpen
-              ? "text-primary bg-base-300 border-base-300 hover:border-b-primary"
-              : "bg-primary text-base-300 border-primary hover:border-b-base-300"
-          } flex w-full cursor-pointer flex-col justify-end items-center border-y-4 duration-200 h-full`}
+          className={({ isActive }) =>
+            `${
+              isActive
+                ? "bg-primary-focus border-t-primary-focus border-b-primary-focus"
+                : "bg-primary text-base-300 border-primary"
+            } flex w-full cursor-pointer  hover:border-b-base-300 flex-col justify-end items-center border-y-4 duration-200 h-full`
+          }
         >
-          <IoNotifications
-            className={`text-2xl text-base-300 ${
-              isNavOpen ? " text-primary" : " text-base-300"
-            }`}
-          />
-          <span
-            className={`text-xs font-medium text-base-300 font-nunito ${
-              isNavOpen ? " text-primary" : " text-base-300"
-            }`}
-          >
+          <IoNotifications className={`text-2xl text-base-300`} />
+          <span className={`text-xs font-medium text-base-300 font-nunito `}>
             Notification
           </span>
         </NavLink>
@@ -157,22 +127,16 @@ export default function MobileMenu() {
         {/* PROFILE  */}
         <NavLink
           to={`/my-account/Profile`}
-          className={`${
-            isNavOpen
-              ? "text-primary bg-base-300 border-base-300 hover:border-b-primary"
-              : "bg-primary text-base-300 border-primary hover:border-b-base-300"
-          } flex w-full cursor-pointer flex-col justify-end items-center border-y-4 duration-200 h-full`}
+          className={({ isActive }) =>
+            `${
+              isActive
+                ? "bg-primary-focus border-t-primary-focus border-b-primary-focus"
+                : "bg-primary text-base-300 border-primary"
+            } flex w-full cursor-pointer  hover:border-b-base-300 flex-col justify-end items-center border-y-4 duration-200 h-full`
+          }
         >
-          <BsPersonCircle
-            className={`text-2xl text-base-300 ${
-              isNavOpen ? " text-primary" : " text-base-300"
-            }`}
-          />
-          <span
-            className={`text-xs font-medium text-base-300 font-nunito ${
-              isNavOpen ? " text-primary" : " text-base-300"
-            }`}
-          >
+          <BsPersonCircle className={`text-2xl text-base-300 `} />
+          <span className={`text-xs font-medium text-base-300 font-nunito`}>
             My Account
           </span>
         </NavLink>

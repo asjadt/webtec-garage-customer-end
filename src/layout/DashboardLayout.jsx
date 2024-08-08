@@ -9,6 +9,7 @@ import Sidebar from "./SideBar/Sidebar";
 import { Outlet } from "react-router-dom";
 import NavbarForDashboard from "./Navbar/NavbarForDashboard";
 import MobileMenu from "./MobileMenu/MobileMenu";
+import SidebarForDashboard from "./SideBar/SidebarForDashboard";
 
 export default function DashboardLayout() {
   return (
@@ -22,7 +23,7 @@ export default function DashboardLayout() {
         data-cy="main_container"
         className={`flex md:mt-3 relative h-[calc(100%-80px)]`}
       >
-        <Sidebar />
+        <SidebarForDashboard />
 
         <motion.div
           data-cy="public_layout_outlet"

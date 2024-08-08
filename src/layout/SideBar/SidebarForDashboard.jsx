@@ -11,7 +11,7 @@ import { useAuth } from "../../context/AuthContextV2";
 import { useNav } from "../../context/NavContext";
 import SidebarGenerator from "../../utils/SidebarGenerator";
 
-export default function Sidebar() {
+export default function SidebarForDashboard() {
   const { isLoading, handleOpenLoginPopup, handleOpenSignUpPopup } = useAuth();
   const { isNavOpen, isDark } = useNav();
   const user = JSON.parse(localStorage.getItem("userData"));
@@ -24,9 +24,11 @@ export default function Sidebar() {
 
   return (
     <div
-      className={`fixed z-40 transition-all top-[5rem] w-screen sm:w-[230px] group duration-300 ${
-        isNavOpen ? "left-[0px]" : "left-[calc(-100vw)] sm:left-[-230px]"
-      }  rounded-r-none md:rounded-xl overflow-y-auto scrollbar-none bg-base-300 shadow-xl text-base-100 flex-col flex md:hidden h-[calc(100vh-5rem)]`}
+      className={`fixed z-40 transition-all  w-screen sm:w-[230px] group duration-300 ${
+        isNavOpen
+          ? "left-0 md:left-[20px]"
+          : "left-[calc(-100vw)] sm:left-[-240px]"
+      }  rounded-r-none md:rounded-xl overflow-y-auto scrollbar-none bg-base-300 shadow-xl text-base-100 flex-col  flex md:flex h-[calc(100vh-5rem)]`}
     >
       <div className={`border-b border-base-300`}>
         <NavLink
