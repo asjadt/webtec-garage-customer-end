@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import CustomPopup from "../components/CustomPopup";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
+import Services from "../pages/Home/components/Services";
 
 // Create the authentication context
 export const AuthContext = createContext();
@@ -175,6 +176,7 @@ export const AuthProvider = ({ children }) => {
           <>
             {authPopupOptions?.type === "login" && <Login />}
             {authPopupOptions?.type === "register" && <Register />}
+            {authPopupOptions?.type === "services" && <Services />}
           </>
         }
       />
