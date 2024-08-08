@@ -24,8 +24,8 @@ export default function Sidebar() {
 
   return (
     <div
-      className={`fixed z-40 transition-all top-[5rem] w-[230px] group duration-300 ${
-        isNavOpen ? "left-[0px]" : "left-[-250px]"
+      className={`fixed z-40 transition-all top-[5rem] w-screen sm:w-[230px] group duration-300 ${
+        isNavOpen ? "left-[0px]" : "left-[calc(-100vw)]"
       }  rounded-r-none md:rounded-xl overflow-y-auto scrollbar-none bg-base-300 shadow-xl text-base-100 flex-col flex md:hidden h-[calc(100vh-5rem)]`}
     >
       <div className={`border-b border-base-300`}>

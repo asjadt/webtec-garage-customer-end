@@ -17,7 +17,7 @@ export default function GoogleMapForGarages({ defaultProps }) {
   return (
     <>
       {isGarageLoading ? (
-        <div className="w-full h-[400px] absolute outline-none border-none active:border-none bg-slate-300 animate-pulse"></div>
+        <div className="w-full h-[600px] absolute outline-none border-none active:border-none bg-slate-300 animate-pulse"></div>
       ) : (
         <Map
           defaultCenter={{ lat: 23.7993984, lng: 90.3839744 }}
@@ -26,7 +26,7 @@ export default function GoogleMapForGarages({ defaultProps }) {
           disableDefaultUI={true}
           disableDoubleClickZoom={true}
           scaleControl={true}
-          className="w-full h-[400px] absolute outline-none border-none active:border-none"
+          className="w-full h-[600px] absolute outline-none border-none active:border-none"
           defaultTilt={10}
         >
           {data?.data?.map((garage) => {

@@ -8,6 +8,7 @@ import Navbar from "./Navbar/Navbar";
 import Sidebar from "./SideBar/Sidebar";
 import { Outlet } from "react-router-dom";
 import NavbarForDashboard from "./Navbar/NavbarForDashboard";
+import MobileMenu from "./MobileMenu/MobileMenu";
 
 export default function DashboardLayout() {
   return (
@@ -30,6 +31,7 @@ export default function DashboardLayout() {
           <Outlet />
           {/* <Footer /> */}
         </motion.div>
+        <MobileMenu />
       </div>
     </div>
   );

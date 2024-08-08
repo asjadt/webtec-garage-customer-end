@@ -79,7 +79,7 @@ const FuelStationMap = () => {
   return (
     <div className={`relative`}>
       <div
-        className={`w-full flex justify-center items-center z-50 absolute top-5`}
+        className={`w-full flex justify-center items-center z-30 absolute top-5`}
       >
         <div
           className={`bg-base-300 shadow-lg rounded-md p-2 w-[calc(100vw-40px)] md:w-1/2`}

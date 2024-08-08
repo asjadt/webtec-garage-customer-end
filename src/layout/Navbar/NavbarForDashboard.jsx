@@ -46,9 +46,9 @@ export default function NavbarForDashboard() {
   return (
     <motion.nav
       data-cy="header_nav"
-      className="pl-4  w-full z-50 pr-8 md:rounded-[15px] shadow-sm h-20 flex items-center justify-between relative bg-base-300"
+      className="pl-4  w-full z-50 pr-8 md:rounded-[15px] shadow-md sm:shadow-sm h-20 flex items-center justify-between relative bg-base-300"
     >
-      <div className="flex flex-row w-full items-center justify-start gap-x-5 ">
+      <div className="hidden sm:flex flex-row w-full items-center justify-start gap-x-5 ">
         {/* toggle btn  */}
         <motion.button
           data-auto={`navbar-toggle-button-every-page`}
@@ -104,7 +104,7 @@ export default function NavbarForDashboard() {
         data-auto={`navbar-mobile-logo-every-page`}
         to={`/`}
         data-tip={"Garage Booking"}
-        className="w-full tooltip tooltip-bottom tooltip-primary flex justify-center items-center md:hidden"
+        className="w-full  tooltip tooltip-bottom tooltip-primary flex justify-start sm:justify-center items-center md:hidden"
       >
         <motion.div
           initial={{ translateY: -100 }}

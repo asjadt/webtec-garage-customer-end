@@ -181,16 +181,16 @@ export default function SearchForm() {
 
   return (
     <motion.div
-      initial={{ bottom: "-330px" }}
-      animate={{ bottom: "-230px" }}
+      initial={{ opacity: 0.5 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 1, ease: "easeInOut" }}
-      className={`relative  w-full max-w-screen-xl bg-base-300 z-60 -bottom-[230px] left-1/2 -translate-x-1/2 rounded-xl p-5 border border-base-300 shadow-xl`}
+      className={`relative w-full md:w-[500px] bg-base-300 z-60 -bottom-[230px] md:-bottom-[100px] left-1/2 md:left-[50px] -translate-x-1/2 md:translate-x-0 rounded-xl p-5 border border-base-300 shadow-xl`}
     >
       <motion.div className="w-full ">
         <Headings level={2} className={`text-center mb-5 text-primary`}>
           Search Garage
         </Headings>
-        <div className={`flex flex-col gap-y-2 md:gap-y-5`}>
+        <div className={`flex flex-col gap-y-2`}>
           {/* LOCATION  */}
           <CustomAutoComplete
             disable={false}
@@ -206,9 +206,7 @@ export default function SearchForm() {
           />
 
           {/* SERVICES & MAKES  */}
-          <div
-            className={`grid grid-cols-1 md:grid-cols-2 md:gap-x-5 md:gap-y-0  gap-y-2`}
-          >
+          <div className={`grid grid-cols-1 gap-y-2`}>
             {/* SERVICES  */}
             <div className="w-full">
               <CustomMultiSelectWithChild
@@ -260,18 +258,16 @@ export default function SearchForm() {
           {/* MODELS & TIMING  */}
           {!showAdvanceOption ? (
             // ADVANCE OPTION BUTTON
-            <div className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6`}>
+            <div className={``}>
               <button
                 onClick={toggleAdvanceOption}
-                className={`btn btn-outline btn-primary btn-sm text-xs md:text-md`}
+                className={`btn btn-outline btn-primary w-full`}
               >
                 Advance Options
               </button>
             </div>
           ) : (
-            <div
-              className={`grid grid-cols-1 md:grid-cols-2 md:gap-x-5 md:gap-y-0 gap-y-2`}
-            >
+            <div className={`grid grid-cols-1 gap-y-2`}>
               {/* MODEL  */}
               <div className="w-full">
                 <CustomMultiSelect
@@ -329,7 +325,7 @@ export default function SearchForm() {
             <button
               disabled={loading}
               onClick={searchGarages}
-              className={`btn btn-primary w-52 `}
+              className={`btn btn-primary w-full`}
             >
               Search
             </button>

@@ -205,7 +205,7 @@ const Profile = () => {
             Profile
           </h1>
 
-          <div className="avatar screen1200:pr-5 h-full flex justify-center  md:justify-start">
+          {/* <div className="avatar screen1200:pr-5 h-full flex justify-center  md:justify-start">
             <div className="w-32 h-32 group relative rounded-full shadow-md">
               {isLoading ? (
                 <div className="w-full h-full flex justify-center items-center">
@@ -232,7 +232,7 @@ const Profile = () => {
                   )}
                 </>
               )}
-              {/* IMAGE UPLOAD BUTTON */}
+              {/* IMAGE UPLOAD BUTTON
               {!isLoading && (
                 <label
                   htmlFor="upload_image"
@@ -290,7 +290,7 @@ const Profile = () => {
                 type="file"
               />
             </div>
-          </div>
+          </div> */}
 
           <div className={`grid grid-cols-1 md:grid-cols-2 grid-2 md:gap-5`}>
             <div>
