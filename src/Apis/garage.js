@@ -79,3 +79,13 @@ export const getAllGaragesForMap = async () => {
       handleApiError(error);
     });
 };
+export const getAllFuelStationForMap = async () => {
+  return await axios
+    .get(`v2.0/client/fuel-station`, getApiConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      handleApiError(error);
+    });
+};

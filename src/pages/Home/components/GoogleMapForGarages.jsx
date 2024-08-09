@@ -1,10 +1,6 @@
-import GoogleMapReact from "google-map-react";
-import { useEffect, useState } from "react";
-import { GiMechanicGarage } from "react-icons/gi";
-import { useData } from "../../../context/DataContext";
-import { Map, Marker } from "@vis.gl/react-google-maps";
-import { CustomMarker } from "../../../components/Map/CustomMarker";
 import { useQuery } from "@tanstack/react-query";
+import { AdvancedMarker, Map, Pin } from "@vis.gl/react-google-maps";
+import { GiHomeGarage, GiMechanicGarage } from "react-icons/gi";
 import { getAllGaragesForMap } from "../../../Apis/garage";
 
 export default function GoogleMapForGarages({ defaultProps }) {
@@ -20,6 +16,7 @@ export default function GoogleMapForGarages({ defaultProps }) {
         <div className="w-full h-[600px] absolute outline-none border-none active:border-none bg-slate-300 animate-pulse"></div>
       ) : (
         <Map
+          mapId={"ed79aa93f40c730c"}
           defaultCenter={{ lat: 23.7993984, lng: 90.3839744 }}
           defaultZoom={8}
           gestureHandling={"greedy"}
@@ -30,15 +27,26 @@ export default function GoogleMapForGarages({ defaultProps }) {
           defaultTilt={10}
         >
           {data?.data?.map((garage) => {
-            console.log({ garage: Number(garage?.long) });
             return (
-              <Marker
+              <AdvancedMarker
                 key={garage?.id}
                 position={{
                   lat: Number(garage?.lat),
                   lng: Number(garage?.long),
                 }}
-              />
+                onClick={() => navigate(`/view-garage/${garage?.id}/details`)}
+              >
+                <div
+                  data-tip={garage?.name}
+                  className={`relative tooltip tooltip-top tooltip-base-300`}
+                >
+                  <img
+                    src="/assets/Map/garagepin.png"
+                    className={`w-12`}
+                    alt={garage?.name}
+                  />
+                </div>
+              </AdvancedMarker>
             );
           })}
         </Map>

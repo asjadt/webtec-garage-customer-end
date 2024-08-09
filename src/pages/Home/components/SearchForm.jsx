@@ -28,10 +28,6 @@ export default function SearchForm() {
     address_line_1: "",
   });
 
-  useEffect(() => {
-    console.log({ homeSearchData });
-  }, [homeSearchData]);
-
   const [isMakeChangeLoading, setIsMakeChangeLoading] = useState(false);
   const [modelsForMultiSelect, setModelsForMultiSelect] = useState(makes);
 

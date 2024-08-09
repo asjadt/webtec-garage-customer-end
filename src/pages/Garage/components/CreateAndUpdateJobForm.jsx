@@ -1,22 +1,17 @@
 // ==================================
 // #00142
 // ===================================
-
 import React, { useState } from "react";
-
 import CustomLoading from "../../../components/CustomLoading";
-
 import { useMutation } from "@tanstack/react-query";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { postPreBookingDetails } from "../../../Apis/homepageapi";
 import CustomMultiStepper from "../../../components/CustomMultiStepper";
-import CustomPopup from "../../../components/CustomPopup";
 import Headings from "../../../components/Headings/Headings";
 import { useAuth } from "../../../context/AuthContextV2";
 import { handleApiError } from "../../../utils/apiErrorHandler";
-import Login from "../../Auth/Login";
 import JobDetailsForm from "./StepsForJob/JobDetailsForm";
 import ReviewForm from "./StepsForJob/ReviewForm";
 import ServiceDetailsForm from "./StepsForJob/ServiceDetailsForm";
@@ -117,6 +112,7 @@ export default function CreateAndUpdateJobForm() {
           <Headings level={2} className={`text-primary text-center mb-2`}>
             Create Job
           </Headings>
+
           <div className="w-full flex justify-center items-center mb-5">
             <CustomMultiStepper
               steps={[
@@ -147,6 +143,7 @@ export default function CreateAndUpdateJobForm() {
               setFormData={setFormData}
             />
           )}
+
           {step === 2 && (
             <JobDetailsForm
               setStep={setStep}
@@ -154,6 +151,7 @@ export default function CreateAndUpdateJobForm() {
               setFormData={setFormData}
             />
           )}
+
           {step === 3 && (
             <ReviewForm
               setStep={setStep}

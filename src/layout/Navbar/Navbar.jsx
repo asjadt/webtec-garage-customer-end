@@ -19,7 +19,6 @@ import { FaChevronDown } from "react-icons/fa";
 export default function Navbar() {
   const { user, logout, handleOpenSignUpPopup, handleOpenLoginPopup } =
     useAuth();
-  console.log({ user });
 
   const { isNavOpen, setIsNavOpen } = useNav();
   const navigate = useNavigate();
@@ -134,8 +133,8 @@ export default function Navbar() {
                           !openDropdown ? "h-0" : "h-auto border-x border-b"
                         } overflow-hidden translate-y-[30px]  -translate-x-6 bg-base-300 rounded-b-md`}
                       >
-                        {menu?.childrens?.map((children) => (
-                          <li className="relative overflow-hidden">
+                        {menu?.childrens?.map((children, j) => (
+                          <li key={j} className="relative overflow-hidden">
                             <NavLink to={children?.link} className={`h-full`}>
                               <span
                                 data-text="Children"

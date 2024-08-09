@@ -108,35 +108,9 @@ export const GeoLocationDataContextProvider = ({ children }) => {
     fetchLocation();
   }, []);
 
-  //   if (navigator?.geolocation) {
-  //     navigator?.geolocation?.getCurrentPosition(
-  //       function (position) {
-  //         // Coords back to degrees and return
-  //         setCurrentLat(
-  //           llFromDistance({
-  //             latitude: position?.coords?.latitude,
-  //             longitude: position?.coords?.longitude,
-  //             distance: Math.sqrt(2) * 31,
-  //             bearing: 135,
-  //           })
-  //         );
-
-  //         setLocation({
-  //           latitude: position?.coords?.latitude,
-  //           longitude: position?.coords?.longitude,
-  //         });
-  //       },
-  //       function (error) {
-  //         console.log({ error });
-  //         handleApiError(error);
-  //       },
-  //       { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
-  //     );
-  //   } else {
-  //     console.error("Geolocation is not supported by this browser.");
-  //   }
-  // }, []);
-
+  useEffect(() => {
+    console.log({ location });
+  }, [location.pathname, location]);
   return (
     <GeoLocationDataContext.Provider
       value={{

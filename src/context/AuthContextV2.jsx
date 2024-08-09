@@ -10,6 +10,8 @@ import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import Services from "../pages/Home/components/Services";
 import { useNavigate } from "react-router-dom";
+import ForgotPassword from "../pages/Auth/ForgotPassword";
+import ResetPassword from "../pages/Auth/ResetPassword";
 
 // Create the authentication context
 export const AuthContext = createContext();
@@ -123,6 +125,21 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
+  // HANDLER OPEN RESET PASSWORD POPUP
+  const handleOpenResetPasswordPopup = () => {
+    setAuthPopupOptions({
+      ...authPopupOptions,
+      open: true,
+      type: "reset-password",
+      title: "Reset Password",
+      onClose: () => {
+        setAuthPopupOptions({ ...authPopupOptions, open: false });
+      },
+      overlayStyle: { background: "red" },
+      closeOnDocumentClick: false,
+    });
+  };
+
   // HANDLER OPEN Register POPUP
   const handleOpenSignUpPopup = ({
     customerRegistration = true,
@@ -164,13 +181,14 @@ export const AuthProvider = ({ children }) => {
         handleClosePopup,
         handleOpenLoginPopup,
         handleOpenSignUpPopup,
+        handleOpenResetPasswordPopup,
       }}
     >
       <CustomPopup
         popupClasses={
           authPopupOptions?.type === "register"
             ? `w-full sm:w-[80vw] md:w-[90vw] lg:w-[80vw]`
-            : `w-full smw-[500px]`
+            : `w-full`
         }
         popupOption={authPopupOptions}
         setPopupOption={setAuthPopupOptions}
@@ -179,6 +197,7 @@ export const AuthProvider = ({ children }) => {
             {authPopupOptions?.type === "login" && <Login />}
             {authPopupOptions?.type === "register" && <Register />}
             {authPopupOptions?.type === "services" && <Services />}
+            {authPopupOptions?.type === "reset-password" && <ResetPassword />}
           </>
         }
       />
@@ -205,6 +224,7 @@ export const useAuth = () => {
     handleClosePopup,
     handleOpenLoginPopup,
     handleOpenSignUpPopup,
+    handleOpenResetPasswordPopup,
   } = useContext(AuthContext);
 
   return {
@@ -224,5 +244,6 @@ export const useAuth = () => {
     handleClosePopup,
     handleOpenLoginPopup,
     handleOpenSignUpPopup,
+    handleOpenResetPasswordPopup,
   };
 };

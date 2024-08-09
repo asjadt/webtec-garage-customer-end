@@ -25,6 +25,7 @@ export default function Login() {
     handleClosePopup,
     handleOpenSignUpPopup,
     authPopupOptions,
+    handleOpenResetPasswordPopup,
   } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -152,13 +153,13 @@ export default function Login() {
             className="card-actions flex flex-col w-full items-end justify-between "
           >
             {/* FORGOT PASSWORD  */}
-            <NavLink
+            <button
               data-cy="login_forget_password"
               className={"link link-hover text-right text-sm font-[300]"}
-              to={`/auth/forgot-password`}
+              onClick={handleOpenResetPasswordPopup}
             >
               Forgot Password?
-            </NavLink>
+            </button>
 
             {/* LOGIN  */}
             <button

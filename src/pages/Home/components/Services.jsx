@@ -18,7 +18,9 @@ const Services = () => {
           transition={{ stagger: 0.5 }}
           className={`px-5 py-3 rounded-lg  flex flex-col gap-1 border-b`}
         >
-          <span className={`font-medium `}>{service?.name}</span>
+          <span className={`font-medium `}>
+            {index + 1}. {service?.name}
+          </span>
         </motion.div>
       ))}
     </div>
