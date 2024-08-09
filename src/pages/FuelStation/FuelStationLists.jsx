@@ -26,13 +26,15 @@ export default function FuelStationList() {
     totalGarageFound,
     setTotalGarageFound,
     setFuelStations,
+    fuelStationServices,
+    setFuelStationServices,
     fuelStationsFilter,
     setFuelStationsFilter,
   } = useData();
   const [locationDistanceRange, setLocationDistanceRange] = useState(3);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  console.log({ isFilterOpen });
+  console.log({ fuelStationServices });
   const { fuelStations } = useData();
   console.log({ fuelStationsFilter });
 
