@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import ButtonSpinner from "../../../../components/Loaders/ButtonSpinner";
 import { useData } from "../../../../context/DataContext";
 import SplitDescription from "../../../../components/SplitDescription";
@@ -43,9 +43,8 @@ export default function SelectPackagePackageForm({
       >
         {/* PACKAGE  */}
         {garageData?.garage?.garage_packages?.map((pkg, index) => (
-          <>
+          <Fragment key={index}>
             <button
-              key={index}
               onClick={() => {
                 setFormData({
                   ...formData,
@@ -118,7 +117,7 @@ export default function SelectPackagePackageForm({
 
               {/* PACKAGE SERVICES  */}
             </button>
-          </>
+          </Fragment>
         ))}
       </div>
 
@@ -137,6 +136,8 @@ export default function SelectPackagePackageForm({
       ) : (
         ""
       )}
+
+      {/* NEXT BUTTON  */}
       <div className="flex w-full justify-center items-center gap-2 mt-5 flex-col md:flex-row">
         <button
           disabled={isLoading}

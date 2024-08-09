@@ -31,7 +31,7 @@ import GarageJobDetailsForm from "../Steps/GarageJobDetailsForm";
 export default function CreateBookingForm({ garageData }) {
   const navigate = useNavigate();
   const { user, isAuthenticated, handleOpenLoginPopup } = useAuth();
-  const { loading } = useData();
+  const { loading, homeSearchData, subServices } = useData();
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -40,7 +40,15 @@ export default function CreateBookingForm({ garageData }) {
 
     // STEP 1
     service: [],
-    booking_sub_service_ids: [],
+    booking_sub_service_ids:
+      homeSearchData?.sub_services?.length > 0
+        ? subServices?.filter(
+            (ss) =>
+              garageData?.garage?.sub_services?.some(
+                (gs) => gs?.id === ss?.id
+              ) && homeSearchData?.sub_services?.some((gs) => gs === ss?.id)
+          )
+        : [],
     car_registration_no: "",
     automobile_make_id: "",
     automobile_model_id: "",

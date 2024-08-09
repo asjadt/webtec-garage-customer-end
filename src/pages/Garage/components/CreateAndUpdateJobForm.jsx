@@ -15,9 +15,11 @@ import { handleApiError } from "../../../utils/apiErrorHandler";
 import JobDetailsForm from "./StepsForJob/JobDetailsForm";
 import ReviewForm from "./StepsForJob/ReviewForm";
 import ServiceDetailsForm from "./StepsForJob/ServiceDetailsForm";
+import { useData } from "../../../context/DataContext";
 
 export default function CreateAndUpdateJobForm() {
   const navigate = useNavigate();
+  const { homeSearchData, subServices } = useData();
   const { user, isAuthenticated, handleOpenLoginPopup } = useAuth();
   // POPUP OPTIONS
   const [popupOption, setPopupOption] = useState({
@@ -33,7 +35,12 @@ export default function CreateAndUpdateJobForm() {
   const [formData, setFormData] = useState({
     // STEP 1
     service: [],
-    pre_booking_sub_service_ids: [],
+    pre_booking_sub_service_ids:
+      homeSearchData?.sub_services?.length > 0
+        ? subServices?.filter((ss) =>
+            homeSearchData?.sub_services?.some((gs) => gs === ss?.id)
+          )
+        : [],
     car_registration_no: "",
     automobile_make_id: "",
     automobile_model_id: "",

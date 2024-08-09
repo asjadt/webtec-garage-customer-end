@@ -90,30 +90,22 @@ export default function ServiceDetailsForm({
           groupForeignKey={"service_id"}
           options={subServices?.filter((ss) =>
             garageData?.garage?.sub_services?.some((gs) => gs?.id === ss?.id)
-          )}
+          )} //OK
           groups={services?.filter((s) =>
             garageData?.garage?.services?.some((gss) => gss?.id === s?.id)
-          )}
+          )} //OK
           required={true}
           placeholder="Select Services"
-          defaultSelectedValues={
-            homeSearchData?.sub_services?.length > 0
-              ? subServices?.filter((ss) =>
-                  homeSearchData?.sub_services?.some((gs) => gs === ss?.id)
-                )
-              : subServices
-                  ?.filter((ss) =>
-                    garageData?.garage?.services?.some(
-                      (gs) => gs?.id === ss?.id
-                    )
-                  )
-                  ?.filter((sub_service) =>
-                    formData?.booking_sub_service_ids?.some(
-                      (selected_sub_service_id) =>
-                        sub_service?.id === selected_sub_service_id
-                    )
-                  )
-          }
+          defaultSelectedValues={subServices
+            ?.filter((ss) =>
+              garageData?.garage?.sub_service?.some((gs) => gs?.id === ss?.id)
+            )
+            ?.filter((sub_service) =>
+              formData?.booking_sub_service_ids?.some(
+                (selected_sub_service_id) =>
+                  sub_service?.id === selected_sub_service_id
+              )
+            )}
           onSelect={(e) => {
             setFormData({
               ...formData,
