@@ -9,16 +9,17 @@ import CustomPopup from "../components/CustomPopup";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import Services from "../pages/Home/components/Services";
+import { useNavigate } from "react-router-dom";
 
 // Create the authentication context
 export const AuthContext = createContext();
 
 // Create the authentication provider component
 export const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     if (user) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${user?.token}`;
@@ -46,6 +47,7 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         localStorage.removeItem("user_data");
         setIsLoading(false);
+        navigate("/");
       }
     });
   };
@@ -121,7 +123,7 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
-  // HANDLER OPEN SIGN UP POPUP
+  // HANDLER OPEN Register POPUP
   const handleOpenSignUpPopup = ({
     customerRegistration = true,
     garageRegistration = true,
@@ -168,7 +170,7 @@ export const AuthProvider = ({ children }) => {
         popupClasses={
           authPopupOptions?.type === "register"
             ? `w-full sm:w-[80vw] md:w-[90vw] lg:w-[80vw]`
-            : `w-full sm:w-[70vw] md:w-[70vw] lg:w-[50vw]`
+            : `w-full smw-[500px]`
         }
         popupOption={authPopupOptions}
         setPopupOption={setAuthPopupOptions}

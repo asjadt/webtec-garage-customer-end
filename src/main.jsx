@@ -34,7 +34,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <LoadScript
       googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAP_API}
       libraries={["places"]}
-      loadingElement={<CustomLoading />}
+      loadingElement={<CustomLoading h={"h-screen"} />}
     >
       <ToastProvider>
         <QueryClientProvider client={queryClient}>

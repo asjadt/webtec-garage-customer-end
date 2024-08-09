@@ -126,7 +126,7 @@ export default function GarageOwner() {
     ],
   });
 
-  // SIGN UP FUNCTION
+  // Register FUNCTION
   const mutation = useMutation({
     mutationKey: "signUpUser",
     mutationFn: garageRegistration,

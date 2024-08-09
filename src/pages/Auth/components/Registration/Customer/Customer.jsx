@@ -156,7 +156,7 @@ export default function Customer() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // SIGN UP FUNCTION
+  // Register FUNCTION
   const mutation = useMutation({
     mutationKey: "signUpUser",
     mutationFn: signUpUser,
@@ -409,7 +409,7 @@ export default function Customer() {
             onClick={handleSubmit}
             className={`btn btn-primary w-full md:w-52`}
           >
-            {mutation?.isPending ? <ButtonLoading /> : "Sign Up"}
+            {mutation?.isPending ? <ButtonLoading /> : "Register"}
           </button>
         </div>
       </div>

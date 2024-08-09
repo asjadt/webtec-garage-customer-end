@@ -4,6 +4,7 @@ import TextLabelComponent from "../../../components/label/TextLabelComponent";
 import { useData } from "../../../context/DataContext";
 import { motion } from "framer-motion";
 import { AuthContext } from "../../../context/AuthContextV2";
+import { SlArrowDown } from "react-icons/sl";
 
 const gridContainerVariants = {
   hidden: { opacity: 0 },
@@ -18,7 +19,17 @@ const gridItemVariants = {
 export default function ServiceList() {
   const { services, loading } = useData();
   const { authPopupOptions, setAuthPopupOptions } = useContext(AuthContext);
-  console.log(services?.slice(0, 8));
+
+  const images = [
+    "/assets/Services/aircon.png",
+    "/assets/Services/alloywheel.png",
+    "/assets/Services/bodyshop.png",
+    "/assets/Services/brake.png",
+    "/assets/Services/gear.png",
+    "/assets/Services/dent.png",
+    "/assets/Services/diagnosis.png",
+    "/assets/Services/battery.png",
+  ];
   return (
     <div className={`w-full max-w-screen-xl`}>
       <div className={`flex justify-center items-center mb-5`}>
@@ -60,19 +71,24 @@ export default function ServiceList() {
                 variants={gridItemVariants}
                 exit={{ opacity: 0, y: 50 }}
                 transition={{ stagger: 0.5 }}
-                className={`w-full h-[250px] rounded-xl shadow-lg overflow-hidden`}
+                className={`w-full bg-red-50 h-[250px] rounded-xl shadow-lg overflow-hidden`}
               >
-                <img
-                  className={`w-full h-[200px] object-cover`}
-                  src="https://media.istockphoto.com/id/1347150429/photo/professional-mechanic-working-on-the-engine-of-the-car-in-the-garage.jpg?s=612x612&w=0&k=20&c=5zlDGgLNNaWsp_jq_L1AsGT85wrzpdl3kVH-75S-zTU="
-                  alt=""
-                />
+                <div
+                  className={`w-full h-[200px] flex justify-center items-center`}
+                >
+                  <img
+                    className={`w-[150px] sm:w-[100px] h-[150px] sm:h-[100px] object-cover`}
+                    src={images[index]}
+                    alt=""
+                  />
+                </div>
                 <h3 className={`text-center py-2 font-medium`}>
                   {service?.name}
                 </h3>
               </motion.div>
             ))}
           </motion.div>
+
           <div className={`w-full flex justify-center items-center mb-5`}>
             <button
               onClick={() =>
@@ -80,12 +96,12 @@ export default function ServiceList() {
                   ...authPopupOptions,
                   open: true,
                   type: "services",
-                  title: "Services",
+                  title: "All Available Services",
                 })
               }
-              className={`btn btn-primary`}
+              className={`btn btn-primary btn-outline w-[300px] flex items-center`}
             >
-              See More
+              <SlArrowDown className={`animate-pulse`} /> <span>See More</span>
             </button>
           </div>
         </div>

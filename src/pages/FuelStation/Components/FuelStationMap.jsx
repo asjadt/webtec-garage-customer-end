@@ -110,7 +110,7 @@ const FuelStationMap = ({ setActiveTab }) => {
       </div>
       <>
         {isFuelStationLoading ? (
-          <div className="w-full h-[calc(100vh-322px)] absolute outline-none border-none active:border-none bg-slate-300 animate-pulse"></div>
+          <div className="w-full h-[calc(100vh-220px)]  absolute outline-none border-none active:border-none bg-slate-300 animate-pulse"></div>
         ) : (
           <Map
             defaultCenter={{ lat: 23.7993984, lng: 90.3839744 }}
@@ -119,7 +119,7 @@ const FuelStationMap = ({ setActiveTab }) => {
             disableDefaultUI={true}
             disableDoubleClickZoom={true}
             scaleControl={true}
-            className="w-full h-[calc(100vh-322px)] absolute outline-none border-none active:border-none"
+            className="w-full h-[calc(100vh-220px)]  absolute outline-none border-none active:border-none"
             defaultTilt={10}
           >
             {fuelStations?.map((fuelStation) => (

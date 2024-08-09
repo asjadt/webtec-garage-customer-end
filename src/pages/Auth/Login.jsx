@@ -45,40 +45,55 @@ export default function Login() {
   }, []);
 
   const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    }
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = () => {
-    setIsLoading(true);
-    loginUser(formData)
-      .then((res) => {
-        if (res.ok === true) {
-          if (res?.data?.roles[0]?.name !== "customer") {
-            window.location.href = `${
-              import.meta.env.VITE_REACT_APP_REDIRECT_URL
-            }?token=${res?.data?.token}`;
-          } else {
-            setIsAuthenticated(true);
-            setUser(res?.data);
-            localStorage.setItem("user_data", JSON.stringify(res?.data));
-            axios.defaults.headers.common[
-              "Authorization"
-            ] = `Bearer ${res?.data?.token}`;
-            setIsLoading(false);
-            handleClosePopup();
+    if (validateForm()) {
+      setIsLoading(true);
+      loginUser(formData)
+        .then((res) => {
+          if (res.ok === true) {
+            if (res?.data?.roles[0]?.name !== "customer") {
+              window.location.href = `${
+                import.meta.env.VITE_REACT_APP_REDIRECT_URL
+              }?token=${res?.data?.token}`;
+            } else {
+              setIsAuthenticated(true);
+              setUser(res?.data);
+              localStorage.setItem("user_data", JSON.stringify(res?.data));
+              axios.defaults.headers.common[
+                "Authorization"
+              ] = `Bearer ${res?.data?.token}`;
+              setIsLoading(false);
+              handleClosePopup();
+            }
           }
-        }
-      })
-      .catch((error) => {
-        console.log({ error });
-        toast.custom((t) => (
-          <CustomToaster
-            t={t}
-            type={"error"}
-            text={`ID: #00203 - ${error?.response?.data?.message}`}
-            errors={error?.response?.data?.errors}
-          />
-        ));
-        setIsLoading(false);
-      });
+        })
+        .catch((error) => {
+          console.log({ error });
+          toast.custom((t) => (
+            <CustomToaster
+              t={t}
+              type={"error"}
+              text={`ID: #00203 - ${error?.response?.data?.message}`}
+              errors={error?.response?.data?.errors}
+            />
+          ));
+          setIsLoading(false);
+        });
+    }
   };
 
   if (isCheckingAuthentication) {
@@ -157,9 +172,9 @@ export default function Login() {
           </div>
 
           <div className={`flex gap-2 items-center my-2`}>
-            <div className={`bg-gray-400 w-[45%] py-[0.1px]`}></div>
+            <div className={`bg-gray-400 w-[48%] py-[0.1px]`}></div>
             <div>or</div>
-            <div className={`bg-gray-400 w-[45%] py-[0.1px]`}></div>
+            <div className={`bg-gray-400 w-[48%] py-[0.1px]`}></div>
           </div>
 
           {/* REGISTER  */}
@@ -171,7 +186,7 @@ export default function Login() {
             }}
             className="btn btn-outline  w-full btn-primary font-semibold text-sm sm:text-base hover:scale-105 active:scale-95 rounded-[5px] transition-all duration-200"
           >
-            Register A New Garage
+            Register
           </button>
         </div>
       </div>

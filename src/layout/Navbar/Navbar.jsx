@@ -14,6 +14,7 @@ import { useAuth } from "../../context/AuthContextV2";
 import { TbBell, TbLogout2 } from "react-icons/tb";
 import ButtonLoading from "../../components/ButtonLoading";
 import { menus } from "../../constant/menus";
+import { FaChevronDown } from "react-icons/fa";
 
 export default function Navbar() {
   const { user, logout, handleOpenSignUpPopup, handleOpenLoginPopup } =
@@ -120,25 +121,25 @@ export default function Navbar() {
                         menu?.childrens?.length > 0 &&
                         setOpenDropDown(!openDropdown)
                       }
-                      key={i}
                       to={menu?.childrens?.length > 0 ? "" : menu?.link}
-                      className={`text-primary font-semibold`}
+                      className={`text-primary font-semibold flex items-center gap-x-2`}
                     >
-                      {menu?.title}
+                      <span>{menu?.title}</span>{" "}
+                      {!!(menu?.childrens?.length > 0) && <FaChevronDown />}
                     </NavLink>
 
                     {menu?.childrens?.length > 0 ? (
                       <ul
-                        className={`absolute top-5 w-[200px] z-50 transition-[height] px-5 duration-200 h-0 ${
-                          !openDropdown ? "h-0" : "h-[190px]"
-                        } overflow-hidden translate-y-3 -translate-x-6 bg-white rounded`}
+                        className={`absolute top-5 w-[200px] z-50 py-0 transition-[height] duration-200 h-0 ${
+                          !openDropdown ? "h-0" : "h-auto border-x border-b"
+                        } overflow-hidden translate-y-[30px]  -translate-x-6 bg-base-300 rounded-b-md`}
                       >
                         {menu?.childrens?.map((children) => (
-                          <li className="my-1 py-1 px-2 rounded hover:bg-primary-content relative overflow-hidden">
-                            <NavLink to={children?.link}>
+                          <li className="relative overflow-hidden">
+                            <NavLink to={children?.link} className={`h-full`}>
                               <span
                                 data-text="Children"
-                                className="block duration-200 text-primary"
+                                className="block duration-200 py-2 px-5 text-primary h-full  hover:bg-primary-content"
                               >
                                 {children?.title}
                               </span>

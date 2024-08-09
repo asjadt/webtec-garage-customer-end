@@ -8,13 +8,13 @@ export default function Register() {
   const { authPopupOptions } = useAuth();
   const [activeTab, setActiveTab] = useState("customer");
   const registrationTabs = [
-    { id: "customer", title: "As a customer" },
-    { id: "garage_owner", title: "As a garage owner" },
+    { id: "customer", title: "As Customer" },
+    { id: "garage_owner", title: "As Garage owner" },
   ];
 
   console.warn({ form: authPopupOptions?.forms });
   return (
-    <div className={`mt-5 h-full`}>
+    <div className={`mt-5 h-full px-5 pb-5`}>
       {/* TABS  */}
       {authPopupOptions?.forms?.customerRegistration &&
         authPopupOptions?.forms?.garageRegistration && (

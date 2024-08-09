@@ -102,7 +102,7 @@ export default function CreateAndUpdateJobForm() {
       createFunction();
     } else {
       // OPEN THE LOGIN POPUP
-      handleOpenLoginPopup();
+      handleOpenLoginPopup({ garageRegistration: false });
     }
   };
 
