@@ -21,6 +21,7 @@ export default function JobDetailsForm({
   const [isLoading, setIsLoading] = useState(false);
   const [isMakeChangeLoading, setIsMakeChangeLoading] = useState(false);
   const [modelsForMultiSelect, setModelsForMultiSelect] = useState([]);
+  const [isManualDiscountToken, setIsManualDiscountToken] = useState(false);
   // CREATING A LOADING STATE FOR MULTISELECT
   useEffect(() => {
     setIsMakeChangeLoading(true);
@@ -310,6 +311,64 @@ export default function JobDetailsForm({
           }}
           dataAuto={`work_location-create-employee`}
         />
+
+        {/* DISCOUNT */}
+        <button
+          className="btn w-full md:btn-wide btn-primary btn-outline mt-5"
+          onClick={() => setIsManualDiscountToken(!isManualDiscountToken)}
+        >
+          {isManualDiscountToken ? "Auto apply coupon" : "Manually add coupon"}
+        </button>
+
+        {isManualDiscountToken ? (
+          <CustomFieldV2
+            defaultValue={formData?.car_registration_no}
+            disable={false}
+            error={errors?.car_registration_no}
+            fieldClassName={"w-full"}
+            id={"type_coupon"}
+            label={"Coupon"}
+            name={"type_coupon"}
+            // onChange={handleFormChange}
+            placeholder={"Type Coupon"}
+            type={"text"}
+            wrapperClassName={"w-full"}
+            required={true}
+            maxLength={50}
+            //   pattern={/^[A-Za-z\s]+$/}
+            //   patternErrorMsg="Only Capital and lowercase letters are allowed"
+            dataAuto={`name-create-department`}
+          />
+        ) : (
+          <CustomMultiSelect
+            required
+            label={"Select Coupon"}
+            error={errors?.automobile_make_id}
+            loading={loading}
+            placeholder="Select Coupon"
+            // options={makes?.filter((make) =>
+            //   garageData?.garage?.automobile_makes?.some(
+            //     (garageMake) => garageMake?.id === make?.id
+            //   )
+            // )}
+            singleSelect
+            // defaultSelectedValues={makes
+            //   ?.filter((make) =>
+            //     garageData?.garage?.automobile_makes?.some(
+            //       (garageMake) => garageMake?.id === make?.id
+            //     )
+            //   )
+            //   ?.filter((make) => formData?.automobile_make_id === make?.id)}
+            // onSelect={(e) => {
+            //   setFormData({
+            //     ...formData,
+            //     automobile_make_id: e[0]?.id,
+            //     makeName: e[0]?.name,
+            //   });
+            // }}
+            dataAuto={`work_location-create-employee`}
+          />
+        )}
 
         {/* EXTRA NOTES  */}
         <CustomTextareaField

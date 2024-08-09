@@ -20,6 +20,7 @@ export default function FuelStationList() {
   const { llFromDistance, location } = useGeoLocationData();
   const {
     loading,
+    fuelLoading,
     homeSearchData,
     setHomeSearchData,
     subServices,
@@ -57,7 +58,7 @@ export default function FuelStationList() {
   };
 
   const [filterItems, setFilterItems] = useState([
-    // SUB SERVICES
+    // SERVICES
     {
       title: (
         <div className={`flex justify-between items-center gap-x-3`}>
@@ -65,7 +66,7 @@ export default function FuelStationList() {
           <span
             className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
           >
-            {fuelStationsFilter?.sub_services?.length}
+            {fuelStationsFilter?.services?.length}
           </span>
         </div>
       ),
@@ -73,32 +74,29 @@ export default function FuelStationList() {
         <div
           className={`flex  flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
         >
-          {subServices?.map((service, index) => (
+          {fuelStationServices?.map((service, index) => (
             <label
               key={index}
-              htmlFor={`${service}-${index}`}
+              htmlFor={`${service?.name}-${index}`}
               className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
             >
               <input
                 type="checkbox"
-                id={`${service}-${index}`}
-                checked={homeSearchData?.sub_services?.some(
+                id={`${service?.name}-${index}`}
+                checked={fuelStationsFilter?.services?.some(
                   (s) => s === service.id
                 )}
                 className={`checkbox-primary checkbox checkbox-sm`}
                 onChange={(e) => {
                   if (e.target.checked) {
-                    setHomeSearchData({
-                      ...homeSearchData,
-                      sub_services: [
-                        ...homeSearchData.sub_services,
-                        service.id,
-                      ],
+                    setFuelStationsFilter({
+                      ...fuelStationsFilter,
+                      services: [...fuelStationsFilter.services, service.id],
                     });
                   } else {
-                    setHomeSearchData({
-                      ...homeSearchData,
-                      sub_services: homeSearchData.sub_services.filter(
+                    setFuelStationsFilter({
+                      ...fuelStationsFilter,
+                      services: fuelStationsFilter.services.filter(
                         (sub) => sub !== service.id
                       ),
                     });
@@ -230,13 +228,46 @@ export default function FuelStationList() {
             <span
               className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
             >
-              {homeSearchData?.sub_services?.length}
+              {fuelStationsFilter?.services?.length}
             </span>
           </div>
         ),
         Content: (
-          <div className={`py-5`}>
-            <SearchField contentWidth={"w-[90%]"} />
+          <div
+            className={`flex  flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
+          >
+            {fuelStationServices?.map((service, index) => (
+              <label
+                key={index}
+                htmlFor={`${service?.name}-${index}`}
+                className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
+              >
+                <input
+                  type="checkbox"
+                  id={`${service?.name}-${index}`}
+                  checked={fuelStationsFilter?.services?.some(
+                    (s) => s === service.id
+                  )}
+                  className={`checkbox-primary checkbox checkbox-sm`}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setFuelStationsFilter({
+                        ...fuelStationsFilter,
+                        services: [...fuelStationsFilter.services, service.id],
+                      });
+                    } else {
+                      setFuelStationsFilter({
+                        ...fuelStationsFilter,
+                        services: fuelStationsFilter.services.filter(
+                          (sub) => sub !== service.id
+                        ),
+                      });
+                    }
+                  }}
+                />{" "}
+                {service?.name}
+              </label>
+            ))}
           </div>
         ),
       },
@@ -356,7 +387,7 @@ export default function FuelStationList() {
     }, 200);
   }, [homeSearchData]);
 
-  if (loading) {
+  if (fuelLoading) {
     return <CustomLoading />;
   } else {
     return (

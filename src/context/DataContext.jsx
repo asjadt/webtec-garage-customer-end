@@ -11,6 +11,7 @@ import {
   getServices,
   getSubServicesWithoutIds,
 } from "../Apis/homepageapi";
+import { getAllFuelServices } from "../Apis/fuelStation";
 
 // Create the authentication context
 export const DataContext = createContext();
@@ -18,6 +19,7 @@ export const DataContext = createContext();
 // Create the authentication provider component
 export const DataContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
+  const [fuelLoading, setFuelLoading] = useState(true);
 
   const [services, setServices] = useState([]);
   const [subServices, setSubServices] = useState([]);
@@ -114,6 +116,21 @@ export const DataContextProvider = ({ children }) => {
       setLoading(false);
     }
   }, [queryCombinedLoading]);
+  // GET ALL FUEL SERVICES
+  const { isPending: fuelServiceLoading, data: fuelService } = useQuery({
+    queryKey: ["fuelService"],
+    queryFn: getAllFuelServices,
+  });
+
+  // HANDLE LOADING AND SET STATE
+  useEffect(() => {
+    if (fuelServiceLoading) {
+      setFuelLoading(true);
+    } else {
+      setFuelStationServices(fuelService);
+      setFuelLoading(false);
+    }
+  }, [fuelServiceLoading]);
 
   // GETTING TOTAL NUMBER OF GARAGES FROM SEARCH
   useEffect(() => {
@@ -133,6 +150,8 @@ export const DataContextProvider = ({ children }) => {
 
         loading,
         setLoading,
+        fuelLoading,
+        setFuelLoading,
 
         services,
         setServices,
@@ -174,6 +193,8 @@ export const useData = () => {
 
     loading,
     setLoading,
+    fuelLoading,
+    setFuelLoading,
 
     services,
     setServices,
@@ -209,6 +230,8 @@ export const useData = () => {
 
     loading,
     setLoading,
+    fuelLoading,
+    setFuelLoading,
 
     services,
     setServices,

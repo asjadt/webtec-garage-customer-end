@@ -233,11 +233,11 @@ export const getGarageTimingDetails = async (id) => {
 };
 
 //  coupon validation api function
-export const getCoupnValidation = async (id, cpuponId, price) => {
+export const getCoupnValidation = async (id, couponId, price) => {
   return await axios
     .get(
       `/v1.0/client/coupons/get-discount/${id}/${
-        cpuponId ? cpuponId : null
+        couponId ? couponId : null
       }/${price}`,
       getApiConfig()
     )

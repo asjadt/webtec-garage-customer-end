@@ -72,6 +72,18 @@ export const getSingleFuelServices = async (id) => {
     });
 };
 
+// get All fuel service api function
+export const getAllFuelServices = async (id) => {
+  return await axios
+    .get(`/v1.0/client/fuel-station-services/get/all`, getApiConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+
 // get fuel galaries api function
 export const getFuelGellaries = async (id) => {
   return await axios
