@@ -346,32 +346,26 @@ export default function SingleGarage() {
                 <div className={`flex justify-center items-center mb-5`}>
                   <TextTitleComponent text={"Location"} />
                 </div>
-                <div className={`relative`}>
-                  <div
-                    className={`w-full flex justify-center items-center absolute top-48`}
-                  >
-                    <Map
-                      defaultCenter={{
-                        lat: parseFloat(data?.garage?.lat),
-                        lng: parseFloat(data?.garage?.long),
-                      }}
-                      defaultZoom={8}
-                      gestureHandling={"greedy"}
-                      disableDefaultUI={true}
-                      disableDoubleClickZoom={true}
-                      scaleControl={true}
-                      className="w-full h-[calc(100vh-322px)] absolute outline-none border-none active:border-none"
-                      defaultTilt={10}
-                    >
-                      <Marker
-                        position={{
-                          lat: parseFloat(data?.garage?.lat),
-                          lng: parseFloat(data?.garage?.long),
-                        }}
-                      />
-                    </Map>
-                  </div>
-                </div>
+                <Map
+                  defaultCenter={{
+                    lat: parseFloat(data?.garage?.lat),
+                    lng: parseFloat(data?.garage?.long),
+                  }}
+                  defaultZoom={8}
+                  gestureHandling={"greedy"}
+                  disableDefaultUI={true}
+                  disableDoubleClickZoom={true}
+                  scaleControl={true}
+                  className="w-[calc(100vw-40px)] h-[400px] outline-none border-none active:border-none"
+                  defaultTilt={10}
+                >
+                  <Marker
+                    position={{
+                      lat: parseFloat(data?.garage?.lat),
+                      lng: parseFloat(data?.garage?.long),
+                    }}
+                  />
+                </Map>
               </div>
             </>
           )}
