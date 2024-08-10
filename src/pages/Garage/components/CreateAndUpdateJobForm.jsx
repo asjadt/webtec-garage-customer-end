@@ -48,7 +48,7 @@ export default function CreateAndUpdateJobForm() {
 
     // STEP 2
     job_start_date: moment(new Date()).format("YYYY-MM-DD"),
-    job_start_time: "00:00",
+    job_start_time: "",
     job_end_date: moment().add(1, "month").format("YYYY-MM-DD"),
     additional_information: "",
     images: [],

@@ -95,6 +95,10 @@ export default function MyJob() {
           attributeName: "status",
           value: "rejected_by_client",
         },
+        {
+          attributeName: "status",
+          value: "active",
+        },
       ],
     },
 
@@ -214,6 +218,9 @@ export default function MyJob() {
             popupOption?.type === "viewAppliedJob" && (
               <ViewJob
                 job={job}
+                handleClosePopup={(e) => {
+                  setPopupOption({ ...popupOption, open: false, type: "" });
+                }}
                 popupOption={popupOption}
                 setPopupOption={setPopupOption}
               />

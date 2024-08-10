@@ -113,6 +113,7 @@ export default function SearchForm() {
           ...homeSearchData,
           page: 1,
           search_key: "",
+          distance: 3,
           wifi_available: false,
           is_mobile_garage: false,
           services: [],
@@ -150,6 +151,7 @@ export default function SearchForm() {
           ...homeSearchData,
           page: 1,
           search_key: "",
+          distance: 3,
           wifi_available: false,
           is_mobile_garage: false,
           services: [], //DONE

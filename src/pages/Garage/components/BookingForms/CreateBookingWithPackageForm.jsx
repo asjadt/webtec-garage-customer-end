@@ -2,7 +2,7 @@
 // #00142
 // ===================================
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import CustomLoading from "../../../../components/CustomLoading";
 
@@ -10,22 +10,21 @@ import { useMutation } from "@tanstack/react-query";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import {
-  createBookingWIthPackage,
-  postPreBookingDetails,
-} from "../../../../Apis/homepageapi";
+import { createBookingWIthPackage } from "../../../../Apis/homepageapi";
 import CustomMultiStepper from "../../../../components/CustomMultiStepper";
-import CustomPopup from "../../../../components/CustomPopup";
 import Headings from "../../../../components/Headings/Headings";
 import { useAuth } from "../../../../context/AuthContextV2";
 import { useData } from "../../../../context/DataContext";
 import { handleApiError } from "../../../../utils/apiErrorHandler";
-import Login from "../../../Auth/Login";
 import JobDetailsForm from "../Steps/JobDetailsForm";
 import ReviewForm from "../Steps/ReviewForm";
 import SelectPackagePackageForm from "../Steps/SelectPackagePackageForm";
 
-export default function CreateBookingWithPackageForm({ garageData }) {
+export default function CreateBookingWithPackageForm({
+  garageData,
+  isLoadingCoupon,
+  coupons,
+}) {
   const navigate = useNavigate();
   const { user, isAuthenticated, setAuthPopupOptions, handleOpenLoginPopup } =
     useAuth();
@@ -48,7 +47,7 @@ export default function CreateBookingWithPackageForm({ garageData }) {
 
     // STEP 3
     job_start_date: moment(new Date()).format("YYYY-MM-DD"),
-    job_start_time: "00:00",
+    job_start_time: "",
     job_end_date: moment().add(1, "month").format("YYYY-MM-DD"),
     additional_information: "",
     images: [],
@@ -58,7 +57,10 @@ export default function CreateBookingWithPackageForm({ garageData }) {
     coupon_code: "",
     car_registration_year: "",
     fuel: "Fuel",
+
+    price: 0, // IGNORE THIS
   });
+  const [appliedCouponDetails, setAppliedCouponDetails] = useState({});
 
   // CREATE FUNCTION
   const mutation = useMutation({
@@ -111,6 +113,9 @@ export default function CreateBookingWithPackageForm({ garageData }) {
     }
   };
 
+  useEffect(() => {
+    console.log({ formData });
+  }, [formData]);
   if (loading) {
     return <CustomLoading />;
   } else {
@@ -162,6 +167,10 @@ export default function CreateBookingWithPackageForm({ garageData }) {
           )}
           {step === 2 && (
             <JobDetailsForm
+              appliedCouponDetails={appliedCouponDetails}
+              setAppliedCouponDetails={setAppliedCouponDetails}
+              isLoadingCoupon={isLoadingCoupon}
+              coupons={coupons}
               setStep={setStep}
               formData={formData}
               setFormData={setFormData}
@@ -170,6 +179,7 @@ export default function CreateBookingWithPackageForm({ garageData }) {
           )}
           {step === 3 && (
             <ReviewForm
+              appliedCouponDetails={appliedCouponDetails}
               setStep={setStep}
               formData={formData}
               setFormData={setFormData}

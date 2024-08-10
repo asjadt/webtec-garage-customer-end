@@ -28,16 +28,19 @@ import ReviewForm from "../Steps/ReviewForm";
 import ServiceDetailsForm from "../Steps/ServiceDetailsForm";
 import GarageJobDetailsForm from "../Steps/GarageJobDetailsForm";
 
-export default function CreateBookingForm({ garageData }) {
+export default function CreateBookingForm({
+  garageData,
+  isLoadingCoupon,
+  coupons,
+}) {
   const navigate = useNavigate();
   const { user, isAuthenticated, handleOpenLoginPopup } = useAuth();
   const { loading, homeSearchData, subServices } = useData();
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   const [formData, setFormData] = useState({
     garage_id: garageData?.garage?.id,
     booking_garage_package_ids: [],
-
     // STEP 1
     service: [],
     booking_sub_service_ids:
@@ -56,7 +59,7 @@ export default function CreateBookingForm({ garageData }) {
 
     // STEP 2
     job_start_date: moment(new Date()).format("YYYY-MM-DD"),
-    job_start_time: "00:00",
+    job_start_time: "",
     job_end_date: moment().add(1, "month").format("YYYY-MM-DD"),
     additional_information: "",
     images: [],
@@ -67,6 +70,7 @@ export default function CreateBookingForm({ garageData }) {
     car_registration_year: "",
     fuel: "Fuel",
   });
+  const [appliedCouponDetails, setAppliedCouponDetails] = useState({});
 
   // CREATE FUNCTION
   const mutation = useMutation({
@@ -170,6 +174,10 @@ export default function CreateBookingForm({ garageData }) {
 
           {step === 2 && (
             <GarageJobDetailsForm
+              appliedCouponDetails={appliedCouponDetails}
+              setAppliedCouponDetails={setAppliedCouponDetails}
+              isLoadingCoupon={isLoadingCoupon}
+              coupons={coupons}
               garageData={garageData}
               setStep={setStep}
               formData={formData}

@@ -1,81 +1,188 @@
 import moment from "moment";
 import React from "react";
+import { formatRole } from "../../../utils/formatRole.js";
 
 const ViewJob = ({ popupOption, setPopupOption, job }) => {
-  console.log({ job });
   return (
-    <div className={`my-10 flex flex-col gap-4`}>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Garage Name:</h2>
-        <p>{job?.garage?.name}</p>
+    <div className={`mt-10 flex flex-col`}>
+      {/* Garage Name  */}
+      <div className={`flex items-start border-b pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Garage Name: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {job?.garage?.name}
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Packages:</h2>
-        <div>
-          {job?.job_packages?.map((jobPackage) => (
-            <ul className={`list-disc ml-6`} key={jobPackage?.id}>
-              <li className={`font-medium`}>
-                Package Name:{" "}
-                <span className={`font-normal`}>
-                  {jobPackage?.garage_package?.name}
-                </span>
-              </li>{" "}
-              <li className={`font-medium`}>
-                Package Price:{" "}
-                <span className={`font-normal`}>
-                  {jobPackage?.garage_package?.price}
-                </span>
-              </li>
-            </ul>
-          ))}
+
+      {/* GARAGE LOCATION  */}
+      <div className={`flex items-start border-b pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Garage Location: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {job?.garage?.address_line_1}
+        </span>
+      </div>
+
+      {/* PACKAGES  */}
+      {!!(job?.job_packages?.length > 0) && (
+        <div className={`flex items-start border-b pt-5  pb-4`}>
+          <span className={`w-[200px] font-bold`}>Packages: </span>
+          <span
+            data-auto={`personal-details-v2-first-name-view-employee`}
+            className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+          >
+            {job?.job_packages?.length > 0 ? (
+              <ul className={`list-decimal pl-[1.15rem]`}>
+                {job?.job_packages?.map((jobPackage, i) => (
+                  <li key={i}>
+                    {jobPackage?.garage_package?.name} (
+                    {jobPackage?.garage_package?.price})
+                    {job?.job_packages?.length - 1 === i ? "." : ","}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <span>No Packages</span>
+            )}
+          </span>
         </div>
+      )}
+
+      {/* SERVICES  */}
+      <div className={`flex items-start border-b pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Services: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          <ul className={`list-decimal pl-[1.15rem]`}>
+            {job?.job_sub_services?.map((service, i) => (
+              <li key={i}>
+                {service?.sub_service?.name}
+                {job?.job_sub_services?.length - 1 === i ? "." : ","}
+              </li>
+            ))}
+          </ul>
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Services:</h2>
-        <p>
-          {job?.job_sub_services?.map((service, i) => (
-            <p key={i}>{service?.sub_service?.name}</p>
-          ))}
-        </p>
+
+      {/* JOB START DATE  */}
+      <div className={`flex items-start border-b pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Job Start Date: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {moment(job?.job_start_date, "YYYY-MM-DD").format("DD-MM-YYYY")}
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Car Model:</h2>
-        <p>{job?.automobile_model?.name}</p>
+
+      {/* JOB START TIME  */}
+      {!!job?.job_start_time && (
+        <div className={`flex items-start border-b pt-5 pb-4`}>
+          {/* TITLE  */}
+          <span className={`w-[200px] font-bold`}>Job Start Date: </span>
+          <span
+            data-auto={`personal-details-v2-first-name-view-employee`}
+            className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+          >
+            {/* DETAILS  */}
+            {moment(job?.job_start_time, "HH:mm").format("hh:mm A")}
+          </span>
+        </div>
+      )}
+
+      {/* BOOKING PRICE  */}
+      <div className={`flex items-start border-b pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Booking Price: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          <span className={`text-primary`}>{job?.final_price} </span>{" "}
+          <span>{job?.garage?.currency}</span>
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Car Reg:</h2>
-        <p>{job?.car_registration_no}</p>
+
+      {/* CAR REG  */}
+      <div className={`flex items-start border-b pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Car Reg: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {job?.car_registration_no}
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Job Start Time:</h2>
-        <p>{moment(job?.job_start_time, "HH:mm").format("hh:mm A")}</p>
+
+      {/* CAR MAKE  */}
+      <div className={`flex items-start border-b pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Car Make: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {job?.automobile_make?.name}
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Garage Location:</h2>
-        <p>{job?.garage?.address_line_1}</p>
+
+      {/* CAR MODEL  */}
+      <div className={`flex items-start border-b pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Car Model: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {job?.automobile_model?.name}
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Booking Price::</h2>
-        <p>
-          <span className={`text-primary`}> {job?.garage?.currency} </span>{" "}
-          {job?.final_price}
-        </p>
-      </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Car Make:</h2>
-        <p>{job?.automobile_make?.name}</p>
-      </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Extra Notes:</h2>
-        <p>{job?.additional_information}</p>
-      </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Job Start Date:</h2>
-        <p>{job?.job_start_date}</p>
-      </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Status:</h2>
-        <p>{job?.status}</p>
+
+      {/* NOTE  */}
+      {!!job?.additional_information && (
+        <div className={`flex items-start border-b pt-5 pb-4`}>
+          {/* TITLE  */}
+          <span className={`w-[200px] font-bold`}>Extra Notes: </span>
+          <span
+            data-auto={`personal-details-v2-first-name-view-employee`}
+            className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+          >
+            {/* DETAILS  */}
+            {job?.additional_information}
+          </span>
+        </div>
+      )}
+
+      {/* STATUS  */}
+      <div className={`flex items-start border-b pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Status: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {formatRole(job?.status)}
+        </span>
       </div>
     </div>
   );

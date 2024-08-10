@@ -8,6 +8,7 @@ export default function ReviewForm({
   handleOnSubmit,
   isLoading,
   garageData,
+  appliedCouponDetails,
 }) {
   const { user, isAuthenticated, logout, setIsAuthenticated, setUser } =
     useAuth();
@@ -27,6 +28,37 @@ export default function ReviewForm({
                   )?.name
               )
               .join(", ")}
+          </td>
+        </tr>
+        <tr className={`border-b `}>
+          <td className={`h-full font-bold`}>Package Price</td>
+          <td className={`h-full py-5`}>
+            {formData?.price} {garageData?.garage?.currency}
+          </td>
+        </tr>
+        <tr className={`border-b `}>
+          <td className={`h-full font-bold`}>Coupon</td>
+          <td className={`h-full py-5`}>{formData?.coupon_code}</td>
+        </tr>
+        <tr className={`border-b `}>
+          <td className={`h-full font-bold`}>Discount</td>
+          <td className={`h-full py-5`}>
+            {appliedCouponDetails?.coupon_amount}{" "}
+            {appliedCouponDetails?.coupon_type === "fixed"
+              ? `${garageData?.garage?.currency}`
+              : "%"}{" "}
+          </td>
+        </tr>
+        <tr className={`border-b `}>
+          <td className={`h-full font-bold`}>Total</td>
+          <td className={`h-full py-5`}>
+            {appliedCouponDetails?.coupon_type === "fixed"
+              ? formData?.price - appliedCouponDetails?.coupon_amount
+              : appliedCouponDetails?.coupon_type === "percentage"
+              ? formData?.price -
+                (formData?.price * appliedCouponDetails?.coupon_amount) / 100
+              : formData?.price}{" "}
+            {garageData?.garage?.currency}
           </td>
         </tr>
         <tr className={`border-b `}>
@@ -69,10 +101,12 @@ export default function ReviewForm({
         </tr>
       </table>
 
-      <div className={`py-5`}>
-        <span className={`font-bold `}>Notes</span>
-        <p className={`pt-2`}>{formData?.additional_information}</p>
-      </div>
+      {!!formData?.additional_information && (
+        <div className={`py-5`}>
+          <span className={`font-bold `}>Notes</span>
+          <p className={`pt-2`}>{formData?.additional_information}</p>
+        </div>
+      )}
 
       {(formData?.images?.length > 0 || formData?.videos?.length > 0) && (
         <div className={`py-5`}>

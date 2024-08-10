@@ -12,18 +12,63 @@ import { useData } from "../../../../context/DataContext";
 import CustomFieldV2 from "../../../../components/InputFields/CustomFieldV2";
 import CustomTimePickerV2 from "../../../../components/InputFields/CustomTimePickerV2";
 import CustomDatePickerV2 from "../../../../components/InputFields/CustomDatePickerV2";
+import { getCouponValidation } from "../../../../Apis/homepageapi";
+import ButtonLoading from "../../../../components/ButtonLoading";
+import { BiSolidCoupon } from "react-icons/bi";
+import { handleApiError } from "../../../../utils/apiErrorHandler";
 
 export default function JobDetailsForm({
   formData,
   setStep,
   setFormData,
   garageData,
+
+  isLoadingCoupon,
+  coupons,
+  appliedCouponDetails,
+  setAppliedCouponDetails,
 }) {
   const { loading, makes, models } = useData();
   const [isLoading, setIsLoading] = useState(false);
   const [isMakeChangeLoading, setIsMakeChangeLoading] = useState(false);
   const [modelsForMultiSelect, setModelsForMultiSelect] = useState([]);
+
+  // COUPON
   const [isManualDiscountToken, setIsManualDiscountToken] = useState(false);
+
+  // VALIDATE COUPON
+  const [isCouponValidating, setIsCouponValidating] = useState(false);
+  const [couponValidationMessage, setCouponValidationMessage] = useState("");
+
+  const handleValidateCoupon = (e) => {
+    if (e) {
+      setIsCouponValidating(true);
+      getCouponValidation({
+        coupon: e, // coupon code
+        id: garageData?.garage?.id,
+        price: formData?.price,
+      })
+        .then((res) => {
+          console.log({ res });
+
+          if (res?.success) {
+            setAppliedCouponDetails({
+              coupon_code: e,
+              coupon_type: res?.discount_type,
+              coupon_amount: res?.discount_amount,
+            });
+          } else {
+            setCouponValidationMessage("Invalid coupon code");
+          }
+
+          setIsCouponValidating(false);
+        })
+        .catch((error) => {
+          handleApiError(error);
+          setIsCouponValidating(false);
+        });
+    }
+  };
   // CREATING A LOADING STATE FOR MULTISELECT
   useEffect(() => {
     setIsMakeChangeLoading(true);
@@ -37,6 +82,16 @@ export default function JobDetailsForm({
     }, 100);
   }, [formData?.automobile_make_id]);
 
+  // HANDLE CHANGE FORM DATA
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  // VALIDATION
   const [errors, setErrors] = useState({});
   const validateForm = () => {
     const newErrors = {};
@@ -79,26 +134,16 @@ export default function JobDetailsForm({
     return Object.keys(newErrors).length === 0;
   };
 
-  // HANDLE CHANGE FORM DATA
-  const handleFormChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  // HANDLE SUBMIT
   const handleSubmit = () => {
     if (validateForm()) {
       setStep(3);
     }
   };
 
-  useEffect(() => {
-    console.log({ formData });
-  }, [formData]);
-
   return (
     <div className={``}>
+      {/* SCHEDULE  */}
       <div className="join join-vertical w-full">
         <div className="collapse collapse-arrow join-item  border border-primary">
           <input type="checkbox" name="my-accordion-4" />
@@ -341,62 +386,95 @@ export default function JobDetailsForm({
           dataAuto={`work_location-create-employee`}
         />
 
-        {/* DISCOUNT */}
+        {/* COUPON */}
         <button
-          className="btn w-full md:btn-wide btn-primary btn-outline mt-5"
-          onClick={() => setIsManualDiscountToken(!isManualDiscountToken)}
+          className="btn w-full btn-sm btn-outline btn-primary mt-5"
+          onClick={() => {
+            setIsManualDiscountToken(!isManualDiscountToken);
+            setAppliedCouponDetails({});
+            setFormData({
+              ...formData,
+              coupon_code: "",
+            });
+            setCouponValidationMessage("");
+          }}
         >
-          {isManualDiscountToken ? "Auto apply coupon" : "Manually add coupon"}
+          <BiSolidCoupon size={20} />{" "}
+          {isManualDiscountToken
+            ? "Add auto apply coupon"
+            : "Add coupon manually"}
         </button>
 
+        {/* COUPON FIELD  */}
         {isManualDiscountToken ? (
+          // MANUAL COUPON
           <CustomFieldV2
-            defaultValue={formData?.car_registration_no}
+            defaultValue={formData?.coupon_code}
             disable={false}
-            error={errors?.car_registration_no}
             fieldClassName={"w-full"}
-            id={"type_coupon"}
+            id={"coupon_code"}
             label={"Coupon"}
-            name={"type_coupon"}
-            // onChange={handleFormChange}
+            name={"coupon_code"}
+            onChange={handleFormChange}
+            onBlur={(e) => handleValidateCoupon(e.target.value)}
             placeholder={"Type Coupon"}
             type={"text"}
             wrapperClassName={"w-full"}
-            required={true}
             maxLength={50}
-            //   pattern={/^[A-Za-z\s]+$/}
-            //   patternErrorMsg="Only Capital and lowercase letters are allowed"
             dataAuto={`name-create-department`}
           />
         ) : (
+          // AUTO APPLY COUPON
           <CustomMultiSelect
-            required
             label={"Select Coupon"}
-            error={errors?.automobile_make_id}
-            loading={loading}
+            loading={isLoadingCoupon}
             placeholder="Select Coupon"
-            // options={makes?.filter((make) =>
-            //   garageData?.garage?.automobile_makes?.some(
-            //     (garageMake) => garageMake?.id === make?.id
-            //   )
-            // )}
+            options={coupons?.map((coupon) => ({
+              id: coupon?.id,
+              name: coupon?.code,
+              value: coupon?.code,
+            }))}
             singleSelect
-            // defaultSelectedValues={makes
-            //   ?.filter((make) =>
-            //     garageData?.garage?.automobile_makes?.some(
-            //       (garageMake) => garageMake?.id === make?.id
-            //     )
-            //   )
-            //   ?.filter((make) => formData?.automobile_make_id === make?.id)}
-            // onSelect={(e) => {
-            //   setFormData({
-            //     ...formData,
-            //     automobile_make_id: e[0]?.id,
-            //     makeName: e[0]?.name,
-            //   });
-            // }}
+            defaultSelectedValues={coupons
+              ?.map((coupon) => ({
+                id: coupon?.id,
+                name: coupon?.code,
+                value: coupon?.code,
+              }))
+              ?.filter((coupon) => coupon?.name === formData?.coupon_code)}
+            onSelect={(e) => {
+              setFormData({
+                ...formData,
+                coupon_code: e[0]?.name,
+              });
+              handleValidateCoupon(e[0]?.name);
+            }}
             dataAuto={`work_location-create-employee`}
           />
+        )}
+
+        {isCouponValidating ? (
+          <span
+            className={`flex items-center gap-x-1 mt-1 text-xs text-primary font-medium`}
+          >
+            {<ButtonLoading className={`text-xs`} />} Applying the coupon
+          </span>
+        ) : (
+          <>
+            {Object?.keys(appliedCouponDetails)?.length > 0 ? (
+              <span className={`text-xs font-medium text-green-500`}>
+                You got {appliedCouponDetails?.coupon_amount}{" "}
+                {appliedCouponDetails?.coupon_type === "fixed"
+                  ? `${garageData?.garage?.currency}`
+                  : "%"}{" "}
+                discount
+              </span>
+            ) : (
+              <span className={`text-xs font-medium text-red-500`}>
+                {couponValidationMessage}
+              </span>
+            )}
+          </>
         )}
 
         {/* EXTRA NOTES  */}
@@ -424,14 +502,14 @@ export default function JobDetailsForm({
       </div>
       <div className="flex w-full justify-between items-center gap-2 mt-5 flex-col md:flex-row ">
         <button
-          disabled={isLoading}
+          disabled={isLoading || isCouponValidating}
           onClick={() => setStep(1)}
           className="btn w-full md:btn-wide btn-primary btn-outline"
         >
           Previous
         </button>
         <button
-          disabled={isLoading}
+          disabled={isLoading || isCouponValidating}
           onClick={handleSubmit}
           className="btn w-full md:btn-wide btn-primary"
         >

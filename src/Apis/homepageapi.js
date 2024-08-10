@@ -232,24 +232,7 @@ export const getGarageTimingDetails = async (id) => {
     });
 };
 
-//  coupon validation api function
-export const getCoupnValidation = async (id, couponId, price) => {
-  return await axios
-    .get(
-      `/v1.0/client/coupons/get-discount/${id}/${
-        couponId ? couponId : null
-      }/${price}`,
-      getApiConfig()
-    )
-    .then((res) => {
-      return res.data;
-    })
-    .catch((err) => {
-      throw err;
-    });
-};
-
-export const getAllCoupn = async (id) => {
+export const getAllCoupon = async (id) => {
   return await axios
     .get(`/v1.0/client/coupons/by-garage-id/${id}/10000000`, getApiConfig())
     .then((res) => {
@@ -260,9 +243,29 @@ export const getAllCoupn = async (id) => {
     });
 };
 
-export const getAllAutoApplyCoupn = async (id) => {
+export const getAllAutoApplyCoupon = async (garage_id) => {
   return await axios
-    .get(`/v1.0/client/coupons/all-auto-applied-coupons/${id}`, getApiConfig())
+    .get(
+      `/v1.0/client/coupons/all-auto-applied-coupons/${garage_id}`,
+      getApiConfig()
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+
+//  coupon validation api function
+export const getCouponValidation = async ({ id, coupon, price }) => {
+  return await axios
+    .get(
+      `/v1.0/client/coupons/get-discount/${id}/${
+        coupon ? coupon : null
+      }/${price}`,
+      getApiConfig()
+    )
     .then((res) => {
       return res.data;
     })

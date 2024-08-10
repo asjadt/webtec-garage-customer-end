@@ -44,12 +44,12 @@ export default function SelectPackagePackageForm({
         {/* PACKAGE  */}
         {garageData?.garage?.garage_packages?.map((pkg, index) => (
           <Fragment key={index}>
-            {console.log({ pkg })}
             <button
               onClick={() => {
                 setFormData({
                   ...formData,
                   booking_garage_package_ids: [pkg?.id],
+                  price: pkg?.price,
                 });
               }}
               className={`${

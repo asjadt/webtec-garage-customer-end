@@ -1,22 +1,28 @@
 import moment from "moment";
 import React, { useState } from "react";
+import { FaInbox } from "react-icons/fa";
+import { IoIosCheckmarkCircle, IoIosInformationCircle } from "react-icons/io";
+import { MdCancel } from "react-icons/md";
+import Swal from "sweetalert2";
+import { preBookingsBisManage } from "../../../Apis/auth";
 import CustomTab from "../../../components/CustomTab";
 import Table from "../../../components/Table";
-import { IoIosCheckmarkCircle } from "react-icons/io";
-import { MdCancel } from "react-icons/md";
-import { preBookingsBisManage } from "../../../Apis/auth";
-import { formatRole } from "../../../utils/formatRole";
-import Swal from "sweetalert2";
 import { handleApiError } from "../../../utils/apiErrorHandler";
+import { formatRole } from "../../../utils/formatRole";
 
-const ViewPendingJob = ({ popupOption, setPopupOption, job, refetch }) => {
+const ViewPendingJob = ({
+  popupOption,
+  setPopupOption,
+  job,
+  refetch,
+  handleClosePopup,
+}) => {
   const [isUpdated, setIsUpdated] = useState();
   const [tabs, setTabs] = useState([
-    { id: "job", title: "Details" },
-    { id: "applications", title: "Applications" },
+    { id: "job", title: "Details", Icon: IoIosInformationCircle },
+    { id: "applications", title: "Applications", Icon: FaInbox },
   ]);
   const [activeTab, setActiveTab] = useState("job");
-  console.log({ job });
   const [isAccept, setIsAccept] = useState(false);
   // HANDLE ACCEPT
   const handleAccept = (data) => {
@@ -43,6 +49,7 @@ const ViewPendingJob = ({ popupOption, setPopupOption, job, refetch }) => {
         })
           .then((res) => {
             setIsUpdated(Math.random());
+            handleClosePopup();
             // setSingleJob({
             //   ...job,
             //   job_bids: { ...job.job_bids, status: "accepted" },
@@ -150,7 +157,7 @@ const ViewPendingJob = ({ popupOption, setPopupOption, job, refetch }) => {
       backgroundColorClass: "bg-red-200",
       isLoading: false,
       disabledOn: [],
-      permissions: true,
+      permissions: job?.status !== "booked",
     },
     {
       name: "reject",
@@ -160,12 +167,13 @@ const ViewPendingJob = ({ popupOption, setPopupOption, job, refetch }) => {
       backgroundColorClass: "bg-red-200",
       isLoading: false,
       disabledOn: [],
-      permissions: true,
+      permissions: job?.status !== "booked",
     },
   ]);
+
   return (
     <>
-      <div className={`flex justify-center mt-7`}>
+      <div className={`flex justify-center mt-6`}>
         <CustomTab
           layoutId={"pending-jobs-tabs"}
           tabs={tabs}
@@ -177,48 +185,124 @@ const ViewPendingJob = ({ popupOption, setPopupOption, job, refetch }) => {
 
       {/* JOB DETAILS  */}
       {activeTab === "job" && (
-        <div className={`my-10 flex flex-col gap-4`}>
-          <div className={`flex items-center gap-1`}>
-            <h2 className={`font-bold`}>Services:</h2>
-            <div className={`flex items-center gap-1 flex-wrap`}>
-              {job?.pre_booking_sub_services?.map((service, i) => (
-                <p key={i}>
-                  {service?.sub_service?.name}
-                  {job?.pre_booking_sub_services?.length - 1 === i ? "." : ","}
-                </p>
-              ))}
-            </div>
+        <div
+          className={`pb-5 flex flex-col gap-4 max-h-[500px] overflow-y-auto scrollbar-none`}
+        >
+          {/* SERVICES  */}
+          <div className={`flex items-start border-y pt-5 pb-4`}>
+            {/* TITLE  */}
+            <span className={`w-[200px] font-bold`}>Services: </span>
+            <span
+              data-auto={`personal-details-v2-first-name-view-employee`}
+              className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+            >
+              {/* DETAILS  */}
+              <ul className={`list-decimal pl-[1.15rem]`}>
+                {job?.pre_booking_sub_services?.map((service, i) => (
+                  <li key={i}>
+                    {service?.sub_service?.name}
+                    {job?.pre_booking_sub_services?.length - 1 === i
+                      ? "."
+                      : ","}
+                  </li>
+                ))}
+              </ul>
+            </span>
           </div>
-          <div className={`flex items-center gap-1`}>
-            <h2 className={`font-bold`}>Car Model:</h2>
-            <p>{job?.automobile_model?.name}</p>
+
+          {/* CAR MODEL  */}
+          <div className={`flex items-start border-b pb-4`}>
+            {/* TITLE  */}
+            <span className={`w-[200px] font-bold`}>Car Model: </span>
+            <span
+              data-auto={`personal-details-v2-first-name-view-employee`}
+              className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+            >
+              {/* DETAILS  */}
+              {job?.automobile_model?.name}
+            </span>
           </div>
-          <div className={`flex items-center gap-1`}>
-            <h2 className={`font-bold`}>Car Reg:</h2>
-            <p>{job?.car_registration_no}</p>
+
+          {/* CAR REG  */}
+          <div className={`flex items-start border-b pb-4`}>
+            {/* TITLE  */}
+            <span className={`w-[200px] font-bold`}>Car Reg: </span>
+            <span
+              data-auto={`personal-details-v2-first-name-view-employee`}
+              className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+            >
+              {/* DETAILS  */}
+              {job?.car_registration_no}
+            </span>
           </div>
-          <div className={`flex items-center gap-1`}>
-            <h2 className={`font-bold`}>Job Start Time:</h2>
-            <p>{moment(job?.job_start_time, "HH:mm").format("hh:mm A")}</p>
+
+          {/* Job Start Time  */}
+          <div className={`flex items-start border-b pb-4`}>
+            {/* TITLE  */}
+            <span className={`w-[200px] font-bold`}>Job Start Time: </span>
+            <span
+              data-auto={`personal-details-v2-first-name-view-employee`}
+              className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+            >
+              {/* DETAILS  */}
+              {moment(job?.job_start_time, "HH:mm").format("hh:mm A")}
+            </span>
           </div>
-          <div className={`flex items-center gap-1`}>
-            <h2 className={`font-bold`}>Car Make:</h2>
-            <p>{job?.automobile_make?.name}</p>
+
+          {/* Car Make  */}
+          <div className={`flex items-start border-b pb-4`}>
+            {/* TITLE  */}
+            <span className={`w-[200px] font-bold`}>Car Make: </span>
+            <span
+              data-auto={`personal-details-v2-first-name-view-employee`}
+              className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+            >
+              {/* DETAILS  */}
+              {job?.automobile_make?.name}
+            </span>
           </div>
-          <div className={`flex items-center gap-1`}>
-            <h2 className={`font-bold`}>Extra Notes:</h2>
-            <p>{job?.additional_information}</p>
+
+          {/* Job Start Date  */}
+          <div className={`flex items-start border-b pb-4`}>
+            {/* TITLE  */}
+            <span className={`w-[200px] font-bold`}>Job Start Date: </span>
+            <span
+              data-auto={`personal-details-v2-first-name-view-employee`}
+              className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+            >
+              {/* DETAILS  */}
+              {job?.job_start_date}
+            </span>
           </div>
-          <div className={`flex items-center gap-1`}>
-            <h2 className={`font-bold`}>Job Start Date:</h2>
-            <p>{job?.job_start_date}</p>
+
+          {/* Status  */}
+          <div className={`flex items-start border-b pb-4`}>
+            {/* TITLE  */}
+            <span className={`w-[200px] font-bold`}>Status: </span>
+            <span
+              data-auto={`personal-details-v2-first-name-view-employee`}
+              className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+            >
+              {/* DETAILS  */}
+              {job?.status}
+            </span>
           </div>
-          <div className={`flex items-center gap-1`}>
-            <h2 className={`font-bold`}>Status:</h2>
-            <p>{job?.status}</p>
+
+          {/* Extra Notes  */}
+          <div className={`flex items-start border-b pb-4`}>
+            {/* TITLE  */}
+            <span className={`w-[200px] font-bold`}>Extra Notes: </span>
+            <span
+              data-auto={`personal-details-v2-first-name-view-employee`}
+              className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+            >
+              {/* DETAILS  */}
+              {job?.additional_information || "N/A"}
+            </span>
           </div>
         </div>
       )}
+
       {/* APPLIED GARAGE LIST  */}
       {activeTab === "applications" &&
         (job?.job_bids?.length > 0 ? (
@@ -256,8 +340,13 @@ const ViewPendingJob = ({ popupOption, setPopupOption, job, refetch }) => {
             />
           </div>
         ) : (
-          <div className={`py-40 flex justify-center text-primary`}>
-            <p>No Garage Applied Yet!</p>
+          <div
+            className={`pt-20 pb-40 flex flex-col justify-center items-center gap-5`}
+          >
+            <img src="/assets/NoDataFound.svg" alt="" className={`w-32`} />
+            <span className={`text-2xl font-medium `}>
+              No Garage Applied Yet!
+            </span>
           </div>
         ))}
     </>

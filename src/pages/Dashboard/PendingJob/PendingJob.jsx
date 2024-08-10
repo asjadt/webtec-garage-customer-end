@@ -229,6 +229,9 @@ export default function PendingJob() {
           Component={
             popupOption?.type === "viewPendingJob" && (
               <ViewPendingJob
+                handleClosePopup={(e) => {
+                  setPopupOption({ ...popupOption, open: false, type: "" });
+                }}
                 job={booking}
                 popupOption={popupOption}
                 setPopupOption={setPopupOption}

@@ -115,17 +115,30 @@ export default function Navbar() {
               <Fragment key={i}>
                 {menu?.show && (
                   <div className={`relative`}>
-                    <NavLink
-                      onClick={() =>
-                        menu?.childrens?.length > 0 &&
-                        setOpenDropDown(!openDropdown)
-                      }
-                      to={menu?.childrens?.length > 0 ? "" : menu?.link}
-                      className={`text-primary font-semibold flex items-center gap-x-2`}
-                    >
-                      <span>{menu?.title}</span>{" "}
-                      {!!(menu?.childrens?.length > 0) && <FaChevronDown />}
-                    </NavLink>
+                    {menu?.childrens?.length > 0 ? (
+                      <span
+                        onClick={() =>
+                          menu?.childrens?.length > 0 &&
+                          setOpenDropDown(!openDropdown)
+                        }
+                        className={`cursor-pointer text-primary font-semibold flex items-center gap-x-2`}
+                      >
+                        <span>{menu?.title}</span>{" "}
+                        {!!(menu?.childrens?.length > 0) && <FaChevronDown />}
+                      </span>
+                    ) : (
+                      <NavLink
+                        onClick={() =>
+                          menu?.childrens?.length > 0 &&
+                          setOpenDropDown(!openDropdown)
+                        }
+                        to={menu?.childrens?.length > 0 ? "" : menu?.link}
+                        className={`text-primary font-semibold flex items-center gap-x-2`}
+                      >
+                        <span>{menu?.title}</span>{" "}
+                        {!!(menu?.childrens?.length > 0) && <FaChevronDown />}
+                      </NavLink>
+                    )}
 
                     {menu?.childrens?.length > 0 ? (
                       <ul

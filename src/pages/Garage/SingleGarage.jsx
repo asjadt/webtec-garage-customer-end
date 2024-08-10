@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getSingleGarage } from "../../Apis/garage";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { decryptID } from "../../utils/encryptAndDecryptID";
 import CustomLoading from "../../components/CustomLoading";
 import { useEffect, useState } from "react";
@@ -31,6 +31,7 @@ import CreateBookingForm from "./components/BookingForms/CreateBookingForm";
 import CreateBookingWithPackageForm from "./components/BookingForms/CreateBookingWithPackageForm";
 import { Map, Marker } from "@vis.gl/react-google-maps";
 import moment from "moment";
+import { getAllAutoApplyCoupon } from "../../Apis/homepageapi";
 
 const gridContainerVariants = {
   hidden: { opacity: 0 },
@@ -43,6 +44,7 @@ const gridItemVariants = {
 };
 
 export default function SingleGarage() {
+  const navigate = useNavigate();
   const { encID, tabName } = useParams();
   const id = decryptID(encID);
   const tabs = ["booking", "details", "packages"];
@@ -54,7 +56,10 @@ export default function SingleGarage() {
     queryFn: (params) => getSingleGarage(params.queryKey[1]),
   });
 
-  console.log(data);
+  const { isLoading: isLoadingCoupon, data: coupons } = useQuery({
+    queryKey: ["singleGarageCoupon", id],
+    queryFn: (params) => getAllAutoApplyCoupon(params.queryKey[1]),
+  });
 
   useEffect(() => {
     if (tabs?.includes(tabName)) {
@@ -154,7 +159,13 @@ export default function SingleGarage() {
         {/* MAIN SECTION  */}
         <div className={`min-h-[300px]`}>
           {/* BOOKING  */}
-          {activeTab === "booking" && <CreateBookingForm garageData={data} />}
+          {activeTab === "booking" && (
+            <CreateBookingForm
+              garageData={data}
+              isLoadingCoupon={isLoadingCoupon}
+              coupons={coupons}
+            />
+          )}
 
           {/* GARAGE DETAILS  */}
           {activeTab === "details" && (
@@ -372,7 +383,11 @@ export default function SingleGarage() {
 
           {/* PACKAGE  */}
           {activeTab === "packages" && (
-            <CreateBookingWithPackageForm garageData={data} />
+            <CreateBookingWithPackageForm
+              garageData={data}
+              isLoadingCoupon={isLoadingCoupon}
+              coupons={coupons}
+            />
           )}
         </div>
       </div>
