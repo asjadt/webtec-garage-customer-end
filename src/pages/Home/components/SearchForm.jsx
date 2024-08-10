@@ -297,6 +297,7 @@ export default function SearchForm() {
               {/* TIMING  */}
               <div className="w-full flex flex-col gap-y-2">
                 <CustomDatePickerV2
+                  from={moment(new Date()).format("DD-MM-YYYY")}
                   right
                   value={dateData}
                   format="dd-LL-yyyy"
