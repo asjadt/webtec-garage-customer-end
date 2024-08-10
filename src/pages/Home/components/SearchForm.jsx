@@ -10,6 +10,8 @@ import CustomMultiSelectWithChild from "../../../components/InputFields/CustomMu
 import { useData } from "../../../context/DataContext";
 import { useGeoLocationData } from "../../../context/GeoLocationDataContext";
 import { motion } from "framer-motion";
+import CustomDatePickerV2 from "../../../components/InputFields/CustomDatePickerV2";
+import CustomTimePickerV2 from "../../../components/InputFields/CustomTimePickerV2";
 export default function SearchForm() {
   const navigate = useNavigate();
 
@@ -180,12 +182,16 @@ export default function SearchForm() {
       initial={{ opacity: 0.5 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1, ease: "easeInOut" }}
-      className={`relative w-full md:w-[500px] bg-base-300 z-60 -bottom-[230px] md:-bottom-[100px] left-1/2 md:left-[50px] -translate-x-1/2 md:translate-x-0 rounded-xl p-5 border border-base-300 shadow-xl`}
+      className={`relative w-full md:w-[500px] bg-base-300 z-60 -bottom-[230px] ${
+        showAdvanceOption ? "md:-bottom-[50px]" : "md:-bottom-[100px]"
+      } left-1/2 md:left-[50px] -translate-x-1/2 md:translate-x-0 rounded-xl p-5 border border-base-300 shadow-xl`}
     >
       <motion.div className="w-full ">
         <Headings level={2} className={`text-center mb-5 text-primary`}>
           Search Garage
         </Headings>
+
+        <br />
         <div className={`flex flex-col gap-y-2`}>
           {/* LOCATION  */}
           <CustomAutoComplete
@@ -289,16 +295,8 @@ export default function SearchForm() {
               </div>
 
               {/* TIMING  */}
-              <div className="w-full">
-                <CustomDatePickerWithTime
-                  // TIME
-                  timeFormat="24"
-                  timeVale={timeData}
-                  onTimeChange={(time) => {
-                    console.log({ time });
-                    setTimeData(time);
-                  }}
-                  // DATE
+              <div className="w-full flex flex-col gap-y-2">
+                <CustomDatePickerV2
                   right
                   value={dateData}
                   format="dd-LL-yyyy"
@@ -313,6 +311,16 @@ export default function SearchForm() {
                   type={"text"}
                   wrapperClassName={"w-full"}
                   dataAuto={`search-timing`}
+                  error={errors?.timing}
+                />
+
+                <CustomTimePickerV2
+                  value={timeData}
+                  // TIME
+                  timeFormat="24"
+                  onTimeChange={(time) => {
+                    setTimeData(time);
+                  }}
                   error={errors?.timing}
                 />
               </div>

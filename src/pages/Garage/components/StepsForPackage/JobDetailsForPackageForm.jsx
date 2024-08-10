@@ -4,6 +4,8 @@ import CustomDatePickerWithTime from "../../../../components/InputFields/CustomD
 import CustomTextareaField from "../../../../components/InputFields/CustomTextareaField";
 import ButtonSpinner from "../../../../components/Loaders/ButtonSpinner";
 import { FileUpload } from "./UploadFiles";
+import CustomDatePickerV2 from "../../../../components/InputFields/CustomDatePickerV2";
+import CustomTimePickerV2 from "../../../../components/InputFields/CustomTimePickerV2";
 
 export default function JobDetailsForPackageForm({
   formData,
@@ -58,17 +60,8 @@ export default function JobDetailsForPackageForm({
       {/* FORM  */}
       <div>
         {/* JOB START DATE & TIME  */}
-        <CustomDatePickerWithTime
+        <CustomDatePickerV2
           required
-          // TIME
-          timeFormat="24"
-          timeVale={moment(formData?.job_start_time, "HH:mm").format("hh:mm A")}
-          onTimeChange={(time) => {
-            setFormData({
-              ...formData,
-              job_start_time: moment(time, "hh:mm A").format("HH:mm"),
-            });
-          }}
           // DATE
           from={moment(new Date()).format("DD-MM-YYYY")}
           right
@@ -93,7 +86,18 @@ export default function JobDetailsForPackageForm({
           dataAuto={`search-job_start_date`}
           error={errors?.job_start_date}
         />
-
+        <CustomTimePickerV2
+          value={moment(formData?.job_start_time, "HH:mm").format("hh:mm A")}
+          // TIME
+          timeFormat="24"
+          onTimeChange={(time) => {
+            setFormData({
+              ...formData,
+              job_start_time: moment(time, "hh:mm A").format("HH:mm"),
+            });
+          }}
+          error={errors?.timing}
+        />
         {/* EXTRA NOTES  */}
         <CustomTextareaField
           defaultValue={formData?.additional_information}
@@ -110,7 +114,6 @@ export default function JobDetailsForPackageForm({
           maxLength={500}
           dataAuto={`additional-information-create-job`}
         />
-
         <FileUpload
           label={"Upload Files"}
           inputData={formData}

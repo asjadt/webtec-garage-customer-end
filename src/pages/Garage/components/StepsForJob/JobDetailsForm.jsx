@@ -4,6 +4,8 @@ import moment from "moment";
 import CustomTextareaField from "../../../../components/InputFields/CustomTextareaField";
 import CustomDatePickerWithTime from "../../../../components/InputFields/CustomDatePickerWithTime";
 import CustomFileUploader from "../../../../components/InputFields/CustomFileUploader";
+import CustomTimePickerV2 from "../../../../components/InputFields/CustomTimePickerV2";
+import CustomDatePickerV2 from "../../../../components/InputFields/CustomDatePickerV2";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { FileUpload } from "./UploadFiles";
@@ -17,19 +19,23 @@ export default function JobDetailsForm({ formData, setStep, setFormData }) {
 
     // Example date and time string
     const dateTimeString = `${formData?.job_start_date} ${formData?.job_start_time}`;
-    console.log({ dateTimeString });
     // Format of the date and time string
     const format = "YYYY-MM-DD HH:mm";
     // Check if the date and time string is valid
-    if (formData?.job_start_date || formData?.job_start_time) {
+    if (formData?.job_start_date && formData?.job_start_time) {
       if (!moment(dateTimeString, format, true).isValid()) {
         // Set an error message for the 'timing' field
         newErrors.job_start_date = "Please select date and time properly";
       }
     } else {
-      newErrors.job_start_date = "Job start date is required";
+      if (!formData?.job_start_date) {
+        newErrors.job_start_date = "Job start date is required";
+      }
+      if (!formData?.job_start_time) {
+        newErrors.job_start_time = "Job start time is required";
+      }
     }
-    console.log({ newErrors });
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -57,23 +63,18 @@ export default function JobDetailsForm({ formData, setStep, setFormData }) {
       {/* FORM  */}
       <div>
         {/* JOB START DATE & TIME  */}
-        <CustomDatePickerWithTime
+        <CustomDatePickerV2
           required
-          // TIME
-          timeFormat="24"
-          timeVale={moment(formData?.job_start_time, "HH:mm").format("hh:mm A")}
-          onTimeChange={(time) => {
-            setFormData({
-              ...formData,
-              job_start_time: moment(time, "hh:mm A").format("HH:mm"),
-            });
-          }}
           // DATE
           from={moment(new Date()).format("DD-MM-YYYY")}
           right
-          value={moment(formData?.job_start_date, "YYYY-MM-DD").format(
-            "DD-MM-YYYY"
-          )}
+          value={
+            formData?.job_start_date
+              ? moment(formData?.job_start_date, "YYYY-MM-DD").format(
+                  "DD-MM-YYYY"
+                )
+              : ""
+          }
           format="dd-LL-yyyy"
           disable={false}
           fieldClassName={"w-full"}
@@ -82,7 +83,14 @@ export default function JobDetailsForm({ formData, setStep, setFormData }) {
           onChange={(date) => {
             setFormData({
               ...formData,
-              job_start_date: moment(date, "DD-MM-YYYY").format("YYYY-MM-DD"),
+              job_start_date: date
+                ? moment(date, "DD-MM-YYYY").format("YYYY-MM-DD")
+                : "",
+              job_end_date: date
+                ? moment(date, "DD-MM-YYYY")
+                    .add(1, "month")
+                    .format("YYYY-MM-DD")
+                : "",
             });
           }}
           placeholder={"Job start data"}
@@ -93,6 +101,25 @@ export default function JobDetailsForm({ formData, setStep, setFormData }) {
           error={errors?.job_start_date}
         />
 
+        {/* TIME  */}
+        <CustomTimePickerV2
+          label={"Job start time"}
+          required
+          value={
+            formData?.job_start_time
+              ? moment(formData?.job_start_time, "HH:mm").format("hh:mm:ss")
+              : ""
+          }
+          onChange={(time) => {
+            setFormData({
+              ...formData,
+              job_start_time: time
+                ? moment(time, "hh:mm A").format("HH:mm")
+                : "",
+            });
+          }}
+          error={errors?.job_start_time}
+        />
         {/* EXTRA NOTES  */}
         <CustomTextareaField
           defaultValue={formData?.additional_information}

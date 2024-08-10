@@ -16,12 +16,14 @@ import { isDateInRange } from "../../utils/isDateInRange";
 import { selectMonth } from "../../utils/selectMonth";
 import ColorIndicatorDetails from "../ColorIndicatorDetails";
 import { OutsideClickHandler } from "../OutsideClickHandler";
+import DateTimeField from "../DateTime/DateTimeField";
 
-const CustomDatePicker = ({
+const CustomDatePickerV2 = ({
   hint = false,
   hinComponent = <></>,
   specialDates = [],
   format = "dd-LL-yyyy",
+  dateFormat = "DD-MM-YYYY",
   defaultDate,
   fieldClassName,
   id,
@@ -29,7 +31,6 @@ const CustomDatePicker = ({
   required = false,
   name,
   value = "",
-  placeholder,
   onChange = (e) => {
     return e;
   },
@@ -41,20 +42,27 @@ const CustomDatePicker = ({
 
   disabled = false,
 
-  from = "",
-  to = "",
+  from = "01-01-1900",
+  to = "31-12-3000",
 
   visibleBorder = false,
   small = false,
 }) => {
+  /**
+   * State for the current step of the date picker
+   */
   const [step, setStep] = useState("day");
-  const [selectedMonth, setSelectedMonth] = useState();
-  const [selectedYear, setSelectedYear] = useState();
 
+  /**
+   * State for the currently selected date
+   */
   const [selectedDate, setSelectedDate] = useState(
     value ? new Date(moment(value, "DD-MM-YYYY")) : new Date()
   );
 
+  /**
+   * State for the currently selected month
+   */
   const [currentMonth, setCurrentMonth] = useState(
     value !== null &&
       value !== undefined &&
@@ -67,22 +75,23 @@ const CustomDatePicker = ({
         )
       : new Date()
   );
-  const [currentYear, setCurrentYear] = useState(
-    value !== null &&
-      value !== undefined &&
-      value !== "" &&
-      typeof value === "string"
-      ? new Date(
-          value.split("-")[2],
-          value.split("-")[1] - 1,
-          value.split("-")[0]
-        )
-      : new Date()
-  );
+
+  /**
+   * State for whether the date picker is active or not
+   */
   const [isDatePickerActive, setDatePickerActive] = useState(false);
+
+  /**
+   * State for whether the component is initial or not
+   */
   const [isInitial, setIsInitial] = useState(true);
 
+  /**
+   * Callback function that runs when the selected date changes
+   * Emits the selected date to the parent component through the onChange function
+   */
   useEffect(() => {
+    console.log({ status: "calling", isInitial, selectedDate });
     if (!isInitial) {
       if (selectedDate) {
         onChange(formatDate(selectedDate, format));
@@ -92,21 +101,40 @@ const CustomDatePicker = ({
     }
   }, [selectedDate]);
 
+  /**
+   * Callback function that runs when the default date changes
+   * Sets the selected date to the default date
+   */
   useEffect(() => {
     setSelectedDate(defaultDate ? new Date(defaultDate) : "");
   }, [defaultDate]);
 
+  /**
+   * Callback function that runs when the value prop changes
+   * Sets the selected date to an empty string if the value prop is falsy
+   */
   useEffect(() => {
     if (!value) {
       setSelectedDate("");
     }
   }, [value]);
 
+  /**
+   * Callback function that runs when the current month changes
+   * Sets the step to "day" and updates the current month
+   * @param {Date} newMonth - The new month to set as the current month
+   */
   const handleMonthChange = (newMonth) => {
     setCurrentMonth(newMonth);
     setStep("day");
   };
 
+  /**
+   * Callback function that runs when the year range changes
+   * Sets the start and end years and updates the allYear array
+   * @param {number} start - The start year of the range
+   * @param {number} end - The end year of the range
+   */
   const handleChangeYear = (start, end) => {
     console.log({ start, end });
     setStartYear(start);
@@ -116,16 +144,21 @@ const CustomDatePicker = ({
     );
   };
 
+  /**
+   * Callback function that runs when a date is clicked
+   * Sets the selected date to the clicked date and deactivates the date picker
+   * @param {Date} day - The clicked date
+   */
   const handleDateClick = (day) => {
     setSelectedDate(day);
     setDatePickerActive(false);
     setIsInitial(false);
   };
 
-  const handleYearChange = (newYear) => {
-    setCurrentYear(newYear);
-    setStep("day");
-  };
+  /**
+   * Callback function that runs when the input is clicked
+   * Toggles the date picker activation state
+   */
 
   const handleInputClick = () => {
     setDatePickerActive(!isDatePickerActive);
@@ -133,7 +166,6 @@ const CustomDatePicker = ({
 
   // RENDER CALENDER
   const renderCalendar = () => {
-    console.log({ currentMonth });
     const daysInMonth = getDaysInMonth(
       value ? moment(value, "DD-MM-YYYY").toDate() : currentMonth
     );
@@ -408,6 +440,8 @@ const CustomDatePicker = ({
     );
   }, [currentMonth]);
 
+  const [errorMessages, setErrorMessages] = useState("");
+
   return (
     <OutsideClickHandler
       onOutsideClick={() => {
@@ -416,6 +450,7 @@ const CustomDatePicker = ({
       }}
       className={`relative ${wrapperClassName}`}
     >
+      {/* CALENDER AND RESET BUTTON  */}
       {selectedDate ? (
         <>
           {!disabled && (
@@ -428,6 +463,7 @@ const CustomDatePicker = ({
               onClick={(event) => {
                 event.preventDefault();
                 setSelectedDate(null);
+                onChange("");
               }}
             >
               <BiReset />
@@ -445,7 +481,7 @@ const CustomDatePicker = ({
               } text-xl text-primary `}
               onClick={(event) => {
                 event.preventDefault();
-                !disabled && handleInputClick;
+                !disabled && handleInputClick();
               }}
             >
               <FaRegCalendarAlt />
@@ -477,23 +513,14 @@ const CustomDatePicker = ({
           </span>
         </label>
       )}
+
       {/* FIELD  */}
-      {/* {console.log({ label, selectedDate })} */}
-      <input
-        data-cy={"input_custom_date_picker"}
-        disabled={disabled}
+      <DateTimeField
+        visibleBorder={visibleBorder}
+        format={dateFormat}
         id={id}
-        type={"text"}
-        name={name}
-        defaultValue={
-          defaultValue ? formatDate(new Date(defaultValue), format) : ""
-        }
-        placeholder={`${placeholder}${required ? "*" : ""}`}
-        className={`bg-base-300 ${
-          disabled
-            ? `${visibleBorder && "disabled:border-gray-200 border-opacity-10"}`
-            : ""
-        }  focus:outline-primary input rounded-md input-bordered w-full ${fieldClassName}`}
+        disabled={disabled}
+        fieldClassName={fieldClassName}
         value={
           selectedDate
             ? formatDate(selectedDate, format)
@@ -501,23 +528,25 @@ const CustomDatePicker = ({
             ? formatDate(new Date(moment(value, "DD-MM-YYYY")), format)
             : ""
         }
-        onClick={!disabled && handleInputClick}
-        readOnly
+        setSelectedDate={setSelectedDate}
+        error={error}
+        onError={(e) => setErrorMessages(e)}
+        minDate={from}
+        maxDate={to}
       />
+
       {/* VALIDATION MESSAGE  */}
-      {error && (
-        <label
-          data-cy={"error_message_custom_date_picker"}
-          className="label h-7 mt-2"
-        >
+      {(errorMessages || error) && (
+        <label data-cy={"error_message_custom_date_picker"} className="label">
           <span
             data-cy={"error_content_custom_date_picker"}
             className="label-text-alt text-error"
           >
-            {error}
+            {errorMessages || error}
           </span>
         </label>
       )}
+
       {isDatePickerActive && !disabled && (
         <div
           data-cy={"date_picker_active_custom_date_picker"}
@@ -847,9 +876,9 @@ const CustomDatePicker = ({
   );
 };
 
-CustomDatePicker.propTypes = {
+CustomDatePickerV2.propTypes = {
   format: PropTypes.string,
   defaultDate: PropTypes.instanceOf(Date),
 };
 
-export default CustomDatePicker;
+export default CustomDatePickerV2;

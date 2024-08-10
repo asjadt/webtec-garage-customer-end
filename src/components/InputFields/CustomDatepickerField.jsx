@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import ReactDatePicker from "react-datepicker";
-import Datepicker from "react-tailwindcss-datepicker";
 
 export default function CustomDatepickerField({
   id,

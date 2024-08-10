@@ -129,7 +129,6 @@ export default function CreateBookingWithPackageForm({ garageData }) {
               <span className={`text-primary`}>{garageData?.garage?.name}</span>
             </Headings>
           </div>
-
           {/* STEPPER  */}
           <div className="w-full flex justify-center items-center mb-5">
             <CustomMultiStepper
@@ -153,7 +152,6 @@ export default function CreateBookingWithPackageForm({ garageData }) {
               currentStep={step}
             />
           </div>
-
           {step === 1 && (
             <SelectPackagePackageForm
               garageData={garageData}
@@ -162,7 +160,6 @@ export default function CreateBookingWithPackageForm({ garageData }) {
               setFormData={setFormData}
             />
           )}
-
           {step === 2 && (
             <JobDetailsForm
               setStep={setStep}
@@ -171,7 +168,6 @@ export default function CreateBookingWithPackageForm({ garageData }) {
               garageData={garageData}
             />
           )}
-
           {step === 3 && (
             <ReviewForm
               setStep={setStep}

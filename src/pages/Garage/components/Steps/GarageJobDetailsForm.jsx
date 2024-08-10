@@ -8,6 +8,8 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { FileUpload } from "./UploadFiles";
 import CustomMultiSelect from "../../../../components/InputFields/CustomMultiSelect";
+import CustomTimePickerV2 from "../../../../components/InputFields/CustomTimePickerV2";
+import CustomDatePickerV2 from "../../../../components/InputFields/CustomDatePickerV2";
 import { useData } from "../../../../context/DataContext";
 import CustomFieldV2 from "../../../../components/InputFields/CustomFieldV2";
 
@@ -27,13 +29,18 @@ export default function GarageJobDetailsForm({
     // Format of the date and time string
     const format = "YYYY-MM-DD HH:mm";
     // Check if the date and time string is valid
-    if (formData?.job_start_date || formData?.job_start_time) {
+    if (formData?.job_start_date && formData?.job_start_time) {
       if (!moment(dateTimeString, format, true).isValid()) {
         // Set an error message for the 'timing' field
         newErrors.job_start_date = "Please select date and time properly";
       }
     } else {
-      newErrors.job_start_date = "Job start date is required";
+      if (!formData?.job_start_date) {
+        newErrors.job_start_date = "Job start date is required";
+      }
+      if (!formData?.job_start_time) {
+        newErrors.job_start_time = "Job start time is required";
+      }
     }
 
     setErrors(newErrors);
@@ -56,6 +63,7 @@ export default function GarageJobDetailsForm({
 
   return (
     <div className={``}>
+      {/* SCHEDULE  */}
       <div className="join join-vertical w-full">
         <div className="collapse collapse-arrow join-item  border border-primary">
           <input type="checkbox" name="my-accordion-4" />
@@ -135,40 +143,62 @@ export default function GarageJobDetailsForm({
       {/* FORM  */}
       <div>
         {/* JOB START DATE & TIME  */}
-        <CustomDatePickerWithTime
+        <CustomDatePickerV2
           required
-          // TIME
-          timeFormat="24"
-          timeVale={moment(formData?.job_start_time, "HH:mm").format("hh:mm A")}
-          onTimeChange={(time) => {
-            setFormData({
-              ...formData,
-              job_start_time: moment(time, "hh:mm A").format("HH:mm"),
-            });
-          }}
           // DATE
           from={moment(new Date()).format("DD-MM-YYYY")}
           right
-          value={moment(formData?.job_start_date, "YYYY-MM-DD").format(
-            "DD-MM-YYYY"
-          )}
+          value={
+            formData?.job_start_date
+              ? moment(formData?.job_start_date, "YYYY-MM-DD").format(
+                  "DD-MM-YYYY"
+                )
+              : ""
+          }
+          onChange={(date) => {
+            setFormData({
+              ...formData,
+              job_start_date: date
+                ? moment(date, "DD-MM-YYYY").format("YYYY-MM-DD")
+                : "",
+              job_end_date: date
+                ? moment(date, "DD-MM-YYYY")
+                    .add(1, "month")
+                    .format("YYYY-MM-DD")
+                : "",
+            });
+          }}
           format="dd-LL-yyyy"
           disable={false}
           fieldClassName={"w-full"}
           id={"job_start_date"}
           name={"job_start_date"}
-          onChange={(date) => {
-            setFormData({
-              ...formData,
-              job_start_date: moment(date, "DD-MM-YYYY").format("YYYY-MM-DD"),
-            });
-          }}
           placeholder={"Job start data"}
           label={"Job start data"}
           type={"text"}
           wrapperClassName={"w-full"}
           dataAuto={`search-job_start_date`}
           error={errors?.job_start_date}
+        />
+
+        {/* TIME  */}
+        <CustomTimePickerV2
+          label={"Job start time"}
+          required
+          value={
+            formData?.job_start_time
+              ? moment(formData?.job_start_time, "HH:mm").format("hh:mm:ss")
+              : ""
+          }
+          onChange={(time) => {
+            setFormData({
+              ...formData,
+              job_start_time: time
+                ? moment(time, "hh:mm A").format("HH:mm")
+                : "",
+            });
+          }}
+          error={errors?.job_start_time}
         />
 
         {/* DISCOUNT */}
