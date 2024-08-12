@@ -95,7 +95,6 @@ const FileViewer = ({ files, onClose, handleClosePopup }) => {
               index === currentIndex ? "block" : "hidden"
             }`}
           >
-            {console.log({ file })}
             {file?.endsWith(".pdf") ? (
               <>
                 <div

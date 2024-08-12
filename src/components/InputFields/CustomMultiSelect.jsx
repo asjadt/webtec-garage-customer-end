@@ -302,7 +302,7 @@ export default function CustomMultiSelect({
 
         {disable ? (
           <div
-            data-auto={`disable${index + 1}-${dataAuto}`}
+            data-auto={`disable-${dataAuto}`}
             onClick={() => {
               setIsOptionOpen(!isOptionOpen);
             }}
@@ -318,7 +318,7 @@ export default function CustomMultiSelect({
                   ""
                 ) : (
                   <input
-                    data-auto={`disable-input${index + 1}-${dataAuto}`}
+                    data-auto={`disable-input-${dataAuto}`}
                     type="text"
                     value={searchFieldValue}
                     onChange={handleSearch}
@@ -330,7 +330,7 @@ export default function CustomMultiSelect({
               </>
             ) : (
               <input
-                data-auto={`disable-length0${index + 1}-${dataAuto}`}
+                data-auto={`disable-length0-${dataAuto}`}
                 disabled
                 type="text"
                 value={searchFieldValue}
@@ -342,7 +342,7 @@ export default function CustomMultiSelect({
           </div>
         ) : (
           <div
-            data-auto={`enable${index + 1}-${dataAuto}`}
+            data-auto={`enable-${dataAuto}`}
             onClick={() => {
               setIsOptionOpen(!isOptionOpen);
             }}
@@ -358,7 +358,7 @@ export default function CustomMultiSelect({
                   ""
                 ) : (
                   <input
-                    data-auto={`enable-input${index + 1}-${dataAuto}`}
+                    data-auto={`enable-input-${dataAuto}`}
                     onClick={() => {
                       setIsOptionOpen(!isOptionOpen);
                     }}
@@ -372,7 +372,7 @@ export default function CustomMultiSelect({
               </>
             ) : (
               <input
-                data-auto={`enable-length-0${index + 1}-${dataAuto}`}
+                data-auto={`enable-length-0-${dataAuto}`}
                 onClick={() => {
                   setIsOptionOpen(!isOptionOpen);
                 }}
