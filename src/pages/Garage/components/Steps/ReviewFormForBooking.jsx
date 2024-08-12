@@ -2,7 +2,7 @@ import ButtonSpinner from "../../../../components/Loaders/ButtonSpinner";
 import { useAuth } from "../../../../context/AuthContextV2";
 import { useData } from "../../../../context/DataContext";
 import moment from "moment";
-export default function ReviewForm({
+export default function ReviewFormForBooking({
   formData,
   setStep,
   handleOnSubmit,
@@ -17,60 +17,17 @@ export default function ReviewForm({
   return (
     <div className={``}>
       <table className={`w-full`}>
-        {!!formData?.booking_garage_package_ids?.length > 0 && (
-          <tr className={`border-b`}>
-            <td className={`h-full font-bold w-32`}>Package</td>
-            <td className={`h-full py-5 `}>
-              {formData?.booking_garage_package_ids
-                ?.map(
-                  (pkg_id) =>
-                    garageData?.garage?.garage_packages?.find(
-                      (pkg) => pkg?.id === pkg_id
-                    )?.name
-                )
-                .join(", ")}
-            </td>
-          </tr>
-        )}
-        {!!formData?.price > 0 && (
-          <tr className={`border-b `}>
-            <td className={`h-full font-bold`}>Package Price</td>
-            <td className={`h-full py-5`}>
-              {formData?.price} {garageData?.garage?.currency}
-            </td>
-          </tr>
-        )}
-        {!!formData?.coupon_code && (
-          <tr className={`border-b `}>
-            <td className={`h-full font-bold`}>Coupon</td>
-            <td className={`h-full py-5`}>{formData?.coupon_code}</td>
-          </tr>
-        )}
-        {!!appliedCouponDetails?.coupon_amount && (
-          <tr className={`border-b `}>
-            <td className={`h-full font-bold`}>Discount</td>
-            <td className={`h-full py-5`}>
-              {appliedCouponDetails?.coupon_amount}{" "}
-              {appliedCouponDetails?.coupon_type === "fixed"
-                ? `${garageData?.garage?.currency}`
-                : "%"}{" "}
-            </td>
-          </tr>
-        )}
-        {!!formData?.price && (
-          <tr className={`border-b `}>
-            <td className={`h-full font-bold`}>Total</td>
-            <td className={`h-full py-5`}>
-              {appliedCouponDetails?.coupon_type === "fixed"
-                ? formData?.price - appliedCouponDetails?.coupon_amount
-                : appliedCouponDetails?.coupon_type === "percentage"
-                ? formData?.price -
-                  (formData?.price * appliedCouponDetails?.coupon_amount) / 100
-                : formData?.price}{" "}
-              {garageData?.garage?.currency}
-            </td>
-          </tr>
-        )}
+        <tr className={`border-b`}>
+          <td className={`h-full font-bold w-32`}>Services</td>
+          <td className={`h-full py-5 `}>
+            {formData?.booking_sub_service_ids
+              .map(
+                (service) => subServices?.find((ss) => ss?.id === service)?.name
+              )
+              .join(", ")}
+          </td>
+        </tr>
+
         <tr className={`border-b `}>
           <td className={`h-full font-bold`}>Car reg</td>
           <td className={`h-full py-5`}>{formData?.car_registration_no}</td>

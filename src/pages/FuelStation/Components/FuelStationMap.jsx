@@ -9,9 +9,15 @@ import {
 } from "../../../Apis/garage";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { useGeoLocationData } from "../../../context/GeoLocationDataContext";
 
 const FuelStationMap = ({ setActiveTab }) => {
   const navigate = useNavigate();
+  const { defaultLocationProps, isGeoLocationLoading } = useGeoLocationData();
+
+  useEffect(() => {
+    console.log({ isGeoLocationLoading });
+  }, [isGeoLocationLoading]);
   const { homeSearchData, setHomeSearchData } = useData();
   const onFormDataChange = (e) => {
     setHomeSearchData((prev) => ({
@@ -58,13 +64,13 @@ const FuelStationMap = ({ setActiveTab }) => {
         </div>
       </div>
       <>
-        {isFuelStationLoading ? (
+        {isFuelStationLoading || isGeoLocationLoading ? (
           <div className="w-full h-[calc(100vh-220px)]  absolute outline-none border-none active:border-none bg-slate-300 animate-pulse"></div>
         ) : (
           <Map
             mapId={"ed79aa93f40c730c"}
-            defaultCenter={{ lat: 23.7993984, lng: 90.3839744 }}
-            defaultZoom={8}
+            defaultCenter={defaultLocationProps?.center}
+            defaultZoom={defaultLocationProps?.zoom}
             gestureHandling={"greedy"}
             disableDefaultUI={true}
             disableDoubleClickZoom={true}

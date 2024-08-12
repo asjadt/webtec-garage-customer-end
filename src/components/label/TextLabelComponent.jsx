@@ -1,6 +1,5 @@
-import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 export default function TextLabelComponent({
   text,
   color = "text-primary",

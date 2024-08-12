@@ -4,12 +4,14 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { handleApiError } from "../utils/apiErrorHandler";
+import { calculateLatLongBounds } from "../utils/map";
 
 // Create the authentication context
 export const GeoLocationDataContext = createContext();
 
 // Create the authentication provider component
 export const GeoLocationDataContextProvider = ({ children }) => {
+  const [isGeoLocationLoading, setIsGeoLocationLoading] = useState(false);
   const [location, setLocation] = useState({
     latitude: "",
     longitude: "",
@@ -68,14 +70,17 @@ export const GeoLocationDataContextProvider = ({ children }) => {
           latitude: data.latitude,
           longitude: data.longitude,
         });
+        setIsGeoLocationLoading(false);
       } catch (error) {
         console.error("Error fetching location by IP:", error);
+        setIsGeoLocationLoading(false);
       }
     };
 
     // Function to fetch location using Geolocation API
     const fetchLocation = () => {
       if (navigator.geolocation) {
+        setIsGeoLocationLoading(true);
         navigator.geolocation.getCurrentPosition(
           (position) => {
             setCurrentLat(
@@ -91,26 +96,40 @@ export const GeoLocationDataContextProvider = ({ children }) => {
               latitude: position?.coords?.latitude,
               longitude: position?.coords?.longitude,
             });
+
+            setIsGeoLocationLoading(false);
           },
           (error) => {
-            console.error(
-              "Error fetching location using Geolocation API:",
-              error
-            );
+            setIsGeoLocationLoading(true);
             fetchLocationByIP(); // Fallback to IP-based location if Geolocation API fails
           }
         );
       } else {
-        fetchLocationByIP(); // Fallback if Geolocation API is not supported
+        setIsGeoLocationLoading(true);
+        fetchLocationByIP();
       }
     };
 
     fetchLocation();
   }, []);
 
+  const [defaultLocationProps, setDefaultLocationProps] = useState({});
   useEffect(() => {
-    console.log({ location });
-  }, [location.pathname, location]);
+    // MAD DEFAULT DATA
+    setDefaultLocationProps({
+      center: {
+        lat: location?.latitude,
+        lng: location?.longitude,
+      },
+      zoom: 11,
+
+      rangeData: calculateLatLongBounds({
+        lat: location?.latitude,
+        lon: location?.longitude,
+        radiusInKm: 3,
+      }),
+    });
+  }, [location.pathname, location, isGeoLocationLoading]);
   return (
     <GeoLocationDataContext.Provider
       value={{
@@ -119,6 +138,8 @@ export const GeoLocationDataContextProvider = ({ children }) => {
         currentLat,
         setCurrentLat,
         llFromDistance,
+        isGeoLocationLoading,
+        defaultLocationProps,
       }}
     >
       {children}
@@ -127,8 +148,15 @@ export const GeoLocationDataContextProvider = ({ children }) => {
 };
 
 export const useGeoLocationData = () => {
-  const { location, setLocation, currentLat, setCurrentLat, llFromDistance } =
-    useContext(GeoLocationDataContext);
+  const {
+    location,
+    setLocation,
+    currentLat,
+    setCurrentLat,
+    llFromDistance,
+    isGeoLocationLoading,
+    defaultLocationProps,
+  } = useContext(GeoLocationDataContext);
 
   return {
     location,
@@ -136,5 +164,7 @@ export const useGeoLocationData = () => {
     currentLat,
     setCurrentLat,
     llFromDistance,
+    isGeoLocationLoading,
+    defaultLocationProps,
   };
 };

@@ -9,7 +9,6 @@ import ServiceList from "./components/ServiceList";
 import HowItsWork from "./components/HowItsWork";
 
 export default function Home() {
-  const { location } = useGeoLocationData();
   const { isLoading } = useAuth();
   const { setHomeSearchData } = useData();
   const [isDataLoading, setIsDataLoading] = useState(true);
@@ -52,22 +51,13 @@ export default function Home() {
     }, 200);
   }, []);
 
-  // MAD DEFAULT DATA
-  const defaultProps = {
-    center: {
-      lat: location?.latitude,
-      lng: location?.longitude,
-    },
-    zoom: 11,
-  };
-
   if (isLoading || isDataLoading) {
     return <CustomLoading />;
   } else {
     return (
       <div data-cy="dashboard" className={`w-full relative mb-10`}>
         {/* MAP  */}
-        <GoogleMapForGarages defaultProps={defaultProps} />
+        <GoogleMapForGarages />
 
         {/* SEARCH FORM  */}
         <div className={`px-5 xl:px-0`}>

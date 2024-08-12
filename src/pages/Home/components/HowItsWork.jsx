@@ -62,7 +62,7 @@ export default function HowItsWork({}) {
     },
   ]);
   return (
-    <div className={` mt-[250px] md:mt-[180px]`}>
+    <div className={` pt-[280px] md:pt-[300px]`}>
       {/* BENEFITS  */}
       <div className={`flex justify-center items-center`}>
         <div className={`p-5  w-full max-w-screen-xl`}>

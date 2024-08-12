@@ -27,6 +27,7 @@ import JobDetailsForm from "../Steps/JobDetailsForm";
 import ReviewForm from "../Steps/ReviewForm";
 import ServiceDetailsForm from "../Steps/ServiceDetailsForm";
 import GarageJobDetailsForm from "../Steps/GarageJobDetailsForm";
+import ReviewFormForBooking from "../Steps/ReviewFormForBooking";
 
 export default function CreateBookingForm({
   garageData,
@@ -37,7 +38,7 @@ export default function CreateBookingForm({
   const { user, isAuthenticated, handleOpenLoginPopup } = useAuth();
   const { loading, homeSearchData, subServices } = useData();
 
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     garage_id: garageData?.garage?.id,
     booking_garage_package_ids: [],
@@ -185,7 +186,7 @@ export default function CreateBookingForm({
             />
           )}
           {step === 3 && (
-            <ReviewForm
+            <ReviewFormForBooking
               setStep={setStep}
               formData={formData}
               setFormData={setFormData}

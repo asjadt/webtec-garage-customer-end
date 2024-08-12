@@ -181,9 +181,6 @@ export default function SearchForm() {
 
   return (
     <motion.div
-      initial={{ opacity: 0.5 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1, ease: "easeInOut" }}
       className={`relative w-full md:w-[500px] bg-base-300 z-60 -bottom-[230px] ${
         showAdvanceOption ? "md:-bottom-[50px]" : "md:-bottom-[100px]"
       } left-1/2 md:left-[50px] -translate-x-1/2 md:translate-x-0 rounded-xl p-5 border border-base-300 shadow-xl`}

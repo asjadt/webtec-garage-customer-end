@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { FiX } from "react-icons/fi";
 import { useGeoLocationData } from "../../context/GeoLocationDataContext";
 import ButtonLoading from "../ButtonLoading";
+import { calculateLatLongBounds } from "../../utils/map";
 
 export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -30,30 +31,44 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
     Others: { id: 5, name: "Others", status: false },
   });
 
-  // HANDLE THE DISTANCE CHANGE
-  const handleDistanceChange = () => {
-    const distanceData = llFromDistance({
-      latitude: location?.latitude,
-      longitude: location?.longitude,
-      distance: Math.sqrt(2) * (homeSearchData?.distance * 1),
-      bearing: 135,
-    });
-
-    setHomeSearchData((prev) => ({
-      ...prev,
-      start_lat: location?.latitude,
-      start_long: location?.longitude,
-      end_lat: distanceData?.latitude,
-      end_long: distanceData?.longitude,
-    }));
-  };
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 3000);
     return () => clearTimeout(timer);
   });
+
+  // DISTANCE
+  const [distance, setDistance] = useState(homeSearchData?.distance);
+  useEffect(() => {
+    setDistance(homeSearchData?.distance);
+  }, [homeSearchData?.distance]);
+  // HANDLE THE DISTANCE CHANGE
+  const handleDistanceChange = () => {
+    // const distanceData = llFromDistance({
+    //   latitude: location?.latitude,
+    //   longitude: location?.longitude,
+    //   distance: Math.sqrt(2) * (homeSearchData?.distance * 1),
+    //   bearing: 135,
+    // });
+
+    const distanceData = calculateLatLongBounds({
+      lat: location?.latitude,
+      lon: location?.longitude,
+      radiusInKm: homeSearchData?.distance,
+    });
+
+    setHomeSearchData((prev) => ({
+      ...prev,
+      start_lat: distanceData?.minLat,
+      end_lat: distanceData?.maxLat,
+
+      start_long: distanceData?.minLon,
+      end_long: distanceData?.maxLon,
+
+      distance: distance,
+    }));
+  };
 
   return (
     <div
@@ -357,7 +372,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                       <span
                         className={`flex justify-center items-center gap-1 px-2 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
                       >
-                        <span>{homeSearchData?.distance}</span> <span>KM</span>
+                        <span>{distance}</span> <span>KM</span>
                       </span>
                     </div>
                     <span
@@ -379,15 +394,10 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                         type="range"
                         min={3}
                         max={200}
-                        value={homeSearchData?.distance}
+                        value={distance}
                         className="range range-primary range-sm"
                         step={1}
-                        onChange={(e) => {
-                          setHomeSearchData({
-                            ...homeSearchData,
-                            distance: parseInt(e.target.value),
-                          });
-                        }}
+                        onChange={(e) => setDistance(parseInt(e.target.value))}
                         onMouseUp={handleDistanceChange}
                       />
                     </div>

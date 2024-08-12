@@ -2,16 +2,10 @@
 // #00101
 // ===========================================
 
-import React, { createContext, useContext, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import {
-  getGarageCombinedData,
-  getMakes,
-  getModelsWithoutIds,
-  getServices,
-  getSubServicesWithoutIds,
-} from "../Apis/homepageapi";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { getAllFuelServices } from "../Apis/fuelStation";
+import { getGarageCombinedData } from "../Apis/homepageapi";
 
 // Create the authentication context
 export const DataContext = createContext();

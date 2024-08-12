@@ -8,8 +8,11 @@ import ActionBar from "./components/ActionBar";
 import CreateAndUpdateJobForm from "./components/CreateAndUpdateJobForm";
 import GarageListComponent from "./components/GarageListComponent";
 import SelectedFilters from "./components/Filters/SelectedFilters";
+import { useGeoLocationData } from "../../context/GeoLocationDataContext";
 
 export default function GarageList() {
+  const { defaultLocationProps, isGeoLocationLoading } = useGeoLocationData();
+
   const {
     loading,
     homeSearchData,
@@ -21,10 +24,6 @@ export default function GarageList() {
   const [tab, setTab] = useState("garages"); // ACCEPT "garages" OR "job"
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
-  useEffect(() => {
-    console.log({ homeSearchData });
-  }, [homeSearchData]);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -50,10 +49,14 @@ export default function GarageList() {
           make_ids: filterData?.makes,
           model_ids: filterData?.models,
 
-          start_lat: filterData?.start_lat,
-          end_lat: filterData?.end_lat,
-          start_long: filterData?.start_long,
-          end_long: filterData?.end_long,
+          start_lat:
+            filterData?.start_lat || defaultLocationProps?.rangeData?.minLat,
+          end_lat:
+            filterData?.end_lat || defaultLocationProps?.rangeData?.maxLat,
+          start_long:
+            filterData?.start_long || defaultLocationProps?.rangeData?.minLon,
+          end_long:
+            filterData?.end_long || defaultLocationProps?.rangeData?.maxLon,
 
           wifi_available: filterData?.wifi_available,
           is_mobile_garage: filterData?.is_mobile_garage,
@@ -64,10 +67,11 @@ export default function GarageList() {
             if (res?.data?.data?.length === 0) {
               setTotalGarageFound(0);
               setGarageList([]);
+              setTab("garages");
             } else {
               setTotalGarageFound(res?.data?.total);
               setGarageList(res?.data?.data);
-              setTab("garage");
+              setTab("garages");
             }
             setIsLoading(false);
           })
@@ -116,7 +120,7 @@ export default function GarageList() {
                 setIsFilterOpen={setIsFilterOpen}
               />
 
-              {tab === "garage" && (
+              {tab === "garages" && (
                 <>
                   {/* SEARCH BAR  */}
                   <div className={`flex items-center justify-between`}>
@@ -168,14 +172,14 @@ export default function GarageList() {
             {/* MAIN SECTION  */}
             <div
               className={`${
-                tab === "garage" ? "pt-5 px-5 " : ""
+                tab === "garages" ? "pt-5 px-5 " : ""
               }  pb-5 scrollbar  overflow-y-auto`}
             >
               {isLoading ? (
                 <CustomLoading h="h-[300px]" />
               ) : (
                 <div>
-                  {tab === "garage" && <GarageListComponent setTab={setTab} />}
+                  {tab === "garages" && <GarageListComponent setTab={setTab} />}
                   {tab === "job" && <CreateAndUpdateJobForm />}
                 </div>
               )}

@@ -38,17 +38,32 @@ export default function ServiceList() {
       <Headings level={1} className={`text-3xl text-center mb-10`}>
         Our Latest Services
       </Headings>
-      {/* GRID  */}
+      {/* IF SERVICE LOADING  */}
       {loading ? (
         <div
           className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5`}
         >
-          {["w-[80%]", "w-[40%]", "w-[70%]", "w-[50%]"]?.map((width, index) => (
+          {[
+            "w-[80%]",
+            "w-[40%]",
+            "w-[70%]",
+            "w-[50%]",
+            "w-[80%]",
+            "w-[50%]",
+            "w-[40%]",
+            "w-[70%]",
+          ]?.map((width, index) => (
             <div
               key={index}
               className={`w-full h-[250px] bg-base-300 rounded-xl shadow-lg overflow-hidden`}
             >
-              <div className={`w-full h-[200px] bg-slate-200 animate-pulse`} />
+              <div
+                className={`w-full h-[200px] flex justify-center items-center`}
+              >
+                <div
+                  className={`bg-slate-200 animate-pulse w-20 h-20 rounded-xl`}
+                ></div>
+              </div>
               <div className={`flex justify-center items-center`}>
                 <div
                   className={`text-center my-2 font-medium ${width} h-3 rounded-full bg-slate-200 animate-pulse`}
@@ -58,6 +73,7 @@ export default function ServiceList() {
           ))}
         </div>
       ) : (
+        // ALL SERVICES
         <div className={`flex flex-col gap-10`}>
           <motion.div
             variants={gridContainerVariants}

@@ -2,8 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { AdvancedMarker, Map, Pin } from "@vis.gl/react-google-maps";
 import { GiHomeGarage, GiMechanicGarage } from "react-icons/gi";
 import { getAllGaragesForMap } from "../../../Apis/garage";
+import { useGeoLocationData } from "../../../context/GeoLocationDataContext";
 
-export default function GoogleMapForGarages({ defaultProps }) {
+export default function GoogleMapForGarages() {
+  const { defaultLocationProps, isGeoLocationLoading } = useGeoLocationData();
+
   // GETTING GARAGES FOR MAP
   const { isPending: isGarageLoading, data } = useQuery({
     queryKey: ["map-garages"],
@@ -12,13 +15,13 @@ export default function GoogleMapForGarages({ defaultProps }) {
 
   return (
     <>
-      {isGarageLoading ? (
+      {isGarageLoading || isGeoLocationLoading ? (
         <div className="w-full h-[650px] absolute outline-none border-none active:border-none bg-slate-300 animate-pulse"></div>
       ) : (
         <Map
           mapId={"ed79aa93f40c730c"}
-          defaultCenter={{ lat: 23.7993984, lng: 90.3839744 }}
-          defaultZoom={8}
+          defaultCenter={defaultLocationProps?.center}
+          defaultZoom={defaultLocationProps?.zoom}
           gestureHandling={"greedy"}
           disableDefaultUI={true}
           disableDoubleClickZoom={true}
