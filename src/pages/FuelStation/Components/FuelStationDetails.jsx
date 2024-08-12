@@ -11,6 +11,7 @@ import { decryptID } from "../../../utils/encryptAndDecryptID";
 import { TiLocationOutline } from "react-icons/ti";
 import CustomLoading from "../../../components/CustomLoading";
 import { Map, Marker } from "@vis.gl/react-google-maps";
+import moment from "moment";
 
 const FuelStationDetails = () => {
   const { encID } = useParams();
@@ -43,7 +44,7 @@ const FuelStationDetails = () => {
         </div>
 
         {/* OPENING TIME  */}
-        {/* <div className={`p-5`}>
+        <div className={``}>
           <div className={`flex justify-center items-center mb-5`}>
             <TextTitleComponent text={"Opening time"} />
           </div>
@@ -56,7 +57,7 @@ const FuelStationDetails = () => {
               <span className={`w-[20%] block`}>Until</span>
             </div>
 
-            {data?.garage?.garage_times?.map((item, index) => (
+            {data?.fuel_station_times?.map((item, index) => (
               <div
                 key={index}
                 className={` w-full py-3 px-5 flex border-b border-primary-content ${
@@ -114,7 +115,7 @@ const FuelStationDetails = () => {
               </div>
             ))}
           </div>
-        </div> */}
+        </div>
 
         {/* SERVICES */}
         {!!data?.options?.length > 0 && (
