@@ -109,6 +109,7 @@ export default function SearchForm() {
   const searchGarages = () => {
     if (validateForm()) {
       if (homeSearchData?.address) {
+        console.log("hit 1");
         const distanceData = calculateLatLongBounds({
           lat: location?.latitude,
           lon: location?.longitude,
@@ -137,6 +138,8 @@ export default function SearchForm() {
               : "",
         });
       } else {
+        console.log("hit 2");
+
         setHomeSearchData({
           ...homeSearchData,
           page: 1,

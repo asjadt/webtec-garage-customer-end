@@ -23,6 +23,8 @@ export const getGaragesV2 = async ({
   is_mobile_garage = "",
   page = 1,
   date_time = "",
+  lat = "",
+  long = "",
 }) => {
   const addressCondition =
     (city === undefined || city === "undefined") &&
@@ -49,7 +51,7 @@ export const getGaragesV2 = async ({
           : ""
       }&address_line_1=${
         addressCondition ? address : ""
-      }&open_time=${date_time}&page=${page}&start_lat=${start_lat}&end_lat=${end_lat}&start_long=${start_long}&end_long=${end_long}`,
+      }&open_time=${date_time}&page=${page}&start_lat=${start_lat}&end_lat=${end_lat}&start_long=${start_long}&end_long=${end_long}&lat=${lat}&long=${long}`,
       getApiConfig()
     )
     .then((res) => {

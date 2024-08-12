@@ -14,6 +14,7 @@ export default function DateTimeField({
   value = "",
   onError = (e) => e,
   setSelectedDate,
+  dataAuto = "",
 }) {
   const MIN_DATE = moment(minDate, format); // moment("1900-01-01");
   const MAX_DATE = moment(maxDate, format); // moment("3000-12-31");

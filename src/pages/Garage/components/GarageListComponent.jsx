@@ -36,7 +36,7 @@ export default function GarageListComponent({
               variants={gridContainerVariants}
               initial="hidden"
               animate="visible"
-              className={`grid grid-cols-1 xl:grid-cols-2 gap-4`}
+              className={`grid grid-cols-1 xl:grid-cols-3 gap-4`}
             >
               {garageList?.map((garage, index) => (
                 <GarageCard key={index} garage={garage} />

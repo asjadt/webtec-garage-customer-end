@@ -5,65 +5,169 @@ import { formatRole } from "../../../utils/formatRole";
 const ViewBooking = ({ popupOption, setPopupOption, booking }) => {
   console.log({ booking });
   return (
-    <div className={`my-10 flex flex-col gap-4`}>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Garage Name:</h2>
-        <p>{booking?.garage?.name}</p>
+    <div className={`my-10 flex flex-col`}>
+      {/* SERVICES  */}
+      <div className={`flex items-start border-y pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Services: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          <ul className={`list-decimal pl-[1.15rem]`}>
+            {booking?.booking_sub_services?.map((service, i) => (
+              <li key={i}>
+                {service?.sub_service?.name}
+                {booking?.booking_sub_services?.length - 1 === i ? "." : ","}
+              </li>
+            ))}
+          </ul>
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Booking Price:</h2>
-        <p>
-          <span className={`text-primary`}> {booking?.garage?.currency} </span>{" "}
-          {booking?.price}
-        </p>
+
+      {/* CAR MODEL  */}
+      <div className={`flex items-start border-y pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Car Model: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {booking?.automobile_model?.name}
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Services:</h2>
-        <p>
-          {booking?.booking_sub_services?.map((service, i) => (
-            <p key={i}>{service?.sub_service?.name}</p>
-          ))}
-        </p>
+
+      {/* JOB START DATE  */}
+      <div className={`flex items-start border-y pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Job Start Date: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {booking?.job_start_date}
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Car Model:</h2>
-        <p>{booking?.automobile_model?.name}</p>
+
+      {/* JOB START TIME  */}
+      <div className={`flex items-start border-y pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Job Start Time: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {moment(booking?.job_start_time, "HH:mm").format("hh:mm A")}
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Car Reg:</h2>
-        <p>{booking?.car_registration_no}</p>
+
+      {/* GARAGE NAME  */}
+      <div className={`flex items-start border-y pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Garage Name: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {booking?.garage?.name}
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Job Start Time:</h2>
-        <p>{moment(booking?.job_start_time, "HH:mm").format("hh:mm A")}</p>
+
+      {/* BOOKING PRICE  */}
+      <div className={`flex items-start border-y pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Booking Price: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {booking?.price}{" "}
+          <span className={`text-primary`}>{booking?.garage?.currency}</span>
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Coupon Code:</h2>
-        <p>{booking?.coupon_code}</p>
+
+      {/* Coupon Code  */}
+      <div className={`flex items-start border-y pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Coupon Code: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {booking?.coupon_code || "N/A"}
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Garage Location:</h2>
-        <p>{booking?.garage?.address_line_1}</p>
+
+      {/* Coupon DISCOUNT  */}
+      <div className={`flex items-start border-y pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Coupon Discount: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {booking?.coupon_discount_amount || "N/A"}
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Car Make:</h2>
-        <p>{booking?.automobile_make?.name}</p>
+
+      {/* GARAGE LOCATION  */}
+      <div className={`flex items-start border-y pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Garage Location: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {booking?.garage?.address_line_1}
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Extra Notes:</h2>
-        <p>{booking?.additional_information}</p>
+
+      {/* CAR MAKE  */}
+      <div className={`flex items-start border-y pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Car Make: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {booking?.automobile_make?.name}
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Job Start Date:</h2>
-        <p>{booking?.job_start_date}</p>
+
+      {/* CAR MAKE  */}
+      <div className={`flex items-start border-y pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Extra Notes: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {booking?.additional_information}
+        </span>
       </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Status:</h2>
-        <p>{booking?.format_status}</p>
-      </div>
-      <div className={`flex items-center gap-1`}>
-        <h2 className={`font-bold`}>Coupon Discount:</h2>
-        <p>{booking?.coupon_discount_amount}</p>
+
+      {/* STATUS */}
+      <div className={`flex items-start border-y pt-5 pb-4`}>
+        {/* TITLE  */}
+        <span className={`w-[200px] font-bold`}>Status: </span>
+        <span
+          data-auto={`personal-details-v2-first-name-view-employee`}
+          className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
+        >
+          {/* DETAILS  */}
+          {formatRole(booking?.format_status)}
+        </span>
       </div>
     </div>
   );

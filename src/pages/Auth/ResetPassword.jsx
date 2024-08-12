@@ -97,7 +97,7 @@ export default function ResetPassword() {
 
   return (
     <>
-      {!isSent ? (
+      {isSent ? (
         <div className="flex flex-col p-5 gap-5 justify-center items-left shadow-xl rounded-xl">
           {/* <MdOutlineMarkEmailRead className="text-7xl text-green-500" /> */}
           <Headings level={1} className="text-xl font-semibold">
@@ -125,11 +125,8 @@ export default function ResetPassword() {
         </div>
       ) : (
         <div className="flex flex-col gap-5 mt-5 bg-base-300 rounded-xl w-full p-5 max-w-[500px]">
-          <label
-            htmlFor=""
-            className="text-left  font-semibold text-2xl w-full"
-          >
-            Forgot Password?
+          <label htmlFor="" className="text-left  font-semibold text-xl w-full">
+            Forgot your Password?
           </label>
 
           <p className="text-left text-gray-500 font-semibold text-sm w-full">

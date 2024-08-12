@@ -48,13 +48,19 @@ export default function GarageList() {
       lat: filterData?.start_lat || defaultLocationProps?.center?.lat,
       long: filterData?.end_lat || defaultLocationProps?.center?.lng,
 
-      start_lat:
-        filterData?.start_lat || defaultLocationProps?.rangeData?.minLat,
-      end_lat: filterData?.end_lat || defaultLocationProps?.center?.maxLat,
+      start_lat: filterData?.address
+        ? filterData?.start_lat || defaultLocationProps?.rangeData?.minLat
+        : "",
+      end_lat: filterData?.address
+        ? filterData?.end_lat || defaultLocationProps?.rangeData?.maxLat
+        : "",
 
-      start_long:
-        filterData?.start_long || defaultLocationProps?.center?.minLon,
-      end_long: filterData?.end_long || defaultLocationProps?.center?.maxLon,
+      start_long: filterData?.address
+        ? filterData?.start_long || defaultLocationProps?.rangeData?.minLon
+        : "",
+      end_long: filterData?.address
+        ? filterData?.end_long || defaultLocationProps?.rangeData?.maxLon
+        : "",
 
       wifi_available: filterData?.wifi_available,
       is_mobile_garage: filterData?.is_mobile_garage,
