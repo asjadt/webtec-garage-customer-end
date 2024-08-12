@@ -1,6 +1,7 @@
 import { FiX } from "react-icons/fi";
 import { useData } from "../../../../context/DataContext";
 import { useGeoLocationData } from "../../../../context/GeoLocationDataContext";
+import { calculateLatLongBounds } from "../../../../utils/map";
 
 export default function SelectedFilters() {
   const { homeSearchData, setHomeSearchData, subServices, makes, models } =
@@ -8,7 +9,7 @@ export default function SelectedFilters() {
   const { llFromDistance, location } = useGeoLocationData();
 
   return (
-    <div className={`w-full inline-block mt-5`}>
+    <div className={`w-full inline-block`}>
       {/* SERVICES  */}
       {subServices
         ?.filter((s) => homeSearchData?.sub_services?.some((s2) => s.id === s2))
@@ -88,16 +89,15 @@ export default function SelectedFilters() {
           <FiX
             className={`cursor-pointer`}
             onClick={() => {
-              const distanceData = llFromDistance({
-                latitude: location?.latitude,
-                longitude: location?.longitude,
-                distance: Math.sqrt(2) * (0 * 1),
-                bearing: 135,
+              const distanceData = calculateLatLongBounds({
+                lat: location?.latitude,
+                lon: location?.longitude,
+                radiusInKm: 3,
               });
 
               setHomeSearchData({
                 ...homeSearchData,
-                distance: 0,
+                distance: 3,
 
                 start_lat: location?.latitude,
                 start_long: location?.longitude,
@@ -147,29 +147,6 @@ export default function SelectedFilters() {
           />
         </div>
       )}
-
-      {/* CLEAR ALL  */}
-      {/* {!(
-        homeSearchData?.sub_services?.length > 0 ||
-        homeSearchData?.makes?.length > 0 ||
-        homeSearchData?.models?.length > 0 ||
-        homeSearchData?.distance > 0
-      ) && (
-        <div
-          className={`inline-flex items-center justify-between gap-x-2 py-2 px-3 bg-primary-content border-2 border-primary rounded-full text-primary font-medium text-xs m-1`}
-          onClick={() => {
-            setHomeSearchData({
-              ...homeSearchData,
-              sub_services: [],
-              makes: [],
-              models: [],
-              distance: 0,
-            });
-          }}
-        >
-          Clear All
-        </div>
-      )} */}
     </div>
   );
 }

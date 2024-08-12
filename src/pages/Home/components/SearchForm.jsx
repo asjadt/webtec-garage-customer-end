@@ -12,10 +12,11 @@ import { useGeoLocationData } from "../../../context/GeoLocationDataContext";
 import { motion } from "framer-motion";
 import CustomDatePickerV2 from "../../../components/InputFields/CustomDatePickerV2";
 import CustomTimePickerV2 from "../../../components/InputFields/CustomTimePickerV2";
+import { calculateLatLongBounds } from "../../../utils/map";
 export default function SearchForm() {
   const navigate = useNavigate();
 
-  const { location, currentLat, llFromDistance } = useGeoLocationData();
+  const { location } = useGeoLocationData();
 
   const {
     services,
@@ -107,45 +108,11 @@ export default function SearchForm() {
   // HANDLE SEARCH
   const searchGarages = () => {
     if (validateForm()) {
-      // WHEN THE COUNTRY IS AVAILABLE
-      if (!homeSearchData?.country_code) {
-        setHomeSearchData({
-          ...homeSearchData,
-          page: 1,
-          search_key: "",
-          distance: 3,
-          wifi_available: false,
-          is_mobile_garage: false,
-          services: [],
-          address: "",
-          start_lat: "",
-          start_long: "",
-          end_lat: "",
-          end_long: "",
-          locationDetails: {
-            start_lat: "",
-            start_long: "",
-            end_lat: "",
-            end_long: "",
-          },
-          date_time:
-            dateData || timeData
-              ? moment(
-                  `${dateData} + " " + ${timeData}`,
-                  "DD-MM-YYYY hh:mm A"
-                ).format("YYYY-MM-DD HH:mm")
-              : "",
-        });
-
-        navigate("garages");
-      }
-      // WHEN THE COUNTRY IS NOT AVAILABLE
-      else {
-        const distanceData = llFromDistance({
-          latitude: homeSearchData.start_lat,
-          longitude: homeSearchData.start_long,
-          distance: Math.sqrt(2) * (3 * 1),
-          bearing: 135,
+      if (homeSearchData?.address) {
+        const distanceData = calculateLatLongBounds({
+          lat: location?.latitude,
+          lon: location?.longitude,
+          radiusInKm: 3,
         });
         setHomeSearchData({
           ...homeSearchData,
@@ -155,16 +122,12 @@ export default function SearchForm() {
           wifi_available: false,
           is_mobile_garage: false,
           services: [], //DONE
-          // start_lat: "", //DONE
-          // start_long: "", //DONE
-          end_lat: distanceData?.latitude,
-          end_long: distanceData?.longitude,
-          locationDetails: {
-            start_lat: location?.latitude - 0.27,
-            start_long: location?.longitude + 0.27,
-            end_lat: currentLat?.latitude + 0.27,
-            end_long: currentLat?.longitude - 0.27,
-          },
+          lat: location?.latitude, //DONE
+          long: location?.longitude, //DONE
+          start_lat: distanceData?.minLat, //DONE
+          end_lat: distanceData?.maxLat, //DONE
+          start_long: distanceData?.minLon, //DONE
+          end_long: distanceData?.maxLon, //DONE
           date_time:
             dateData || timeData
               ? moment(
@@ -173,9 +136,30 @@ export default function SearchForm() {
                 ).format("YYYY-MM-DD HH:mm")
               : "",
         });
-
-        navigate("garages");
+      } else {
+        setHomeSearchData({
+          ...homeSearchData,
+          page: 1,
+          search_key: "",
+          distance: 0,
+          wifi_available: false,
+          is_mobile_garage: false,
+          services: [], //DONE
+          lat: location?.latitude, //DONE
+          long: location?.longitude, //DONE
+          start_lat: "", //DONE
+          start_long: "", //DONE
+          date_time:
+            dateData || timeData
+              ? moment(
+                  `${dateData} + " " + ${timeData}`,
+                  "DD-MM-YYYY hh:mm A"
+                ).format("YYYY-MM-DD HH:mm")
+              : "",
+        });
       }
+
+      navigate("garages");
     }
   };
 

@@ -6,7 +6,7 @@ import { getQueryFromArrayOfObject } from "../searchQueryOfArray";
 // GET
 // =============================================
 export const getGaragesV2 = async ({
-  perPage = 20,
+  perPage = 1,
   search_key = "",
   country_code = "",
   address = "",
@@ -53,7 +53,7 @@ export const getGaragesV2 = async ({
       getApiConfig()
     )
     .then((res) => {
-      return res.data;
+      return res.data?.data;
     });
 };
 

@@ -1,30 +1,67 @@
 import { motion } from "framer-motion";
 import { useData } from "../../../context/DataContext";
 import GarageCard from "./GarageCard";
+import { useEffect } from "react";
+import GarageCardLoading from "./GarageCardLoading";
+import { useInView } from "react-intersection-observer";
 
 const gridContainerVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
 };
 
-export default function GarageListComponent({ setTab }) {
+export default function GarageListComponent({
+  setTab,
+  fetchNextPage,
+  hasNextPage,
+  isLoading,
+  status,
+}) {
+  const { ref, inView } = useInView();
   const { garageList, fuelStations } = useData();
 
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      console.log("fetch");
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
   return (
     <>
       {/* GARAGE LIST  */}
-      <div className={`w-full h-full overflow-y-auto`}>
+      <div className={`w-full h-full`}>
         {garageList?.length > 0 ? (
-          <motion.div
-            variants={gridContainerVariants}
-            initial="hidden"
-            animate="visible"
-            className={`grid grid-cols-1 xl:grid-cols-2 gap-4`}
-          >
-            {garageList?.map((garage, index) => (
-              <GarageCard key={index} garage={garage} />
-            ))}
-          </motion.div>
+          <>
+            <motion.div
+              variants={gridContainerVariants}
+              initial="hidden"
+              animate="visible"
+              className={`grid grid-cols-1 xl:grid-cols-2 gap-4`}
+            >
+              {garageList?.map((garage, index) => (
+                <GarageCard key={index} garage={garage} />
+              ))}
+              {isLoading && (
+                <>
+                  <GarageCardLoading />
+                  <GarageCardLoading />
+                </>
+              )}
+            </motion.div>
+            {!isLoading && (
+              <div
+                ref={ref}
+                className={`flex justify-center items-center mt-5`}
+              >
+                <button
+                  className={`btn btn-sm btn-primary`}
+                  onClick={() => fetchNextPage()}
+                >
+                  load more
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           <div
             className={`flex justify-center items-center h-[400px] text-xl  flex-col`}

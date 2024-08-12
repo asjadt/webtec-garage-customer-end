@@ -3,9 +3,12 @@ import { AdvancedMarker, Map, Pin } from "@vis.gl/react-google-maps";
 import { GiHomeGarage, GiMechanicGarage } from "react-icons/gi";
 import { getAllGaragesForMap } from "../../../Apis/garage";
 import { useGeoLocationData } from "../../../context/GeoLocationDataContext";
+import { useData } from "../../../context/DataContext";
+import { useEffect } from "react";
 
 export default function GoogleMapForGarages() {
   const { defaultLocationProps, isGeoLocationLoading } = useGeoLocationData();
+  const { setHomeSearchData } = useData();
 
   // GETTING GARAGES FOR MAP
   const { isPending: isGarageLoading, data } = useQuery({
@@ -13,6 +16,18 @@ export default function GoogleMapForGarages() {
     queryFn: getAllGaragesForMap,
   });
 
+  useEffect(() => {
+    console.log({
+      defaultLocationProps,
+    });
+    if (defaultLocationProps?.city) {
+      setHomeSearchData((prev) => ({
+        ...prev,
+        city: defaultLocationProps?.city,
+        country: defaultLocationProps?.country,
+      }));
+    }
+  }, [defaultLocationProps]);
   return (
     <div data-auto={`container-googleMapForGarages`}>
       {isGarageLoading || isGeoLocationLoading ? (

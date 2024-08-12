@@ -46,57 +46,38 @@ export const GeoLocationDataContextProvider = ({ children }) => {
     };
   };
 
+  // Function to fetch location using IP address as a fallback
+  const fetchLocationByIP = async () => {
+    try {
+      const response = await fetch(
+        `https://api.ip2location.io/?key=${
+          import.meta.env.VITE_IP2LOCATION_API_KEY
+        }`
+      );
+      const data = await response.json();
+      setLocation({
+        latitude: data.latitude,
+        longitude: data.longitude,
+      });
+      setIsGeoLocationLoading(false);
+    } catch (error) {
+      console.error("Error fetching location by IP:", error);
+      setIsGeoLocationLoading(false);
+    }
+  };
+
   // GETTING EXACT LOCATION
   useEffect(() => {
-    // Function to fetch location using IP address as a fallback
-    const fetchLocationByIP = async () => {
-      try {
-        const response = await fetch(
-          `https://api.ip2location.io/?key=${
-            import.meta.env.VITE_IP2LOCATION_API_KEY
-          }`
-        );
-        const data = await response.json();
-        setCurrentLat(
-          llFromDistance({
-            latitude: data.latitude,
-            longitude: data.longitude,
-            distance: Math.sqrt(2) * 31,
-            bearing: 135,
-          })
-        );
-
-        setLocation({
-          latitude: data.latitude,
-          longitude: data.longitude,
-        });
-        setIsGeoLocationLoading(false);
-      } catch (error) {
-        console.error("Error fetching location by IP:", error);
-        setIsGeoLocationLoading(false);
-      }
-    };
-
     // Function to fetch location using Geolocation API
     const fetchLocation = () => {
       if (navigator.geolocation) {
         setIsGeoLocationLoading(true);
         navigator.geolocation.getCurrentPosition(
-          (position) => {
-            setCurrentLat(
-              llFromDistance({
-                latitude: position?.coords?.latitude,
-                longitude: position?.coords?.longitude,
-                distance: Math.sqrt(2) * 31,
-                bearing: 135,
-              })
-            );
-
+          async (position) => {
             setLocation({
               latitude: position?.coords?.latitude,
               longitude: position?.coords?.longitude,
             });
-
             setIsGeoLocationLoading(false);
           },
           (error) => {
@@ -128,6 +109,9 @@ export const GeoLocationDataContextProvider = ({ children }) => {
         lon: location?.longitude,
         radiusInKm: 3,
       }),
+
+      city: location?.city,
+      country: location?.country,
     });
   }, [location.pathname, location, isGeoLocationLoading]);
   return (

@@ -45,13 +45,6 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
   }, [homeSearchData?.distance]);
   // HANDLE THE DISTANCE CHANGE
   const handleDistanceChange = () => {
-    // const distanceData = llFromDistance({
-    //   latitude: location?.latitude,
-    //   longitude: location?.longitude,
-    //   distance: Math.sqrt(2) * (homeSearchData?.distance * 1),
-    //   bearing: 135,
-    // });
-
     const distanceData = calculateLatLongBounds({
       lat: location?.latitude,
       lon: location?.longitude,
@@ -78,7 +71,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
     >
       {/* FILTERS  */}
       <div
-        className={`sticky left-0 top-0 duration-100 md:w-full  bg-base-300 border-r overflow-x-hidden`}
+        className={`sticky left-0 top-0 duration-100 md:w-full bg-base-300 border-r overflow-x-hidden`}
       >
         {/* HEADER  */}
         <div
@@ -90,6 +83,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
           >
             <MdFilterList size={25} /> Filters
           </Headings>
+
           <div
             className={`md:hidden cursor-pointer absolute high-zindex top-3 right-3 w-9 h-9 rounded-full bg-primary-content flex justify-center items-center`}
             onClick={() => setIsFilterOpen(false)}
@@ -100,7 +94,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
 
         {/* FILTER BODY  */}
         <div
-          className={`scrollbar-none min-h-[calc(100vh-205px)] max-h-[calc(100vh-205px)] md:min-h-[calc(100vh-305px)] md:max-h-[calc(100vh-305px)] overflow-y-auto overflow-x-hidden`}
+          className={`scrollbar-none min-h-[calc(100vh-205px)] max-h-[calc(100vh-205px)] md:h-screen overflow-y-auto overflow-x-hidden`}
         >
           {loading || isLoading ? (
             <div>
@@ -351,59 +345,63 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
               </div>
 
               {/* Distance  */}
-              <div className="border-b-2 border-gray-300 border-dotted">
-                <button
-                  className="w-full shadow text-left p-4 focus:outline-none"
-                  onClick={() =>
-                    setIsOpen({
-                      ...isOpen,
-                      Distance: {
-                        ...isOpen["Distance"],
-                        status: !isOpen["Distance"].status,
-                      },
-                    })
-                  }
-                >
-                  <div className="flex justify-between items-center ">
-                    <div
-                      className={`flex justify-between items-center gap-x-3`}
-                    >
-                      <span>Distance</span>
-                      <span
-                        className={`flex justify-center items-center gap-1 px-2 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
+              {!!homeSearchData?.address && (
+                <div className="border-b-2 border-gray-300 border-dotted">
+                  <button
+                    className="w-full shadow text-left p-4 focus:outline-none"
+                    onClick={() =>
+                      setIsOpen({
+                        ...isOpen,
+                        Distance: {
+                          ...isOpen["Distance"],
+                          status: !isOpen["Distance"].status,
+                        },
+                      })
+                    }
+                  >
+                    <div className="flex justify-between items-center ">
+                      <div
+                        className={`flex justify-between items-center gap-x-3`}
                       >
-                        <span>{distance}</span> <span>KM</span>
+                        <span>Distance</span>
+                        <span
+                          className={`flex justify-center items-center gap-1 px-2 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
+                        >
+                          <span>{distance}</span> <span>KM</span>
+                        </span>
+                      </div>
+                      <span
+                        className={`${
+                          isOpen["Distance"].status ? "rotate-180" : ""
+                        } transition-all duration-200`}
+                      >
+                        <IoIosArrowDown />
                       </span>
                     </div>
-                    <span
-                      className={`${
-                        isOpen["Distance"].status ? "rotate-180" : ""
-                      } transition-all duration-200`}
-                    >
-                      <IoIosArrowDown />
-                    </span>
-                  </div>
-                </button>
-                {isOpen["Distance"].status && (
-                  <div className="pl-4 bg-base-300">
-                    {/* CONTENT  */}
-                    <div
-                      className={`flex pt-5 justify-between items-center gap-x-3 pb-5  pr-5`}
-                    >
-                      <input
-                        type="range"
-                        min={3}
-                        max={200}
-                        value={distance}
-                        className="range range-primary range-sm"
-                        step={1}
-                        onChange={(e) => setDistance(parseInt(e.target.value))}
-                        onMouseUp={handleDistanceChange}
-                      />
+                  </button>
+                  {isOpen["Distance"].status && (
+                    <div className="pl-4 bg-base-300">
+                      {/* CONTENT  */}
+                      <div
+                        className={`flex pt-5 justify-between items-center gap-x-3 pb-5  pr-5`}
+                      >
+                        <input
+                          type="range"
+                          min={3}
+                          max={200}
+                          value={distance}
+                          className="range range-primary range-sm"
+                          step={1}
+                          onChange={(e) =>
+                            setDistance(parseInt(e.target.value))
+                          }
+                          onMouseUp={handleDistanceChange}
+                        />
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
+              )}
 
               {/* Others  */}
               <div className="border-b-2 border-gray-300 border-dotted">

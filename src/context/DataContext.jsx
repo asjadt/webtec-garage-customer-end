@@ -52,7 +52,7 @@ export const DataContextProvider = ({ children }) => {
     is_mobile_garage: false,
     date_time: "",
 
-    distance: 3,
+    distance: 0,
   });
   const [fuelStationsFilter, setFuelStationsFilter] = useState({
     page: 1,

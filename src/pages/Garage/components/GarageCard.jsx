@@ -14,7 +14,7 @@ const gridItemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-export default function GarageCard({ garage }) {
+export default function GarageCard({ garage, innerRef }) {
   const {
     id,
     background_image,
@@ -149,13 +149,13 @@ export default function GarageCard({ garage }) {
               onClick={() => navigate(`/view-garage/${encryptID(id)}/details`)}
               className={`btn btn-primary btn-sm w-full`}
             >
-              View Details
+              Details
             </button>
             <button
               onClick={() => navigate(`/view-garage/${encryptID(id)}/booking`)}
               className={`btn btn-primary btn-sm w-full`}
             >
-              Book Now
+              Book
             </button>
             {!!is_package_available && (
               <button
@@ -164,7 +164,7 @@ export default function GarageCard({ garage }) {
                 }
                 className={`btn btn-primary btn-sm w-full`}
               >
-                View Offers
+                Offers
               </button>
             )}
           </div>
