@@ -14,11 +14,12 @@ export default function GoogleMapForGarages() {
   });
 
   return (
-    <>
+    <div data-auto={`container-googleMapForGarages`}>
       {isGarageLoading || isGeoLocationLoading ? (
         <div className="w-full h-[650px] absolute outline-none border-none active:border-none bg-slate-300 animate-pulse"></div>
       ) : (
         <Map
+          data-auto={`home-map-googleMapForGarages`}
           mapId={"ed79aa93f40c730c"}
           defaultCenter={defaultLocationProps?.center}
           defaultZoom={defaultLocationProps?.zoom}
@@ -40,6 +41,7 @@ export default function GoogleMapForGarages() {
                 onClick={() => navigate(`/view-garage/${garage?.id}/details`)}
               >
                 <div
+                  data-auto={`garage-pin-googleMapForGarages`}
                   data-tip={garage?.name}
                   className={`relative tooltip tooltip-top tooltip-base-300`}
                 >
@@ -54,7 +56,7 @@ export default function GoogleMapForGarages() {
           })}
         </Map>
       )}
-    </>
+    </div>
   );
 }
 

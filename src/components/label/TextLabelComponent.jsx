@@ -15,6 +15,7 @@ export default function TextLabelComponent({
   };
   return (
     <motion.div
+      data-auto={`container-textLabelComponent`}
       ref={ref}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}

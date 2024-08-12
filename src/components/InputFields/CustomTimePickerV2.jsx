@@ -28,7 +28,7 @@ export default function CustomTimePickerV2({
   visibleBorder = false,
   right = false,
   minStep = 15,
-
+  dataAuto,
   isSeparatelyEditable = false,
 }) {
   const [selectedHour, setSelectedHour] = useState(
@@ -185,10 +185,11 @@ export default function CustomTimePickerV2({
         setOpenTimeSelector(false);
       }}
       className={`relative w-full ${wrapperClassName}`}
+      dataAuto={`container-${dataAuto}`}
     >
       {/* LABEL */}
       {label ? (
-        <label htmlFor={id} className="label">
+        <label data-auto={`label-${dataAuto}`} htmlFor={id} className="label">
           {label && (
             <span className="label-text text-md font-bold">
               {label}{" "}
@@ -203,8 +204,9 @@ export default function CustomTimePickerV2({
       )}
 
       {/* FIELD  */}
-      <div className={`relative`}>
+      <div data-auto={`field-container-${dataAuto}`} className={`relative`}>
         <input
+          data-auto={`${dataAuto}`}
           onClick={() => {
             setOpenTimeSelector(!openTimeSelector);
           }}
@@ -254,7 +256,7 @@ export default function CustomTimePickerV2({
           <>
             {!disable && (
               <button
-                data-cy={"reset_button_custom_time_picker"}
+                data-auto={`reset-${dataAuto}`}
                 data-tip="reset"
                 className={`tooltip tooltip-bottom absolute right-2 top-[14px] text-xl text-primary `}
                 onClick={reset}
@@ -268,7 +270,7 @@ export default function CustomTimePickerV2({
 
       {/* VALIDATION MESSAGE  */}
       {(error || (openTimeSelector && errorForRestrictions)) && (
-        <label className="label h-7">
+        <label data-auto={`error-${dataAuto}`} className="label h-7">
           <span className="label-text-alt text-error">
             {error || errorForRestrictions}
           </span>
@@ -277,6 +279,7 @@ export default function CustomTimePickerV2({
 
       {/* TIME PICKER  */}
       <div
+        data-auto={`timePicker-container-${dataAuto}`}
         className={`px-2 py-5 mt-2 absolute border flex flex-col border-primary-content  high-zindex top-full rounded-xl shadow-xl duration-300 items-center bg-base-300 ${
           right ? "right-0" : ""
         }  ${
@@ -289,14 +292,19 @@ export default function CustomTimePickerV2({
       >
         <div className={`flex items-center gap-x-2`}>
           {/* HOURS  */}
-          <div className="flex flex-col text-3xl gap-2">
+          <div
+            data-auto={`hours-container-${dataAuto}`}
+            className="flex flex-col text-3xl gap-2"
+          >
             <button
+              data-auto={`hour-plus-${dataAuto}`}
               onClick={increaseHour}
               className={`px-5 py-1 w-20 border  rounded-xl flex justify-center items-center hover:bg-primary hover:text-base-300 duration-200`}
             >
               <FiPlus className="" />
             </button>
             <input
+              data-auto={`hour-input-${dataAuto}`}
               disabled={!isSeparatelyEditable}
               onClick={handleClick}
               type="text"
@@ -305,6 +313,7 @@ export default function CustomTimePickerV2({
             />
 
             <button
+              data-auto={`hour-minus-${dataAuto}`}
               onClick={decreaseHour}
               className={`px-5 py-1 w-20 border rounded-xl flex justify-center items-center hover:bg-primary hover:text-base-300 duration-200`}
             >
@@ -315,14 +324,19 @@ export default function CustomTimePickerV2({
           <div className="text-4xl mb-2 mr-0">:</div>
 
           {/* MINUTES  */}
-          <div className="flex flex-col text-3xl gap-2 items-center justify-center">
+          <div
+            data-auto={`minutes-container-${dataAuto}`}
+            className="flex flex-col text-3xl gap-2 items-center justify-center"
+          >
             <button
+              data-auto={`minute-plus-${dataAuto}`}
               onMouseDown={increaseMin}
               className={`px-5 py-1 w-20 border rounded-xl flex justify-center items-center hover:bg-primary hover:text-base-300 duration-200`}
             >
               <FiPlus className="" />
             </button>
             <input
+              data-auto={`minute-${dataAuto}`}
               disabled={!isSeparatelyEditable}
               onClick={handleClick}
               type="text"
@@ -330,6 +344,7 @@ export default function CustomTimePickerV2({
               value={selectedMin < 10 ? `0${selectedMin}` : selectedMin}
             />
             <button
+              data-auto={`minute-minus-${dataAuto}`}
               onMouseDown={decreaseMin}
               className={`px-5 py-1 w-20 border rounded-xl flex justify-center items-center hover:bg-primary hover:text-base-300 duration-200`}
             >
@@ -337,8 +352,12 @@ export default function CustomTimePickerV2({
             </button>
           </div>
           {/* AM/PM  */}
-          <div className="flex flex-col text-md ml-5 gap-2 relative">
+          <div
+            data-auto={`amPm-container-${dataAuto}`}
+            className="flex flex-col text-md ml-5 gap-2 relative"
+          >
             <button
+              data-auto={`am-${dataAuto}`}
               onClick={() => {
                 setSelectedAmOrPm("AM");
               }}
@@ -351,6 +370,7 @@ export default function CustomTimePickerV2({
               AM
             </button>
             <button
+              data-auto={`pm-${dataAuto}`}
               onClick={() => {
                 setSelectedAmOrPm("PM");
               }}
@@ -370,6 +390,7 @@ export default function CustomTimePickerV2({
           (!minTime && maxTime) ||
           (minTime && !maxTime && (
             <div
+              data-auto={`error-${dataAuto}`}
               className={`text-xs text-red-500 flex justify-center items-center h-10 gap-x-1`}
             >
               {minTime && maxTime && (

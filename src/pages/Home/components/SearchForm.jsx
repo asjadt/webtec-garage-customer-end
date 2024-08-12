@@ -181,17 +181,24 @@ export default function SearchForm() {
 
   return (
     <motion.div
+      data-auto={`container-searchForm`}
       className={`relative w-full md:w-[500px] bg-base-300 z-60 -bottom-[230px] ${
         showAdvanceOption ? "md:-bottom-[50px]" : "md:-bottom-[100px]"
       } left-1/2 md:left-[50px] -translate-x-1/2 md:translate-x-0 rounded-xl p-5 border border-base-300 shadow-xl`}
     >
-      <motion.div className="w-full ">
+      <motion.div
+        data-auto={`heading-container-searchForm`}
+        className="w-full "
+      >
         <Headings level={2} className={`text-center mb-5 text-primary`}>
           Search Garage
         </Headings>
 
         <br />
-        <div className={`flex flex-col gap-y-2`}>
+        <div
+          data-auto={`form-container-searchForm`}
+          className={`flex flex-col gap-y-2`}
+        >
           {/* LOCATION  */}
           <CustomAutoComplete
             disable={false}
@@ -203,13 +210,13 @@ export default function SearchForm() {
             searchData={homeSearchData}
             setFormData={setHomeSearchData}
             defaultValue={homeSearchData?.address}
-            dataAuto={`homepage-address-searchPlace`}
+            dataAuto={`address-searchForm`}
           />
 
           {/* SERVICES & MAKES  */}
           <div className={`grid grid-cols-1 gap-y-2`}>
             {/* SERVICES  */}
-            <div className="w-full">
+            <div data-auto={`services-container-searchForm`} className="w-full">
               <CustomMultiSelectWithChild
                 loading={loading}
                 groupForeignKey={"service_id"}
@@ -229,12 +236,12 @@ export default function SearchForm() {
                     sub_services: e.map((wl) => wl?.id),
                   });
                 }}
-                dataAuto={`work_location-create-employee`}
+                dataAuto={`subServices-searchForm`}
               />
             </div>
 
             {/* MAKES  */}
-            <div className="w-full">
+            <div data-auto={`makes-container-searchForm`} className="w-full">
               <CustomMultiSelect
                 singleSelect
                 loading={loading}
@@ -252,7 +259,7 @@ export default function SearchForm() {
                     makes: e.map((wl) => wl?.id),
                   });
                 }}
-                dataAuto={`work_location-create-employee`}
+                dataAuto={`makes-searchForm`}
               />
             </div>
           </div>
@@ -262,6 +269,7 @@ export default function SearchForm() {
             // ADVANCE OPTION BUTTON
             <div className={``}>
               <button
+                data-auto={`advance-option-searchForm`}
                 onClick={toggleAdvanceOption}
                 className={`btn btn-outline btn-primary w-full`}
               >
@@ -271,7 +279,7 @@ export default function SearchForm() {
           ) : (
             <div className={`grid grid-cols-1 gap-y-2`}>
               {/* MODEL  */}
-              <div className="w-full">
+              <div data-auto={`model-container-searchForm`} className="w-full">
                 <CustomMultiSelect
                   loading={loading || isMakeChangeLoading}
                   placeholder="Select Models"
@@ -289,12 +297,15 @@ export default function SearchForm() {
                       models: e.map((wl) => wl?.id),
                     });
                   }}
-                  dataAuto={`work_location-create-employee`}
+                  dataAuto={`model-searchForm`}
                 />
               </div>
 
               {/* TIMING  */}
-              <div className="w-full flex flex-col gap-y-2">
+              <div
+                data-auto={`timing-container-searchForm`}
+                className="w-full flex flex-col gap-y-2"
+              >
                 <CustomDatePickerV2
                   from={moment(new Date()).format("DD-MM-YYYY")}
                   right
@@ -310,7 +321,7 @@ export default function SearchForm() {
                   placeholder={"Timing"}
                   type={"text"}
                   wrapperClassName={"w-full"}
-                  dataAuto={`search-timing`}
+                  dataAuto={`timing-searchForm`}
                   error={errors?.timing}
                 />
 
@@ -322,13 +333,18 @@ export default function SearchForm() {
                     setTimeData(time);
                   }}
                   error={errors?.timing}
+                  dataAuto={`time-searchForm`}
                 />
               </div>
             </div>
           )}
 
-          <div className={`w-full flex justify-center items-center`}>
+          <div
+            data-auto={`button-container-searchForm`}
+            className={`w-full flex justify-center items-center`}
+          >
             <button
+              data-auto={`search-searchForm`}
               disabled={loading}
               onClick={searchGarages}
               className={`btn btn-primary w-full`}

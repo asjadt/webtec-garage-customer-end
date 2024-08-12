@@ -6,6 +6,7 @@ export const OutsideClickHandler = ({
   className,
   style,
   onClick,
+  dataAuto,
 }) => {
   const wrapperRef = useRef(null);
   const [isInside, setIsInside] = useState(true);
@@ -35,6 +36,7 @@ export const OutsideClickHandler = ({
       className={className}
       ref={wrapperRef}
       onMouseEnter={handleInside}
+      data-auto={dataAuto}
     >
       {children}
     </div>

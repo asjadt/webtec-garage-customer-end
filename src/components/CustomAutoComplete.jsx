@@ -17,7 +17,7 @@ const CustomAutoComplete = ({
   onChange,
   disable,
   visibleBorder = false,
-  inputAuto,
+  dataAuto,
   size = "",
 }) => {
   const inputRef = useRef();
@@ -125,7 +125,7 @@ const CustomAutoComplete = ({
       onPlacesChanged={handlePlaceChanged}
     >
       <input
-        data-auto={inputAuto}
+        data-auto={dataAuto}
         disabled={disable}
         id={id}
         type="text"

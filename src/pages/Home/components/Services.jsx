@@ -9,9 +9,13 @@ const gridItemVariants = {
 const Services = () => {
   const { services, loading } = useData();
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-2 py-5 `}>
+    <div
+      data-auto={`container-services`}
+      className={`grid grid-cols-1 md:grid-cols-2 py-5 `}
+    >
       {services?.map((service, index) => (
         <motion.div
+          data-auto={`service-${index + 1}-services`}
           key={index}
           variants={gridItemVariants}
           exit={{ opacity: 0, y: 50 }}

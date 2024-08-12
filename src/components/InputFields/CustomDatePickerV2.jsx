@@ -47,6 +47,7 @@ const CustomDatePickerV2 = ({
 
   visibleBorder = false,
   small = false,
+  dataAuto,
 }) => {
   /**
    * State for the current step of the date picker
@@ -175,9 +176,16 @@ const CustomDatePickerV2 = ({
     const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const today = new Date();
     return (
-      <div className="grid grid-rows-6 grid-cols-7  md:gap-1">
+      <div
+        data-auto={`container-${dataAuto}`}
+        className="grid grid-rows-6 grid-cols-7  md:gap-1"
+      >
         {weekDays.map((weekDay) => (
-          <div key={weekDay} className="text-center py-2 font-bold">
+          <div
+            data-auto={`weekday-${dataAuto}`}
+            key={weekDay}
+            className="text-center py-2 font-bold"
+          >
             {weekDay}
           </div>
         ))}
@@ -185,6 +193,7 @@ const CustomDatePickerV2 = ({
         {/* EMPTY  */}
         {Array.from({ length: firstDayOfMonth.getDay() }).map((_, index) => (
           <div
+            data-auto={`empty-${dataAuto}`}
             key={`empty-${index}`}
             className={`p-2 ${small ? "h-7 w-7" : "md:h-10 md:w-10 h-7 w-7"}`}
           ></div>
@@ -194,6 +203,7 @@ const CustomDatePickerV2 = ({
         {Array.from({ length: daysInMonth }, (_, index) => index + 1).map(
           (day, i) => (
             <button
+              data-auto={`day${i + 1}-${dataAuto}`}
               key={i}
               title={
                 specialDates.find(
@@ -449,13 +459,14 @@ const CustomDatePickerV2 = ({
         setDatePickerActive(false);
       }}
       className={`relative ${wrapperClassName}`}
+      dataAuto={`container-${dataAuto}`}
     >
       {/* CALENDER AND RESET BUTTON  */}
       {selectedDate ? (
         <>
           {!disabled && (
             <button
-              data-cy={"reset_button_custom_date_picker"}
+              data-auto={`reset-${dataAuto}`}
               data-tip="reset"
               className={`tooltip tooltip-bottom absolute right-2 ${
                 label ? "top-[50px]" : "top-[14px]"
@@ -474,7 +485,7 @@ const CustomDatePickerV2 = ({
         <>
           {!disabled && (
             <button
-              data-cy={"calendar_button_custom_date_picker"}
+              data-auto={`openCalendar-${dataAuto}`}
               data-tip="calender"
               className={`tooltip tooltip-bottom absolute right-2 ${
                 label ? "top-[50px]" : "top-[14px]"
@@ -492,11 +503,7 @@ const CustomDatePickerV2 = ({
 
       {/* LABEL */}
       {label && (
-        <label
-          data-cy={"label_container_custom_date_picker"}
-          htmlFor={id}
-          className="label"
-        >
+        <label data-auto={`label-${dataAuto}`} htmlFor={id} className="label">
           <span
             data-cy={"label_content_custom_date_picker"}
             className="label-text text-md font-bold"
@@ -537,7 +544,7 @@ const CustomDatePickerV2 = ({
 
       {/* VALIDATION MESSAGE  */}
       {(errorMessages || error) && (
-        <label data-cy={"error_message_custom_date_picker"} className="label">
+        <label data-auto={`error-message-${dataAuto}`} className="label">
           <span
             data-cy={"error_content_custom_date_picker"}
             className="label-text-alt text-error"
@@ -549,7 +556,7 @@ const CustomDatePickerV2 = ({
 
       {isDatePickerActive && !disabled && (
         <div
-          data-cy={"date_picker_active_custom_date_picker"}
+          data-auto={`datePickerActive-${dataAuto}`}
           style={{
             zIndex: 50,
           }}
@@ -612,7 +619,7 @@ const CustomDatePickerV2 = ({
                 className="mb-4 flex justify-between items-center pt-7 md:pt-0"
               >
                 <button
-                  data-cy={"day_step_button_custom_date_picker"}
+                  data-auto={`month-left-${dataAuto}`}
                   className="text-lg w-7 md:w-10 h-7 md:h-10 hover:text-base-300 bg-base-300 rounded-full text-accent hover:bg-primary font-bold cursor-pointer"
                   onClick={(event) => {
                     event.preventDefault();
@@ -627,7 +634,7 @@ const CustomDatePickerV2 = ({
                   className="text-lg font-bold flex items-center gap-2"
                 >
                   <button
-                    data-cy={"day_step_month_button_custom_date_picker"}
+                    data-auto={`month-${dataAuto}`}
                     onClick={() => {
                       setStep("month");
                     }}
@@ -635,7 +642,7 @@ const CustomDatePickerV2 = ({
                     {formatDate(currentMonth, "MMMM")}
                   </button>
                   <button
-                    data-cy={"day_step_year_button_custom_date_picker"}
+                    data-auto={`year-${dataAuto}`}
                     onClick={() => {
                       setStep("year");
                     }}
@@ -645,7 +652,7 @@ const CustomDatePickerV2 = ({
                 </p>
 
                 <button
-                  data-cy={"day_step_month_change_button_custom_date_picker"}
+                  data-auto={`month-right-${dataAuto}`}
                   className="text-lg w-7 md:w-10 h-7 md:h-10 hover:text-base-300 bg-base-300 rounded-full text-accent hover:bg-primary font-bold cursor-pointer"
                   onClick={(event) => {
                     event.preventDefault();
@@ -661,7 +668,7 @@ const CustomDatePickerV2 = ({
             {step === "month" && (
               <>
                 <h3
-                  data-cy={"month_step_header_custom_date_picker"}
+                  data-auto={`month-container-${dataAuto}`}
                   className={`text-center mb-2 text-primary text-lg font-medium`}
                 >
                   Select Month
@@ -669,7 +676,7 @@ const CustomDatePickerV2 = ({
 
                 <div className={`grid grid-cols-3 gap-1`}>
                   <button
-                    data-cy={"month_step_jan_button_custom_date_picker"}
+                    data-auto={`january-${dataAuto}`}
                     onClick={() => {
                       handleMonthChange(selectMonth(currentMonth, 0));
                     }}
@@ -678,7 +685,7 @@ const CustomDatePickerV2 = ({
                     January
                   </button>
                   <button
-                    data-cy={"month_step_feb_button_custom_date_picker"}
+                    data-auto={`february-${dataAuto}`}
                     onClick={() => {
                       handleMonthChange(selectMonth(currentMonth, 1));
                     }}
@@ -687,7 +694,7 @@ const CustomDatePickerV2 = ({
                     February
                   </button>
                   <button
-                    data-cy={"month_step_mar_button_custom_date_picker"}
+                    data-auto={`march-${dataAuto}`}
                     onClick={() => {
                       handleMonthChange(selectMonth(currentMonth, 2));
                     }}
@@ -696,7 +703,7 @@ const CustomDatePickerV2 = ({
                     March
                   </button>
                   <button
-                    data-cy={"month_step_apr_button_custom_date_picker"}
+                    data-auto={`april-${dataAuto}`}
                     onClick={() => {
                       handleMonthChange(selectMonth(currentMonth, 3));
                     }}
@@ -705,7 +712,7 @@ const CustomDatePickerV2 = ({
                     April
                   </button>
                   <button
-                    data-cy={"month_step_may_button_custom_date_picker"}
+                    data-auto={`may-${dataAuto}`}
                     onClick={() => {
                       handleMonthChange(selectMonth(currentMonth, 4));
                     }}
@@ -714,7 +721,7 @@ const CustomDatePickerV2 = ({
                     May
                   </button>
                   <button
-                    data-cy={"month_step_june_button_custom_date_picker"}
+                    data-auto={`june-${dataAuto}`}
                     onClick={() => {
                       handleMonthChange(selectMonth(currentMonth, 5));
                     }}
@@ -723,7 +730,7 @@ const CustomDatePickerV2 = ({
                     June
                   </button>
                   <button
-                    data-cy={"month_step_july_button_custom_date_picker"}
+                    data-auto={`july-${dataAuto}`}
                     onClick={() => {
                       handleMonthChange(selectMonth(currentMonth, 6));
                     }}
@@ -732,7 +739,7 @@ const CustomDatePickerV2 = ({
                     July
                   </button>
                   <button
-                    data-cy={"month_step_aug_button_custom_date_picker"}
+                    data-auto={`august-${dataAuto}`}
                     onClick={() => {
                       handleMonthChange(selectMonth(currentMonth, 7));
                     }}
@@ -741,7 +748,7 @@ const CustomDatePickerV2 = ({
                     August
                   </button>
                   <button
-                    data-cy={"month_step_sep_button_custom_date_picker"}
+                    data-auto={`september-${dataAuto}`}
                     onClick={() => {
                       handleMonthChange(selectMonth(currentMonth, 8));
                     }}
@@ -750,7 +757,7 @@ const CustomDatePickerV2 = ({
                     September
                   </button>
                   <button
-                    data-cy={"month_step_oct_button_custom_date_picker"}
+                    data-auto={`october-${dataAuto}`}
                     onClick={() => {
                       handleMonthChange(selectMonth(currentMonth, 9));
                     }}
@@ -759,7 +766,7 @@ const CustomDatePickerV2 = ({
                     October
                   </button>
                   <button
-                    data-cy={"month_step_nov_button_custom_date_picker"}
+                    data-auto={`november-${dataAuto}`}
                     onClick={() => {
                       handleMonthChange(selectMonth(currentMonth, 10));
                     }}
@@ -768,7 +775,7 @@ const CustomDatePickerV2 = ({
                     November
                   </button>
                   <button
-                    data-cy={"month_step_dec_button_custom_date_picker"}
+                    data-auto={`december-${dataAuto}`}
                     onClick={() => {
                       handleMonthChange(selectMonth(currentMonth, 11));
                     }}
@@ -793,7 +800,7 @@ const CustomDatePickerV2 = ({
                       className="mb-4 flex justify-between items-center"
                     >
                       <button
-                        data-cy={"year_left_button_custom_date_picker"}
+                        data-auto={`year-left-${dataAuto}`}
                         className="text-lg w-10 h-10 bg-base-300 rounded-full text-accent hover:bg-primary font-bold cursor-pointer"
                         onClick={(event) => {
                           event.preventDefault();
@@ -804,14 +811,14 @@ const CustomDatePickerV2 = ({
                       </button>
 
                       <p
-                        data-cy={"current_year_custom_date_picker"}
+                        data-auto={`current-year-${dataAuto}`}
                         className="text-lg font-bold flex items-center gap-2"
                       >
                         {formatDate(currentMonth, "yyyy")}
                       </p>
 
                       <button
-                        data-cy={"year_right_button_custom_date_picker"}
+                        data-auto={`year-right-${dataAuto}`}
                         className="text-lg w-10 h-10 bg-base-300 rounded-full text-accent hover:bg-primary font-bold cursor-pointer"
                         onClick={(event) => {
                           event.preventDefault();
@@ -827,7 +834,7 @@ const CustomDatePickerV2 = ({
                     >
                       {allYear.map((year, i) => (
                         <button
-                          data-cy={`all_year_button_${year}_custom_date_picker`}
+                          data-auto={`year-${year}-${dataAuto}`}
                           key={i}
                           disabled={
                             (isNaN(from) &&

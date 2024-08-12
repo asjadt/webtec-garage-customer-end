@@ -144,6 +144,7 @@ export default function DateTimeField({
   return (
     <>
       <div
+        data-auto={`container-${dataAuto}`}
         id={id}
         className={`bg-base-300 ${
           disabled
@@ -153,6 +154,7 @@ export default function DateTimeField({
       >
         <div className={`flex items-center`}>
           <input
+            data-auto={`day-${dataAuto}`}
             value={day}
             onClick={handleClick}
             onChange={handleChangeDay}
@@ -161,6 +163,7 @@ export default function DateTimeField({
           />
           <span className={`flex justify-center items-center bg`}>/</span>
           <input
+            data-auto={`month-${dataAuto}`}
             value={month}
             onClick={handleClick}
             onChange={handleChangeMonth}
@@ -169,6 +172,7 @@ export default function DateTimeField({
           />
           <span className={`flex justify-center items-center bg`}>/</span>
           <input
+            data-auto={`year-${dataAuto}`}
             value={year}
             onClick={handleClick}
             onChange={handleChangeYear}

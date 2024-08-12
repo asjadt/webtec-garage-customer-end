@@ -60,6 +60,7 @@ export default function CustomMultiSelectWithChild({
   groupForeignKey = "parent_id",
   groups = [],
   size = "",
+  dataAuto,
 }) {
   // useEffect(() => {
   //   console.log({ defaultSelectedValues });
@@ -130,30 +131,30 @@ export default function CustomMultiSelectWithChild({
   }, [searchFieldValue]);
 
   return (
-    <div data-cy={"container_custom_multi_select"} className="w-full relative">
+    <div data-auto={`container-${dataAuto}`} className="w-full relative">
       {/* LABEL */}
       <div
-        data-cy={"label_container_custom_multi_select"}
+        data-auto={`label-container-${dataAuto}`}
         className="flex gap-5 items-center justify-between"
       >
         <div
-          data-cy={"label_sub_container_custom_multi_select"}
+          data-auto={"label_sub_container_custom_multi_select"}
           className={`flex items-center gap-2`}
         >
           {label ? (
             <label
-              data-cy={"label_custom_multi_select"}
+              data-auto={`label-${dataAuto}`}
               htmlFor={id}
               className={`label`}
             >
               <span
-                data-cy={"label_content_custom_multi_select"}
+                data-auto={"label_content_custom_multi_select"}
                 className="label-text  text-md font-bold"
               >
                 {label}{" "}
                 {required && !disable && (
                   <span
-                    data-cy={"label_required_custom_multi_select"}
+                    data-auto={"label_required_custom_multi_select"}
                     className="text-error font-bold text-md"
                   >
                     *
@@ -167,13 +168,13 @@ export default function CustomMultiSelectWithChild({
 
           {hint && (
             <div
-              data-cy={"hint_container_custom_multi_select"}
+              data-auto={`hint-${dataAuto}`}
               className={`dropdown ${right && "dropdown-start"} ${
                 top && "dropdown-top"
               } ${bottom && "dropdown-bottom"}`}
             >
               <div
-                data-cy={"hint_details_custom_multi_select"}
+                data-auto={"hint_details_custom_multi_select"}
                 tabIndex={0}
                 role="button"
                 title="info"
@@ -182,22 +183,22 @@ export default function CustomMultiSelectWithChild({
                 <IoInformationCircleSharp className={`text-primary text-xl `} />
               </div>
               <div
-                data-cy={"_hint_label_container_custom_multi_select"}
+                data-auto={"_hint_label_container_custom_multi_select"}
                 tabIndex={0}
                 className="card compact dropdown-content z-[1] shadow-lg border border-primary-content shadow-primary-content bg-base-300 rounded-xl w-64"
               >
                 <div
-                  data-cy={"hint_label_custom_multi_select"}
+                  data-auto={"hint_label_custom_multi_select"}
                   tabIndex={0}
                   className="card-body"
                 >
                   <h2
-                    data-cy={"hint_label_content_custom_multi_select"}
+                    data-auto={"hint_label_content_custom_multi_select"}
                     className="card-title text-primary"
                   >
                     {label}
                   </h2>
-                  <p data-cy={"hint_custom_multi_select"}> {hint}</p>
+                  <p data-auto={"hint_custom_multi_select"}> {hint}</p>
                 </div>
               </div>
             </div>
@@ -205,18 +206,18 @@ export default function CustomMultiSelectWithChild({
         </div>
         {selectAllOption ? (
           <div
-            data-cy={"select_all_container_custom_multi_select"}
+            data-auto={`selectAll-container-${dataAuto}`}
             className="mt-2 flex items-center gap-2"
           >
             <label
-              data-cy={"select_all_label_custom_multi_select"}
+              data-auto={`select-all-${dataAuto}`}
               role="button"
               htmlFor=""
             >
               Select all
             </label>
             <input
-              data-cy={"select_all_input_custom_multi_select"}
+              data-auto={`select-all-input-${dataAuto}`}
               id=""
               name=""
               onChange={(e) => {
@@ -238,7 +239,7 @@ export default function CustomMultiSelectWithChild({
 
       {/* FIELD  */}
       <div
-        data-cy={"field_container_custom_multi_select"}
+        data-auto={`fieldcontainer-${dataAuto}`}
         style={{ display: "flex" }}
         className={`relative z-10 ${
           disable
@@ -254,7 +255,7 @@ export default function CustomMultiSelectWithChild({
         {!disable || selectedValues?.length !== 0 ? (
           selectedValues?.map((opt, index) => (
             <span
-              data-cy={`selected_option_${index}_custom_multi_select`}
+              data-auto={`selected_option_${index}_custom_multi_select`}
               onClick={() => {
                 !disable && setIsOptionOpen(true);
               }}
@@ -270,7 +271,7 @@ export default function CustomMultiSelectWithChild({
               {typeof opt?.name === "string" && truncateText(opt?.name, 20)}{" "}
               {!disable && (
                 <button
-                  data-cy={`selected_option_button_${index}_custom_multi_select`}
+                  data-auto={`selected_option_button_${index}_custom_multi_select`}
                   onClick={() => {
                     onSelect(
                       selectedValues?.filter((s_opt) => s_opt?.id !== opt?.id)
@@ -304,7 +305,7 @@ export default function CustomMultiSelectWithChild({
 
         {disable ? (
           <div
-            data-cy={`selected_option_disable_custom_multi_select`}
+            data-auto={`selected_option_disable_custom_multi_select`}
             onClick={() => {
               setIsOptionOpen(!isOptionOpen);
             }}
@@ -320,7 +321,7 @@ export default function CustomMultiSelectWithChild({
                   ""
                 ) : (
                   <input
-                    data-cy={`selected_option_disable_length_0+_input_custom_multi_select`}
+                    data-auto={`single-${dataAuto}`}
                     type="text"
                     value={searchFieldValue}
                     onChange={handleSearch}
@@ -332,7 +333,7 @@ export default function CustomMultiSelectWithChild({
               </>
             ) : (
               <input
-                data-cy={`selected_option_disable_length_0_input_custom_multi_select`}
+                data-auto={`${dataAuto}`}
                 disabled
                 type="text"
                 value={searchFieldValue}
@@ -344,7 +345,7 @@ export default function CustomMultiSelectWithChild({
           </div>
         ) : (
           <div
-            data-cy={`selected_option_no_disable_custom_multi_select`}
+            data-auto={`selected_option_no_disable_custom_multi_select`}
             onClick={() => {
               setIsOptionOpen(!isOptionOpen);
             }}
@@ -360,7 +361,7 @@ export default function CustomMultiSelectWithChild({
                   ""
                 ) : (
                   <input
-                    data-cy={`selected_option_no_disable_single_select_input_custom_multi_select`}
+                    data-auto={`single-no-disable-${dataAuto}`}
                     onClick={() => {
                       setIsOptionOpen(!isOptionOpen);
                     }}
@@ -374,7 +375,7 @@ export default function CustomMultiSelectWithChild({
               </>
             ) : (
               <input
-                data-cy={`selected_option_no_disable_multi_select_custom_multi_select`}
+                data-auto={`no-disable-${dataAuto}`}
                 onClick={() => {
                   setIsOptionOpen(!isOptionOpen);
                 }}
@@ -401,12 +402,12 @@ export default function CustomMultiSelectWithChild({
         }}
       >
         <div
-          data-cy={`options_container_custom_multi_select`}
+          data-auto={`options-container-${dataAuto}`}
           className={`overflow-y-auto px-0 py-0 overflow-x-hidden ${maxHeight}  scrollbar `}
         >
           {componentLoading ? (
             <div
-              data-cy={`options_container_loading_custom_multi_select`}
+              data-auto={`options_container_loading_custom_multi_select`}
               className="flex justify-center items-center py-5"
             >
               <ButtonLoading />
@@ -431,7 +432,7 @@ export default function CustomMultiSelectWithChild({
                           ?.map((opt, index) => (
                             <Fragment key={index}>
                               <button
-                                data-cy={`options_container_button_${index}_custom_multi_select`}
+                                data-auto={`options_container_button_${index}_custom_multi_select`}
                                 onClick={() => {
                                   if (
                                     selectedValues?.some(
@@ -575,7 +576,7 @@ export default function CustomMultiSelectWithChild({
                   {filteredOptions.map((opt, index) => (
                     <Fragment key={index}>
                       <button
-                        data-cy={`options_container_button_${index}_custom_multi_select`}
+                        data-auto={`options_container_button_${index}_custom_multi_select`}
                         onClick={() => {
                           if (
                             selectedValues?.some(
@@ -707,11 +708,11 @@ export default function CustomMultiSelectWithChild({
             </>
           ) : (
             <div
-              data-cy={`options_container_empty_message_custom_multi_select`}
+              data-auto={`options_container_empty_message_custom_multi_select`}
               className="flex justify-center items-center py-5"
             >
               <span
-                data-cy={`options_container_empty_message_content_custom_multi_select`}
+                data-auto={`options_container_empty_message_content_custom_multi_select`}
                 className={`font-bold text-red-500`}
               >
                 {emptyRecordMsg}
@@ -721,7 +722,7 @@ export default function CustomMultiSelectWithChild({
         </div>
         {addNewItemButton && (
           <button
-            data-cy={`add_new_item_button_custom_multi_select`}
+            data-auto={`add_new_item_button_custom_multi_select`}
             onClick={onClickAddNewItemButton}
             className={`w-full border-t border-base-100 text-center bg-primary text-base-300 py-2 hover:bg-primary-focus`}
           >
@@ -733,11 +734,11 @@ export default function CustomMultiSelectWithChild({
       {/* VALIDATION MESSAGE  */}
       {error && (
         <label
-          data-cy={`error_label_custom_multi_select`}
+          data-auto={`error_label_custom_multi_select`}
           className="label h-7"
         >
           <span
-            data-cy={`error_content_custom_multi_select`}
+            data-auto={`error_content_custom_multi_select`}
             className="label-text-alt text-error"
           >
             {error}

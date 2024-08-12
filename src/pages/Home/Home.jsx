@@ -55,19 +55,22 @@ export default function Home() {
     return <CustomLoading />;
   } else {
     return (
-      <div data-cy="dashboard" className={`w-full relative mb-10`}>
+      <div data-auto={`container-home`} className={`w-full relative mb-10`}>
         {/* MAP  */}
         <GoogleMapForGarages />
 
         {/* SEARCH FORM  */}
-        <div className={`px-5 xl:px-0`}>
+        <div data-auto={`search-container-home`} className={`px-5 xl:px-0`}>
           <SearchForm />
         </div>
         {/* HOW ITS WORK SECTION  */}
         <HowItsWork />
 
         {/* SERVICES LIST  */}
-        <div className={`px-5 xl:px-0 flex justify-center`}>
+        <div
+          data-auto={`serviceList-container-home`}
+          className={`px-5 xl:px-0 flex justify-center`}
+        >
           <ServiceList />
         </div>
       </div>

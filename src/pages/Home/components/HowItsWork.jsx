@@ -62,9 +62,15 @@ export default function HowItsWork({}) {
     },
   ]);
   return (
-    <div className={` pt-[280px] md:pt-[300px]`}>
+    <div
+      data-auto={`container-howItWork`}
+      className={` pt-[280px] md:pt-[300px]`}
+    >
       {/* BENEFITS  */}
-      <div className={`flex justify-center items-center`}>
+      <div
+        data-auto={`benefits-container-howItWork`}
+        className={`flex justify-center items-center`}
+      >
         <div className={`p-5  w-full max-w-screen-xl`}>
           <div className={`flex  justify-center items-center mb-5`}>
             <TextLabelComponent
@@ -88,7 +94,10 @@ export default function HowItsWork({}) {
       </div>
 
       {/* HOW ITS WORKS  */}
-      <div className={`flex justify-center items-center`}>
+      <div
+        data-auto={`howWork-container-howItWork`}
+        className={`flex justify-center items-center`}
+      >
         <div className={`p-5 w-full max-w-screen-xl `}>
           <div className={`flex justify-center items-center mb-5`}>
             <TextLabelComponent text={"How It Works"} />

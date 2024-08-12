@@ -31,8 +31,14 @@ export default function ServiceList() {
     "/assets/Services/battery.png",
   ];
   return (
-    <div className={`w-full max-w-screen-xl`}>
-      <div className={`flex justify-center items-center mb-5`}>
+    <div
+      data-auto={`container-serviceList`}
+      className={`w-full max-w-screen-xl`}
+    >
+      <div
+        data-auto={`text-container-serviceList`}
+        className={`flex justify-center items-center mb-5`}
+      >
         <TextLabelComponent text={"Services"} />
       </div>
       <Headings level={1} className={`text-3xl text-center mb-10`}>
@@ -74,8 +80,12 @@ export default function ServiceList() {
         </div>
       ) : (
         // ALL SERVICES
-        <div className={`flex flex-col gap-10`}>
+        <div
+          data-auto={`allService-container-serviceList`}
+          className={`flex flex-col gap-10`}
+        >
           <motion.div
+            data-auto={`card-serviceList`}
             variants={gridContainerVariants}
             initial="hidden"
             animate="visible"
@@ -83,6 +93,7 @@ export default function ServiceList() {
           >
             {services?.slice(0, 8)?.map((service, index) => (
               <motion.div
+                data-auto={`container-card${index + 1}-serviceList`}
                 key={index}
                 variants={gridItemVariants}
                 exit={{ opacity: 0, y: 50 }}
@@ -98,7 +109,10 @@ export default function ServiceList() {
                     alt=""
                   />
                 </div>
-                <h3 className={`text-center py-2 font-medium`}>
+                <h3
+                  data-auto={`name${index + 1}-serviceList`}
+                  className={`text-center py-2 font-medium`}
+                >
                   {service?.name}
                 </h3>
               </motion.div>
@@ -107,6 +121,7 @@ export default function ServiceList() {
 
           <div className={`w-full flex justify-center items-center mb-5`}>
             <button
+              data-auto={`seeMore-serviceList`}
               onClick={() =>
                 setAuthPopupOptions({
                   ...authPopupOptions,
