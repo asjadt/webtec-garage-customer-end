@@ -82,17 +82,24 @@ export default function GarageList() {
     return <CustomLoading />;
   } else {
     return (
-      <div data-cy="dashboard" className={`w-full`}>
+      <div
+        data-auto={`container-garageList`}
+        data-cy="dashboard"
+        className={`w-full`}
+      >
         <div
+          data-auto={`sub-container-garageList`}
           className={`relative h-full md:min-h-[calc(100vh-130px)] flex items-start `}
         >
           <div
+            data-auto={`filter-container-garageList`}
             className={`fixed md:sticky bg-base-300 left-0 top-20 bottom-0 z-30 md:z-20  ${
               isFilterOpen ? "w-full sm:w-[300px] md:w-[400px]" : "w-0"
             }`}
           >
             {/* FILTERS  */}
             <div
+              data-auto={`filter-garageList`}
               className={`scrollbar-none min-h-[calc(100vh-245px)] max-h-[calc(100vh-245px)] md:h-screen overflow-y-auto overflow-x-hidden`}
             >
               <FilterSideBar
@@ -103,7 +110,10 @@ export default function GarageList() {
           </div>
 
           {/* GARAGES OR JOB FORM  */}
-          <div className={`relative w-full duration-100 `}>
+          <div
+            data-auto={`garages-container-garageList`}
+            className={`relative w-full duration-100 `}
+          >
             <div
               className={` z-20 bg-base-300 top-0 right-0 w-full px-5 pt-5 pb-2 shadow-md`}
             >
@@ -113,21 +123,24 @@ export default function GarageList() {
                 setTab={setTab}
                 isFilterOpen={isFilterOpen}
                 setIsFilterOpen={setIsFilterOpen}
+                dataAuto={"garageList"}
               />
 
               {tab === "garages" && (
                 <>
                   {/* SEARCH BAR  */}
-                  <div className={`flex items-center justify-between`}>
+                  <div
+                    data-auto={`search-container-actionBar`}
+                    className={`flex items-center justify-between`}
+                  >
                     <div
-                      data-auto={`search-container-home`}
                       className={`input flex input-primary py-1 pr-1 pl-5 border outline-none focus-visible:outline-none focus-within:outline-none bg-base-300 w-full h-[2.58rem] rounded-lg text-primary`}
                     >
                       <input
                         onChange={(e) => {
                           setSearchQuery(e.target.value);
                         }}
-                        data-auto={`searchInput-home`}
+                        data-auto={`searchInput-garageList`}
                         type="text"
                         placeholder="Search Here..."
                         className={`w-full bg-transparent outline-none focus-visible:outline-none focus-within:outline-none focus:outline-none`}
@@ -139,7 +152,7 @@ export default function GarageList() {
                             search_key: searchQuery,
                           }));
                         }}
-                        data-auto={`searchButton-home`}
+                        data-auto={`searchButton-garageList`}
                         className={`btn  btn-sm  h-full btn-primary w-24 sm:w-24`}
                       >
                         Search
@@ -148,7 +161,10 @@ export default function GarageList() {
                   </div>
 
                   {/* SELECTED FILTERS  */}
-                  <div className={`pt-[0.5rem]`}>
+                  <div
+                    data-auto={`selected-filter-container-actionBar`}
+                    className={`pt-[0.5rem]`}
+                  >
                     <SelectedFilters />
                   </div>
 

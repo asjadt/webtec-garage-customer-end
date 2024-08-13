@@ -6,12 +6,17 @@ export default function ActionBar({
   setIsFilterOpen,
   tab,
   setTab,
+  dataAuto,
 }) {
   const { totalGarageFound } = useData();
   return (
-    <div className={`flex justify-between items-center mb-2`}>
+    <div
+      data-auto={`container-actionBar-${dataAuto}`}
+      className={`flex justify-between items-center mb-2`}
+    >
       {/* FILTER TOGGLE BUTTON  */}
       <button
+        data-auto={`filter-actionBar-${dataAuto}`}
         onClick={() => setIsFilterOpen(!isFilterOpen)}
         className={`${
           isFilterOpen ? "btn-outline" : ""
@@ -28,6 +33,7 @@ export default function ActionBar({
       {/* CREATE JOB  */}
       {tab === "garage" && (
         <button
+          data-auto={`tab-toggle-actionBar-${dataAuto}`}
           onClick={() => {
             setTab("job");
           }}
@@ -40,6 +46,7 @@ export default function ActionBar({
       {/* GO TO GARAGE LIST  */}
       {totalGarageFound > 0 && tab === "job" && (
         <button
+          data-auto={`garageList-actionBar-${dataAuto}`}
           onClick={() => {
             setTab("garage");
           }}
