@@ -41,7 +41,7 @@ const getPreviewType = (mime, name) => {
   return type;
 };
 
-export const FileUpload = ({ inputData, setInputData }) => {
+export const FileUpload = ({ inputData, setInputData, dataAuto }) => {
   const fileID = useRef(0);
   const [files, setFiles] = useState([]);
 
@@ -166,28 +166,35 @@ export const FileUpload = ({ inputData, setInputData }) => {
 
   return (
     <div
+      data-auto={`container-${dataAuto}`}
       className={`z-10 w-full px-2 py-2 flex flex-col shadow-lg rounded-lg border`}
     >
-      <FileUploadButton onChange={handleFile} />
+      <FileUploadButton onChange={handleFile} dataAuto={dataAuto} />
       <FileUploadPreview
         files={files}
         fileTypePreviews={previewers}
         onRemoveFile={handleRemoveFile}
+        dataAuto={dataAuto}
       />
     </div>
   );
 };
 
-const FileUploadButton = ({ ...props }) => {
+const FileUploadButton = ({ dataAuto, ...props }) => {
   return (
-    <div className="w-full">
+    <div
+      data-auto={`container-${dataAuto}-fileUploadButton`}
+      className="w-full"
+    >
       <label
+        data-auto={`label-${dataAuto}-fileUploadButton`}
         htmlFor="file_uploader"
         className="bg-primary-content text-primary font-medium w-full rounded-md cursor-pointer py-4  text-center  block "
       >
         Upload Files
       </label>
       <input
+        data-auto={`input-${dataAuto}-fileUploadButton`}
         id="file_uploader"
         className="hidden"
         name="file"
@@ -202,21 +209,24 @@ const FileUploadPreview = ({
   files = [],
   fileTypePreviews = {},
   onRemoveFile,
+  dataAuto,
 }) => {
   return (
-    <>
+    <div data-auto={`container-${dataAuto}-uploadFiles`}>
       {files?.length ? (
-        <div className="">
-          {files?.map((file) => {
+        <div data-auto={`sub-container-${dataAuto}-uploadFiles`} className="">
+          {files?.map((file, i) => {
             const Previewer =
               fileTypePreviews[file.type] || FileUploadPreviewDefault;
 
             return (
               <div
+                data-auto={`container${i + 1}-${dataAuto}-uploadFiles`}
                 key={file.id}
                 className={`z-10 hover:border-primary duration-150 border border-base-300 group mt-5 rounded-md overflow-hidden relative `}
               >
                 <button
+                  data-auto={`close${i + 1}-${dataAuto}-uploadFiles`}
                   onClick={() => onRemoveFile(file.id)}
                   className={`z-10 group-hover:flex bg-primary rounded-[5px] w-10 h-10 hidden duration-150 justify-center items-center absolute right-2 top-2`}
                 >
@@ -224,7 +234,12 @@ const FileUploadPreview = ({
                 </button>
 
                 {file.progress !== 100 && (
-                  <div className={`z-10 flex items-center gap-3 py-5 px-5`}>
+                  <div
+                    data-auto={`progress-container${
+                      i + 1
+                    }-${dataAuto}-uploadFiles`}
+                    className={`z-10 flex items-center gap-3 py-5 px-5`}
+                  >
                     <span>{file.progress}%</span>
                     <progress
                       className="progress progress-primary w-full"
@@ -242,6 +257,6 @@ const FileUploadPreview = ({
       ) : (
         ""
       )}
-    </>
+    </div>
   );
 };

@@ -68,16 +68,19 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
 
   return (
     <div
+      data-auto={`container-filterSideBar`}
       className={` fixed md:sticky bg-base-300 left-0 top-20 bottom-0 z-30 md:z-20  ${
         isFilterOpen ? "w-full sm:w-[300px] md:w-[400px]" : "w-0"
       }`}
     >
       {/* FILTERS  */}
       <div
+        data-auto={`filters-container-filterSideBar`}
         className={`sticky left-0 top-0 duration-100 md:w-full bg-base-300 border-r overflow-x-hidden`}
       >
         {/* HEADER  */}
         <div
+          data-auto={`heading-container-filterSideBar`}
           className={`pt-5 pb-4 text-primary border-b-2 shadow px-5 flex justify-between items-center`}
         >
           <Headings
@@ -88,6 +91,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
           </Headings>
 
           <div
+            data-auto={`close-filterSideBar`}
             className={`md:hidden cursor-pointer absolute high-zindex top-3 right-3 w-9 h-9 rounded-full bg-primary-content flex justify-center items-center`}
             onClick={() => setIsFilterOpen(false)}
           >
@@ -97,6 +101,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
 
         {/* FILTER BODY  */}
         <div
+          data-auto={`filterBody-filterSideBar`}
           className={`scrollbar-none min-h-[calc(100vh-205px)] max-h-[calc(100vh-205px)] md:h-screen overflow-y-auto overflow-x-hidden`}
         >
           {loading || isLoading ? (
@@ -104,10 +109,14 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
               <ButtonLoading />
             </div>
           ) : (
-            <div className="max-w-2xl mx-auto bg-base-300">
+            <div
+              data-auto={`service-container-filterSideBar`}
+              className="max-w-2xl mx-auto bg-base-300"
+            >
               {/* SERVICES  */}
               <div className="border-b-2   border-gray-300 border-dotted">
                 <button
+                  data-auto={`services-button-filterSideBar`}
                   className="w-full shadow text-left p-4 focus:outline-none"
                   onClick={() =>
                     setIsOpen({
@@ -144,13 +153,17 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                 </button>
 
                 {isOpen["Services"].status && (
-                  <div className="pl-4 bg-base-300 ">
+                  <div
+                    data-auto={`services-filterSideBar`}
+                    className="pl-4 bg-base-300 "
+                  >
                     {" "}
                     <div
                       className={`flex pt-5 flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
                     >
                       {subServices?.map((service, index) => (
                         <label
+                          data-auto={`service${index + 1}-filterSideBar`}
                           key={index}
                           htmlFor={`${service}-${index}`}
                           className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
@@ -192,8 +205,12 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
               </div>
 
               {/* MAKE  */}
-              <div className="border-b-2 border-gray-300 border-dotted">
+              <div
+                data-auto={`make-container-filterSideBar`}
+                className="border-b-2 border-gray-300 border-dotted"
+              >
                 <button
+                  data-auto={`makes-button-filterSideBar`}
                   className="w-full shadow text-left p-4 focus:outline-none"
                   onClick={() =>
                     setIsOpen({
@@ -226,13 +243,17 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                   </div>
                 </button>
                 {isOpen["Make"].status && (
-                  <div className="pl-4 bg-base-300">
+                  <div
+                    data-auto={`makes-filterSideBar`}
+                    className="pl-4 bg-base-300"
+                  >
                     {/* CONTENT  */}
                     <div
                       className={`flex pt-5 flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
                     >
                       {makes?.map((make, index) => (
                         <label
+                          data-auto={`make${index + 1}-filterSideBar`}
                           key={index}
                           htmlFor={`${make?.name}-${index}`}
                           className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
@@ -270,8 +291,12 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
               </div>
 
               {/* MODEL  */}
-              <div className="border-b-2 border-gray-300 border-dotted">
+              <div
+                data-auto={`model-container-filterSideBar`}
+                className="border-b-2 border-gray-300 border-dotted"
+              >
                 <button
+                  data-auto={`model-button-filterSideBar`}
                   className="w-full shadow text-left p-4 focus:outline-none"
                   onClick={() =>
                     setIsOpen({
@@ -304,13 +329,17 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                   </div>
                 </button>
                 {isOpen["Model"].status && (
-                  <div className="pl-4 bg-base-300">
+                  <div
+                    data-auto={`models-filterSideBar`}
+                    className="pl-4 bg-base-300"
+                  >
                     {/* CONTENT  */}
                     <div
                       className={`flex pt-5 flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
                     >
                       {models?.map((model, index) => (
                         <label
+                          data-auto={`model${index + 1}-filterSideBar`}
                           key={index}
                           htmlFor={`${model?.name}-${index}`}
                           className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
@@ -349,8 +378,12 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
 
               {/* Distance  */}
               {!!homeSearchData?.address && (
-                <div className="border-b-2 border-gray-300 border-dotted">
+                <div
+                  data-auto={`distance-container-filterSideBar`}
+                  className="border-b-2 border-gray-300 border-dotted"
+                >
                   <button
+                    data-auto={`distance-button-filterSideBar`}
                     className="w-full shadow text-left p-4 focus:outline-none"
                     onClick={() =>
                       setIsOpen({
@@ -383,12 +416,16 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                     </div>
                   </button>
                   {isOpen["Distance"].status && (
-                    <div className="pl-4 bg-base-300">
+                    <div
+                      data-auto={`distances-filterSideBar`}
+                      className="pl-4 bg-base-300"
+                    >
                       {/* CONTENT  */}
                       <div
                         className={`flex pt-5 justify-between items-center gap-x-3 pb-5  pr-5`}
                       >
                         <input
+                          data-auto={`distance-input-filterSideBar`}
                           type="range"
                           min={3}
                           max={200}
@@ -407,8 +444,12 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
               )}
 
               {/* Others  */}
-              <div className="border-b-2 border-gray-300 border-dotted">
+              <div
+                data-auto={`others-container-filterSideBar`}
+                className="border-b-2 border-gray-300 border-dotted"
+              >
                 <button
+                  data-auto={`others-button-filterSideBar`}
                   className="shadow w-full text-left p-4 focus:outline-none"
                   onClick={() =>
                     setIsOpen({
@@ -447,11 +488,15 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                   </div>
                 </button>
                 {isOpen["Others"].status && (
-                  <div className="pl-4 bg-base-300">
+                  <div
+                    data-auto={`others-filterSideBar`}
+                    className="pl-4 bg-base-300"
+                  >
                     {/* CONTENT  */}
                     <div className={`pt-5 grid grid-cols-2 gap-5 pr-5 pb-5`}>
                       {/* WIFI  */}
                       <button
+                        data-auto={`wifi-filterSideBar`}
                         onClick={() => {
                           setFilterDataToLocalStorage({
                             ...homeSearchData,
@@ -476,6 +521,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
 
                       {/* REMOTE  */}
                       <button
+                        data-auto={`remote-filterSideBar`}
                         onClick={() => {
                           setFilterDataToLocalStorage({
                             ...homeSearchData,

@@ -13,11 +13,16 @@ export default function ReviewForm({
   const { subServices, makes, models } = useData();
 
   return (
-    <div className={``}>
-      <table className={`w-full`}>
+    <div data-auto={`container-reviewForm`} className={``}>
+      <table data-auto={`table-reviewForm`} className={`w-full`}>
         <tr className={`border-b`}>
-          <td className={`h-full font-bold w-32`}>Services</td>
-          <td className={`h-full py-5 `}>
+          <td
+            data-auto={`services-label-reviewForm`}
+            className={`h-full font-bold w-32`}
+          >
+            Services
+          </td>
+          <td data-auto={`services-reviewForm`} className={`h-full py-5 `}>
             {formData?.pre_booking_sub_service_ids
               .map(
                 (service) => subServices?.find((ss) => ss?.id === service)?.name
@@ -26,12 +31,24 @@ export default function ReviewForm({
           </td>
         </tr>
         <tr className={`border-b `}>
-          <td className={`h-full font-bold`}>Car reg</td>
-          <td className={`h-full py-5`}>{formData?.car_registration_no}</td>
+          <td
+            data-auto={`carReg-label-reviewForm`}
+            className={`h-full font-bold`}
+          >
+            Car reg
+          </td>
+          <td data-auto={`carReg-reviewForm`} className={`h-full py-5`}>
+            {formData?.car_registration_no}
+          </td>
         </tr>
         <tr className={`border-b`}>
-          <td className={`h-full font-bold w-32`}>Make</td>
-          <td className={`h-full py-5 `}>
+          <td
+            data-auto={`makeId-label-reviewForm`}
+            className={`h-full font-bold w-32`}
+          >
+            Make
+          </td>
+          <td data-auto={`makeId-reviewForm`} className={`h-full py-5 `}>
             {
               makes?.find((make) => make?.id === formData?.automobile_make_id)
                 ?.name
@@ -39,8 +56,13 @@ export default function ReviewForm({
           </td>
         </tr>
         <tr className={`border-b`}>
-          <td className={`h-full font-bold w-32`}>Model</td>
-          <td className={`h-full py-5 `}>
+          <td
+            data-auto={`modelId-label-reviewForm`}
+            className={`h-full font-bold w-32`}
+          >
+            Model
+          </td>
+          <td data-auto={`modelId-reviewForm`} className={`h-full py-5 `}>
             {
               models?.find(
                 (model) => model?.id === formData?.automobile_model_id
@@ -49,8 +71,13 @@ export default function ReviewForm({
           </td>
         </tr>
         <tr className={`border-b`}>
-          <td className={`h-full font-bold w-32`}>Job Start Date</td>
-          <td className={`h-full py-5 `}>
+          <td
+            data-auto={`startDateTime-label-reviewForm`}
+            className={`h-full font-bold w-32`}
+          >
+            Job Start Date
+          </td>
+          <td data-auto={`startDateTime-reviewForm`} className={`h-full py-5 `}>
             {moment(
               `${formData?.job_start_date} ${formData?.job_start_time}`,
               "YYYY-MM-DD HH:mm"
@@ -58,24 +85,34 @@ export default function ReviewForm({
           </td>
         </tr>
         <tr className={`border-b`}>
-          <td className={`h-full font-bold w-36`}>Job Expire Date</td>
-          <td className={`h-full py-5 `}>
+          <td
+            data-auto={`endDateTime-label-reviewForm`}
+            className={`h-full font-bold w-36`}
+          >
+            Job Expire Date
+          </td>
+          <td data-auto={`endDateTime-reviewForm`} className={`h-full py-5 `}>
             {moment(formData?.job_end_date, "YYYY-MM-DD").format("DD-MM-YYYY")}
           </td>
         </tr>
       </table>
 
       <div className={`py-5`}>
-        <span className={`font-bold `}>Notes</span>
-        <p className={`pt-2`}>{formData?.additional_information}</p>
+        <span data-auto={`notes-label-reviewForm`} className={`font-bold `}>
+          Notes
+        </span>
+        <p data-auto={`additionalInfo-reviewForm`} className={`pt-2`}>
+          {formData?.additional_information}
+        </p>
       </div>
 
       {(formData?.images?.length > 0 || formData?.videos?.length > 0) && (
-        <div className={`py-5`}>
+        <div data-auto={`attachment-container-reviewForm`} className={`py-5`}>
           <span className={`font-bold `}>Attachments</span>
           <div className={`pt-2 grid grid-cols-1 gap-2`}>
             {formData?.images?.map((item, i) => (
               <img
+                data-auto={`img${i + 1}-reviewForm`}
                 key={i}
                 src={`${
                   import.meta.env.VITE_REACT_APP_SERVER_URL
@@ -88,6 +125,7 @@ export default function ReviewForm({
             ))}
             {formData?.videos?.map((item, i) => (
               <video
+                data-auto={`video${i + 1}-reviewForm`}
                 className={` hover:border-primary border border-base-300 duration-150 rounded-md overflow-hidden`}
                 key={i}
                 width={"100%"}
@@ -102,9 +140,12 @@ export default function ReviewForm({
 
       <div>
         {user ? (
-          <span>
+          <span data-auto={`login-container-reviewForm`}>
             You are logged in as{" "}
-            <span className={`text-primary font-medium`}>
+            <span
+              data-auto={`userName-reviewForm`}
+              className={`text-primary font-medium`}
+            >
               {user?.first_Name} {user?.last_Name}
             </span>
             <span>
@@ -120,8 +161,12 @@ export default function ReviewForm({
           ""
         )}
       </div>
-      <div className="flex w-full justify-between items-center gap-2 mt-5 flex-col md:flex-row ">
+      <div
+        data-auto={`button-container-reviewForm`}
+        className="flex w-full justify-between items-center gap-2 mt-5 flex-col md:flex-row "
+      >
         <button
+          data-auto={`previous-reviewForm`}
           disabled={isLoading}
           onClick={() => setStep(2)}
           className="btn w-full md:btn-wide btn-primary btn-outline"
@@ -129,6 +174,7 @@ export default function ReviewForm({
           Previous
         </button>
         <button
+          data-auto={`createJob-reviewForm`}
           disabled={isLoading}
           onClick={handleOnSubmit}
           className="btn w-full md:btn-wide btn-primary"

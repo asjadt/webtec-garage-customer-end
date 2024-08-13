@@ -76,9 +76,9 @@ export default function ServiceDetailsForm({
   };
 
   return (
-    <div className={``}>
+    <div data-auto={`container-serviceDetailsForm`} className={``}>
       {/* FORM  */}
-      <div>
+      <div data-auto={`service-container-serviceDetailsForm`}>
         {/* SERVICE  */}
         <CustomMultiSelectWithChild
           label={"Select Service"}
@@ -101,7 +101,7 @@ export default function ServiceDetailsForm({
               pre_booking_sub_service_ids: e.map((ss) => ss?.id),
             });
           }}
-          dataAuto={`sub_service-create-job`}
+          dataAuto={`service-serviceDetailsForm`}
         />
 
         {/* CAR REG  */}
@@ -121,7 +121,7 @@ export default function ServiceDetailsForm({
           maxLength={50}
           //   pattern={/^[A-Za-z\s]+$/}
           //   patternErrorMsg="Only Capital and lowercase letters are allowed"
-          dataAuto={`name-create-department`}
+          dataAuto={`carReg-serviceDetailsForm`}
         />
 
         {/* MAKES  */}
@@ -143,7 +143,7 @@ export default function ServiceDetailsForm({
               makeName: e[0]?.name,
             });
           }}
-          dataAuto={`work_location-create-employee`}
+          dataAuto={`makes-serviceDetailsForm`}
         />
 
         {/* MODEL  */}
@@ -165,7 +165,7 @@ export default function ServiceDetailsForm({
               modelName: e[0]?.name,
             });
           }}
-          dataAuto={`work_location-create-employee`}
+          dataAuto={`model-serviceDetailsForm`}
         />
 
         {/* TRANSMISSION  */}
@@ -190,11 +190,15 @@ export default function ServiceDetailsForm({
               transmission: e[0]?.id,
             });
           }}
-          dataAuto={`work_location-create-employee`}
+          dataAuto={`transmission-serviceDetailsForm`}
         />
       </div>
-      <div className="flex w-full justify-center items-center gap-2 mt-5 flex-col md:flex-row">
+      <div
+        data-auto={`button-container-serviceDetailsForm`}
+        className="flex w-full justify-center items-center gap-2 mt-5 flex-col md:flex-row"
+      >
         <button
+          data-auto={`next-serviceDetailsForm`}
           disabled={isLoading}
           onClick={handleSubmit}
           className="btn w-full md:btn-wide btn-primary"

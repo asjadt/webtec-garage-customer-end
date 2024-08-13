@@ -31,10 +31,14 @@ export default function GarageListComponent({
   return (
     <>
       {/* GARAGE LIST  */}
-      <div className={`w-full h-full`}>
+      <div
+        data-auto={`container-garageListComponent`}
+        className={`w-full h-full`}
+      >
         {garageList?.length > 0 ? (
           <>
             <motion.div
+              data-auto={`card-container-garageListComponent`}
               variants={gridContainerVariants}
               initial="hidden"
               animate="visible"
@@ -52,30 +56,35 @@ export default function GarageListComponent({
             </motion.div>
 
             {!isLoading && (
-              <>
-                {currentPage < totalPage && (
-                  <div
-                    ref={ref}
-                    className={`flex justify-center items-center mt-5`}
-                  >
-                    <button
-                      className={`btn btn-sm btn-primary`}
-                      onClick={() => fetchNextPage()}
-                    >
-                      load more
-                    </button>
-                  </div>
-                )}
-              </>
+              <div
+                data-auto={`button-garageListComponent`}
+                ref={ref}
+                className={`flex justify-center items-center mt-5`}
+              >
+                <button
+                  data-auto={`loadMore-garageListComponent`}
+                  className={`btn btn-sm btn-primary`}
+                  onClick={() => fetchNextPage()}
+                >
+                  load more
+                </button>
+              </div>
             )}
           </>
         ) : (
           <div
+            data-auto={`createJob-container-garageListComponent`}
             className={`flex justify-center items-center h-[400px] text-xl  flex-col`}
           >
             <img className={`w-32`} src="/assets/NoDataFound.svg" alt="" />
-            <span className={`font-medium text-3xl`}>No Garage Found!</span>
+            <span
+              data-auto={`noGarage-garageListComponent`}
+              className={`font-medium text-3xl`}
+            >
+              No Garage Found!
+            </span>
             <button
+              data-auto={`createJob-garageListComponent`}
               onClick={() => {
                 setTab("job");
               }}

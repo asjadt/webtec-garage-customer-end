@@ -112,15 +112,22 @@ export default function CreateAndUpdateJobForm() {
     return <CustomLoading />;
   } else {
     return (
-      <div className="py-5 px-5 md:px-5 flex justify-center items-center bg-base-300 h-full">
+      <div
+        data-auto={`container-createUpJobForm`}
+        className="py-5 px-5 md:px-5 flex justify-center items-center bg-base-300 h-full"
+      >
         <div
+          data-auto={`sub-container-createUpJobForm`}
           className={`w-full border max-w-[600px] p-5 shadow-lg rounded-xl h-auto`}
         >
           <Headings level={2} className={`text-primary text-center mb-2`}>
             Create Job
           </Headings>
 
-          <div className="w-full flex justify-center items-center mb-5">
+          <div
+            data-auto={`step-container-createUpJobForm`}
+            className="w-full flex justify-center items-center mb-5"
+          >
             <CustomMultiStepper
               steps={[
                 {

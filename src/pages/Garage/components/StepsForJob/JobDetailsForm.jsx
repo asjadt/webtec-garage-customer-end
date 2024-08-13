@@ -59,9 +59,9 @@ export default function JobDetailsForm({ formData, setStep, setFormData }) {
   }, [formData]);
 
   return (
-    <div className={``}>
+    <div data-auto={`container-jobDetailsForm`} className={``}>
       {/* FORM  */}
-      <div>
+      <div data-auto={`form-container-jobDetailsForm`}>
         {/* JOB START DATE & TIME  */}
         <CustomDatePickerV2
           required
@@ -97,7 +97,7 @@ export default function JobDetailsForm({ formData, setStep, setFormData }) {
           label={"Job start data"}
           type={"text"}
           wrapperClassName={"w-full"}
-          dataAuto={`search-job_start_date`}
+          dataAuto={`startDate-jobDetailsForm`}
           error={errors?.job_start_date}
         />
 
@@ -119,6 +119,7 @@ export default function JobDetailsForm({ formData, setStep, setFormData }) {
             });
           }}
           error={errors?.job_start_time}
+          dataAuto={`startTime-jobDetailsForm`}
         />
         {/* EXTRA NOTES  */}
         <CustomTextareaField
@@ -134,7 +135,7 @@ export default function JobDetailsForm({ formData, setStep, setFormData }) {
           type={"text"}
           wrapperClassName={"w-full"}
           maxLength={500}
-          dataAuto={`additional-information-create-job`}
+          dataAuto={`extraNotes-jobDetailsForm`}
         />
 
         <FileUpload
@@ -143,8 +144,12 @@ export default function JobDetailsForm({ formData, setStep, setFormData }) {
           setInputData={setFormData}
         />
       </div>
-      <div className="flex w-full justify-between items-center gap-2 mt-5 flex-col md:flex-row ">
+      <div
+        data-auto={`button-container-jobDetailsForm`}
+        className="flex w-full justify-between items-center gap-2 mt-5 flex-col md:flex-row "
+      >
         <button
+          data-auto={`previous-jobDetailsForm`}
           disabled={isLoading}
           onClick={() => setStep(1)}
           className="btn w-full md:btn-wide btn-primary btn-outline"
@@ -152,6 +157,7 @@ export default function JobDetailsForm({ formData, setStep, setFormData }) {
           Previous
         </button>
         <button
+          data-auto={`next-jobDetailsForm`}
           disabled={isLoading}
           onClick={handleSubmit}
           className="btn w-full md:btn-wide btn-primary"

@@ -20,15 +20,13 @@ export default function CustomTextareaField({
   maxLength,
   resize = "both",
   minLength,
+  dataAuto,
 }) {
   return (
-    <div
-      data-cy={`view-employee-container-custom-text-area-field`}
-      className={`${wrapperClassName}`}
-    >
+    <div data-auto={`container-${dataAuto}`} className={`${wrapperClassName}`}>
       {/* LABEL */}
       {label ? (
-        <label htmlFor={id} className="label">
+        <label data-auto={`label-${dataAuto}`} htmlFor={id} className="label">
           <span className={`label-text text-md font-bold`}>
             {label}{" "}
             {required && <span className="text-error font-bold">*</span>}
@@ -39,7 +37,7 @@ export default function CustomTextareaField({
       )}
       {/* FIELD  */}
       <textarea
-        data-cy={`view-employee-text-area-custom-text-area-field`}
+        data-auto={`${dataAuto}`}
         style={{
           resize: resize,
         }}
@@ -61,10 +59,7 @@ export default function CustomTextareaField({
       />
       {/* VALIDATION MESSAGE  */}
       {error && (
-        <label
-          data-cy={`view-employee-error-message-custom-text-area-field`}
-          className="label h-7"
-        >
+        <label data-auto={`error-${dataAuto}`} className="label h-7">
           <span className="label-text-alt text-error">{error}</span>
         </label>
       )}

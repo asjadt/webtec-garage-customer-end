@@ -185,7 +185,7 @@ export default function GarageList() {
               {isLoading ? (
                 <CustomLoading h="h-[300px]" />
               ) : (
-                <div>
+                <div data-auto={`tab-container-actionBar`}>
                   {tab === "garages" && (
                     <GarageListComponent
                       totalPage={totalPage}
