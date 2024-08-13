@@ -104,7 +104,7 @@ export default function ChangePassword() {
       </div>
       <div className="w-full md:w-2/5 h-2/3 md:h-full flex flex-col justify-center items-center md:gap-5 bg-base-300 ">
         <div className="w-full bg-base-300 flex justify-center items-center p-5">
-          {!isSent ? (
+          {isSent ? (
             <div className="">
               {/* <MdOutlineMarkEmailRead className="text-7xl text-green-500" /> */}
               <h1 className="text-2xl font-semibold text-center mb-5">
