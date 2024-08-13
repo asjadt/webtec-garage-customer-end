@@ -2,7 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
-import { MdCancel, MdDelete, MdDeleteSweep } from "react-icons/md";
+import {
+  MdCancel,
+  MdClearAll,
+  MdDelete,
+  MdDeleteSweep,
+  MdFileDownloadDone,
+} from "react-icons/md";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
@@ -24,6 +30,8 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 import { formatRole } from "../../../utils/formatRole";
 import { handleApiError } from "../../../utils/apiErrorHandler";
 import { decryptID } from "../../../utils/encryptAndDecryptID";
+import { CgSandClock } from "react-icons/cg";
+import StatusCapsule from "../../../components/Table/StatusCapsule";
 export default function MyBooking() {
   // SEARCH PARAMS
   const [searchParams] = useSearchParams();
@@ -48,23 +56,25 @@ export default function MyBooking() {
 
   const [activeTab, setActiveTab] = useState("all");
   const [tabs, setTabs] = useState([
-    { id: "all", title: "All" },
-    { id: "completed", title: "Completed" },
-    { id: "pending", title: "Pending" },
+    { id: "all", title: "All", Icon: MdClearAll },
+    { id: "completed", title: "Completed", Icon: MdFileDownloadDone },
+    { id: "pending", title: "Pending", Icon: CgSandClock },
   ]);
 
   useEffect(() => {
     setFilters({ ...filters, status: activeTab === "all" ? "" : activeTab });
   }, [activeTab]);
 
-  const { isPending, error, data, refetch, isRefetching, fetchNextPage } =
-    useQuery({
-      queryKey: ["bookings", filters],
-      queryFn: ({ pageParam = 0 }) => getClientBooking(filters),
-      getNextPageParam: (lastPage, allPages) => {
-        return lastPage.nextPage ? lastPage.nextPage : undefined;
-      },
-    });
+  const { isPending, error, data, refetch, isError } = useQuery({
+    queryKey: ["myBookings", filters],
+    queryFn: () => getClientBooking(filters),
+  });
+  // POPUP ERROR MESSAGE
+  useEffect(() => {
+    if (isError) {
+      handleApiError(error);
+    }
+  }, [isError]);
 
   // POPUP OPTIONS
   const [popupOption, setPopupOption] = useState({
@@ -268,21 +278,23 @@ export default function MyBooking() {
 
     {
       name: "Job Start Date",
+      align: "center",
       attribute_name: "job_start_date",
-      minWidth: 10,
+      minWidth: 15,
       show: true,
     },
     {
       name: "Job Start Time",
+      align: "center",
       attribute_name: "job_start_time",
-      minWidth: 10,
+      minWidth: 15,
       show: true,
     },
     {
       name: "Status",
-      align: "center",
+      align: "left",
       attribute_name: "format_status",
-      minWidth: 20,
+      minWidth: 10,
       show: true,
     },
   ]);
@@ -326,10 +338,6 @@ export default function MyBooking() {
     });
   };
 
-  /***********************************************************************
-   *                    UI RENDERING
-   ***********************************************************************/
-
   return (
     <div className="h-full my-10 " data-auto={"container_admin"}>
       <div className="relative h-full" data-auto="sub_container_admin">
@@ -344,121 +352,106 @@ export default function MyBooking() {
                 booking={booking}
                 popupOption={popupOption}
                 setPopupOption={setPopupOption}
+                handleClosePopup={() =>
+                  setPopupOption({ ...popupOption, type: "", open: false })
+                }
               />
             )
           }
         />
-        {/* ========IF MULTIPLE ID SELECTED ======== */}
-        {selectedIds.length > 1 && (
-          <div className="z-[10] absolute bg-base-300 rounded-xl px-5 py-2 left-1/2 -translate-x-1/2 border border-primary border-opacity-40 flex justify-center items-center gap-2 shadow-xl ">
-            <button
-              data-auto={`admin-delete-button-all-employees`}
-              // onClick={() => deleteFunc(selectedIds)}
-              data-tip="Delete all selected items"
-              className="tooltip tooltip-bottom tooltip-primary"
-            >
-              <MdDeleteSweep className="text-red-500 text-2xl" />
-            </button>
-          </div>
-        )}
-        {/* ========================================  */}
 
         {/* HEADING AND TABLE */}
-        {isPending ? (
-          <CustomLoading />
-        ) : (
-          <div>
-            {/* ======= HEADING AND FILTERING AREA =========  */}
+
+        <div>
+          {/* ======= HEADING AND FILTERING AREA =========  */}
+          <div
+            id="header"
+            className="flex flex-col md:flex-row justify-between items-center relative gap-5"
+          >
             <div
-              id="header"
-              className="flex flex-col md:flex-row justify-between items-center relative gap-5"
+              id="header-content"
+              className="flex flex-col justify-center items-center gap-2 w-full text-left"
             >
-              <div
-                id="header-content"
-                className="flex flex-col justify-center items-center gap-2 w-full text-left"
-              >
-                <div className={`flex items-center gap-5`}>
-                  <Headings level={1}>
-                    {activeTab === "all"
-                      ? "All Bookings"
-                      : activeTab === "completed"
-                      ? "Completed Bookings"
-                      : "Pending Bookings"}
-                  </Headings>
-                </div>
-                <h3>
-                  Total {data?.total} {data?.total > 1 ? "Bookings" : "Booking"}{" "}
-                  Found
-                </h3>
-                {/* ======= TAB AREA =========  */}
-                <div className={`flex justify-center`}>
-                  <CustomTab
-                    tabs={tabs}
-                    activeTab={activeTab}
-                    setActiveTab={setActiveTab}
-                    gridCol="grid-cols-3"
-                    filters={filters}
-                    setFilters={setFilters}
-                  />
-                </div>
+              <div className={`flex items-center gap-5`}>
+                <Headings level={1}>
+                  {activeTab === "all"
+                    ? "All Bookings"
+                    : activeTab === "completed"
+                    ? "Completed Bookings"
+                    : "Pending Bookings"}
+                </Headings>
               </div>
-            </div>
-
-            {/* =========== TABLE AREA ============  */}
-            <div className="pt-5 relative">
-              {/* DATASET AND FILTERS */}
-              <div className={`flex justify-between items-center`}>
-                <CustomDataSet cols={cols} setCols={setCols} dataAuto="admin" />
+              <h3>
+                Total {data?.total} {data?.total > 1 ? "Bookings" : "Booking"}{" "}
+                Found
+              </h3>
+              {/* ======= TAB AREA =========  */}
+              <div className={`flex justify-center`}>
+                <CustomTab
+                  tabs={tabs}
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                  gridCol="grid-cols-3"
+                  filters={filters}
+                  setFilters={setFilters}
+                />
               </div>
-
-              <Table
-                selectedIds={selectedIds}
-                setSelectedIds={setSelectedIds}
-                itemsPerPage={filters?.perPage}
-                totalItems={data?.total}
-                setPageNo={(data) => setFilters({ ...filters, page: data })}
-                // setPerPage={setPerPage}
-                perPage={filters?.perPage}
-                isLoading={isPending}
-                rows={data?.data?.map((d) => ({
-                  ...d,
-                  id: d?.id,
-                  garage_name: d?.garage?.name,
-                  car_reg: d?.car_registration_no,
-                  job_start_date: moment(
-                    d?.job_start_date,
-                    "YYYY-MM-DD"
-                  ).format("DD-MM-YYYY"),
-                  job_start_time: moment(d?.job_start_time, "HH:mm").format(
-                    "hh:mm A"
-                  ),
-                  format_status: formatRole(d?.status),
-                }))}
-                actions={actions}
-                cols={cols}
-                dataAuto="all-job-type"
-                getFullDataToActionHandler={true}
-              />
-              {/* PAGINATION  */}
-              {data?.total !== 0 && (
-                <div
-                  data-auto={`admin-pagination-all-employees`}
-                  className="flex-col flex justify-center bg-base-300 items-center py-5"
-                >
-                  <Pagination
-                    forcePage={filters?.page}
-                    itemsPerPage={filters?.perPage}
-                    totalItems={data?.total}
-                    onChangePage={(page) => {
-                      setFilters({ ...filters, page: page });
-                    }}
-                    dataAuto="admin"
-                  />
-                </div>
-              )}
             </div>
           </div>
-        )}
+
+          {/* =========== TABLE AREA ============  */}
+          <div className="pt-5 relative">
+            {/* DATASET AND FILTERS */}
+            <div className={`flex justify-between items-center`}>
+              <CustomDataSet cols={cols} setCols={setCols} dataAuto="admin" />
+            </div>
+
+            <Table
+              selectedIds={selectedIds}
+              setSelectedIds={setSelectedIds}
+              itemsPerPage={filters?.perPage}
+              totalItems={data?.total}
+              setPageNo={(data) => setFilters({ ...filters, page: data })}
+              // setPerPage={setPerPage}
+              perPage={filters?.perPage}
+              isLoading={isPending}
+              rows={data?.data?.map((d) => ({
+                ...d,
+                id: d?.id,
+                garage_name: d?.garage?.name,
+                car_reg: d?.car_registration_no,
+                job_start_date: moment(d?.job_start_date, "YYYY-MM-DD").format(
+                  "DD-MM-YYYY"
+                ),
+                job_start_time: moment(d?.job_start_time, "HH:mm").format(
+                  "hh:mm A"
+                ),
+                format_status: <StatusCapsule text={d?.status} />,
+              }))}
+              actions={actions}
+              cols={cols}
+              dataAuto="all-job-type"
+              getFullDataToActionHandler={true}
+            />
+            {/* PAGINATION  */}
+            {data?.total !== 0 && (
+              <div
+                data-auto={`admin-pagination-all-employees`}
+                className="flex-col flex justify-center bg-base-300 items-center py-5"
+              >
+                <Pagination
+                  forcePage={filters?.page}
+                  itemsPerPage={filters?.perPage}
+                  totalItems={data?.total}
+                  onChangePage={(page) => {
+                    setFilters({ ...filters, page: page });
+                  }}
+                  dataAuto="admin"
+                />
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

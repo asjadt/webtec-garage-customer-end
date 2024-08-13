@@ -2,9 +2,9 @@ import moment from "moment";
 import React from "react";
 import { formatRole } from "../../../utils/formatRole.js";
 
-const ViewJob = ({ popupOption, setPopupOption, job }) => {
+const ViewJob = ({ job, handleClosePopup }) => {
   return (
-    <div className={`mt-10 flex flex-col`}>
+    <div className={`mt-10 flex flex-col pb-10`}>
       {/* Garage Name  */}
       <div className={`flex items-start border-b pb-4`}>
         {/* TITLE  */}
@@ -181,8 +181,18 @@ const ViewJob = ({ popupOption, setPopupOption, job }) => {
           className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
         >
           {/* DETAILS  */}
-          {formatRole(job?.status)}
+          {job?.format_status}
         </span>
+      </div>
+
+      {/* ACTION BUTTON  */}
+      <div className={`flex items-center justify-end mt-10`}>
+        <button
+          className={`btn btn-primary w-full md:w-[150px]`}
+          onClick={handleClosePopup}
+        >
+          Close
+        </button>
       </div>
     </div>
   );

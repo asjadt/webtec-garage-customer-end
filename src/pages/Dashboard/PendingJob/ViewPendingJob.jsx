@@ -10,13 +10,7 @@ import Table from "../../../components/Table";
 import { handleApiError } from "../../../utils/apiErrorHandler";
 import { formatRole } from "../../../utils/formatRole";
 
-const ViewPendingJob = ({
-  popupOption,
-  setPopupOption,
-  job,
-  refetch,
-  handleClosePopup,
-}) => {
+const ViewPendingJob = ({ job, refetch, handleClosePopup }) => {
   const [isUpdated, setIsUpdated] = useState();
   const [tabs, setTabs] = useState([
     { id: "job", title: "Details", Icon: IoIosInformationCircle },
@@ -349,6 +343,16 @@ const ViewPendingJob = ({
             </span>
           </div>
         ))}
+
+      {/* ACTION BUTTON  */}
+      <div className={`flex items-center justify-end  mt-10`}>
+        <button
+          className={`btn btn-primary w-full md:w-[150px]`}
+          onClick={handleClosePopup}
+        >
+          Close
+        </button>
+      </div>
     </>
   );
 };

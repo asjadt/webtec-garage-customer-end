@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
-import { MdDeleteSweep } from "react-icons/md";
+import { MdClearAll, MdDeleteSweep, MdFileDownloadDone } from "react-icons/md";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { getClientJobs } from "../../../Apis/auth";
 import CustomDataSet from "../../../components/CustomDataSet";
@@ -15,6 +15,8 @@ import Table from "../../../components/Table";
 import ViewJob from "./ViewJob";
 import { FaStar } from "react-icons/fa";
 import { decryptID, encryptID } from "../../../utils/encryptAndDecryptID";
+import { CgSandClock } from "react-icons/cg";
+import StatusCapsule from "../../../components/Table/StatusCapsule";
 
 export default function MyJob() {
   const navigate = useNavigate();
@@ -118,7 +120,7 @@ export default function MyJob() {
     {
       name: "Car Reg",
       attribute_name: "car_reg",
-      minWidth: 25,
+      minWidth: 70,
       show: true,
       isMainField: true,
     },
@@ -126,19 +128,19 @@ export default function MyJob() {
     {
       name: "Job Start Date",
       attribute_name: "job_start_date",
-      minWidth: 20,
+      minWidth: 10,
       show: true,
     },
     {
       name: "Job Start Time",
       attribute_name: "job_start_time",
-      minWidth: 20,
+      minWidth: 10,
       show: true,
     },
     {
       name: "Status",
-      align: "center",
-      attribute_name: "status",
+      align: "left",
+      attribute_name: "format_status",
       minWidth: 10,
       show: true,
     },
@@ -146,24 +148,25 @@ export default function MyJob() {
 
   const [activeTab, setActiveTab] = useState("all");
   const [tabs, setTabs] = useState([
-    { id: "all", title: "All" },
-    { id: "completed", title: "Completed" },
-    { id: "pending", title: "Pending" },
+    { id: "all", title: "All", Icon: MdClearAll },
+    { id: "completed", title: "Completed", Icon: MdFileDownloadDone },
+    { id: "pending", title: "Pending", Icon: CgSandClock },
   ]);
 
   useEffect(() => {
     setFilters({ ...filters, status: activeTab === "all" ? "" : activeTab });
   }, [activeTab]);
 
-  const { isPending, error, data, refetch, isRefetching, fetchNextPage } =
-    useQuery({
-      queryKey: ["users", filters],
-      queryFn: ({ pageParam = 0 }) => getClientJobs(filters),
-      getNextPageParam: (lastPage, allPages) => {
-        return lastPage.nextPage ? lastPage.nextPage : undefined;
-      },
-    });
-
+  const { isPending, error, data, isError } = useQuery({
+    queryKey: ["myJobs", filters],
+    queryFn: () => getClientJobs(filters),
+  });
+  // POPUP ERROR MESSAGE
+  useEffect(() => {
+    if (isError) {
+      handleApiError(error);
+    }
+  }, [isError]);
   // DELETE API
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   // const deleteFunc = (id) => {
@@ -227,81 +230,51 @@ export default function MyJob() {
             )
           }
         />
-        {/* ========IF MULTIPLE ID SELECTED ======== */}
-        {selectedIds.length > 1 && (
-          <div className="z-[10] absolute bg-base-300 rounded-xl px-5 py-2 left-1/2 -translate-x-1/2 border border-primary border-opacity-40 flex justify-center items-center gap-2 shadow-xl ">
-            <button
-              data-auto={`admin-delete-button-all-employees`}
-              // onClick={() => deleteFunc(selectedIds)}
-              data-tip="Delete all selected items"
-              className="tooltip tooltip-bottom tooltip-primary"
-            >
-              <MdDeleteSweep className="text-red-500 text-2xl" />
-            </button>
-          </div>
-        )}
-        {/* ========================================  */}
 
         {/* HEADING AND TABLE */}
-        {isPending ? (
-          <CustomLoading />
-        ) : (
-          <div>
-            {/* ========================================  */}
-
-            {/* ======= HEADING AND FILTERING AREA =========  */}
+        <div>
+          {/* ======= HEADING AND FILTERING AREA =========  */}
+          <div
+            id="header"
+            className="flex flex-col md:flex-row justify-between items-center relative gap-5"
+          >
             <div
-              id="header"
-              className="flex flex-col md:flex-row justify-between items-center relative gap-5"
+              id="header-content"
+              className="flex flex-col justify-center items-center gap-2 w-full text-left"
             >
-              <div
-                id="header-content"
-                className="flex flex-col justify-center items-center gap-2 w-full text-left"
-              >
-                <div className={`flex items-center gap-5`}>
-                  <Headings level={1}>
-                    {activeTab === "all"
-                      ? "All Applied Jobs"
-                      : activeTab === "completed"
-                      ? "Completed Applied Jobs"
-                      : "Pending Applied Jobs"}
-                  </Headings>
-                </div>
-                <h3>
-                  Total {data?.total}{" "}
-                  {data?.total > 1 ? "Applied Jobs" : "Applied Job"} Found
-                </h3>
-                {/* ======= TAB AREA =========  */}
-                <div className={`flex justify-center`}>
-                  <CustomTab
-                    tabs={tabs}
-                    activeTab={activeTab}
-                    setActiveTab={setActiveTab}
-                    gridCol="grid-cols-3"
-                    filters={filters}
-                    setFilters={setFilters}
-                  />
-                </div>
+              <div className={`flex items-center gap-5`}>
+                <Headings level={1}>
+                  {activeTab === "all"
+                    ? "All Applied Jobs"
+                    : activeTab === "completed"
+                    ? "Completed Applied Jobs"
+                    : "Pending Applied Jobs"}
+                </Headings>
               </div>
-
-              {/* <CreateAndExportSection
-              exportBtn={true}
-              createPermission={permissions.includes(EMPLOYEE_CREATE)}
-              createHandler={handleCreate}
-              pdfHandler={handleExport}
-              csvHandler={handleExport}
-              dataAuto="admin"
-            /> */}
+              <h3>
+                Total {data?.total}{" "}
+                {data?.total > 1 ? "Applied Jobs" : "Applied Job"} Found
+              </h3>
+              {/* ======= TAB AREA =========  */}
+              <div className={`flex justify-center`}>
+                <CustomTab
+                  tabs={tabs}
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                  gridCol="grid-cols-3"
+                  filters={filters}
+                  setFilters={setFilters}
+                />
+              </div>
             </div>
+          </div>
 
-            {/* ================================================  */}
-
-            {/* =========== TABLE AREA ============  */}
-            <div className="pt-5 relative">
-              {/* DATASET AND FILTERS */}
-              <div className={`flex justify-between items-center`}>
-                <CustomDataSet cols={cols} setCols={setCols} dataAuto="admin" />
-                {/* <CustomFilter
+          {/* =========== TABLE AREA ============  */}
+          <div className="pt-5 relative">
+            {/* DATASET AND FILTERS */}
+            <div className={`flex justify-between items-center`}>
+              <CustomDataSet cols={cols} setCols={setCols} dataAuto="admin" />
+              {/* <CustomFilter
               totalData={getEmployeesQuery?.data?.data?.length}
               isLoading={isCombineDataLoading}
               onApplyChange={(e) => {
@@ -313,53 +286,51 @@ export default function MyJob() {
               }}
               options={filterOptions}
               /> */}
-              </div>
-              {/* ALL APPLIED FILTERS */}
-              <div>
-                {/* <AppliedFilters setFilters={setFilters} filters={filterOptions} /> */}
-              </div>
-              <Table
-                selectedIds={selectedIds}
-                setSelectedIds={setSelectedIds}
-                itemsPerPage={filters?.perPage}
-                totalItems={data?.total}
-                setPageNo={(data) => setFilters({ ...filters, page: data })}
-                // setPerPage={setPerPage}
-                perPage={filters?.perPage}
-                isLoading={isPending}
-                rows={data?.data?.map((d) => ({
-                  ...d,
-                  id: d?.id,
-                  car_reg: d?.car_registration_no,
-                  job_start_time: moment(d?.job_start_time, "HH:mm").format(
-                    "hh:mm A"
-                  ),
-                }))}
-                actions={actions}
-                cols={cols}
-                dataAuto="all-job-type"
-                getFullDataToActionHandler={true}
-              />
-              {/* PAGINATION  */}
-              {data?.total !== 0 && (
-                <div
-                  data-auto={`admin-pagination-all-employees`}
-                  className="flex-col flex justify-center bg-base-300 items-center py-5"
-                >
-                  <Pagination
-                    forcePage={filters?.page}
-                    itemsPerPage={filters?.perPage}
-                    totalItems={data?.total}
-                    onChangePage={(page) => {
-                      setFilters({ ...filters, page: page });
-                    }}
-                    dataAuto="admin"
-                  />
-                </div>
-              )}
             </div>
+
+            <Table
+              selectedIds={selectedIds}
+              setSelectedIds={setSelectedIds}
+              itemsPerPage={filters?.perPage}
+              totalItems={data?.total}
+              setPageNo={(data) => setFilters({ ...filters, page: data })}
+              // setPerPage={setPerPage}
+              perPage={filters?.perPage}
+              isLoading={isPending}
+              rows={data?.data?.map((d) => ({
+                ...d,
+                id: d?.id,
+                car_reg: d?.car_registration_no,
+                job_start_time: moment(d?.job_start_time, "HH:mm").format(
+                  "hh:mm A"
+                ),
+                format_status: <StatusCapsule text={d?.status} />,
+              }))}
+              actions={actions}
+              cols={cols}
+              dataAuto="all-job-type"
+              getFullDataToActionHandler={true}
+            />
+
+            {/* PAGINATION  */}
+            {data?.total !== 0 && (
+              <div
+                data-auto={`admin-pagination-all-employees`}
+                className="flex-col flex justify-center bg-base-300 items-center py-5"
+              >
+                <Pagination
+                  forcePage={filters?.page}
+                  itemsPerPage={filters?.perPage}
+                  totalItems={data?.total}
+                  onChangePage={(page) => {
+                    setFilters({ ...filters, page: page });
+                  }}
+                  dataAuto="admin"
+                />
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

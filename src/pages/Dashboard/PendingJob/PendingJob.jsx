@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import CheckPermission from "../../../CheckPermission";
 import CustomPopup from "../../../components/CustomPopup";
-import { MdDelete, MdDeleteSweep } from "react-icons/md";
+import {
+  MdClearAll,
+  MdDelete,
+  MdDeleteSweep,
+  MdFileDownloadDone,
+} from "react-icons/md";
 import CustomDataSet from "../../../components/CustomDataSet";
 import CustomFilter from "../../../components/Filter/CustomFilter";
 import AppliedFilters from "../../../components/Filter/AppliedFilters";
@@ -28,6 +33,9 @@ import { formatRole } from "../../../utils/formatRole";
 import ViewJob from "../MyJob/ViewJob";
 import ViewPendingJob from "./ViewPendingJob";
 import { decryptID } from "../../../utils/encryptAndDecryptID";
+import { FiCheckCircle } from "react-icons/fi";
+import { CgSandClock } from "react-icons/cg";
+import StatusCapsule from "../../../components/Table/StatusCapsule";
 
 export default function PendingJob() {
   // SEARCH PARAMS
@@ -91,7 +99,7 @@ export default function PendingJob() {
     {
       name: "Car Reg",
       attribute_name: "car_reg",
-      minWidth: 35,
+      minWidth: 40,
       show: true,
       isMainField: true,
     },
@@ -117,33 +125,35 @@ export default function PendingJob() {
     },
     {
       name: "Status",
-      align: "center",
+      align: "left",
       attribute_name: "format_status",
-      minWidth: 20,
+      minWidth: 10,
       show: true,
     },
   ]);
 
   const [activeTab, setActiveTab] = useState("all");
   const [tabs, setTabs] = useState([
-    { id: "all", title: "All" },
-    { id: "completed", title: "Completed" },
-    { id: "pending", title: "Pending" },
+    { id: "all", title: "All", Icon: MdClearAll },
+    { id: "completed", title: "Completed", Icon: MdFileDownloadDone },
+    { id: "pending", title: "Pending", Icon: CgSandClock },
   ]);
 
   useEffect(() => {
     setFilters({ ...filters, status: activeTab === "all" ? "" : activeTab });
   }, [activeTab]);
 
-  const { isPending, error, data, refetch, isRefetching, fetchNextPage } =
-    useQuery({
-      queryKey: ["users", filters],
-      queryFn: ({ pageParam = 0 }) => getClientPreBooking(filters),
-      getNextPageParam: (lastPage, allPages) => {
-        return lastPage.nextPage ? lastPage.nextPage : undefined;
-      },
-    });
-  console.log({ data });
+  const { isPending, error, data, refetch, isError } = useQuery({
+    queryKey: ["pendingJobs", filters],
+    queryFn: () => getClientPreBooking(filters),
+  });
+
+  // POPUP ERROR MESSAGE
+  useEffect(() => {
+    if (isError) {
+      handleApiError(error);
+    }
+  }, [isError]);
 
   // DELETE API
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
@@ -183,6 +193,7 @@ export default function PendingJob() {
       }
     });
   };
+
   // ALL ACTION BUTTONS
   const [actions, setActions] = useState([
     {
@@ -194,15 +205,6 @@ export default function PendingJob() {
       disabledOn: [],
       permissions: true,
     },
-    // {
-    //   name: "edit",
-    //   handler: handleEdit,
-    //   Icon: RiEdit2Fill,
-    //   colorClass: "text-secondary",
-    //   backgroundColorClass: "bg-secondary-content",
-    //   permissions: [EMPLOYEE_UPDATE],
-    //   disabledOn: [],
-    // },
     {
       name: "delete",
       handler: handleDelete,
@@ -214,9 +216,6 @@ export default function PendingJob() {
       permissions: true,
     },
   ]);
-  /***********************************************************************
-   *                    UI RENDERING
-   ***********************************************************************/
 
   return (
     <div className="h-full my-10 " data-auto={"container_admin"}>
@@ -240,148 +239,104 @@ export default function PendingJob() {
             )
           }
         />
-        {/* ========IF MULTIPLE ID SELECTED ======== */}
-        {selectedIds.length > 1 && (
-          <div className="z-[10] absolute bg-base-300 rounded-xl px-5 py-2 left-1/2 -translate-x-1/2 border border-primary border-opacity-40 flex justify-center items-center gap-2 shadow-xl ">
-            <button
-              data-auto={`admin-delete-button-all-employees`}
-              // onClick={() => deleteFunc(selectedIds)}
-              data-tip="Delete all selected items"
-              className="tooltip tooltip-bottom tooltip-primary"
-            >
-              <MdDeleteSweep className="text-red-500 text-2xl" />
-            </button>
-          </div>
-        )}
-        {/* ========================================  */}
 
         {/* HEADING AND TABLE */}
-        {isPending ? (
-          <CustomLoading />
-        ) : (
-          <div>
-            {/* ========================================  */}
-
-            {/* ======= HEADING AND FILTERING AREA =========  */}
+        <div>
+          <div
+            id="header"
+            className="flex flex-col md:flex-row justify-between items-center relative gap-5"
+          >
             <div
-              id="header"
-              className="flex flex-col md:flex-row justify-between items-center relative gap-5"
+              id="header-content"
+              className="flex flex-col justify-center items-center gap-2 w-full text-left"
             >
-              <div
-                id="header-content"
-                className="flex flex-col justify-center items-center gap-2 w-full text-left"
-              >
-                <div className={`flex items-center gap-5`}>
-                  <Headings level={1}>
-                    {activeTab === "all"
-                      ? "All Pending Jobs"
-                      : activeTab === "completed"
-                      ? "Completed Pending Jobs"
-                      : "Pending Jobs"}
-                  </Headings>
-                </div>
-                <h3>
-                  Total {data?.total}{" "}
-                  {data?.total > 1 ? "Pending Jobs" : "Pending Job"} Found
-                </h3>
-                {/* ======= TAB AREA =========  */}
-                <div className={`flex justify-center`}>
-                  <CustomTab
-                    tabs={tabs}
-                    activeTab={activeTab}
-                    setActiveTab={setActiveTab}
-                    gridCol="grid-cols-3"
-                    filters={filters}
-                    setFilters={setFilters}
-                  />
-                </div>
+              {/* PAGE TITLE  */}
+              <div className={`flex items-center gap-5`}>
+                <Headings level={1}>
+                  {activeTab === "all"
+                    ? "All Pending Jobs"
+                    : activeTab === "completed"
+                    ? "Completed Pending Jobs"
+                    : "Pending Jobs"}
+                </Headings>
               </div>
 
-              {/* <CreateAndExportSection
-              exportBtn={true}
-              createPermission={permissions.includes(EMPLOYEE_CREATE)}
-              createHandler={handleCreate}
-              pdfHandler={handleExport}
-              csvHandler={handleExport}
-              dataAuto="admin"
-            /> */}
-            </div>
+              {/* TOTAL DATA  */}
+              <h3>
+                Total {data?.total}{" "}
+                {data?.total > 1 ? "Pending Jobs" : "Pending Job"} Found
+              </h3>
 
-            {/* ================================================  */}
-
-            {/* =========== TABLE AREA ============  */}
-            <div className="pt-5 relative">
-              {/* DATASET AND FILTERS */}
-              <div className={`flex justify-between items-center`}>
-                <CustomDataSet cols={cols} setCols={setCols} dataAuto="admin" />
-                {/* <CustomFilter
-              totalData={getEmployeesQuery?.data?.data?.length}
-              isLoading={isCombineDataLoading}
-              onApplyChange={(e) => {
-                console.log({ e });
-                setFilters((prev) => ({
-                  ...prev,
-                  ...e,
-                }));
-              }}
-              options={filterOptions}
-              /> */}
+              {/* TABS  */}
+              <div className={`flex justify-center`}>
+                <CustomTab
+                  tabs={tabs}
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                  gridCol="grid-cols-3"
+                  filters={filters}
+                  setFilters={setFilters}
+                />
               </div>
-              {/* ALL APPLIED FILTERS */}
-              <div>
-                {/* <AppliedFilters setFilters={setFilters} filters={filterOptions} /> */}
-              </div>
-              <Table
-                selectedIds={selectedIds}
-                setSelectedIds={setSelectedIds}
-                itemsPerPage={filters?.perPage}
-                totalItems={data?.total}
-                setPageNo={(data) => setFilters({ ...filters, page: data })}
-                // setPerPage={setPerPage}
-                perPage={filters?.perPage}
-                isLoading={isPending}
-                rows={data?.data?.map((d) => ({
-                  ...d,
-                  id: d?.id,
-                  car_reg: d?.car_registration_no,
-                  job_start_date: moment(
-                    d?.job_start_date,
-                    "YYYY-MM-DD"
-                  ).format("DD-MM-YYYY"),
-                  job_start_time: moment(d?.job_start_time, "HH:mm").format(
-                    "hh:mm A"
-                  ),
-                  garage_applied: d?.job_bids
-                    ? d?.job_bids?.length
-                    : "loading...",
-
-                  format_status: formatRole(d?.status),
-                }))}
-                actions={actions}
-                cols={cols}
-                dataAuto="all-job-type"
-                getFullDataToActionHandler={true}
-              />
-              {/* PAGINATION  */}
-              {data?.total !== 0 && (
-                <div
-                  data-auto={`admin-pagination-all-employees`}
-                  className="flex-col flex justify-center bg-base-300 items-center py-5"
-                >
-                  <Pagination
-                    forcePage={filters?.page}
-                    itemsPerPage={filters?.perPage}
-                    totalItems={data?.total}
-                    onChangePage={(page) => {
-                      setFilters({ ...filters, page: page });
-                    }}
-                    dataAuto="admin"
-                  />
-                </div>
-              )}
             </div>
           </div>
-        )}
+
+          <div className="pt-5 relative">
+            {/* DATASET */}
+            <div className={`flex justify-between items-center`}>
+              <CustomDataSet cols={cols} setCols={setCols} dataAuto="admin" />
+            </div>
+
+            {/* TABLE  */}
+            <Table
+              selectedIds={selectedIds}
+              setSelectedIds={setSelectedIds}
+              itemsPerPage={filters?.perPage}
+              totalItems={data?.total}
+              setPageNo={(data) => setFilters({ ...filters, page: data })}
+              // setPerPage={setPerPage}
+              perPage={filters?.perPage}
+              isLoading={isPending}
+              rows={data?.data?.map((d) => ({
+                ...d,
+                id: d?.id,
+                car_reg: d?.car_registration_no,
+                job_start_date: moment(d?.job_start_date, "YYYY-MM-DD").format(
+                  "DD-MM-YYYY"
+                ),
+                job_start_time: moment(d?.job_start_time, "HH:mm").format(
+                  "hh:mm A"
+                ),
+                garage_applied: d?.job_bids
+                  ? d?.job_bids?.length
+                  : "loading...",
+
+                format_status: <StatusCapsule text={d?.status} />,
+              }))}
+              actions={actions}
+              cols={cols}
+              dataAuto="all-job-type"
+              getFullDataToActionHandler={true}
+            />
+            {/* PAGINATION  */}
+            {data?.total !== 0 && (
+              <div
+                data-auto={`admin-pagination-all-employees`}
+                className="flex-col flex justify-center bg-base-300 items-center py-5"
+              >
+                <Pagination
+                  forcePage={filters?.page}
+                  itemsPerPage={filters?.perPage}
+                  totalItems={data?.total}
+                  onChangePage={(page) => {
+                    setFilters({ ...filters, page: page });
+                  }}
+                  dataAuto="admin"
+                />
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

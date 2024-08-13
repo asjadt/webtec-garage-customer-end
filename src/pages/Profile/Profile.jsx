@@ -198,101 +198,16 @@ const Profile = () => {
       {loading ? (
         <CustomLoading h="h-[300px]" />
       ) : (
-        <div className="ltn__myaccount-tab-content-inner">
+        <div className="pb-5">
           <h1
             className={`text-2xl font-semibold text-center text-primary pb-5`}
           >
             Profile
           </h1>
 
-          {/* <div className="avatar screen1200:pr-5 h-full flex justify-center  md:justify-start">
-            <div className="w-32 h-32 group relative rounded-full shadow-md">
-              {isLoading ? (
-                <div className="w-full h-full flex justify-center items-center">
-                  <span className="loading-spinner loading text-primary"></span>
-                </div>
-              ) : (
-                <>
-                  {user?.image ? (
-                    <img
-                      src={
-                        user?.image
-                          ? `${getFullImageLink(user?.image)}`
-                          : `${getFullImageLink(user?.image)}`
-                      }
-                      alt={`${user?.first_Name} ${user?.last_Name}`}
-                    />
-                  ) : (
-                    <div className="bg-base-100 text-primary font-semibold text-2xl h-full w-full flex justify-center items-center uppercase">{`${user?.first_Name?.slice(
-                      0,
-                      1
-                    )}${
-                      user?.middle_Name ? user?.middle_Name?.slice(0, 1) : ""
-                    }${user?.last_Name?.slice(0, 1)}`}</div>
-                  )}
-                </>
-              )}
-              {/* IMAGE UPLOAD BUTTON
-              {!isLoading && (
-                <label
-                  htmlFor="upload_image"
-                  className="cursor-pointer group-hover:bottom-0 duration-200 absolute -bottom-10 left-1/2 -translate-x-1/2 px-5 py-2 text-base-300 rounded-full bg-primary"
-                >
-                  Upload
-                </label>
-              )}
-              <input
-                onChange={(e) => {
-                  if (
-                    e.target.files[0] &&
-                    e.target.files[0]?.size > 5 * 1024 * 1024
-                  ) {
-                    // File size exceeds 5MB, show error message
-                    toast.custom((t) => (
-                      <CustomToaster
-                        t={t}
-                        type={"error"}
-                        text={`File size exceeds the limit of 5MB`}
-                      />
-                    ));
-                  } else {
-                    setIsLoading(true);
-                    uploadUserProfile(e.target.files[0])
-                      .then((res1) => {
-                        updateSuperAdminProfile({
-                          image: res1?.full_location,
-                        })
-                          .then((res) => {
-                            setFormData((prev) => ({
-                              ...prev,
-                              image: res1?.full_location,
-                            }));
-                            setUserInfo((prev) => ({
-                              ...prev,
-                              image: res1?.full_location,
-                            }));
-                            setIsLoading(false);
-                          })
-                          .catch((error) => {
-                            setIsLoading(false);
-                            handleApiError(error, "#00121");
-                          });
-                      })
-                      .catch((error) => {
-                        setIsLoading(false);
-                        console.log({ error });
-                        handleApiError(error, "#00121");
-                      });
-                  }
-                }}
-                className="hidden"
-                id="upload_image"
-                type="file"
-              />
-            </div>
-          </div> */}
-
-          <div className={`grid grid-cols-1 md:grid-cols-2 grid-2 md:gap-5`}>
+          <div
+            className={`grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 grid-2 sm:gap-5`}
+          >
             <div>
               {/* FIRST NAME */}
               <CustomFieldV2
@@ -346,7 +261,7 @@ const Profile = () => {
             </div>
 
             {/* EMAIL  */}
-            <CustomField
+            {/* <CustomField
               defaultValue={signUpDetails?.email}
               disable={false}
               error={errors?.email}
@@ -364,7 +279,7 @@ const Profile = () => {
               type={"email"}
               wrapperClassName={"w-full"}
               required={true}
-            />
+            /> */}
 
             {/* PHONE */}
             <CustomNumberField
@@ -474,8 +389,7 @@ const Profile = () => {
                 </label>
               )}
             </div>
-          </div>
-          <div className={`grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-5`}>
+
             {/* CITY */}
             <CustomField
               id={"city"}

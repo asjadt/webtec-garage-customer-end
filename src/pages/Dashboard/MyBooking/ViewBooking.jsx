@@ -2,8 +2,7 @@ import moment from "moment";
 import React from "react";
 import { formatRole } from "../../../utils/formatRole";
 
-const ViewBooking = ({ popupOption, setPopupOption, booking }) => {
-  console.log({ booking });
+const ViewBooking = ({ booking, handleClosePopup }) => {
   return (
     <div className={`my-10 flex flex-col`}>
       {/* SERVICES  */}
@@ -166,8 +165,18 @@ const ViewBooking = ({ popupOption, setPopupOption, booking }) => {
           className="text-gray-600 flex-1 w-[calc(100%-200px)] break-words"
         >
           {/* DETAILS  */}
-          {formatRole(booking?.format_status)}
+          {booking?.format_status}
         </span>
+      </div>
+
+      {/* ACTION BUTTON  */}
+      <div className={`flex items-center justify-end mt-10`}>
+        <button
+          className={`btn btn-primary w-full md:w-[150px]`}
+          onClick={handleClosePopup}
+        >
+          Close
+        </button>
       </div>
     </div>
   );
