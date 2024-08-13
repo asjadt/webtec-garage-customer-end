@@ -3,13 +3,15 @@ import CustomTab from "../../components/CustomTab";
 import Customer from "./components/Registration/Customer/Customer";
 import GarageOwner from "./components/Registration/GarageOwner/GarageOwner";
 import { useAuth } from "../../context/AuthContextV2";
+import { BiSolidCarGarage } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
 
 export default function Register() {
   const { authPopupOptions } = useAuth();
   const [activeTab, setActiveTab] = useState("customer");
   const registrationTabs = [
-    { id: "customer", title: "As Customer" },
-    { id: "garage_owner", title: "As Garage owner" },
+    { id: "customer", title: "As Customer", Icon: CgProfile },
+    { id: "garage_owner", title: "As Garage owner", Icon: BiSolidCarGarage },
   ];
 
   console.warn({ form: authPopupOptions?.forms });

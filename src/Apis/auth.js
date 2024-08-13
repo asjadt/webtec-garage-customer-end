@@ -204,9 +204,9 @@ export const garageRegistration = async (data) => {
 };
 
 // RESET PASSWORD
-export const resetPassword = async (data) => {
+export const resetPassword = async ({ token, data }) => {
   return await axios
-    .post(`forgetpassword`, data, getApiConfig())
+    .patch(`/forgetpassword/reset/${token}`, data, getApiConfig())
     .then((res) => {
       return res.data;
     })

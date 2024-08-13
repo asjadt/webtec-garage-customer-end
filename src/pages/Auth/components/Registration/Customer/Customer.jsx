@@ -38,8 +38,13 @@ export default function Customer() {
     password_confirmation: "",
     phone: "",
     postcode: "",
+    lat: "",
+    long: "",
   });
 
+  useEffect(() => {
+    console.log({ formData });
+  }, [formData]);
   // CHANGE FORM DATA
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -149,6 +154,10 @@ export default function Customer() {
       newErrors.postcode = "Postcode is required";
     }
 
+    // VALIDATE LAT LONG
+    if (!formData?.lat || !formData?.long) {
+      newErrors.address_line_1 = "Please select address from suggestions";
+    }
     setErrors(newErrors);
 
     console.log({ newErrors });

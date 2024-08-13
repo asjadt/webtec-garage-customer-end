@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ButtonLoading from "../../components/ButtonLoading";
 import GoBackButton from "../../components/GoBackButton";
 import CustomPasswordField from "../../components/InputFields/CustomPasswordField";
+import { resetPassword } from "../../Apis/auth";
 
 export default function ChangePassword() {
   const [formData, setFormData] = useState({
@@ -17,6 +18,8 @@ export default function ChangePassword() {
 
   const location = useLocation();
   const locSearch = new URLSearchParams(location.search);
+  const token = locSearch.get("token");
+
   const [errors, setErrors] = useState({});
   const [isSent, setIsSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,45 +56,42 @@ export default function ChangePassword() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const [errorMessge, setErrorMessge] = useState("");
-
   // HANDLE FORM SUBMISSION
   const handleSubmit = (e) => {
-    // e.preventDefault();
-    // if (validateForm()) {
-    //   setIsLoading(true);
-    //   resetPasswordWithToken(locSearch.get("token"), formData)
-    //     .then((res) => {
-    //       setIsSent(true);
-    //       setTimeout(() => {
-    //         navigate("/auth/login");
-    //       }, 2000);
-    //     })
-    //     .catch((error) => {
-    //       setErrorMessge(error?.response?.data?.message);
-    //       setIsLoading(false);
-    //       if (error.response && error.response.status === 422) {
-    //         const tempErrors = {};
-    //         const responseData = error.response.data;
-    //         if (responseData && responseData.errors) {
-    //           const errors = responseData.errors;
-    //           // Iterate through error keys and map them
-    //           Object.keys(errors).forEach((key) => {
-    //             const errorMessage = errors[key][0]; // Assuming there's only one error message per field
-    //             tempErrors[key] = errors[key][0];
-    //           });
-    //         } else {
-    //           console.log(
-    //             "Validation error, but no specific error messages provided."
-    //           );
-    //         }
+    e.preventDefault();
+    if (validateForm()) {
+      setIsLoading(true);
+      resetPassword({ token, data: formData })
+        .then((res) => {
+          setIsSent(true);
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          if (error.response && error.response.status === 422) {
+            const tempErrors = {};
+            const responseData = error.response.data;
+            if (responseData && responseData.errors) {
+              const errors = responseData.errors;
+              // Iterate through error keys and map them
+              Object.keys(errors).forEach((key) => {
+                const errorMessage = errors[key][0]; // Assuming there's only one error message per field
+                tempErrors[key] = errors[key][0];
+              });
+            } else {
+              console.log(
+                "Validation error, but no specific error messages provided."
+              );
+            }
 
-    //         setErrors(tempErrors);
-    //       }
-    //       handleApiError(error, "#00121");
-    //     });
-    // } else {
-    // }
+            setErrors(tempErrors);
+          }
+          handleApiError(error, "#00121");
+        });
+    } else {
+    }
   };
 
   return (
@@ -104,16 +104,16 @@ export default function ChangePassword() {
       </div>
       <div className="w-full md:w-2/5 h-2/3 md:h-full flex flex-col justify-center items-center md:gap-5 bg-base-300 ">
         <div className="w-full bg-base-300 flex justify-center items-center p-5">
-          {isSent ? (
+          {!isSent ? (
             <div className="">
               {/* <MdOutlineMarkEmailRead className="text-7xl text-green-500" /> */}
-              <h1 className="text-2xl font-semibold">
+              <h1 className="text-2xl font-semibold text-center mb-5">
                 Successfully Changed Password.
               </h1>
               <div className="w-full flex justify-center gap-2">
                 <span className="loading loading-spinner loading-xs text-primary"></span>
                 <span className="text-primary">
-                  Redirecting to the login page
+                  Redirecting to the home page
                 </span>
               </div>
             </div>

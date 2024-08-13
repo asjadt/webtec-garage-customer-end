@@ -187,7 +187,7 @@ export default function Login() {
             }}
             className="btn btn-outline  w-full btn-primary font-semibold text-sm sm:text-base hover:scale-105 active:scale-95 rounded-[5px] transition-all duration-200"
           >
-            Register
+            Create An Account
           </button>
         </div>
       </div>
