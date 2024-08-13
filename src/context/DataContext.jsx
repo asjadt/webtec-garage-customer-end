@@ -41,13 +41,6 @@ export const DataContextProvider = ({ children }) => {
     start_long: "",
     end_long: "",
 
-    locationDetails: {
-      start_lat: "",
-      start_long: "",
-      end_lat: "",
-      end_long: "",
-    },
-
     wifi_available: false,
     is_mobile_garage: false,
     date_time: "",
@@ -63,9 +56,6 @@ export const DataContextProvider = ({ children }) => {
     is_checked: "",
 
     services: [],
-    sub_services: [],
-    makes: [],
-    models: [],
 
     address: "",
     city: "",
@@ -76,15 +66,6 @@ export const DataContextProvider = ({ children }) => {
     start_long: "",
     end_long: "",
 
-    locationDetails: {
-      start_lat: "",
-      start_long: "",
-      end_lat: "",
-      end_long: "",
-    },
-
-    wifi_available: false,
-    is_mobile_garage: false,
     date_time: "",
   });
   const [totalGarageFound, setTotalGarageFound] = useState(0);
@@ -94,6 +75,23 @@ export const DataContextProvider = ({ children }) => {
   const [makeJob, setMakeJob] = useState(false);
   const [fuelStationServices, setFuelStationServices] = useState([]);
 
+  // SETTER FUNCTION FOR HOMEPAGE FILTER DATA
+  const setFilterDataToLocalStorage = (value) => {
+    let filterData = {
+      ...value,
+    };
+    setHomeSearchData(filterData);
+    localStorage.setItem("search_data", JSON.stringify(filterData));
+  };
+
+  // const setFilterDataToLocalStorage = (value) => {
+  //   let filterData = {
+  //     ...value,
+  //   };
+  //   setHomeSearchData(filterData);
+
+  //   localStorage.setItem("search_data", JSON.stringify(filterData));
+  // };
   // GET ALL COMBINED DATA
   const { isPending: queryCombinedLoading, data: queryCombined } = useQuery({
     queryKey: ["combined"],
@@ -133,16 +131,12 @@ export const DataContextProvider = ({ children }) => {
     setTotalGarageFound(garageList?.length || 0);
   }, [garageList]);
 
-  // SAVE ALL QUERIES TO THE LOCAL STORAGE
-  useEffect(() => {
-    localStorage.setItem("search_data", JSON.stringify(homeSearchData));
-  }, [homeSearchData]);
-
   return (
     <DataContext.Provider
       value={{
         homeSearchData,
         setHomeSearchData,
+        setFilterDataToLocalStorage,
 
         loading,
         setLoading,
@@ -186,6 +180,7 @@ export const useData = () => {
   const {
     homeSearchData,
     setHomeSearchData,
+    setFilterDataToLocalStorage,
 
     loading,
     setLoading,
@@ -223,6 +218,7 @@ export const useData = () => {
   return {
     homeSearchData,
     setHomeSearchData,
+    setFilterDataToLocalStorage,
 
     loading,
     setLoading,

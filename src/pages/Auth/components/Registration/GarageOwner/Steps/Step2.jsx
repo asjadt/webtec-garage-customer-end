@@ -19,6 +19,8 @@ export default function Step2({
   setFormData,
   handleNext,
   handlePrevious,
+  errors,
+  setErrors,
 }) {
   const { handleOpenLoginPopup } = useAuth();
   // CHANGE FORM DATA
@@ -34,7 +36,6 @@ export default function Step2({
   };
 
   // VALIDATION
-  const [errors, setErrors] = useState({});
   const [email, setEmail] = useState("");
   // EMAIL VALIDATION MUTATION
   const checkEmailMutation = useMutation({

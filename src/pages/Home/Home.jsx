@@ -31,12 +31,6 @@ export default function Home() {
       end_lat: "",
       start_long: "",
       end_long: "",
-      locationDetails: {
-        start_lat: "",
-        start_long: "",
-        end_lat: "",
-        end_long: "",
-      },
 
       wifi_available: false,
       is_mobile_garage: false,

@@ -1,15 +1,15 @@
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { getGaragesV2 } from "../../Apis/garage";
 import CustomLoading from "../../components/CustomLoading";
-import FilterSideBar from "../../components/FilterSideBar/FilterSideBar";
 import { useData } from "../../context/DataContext";
+import { useGeoLocationData } from "../../context/GeoLocationDataContext";
 import { handleApiError } from "../../utils/apiErrorHandler";
 import ActionBar from "./components/ActionBar";
 import CreateAndUpdateJobForm from "./components/CreateAndUpdateJobForm";
-import GarageListComponent from "./components/GarageListComponent";
 import SelectedFilters from "./components/Filters/SelectedFilters";
-import { useGeoLocationData } from "../../context/GeoLocationDataContext";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import GarageListComponent from "./components/GarageListComponent";
+import FilterSideBar from "./components/Filters/FilterSideBar";
 
 export default function GarageList() {
   const { defaultLocationProps, isGeoLocationLoading } = useGeoLocationData();
@@ -34,37 +34,9 @@ export default function GarageList() {
       : homeSearchData;
 
     return getGaragesV2({
+      ...filterData,
       page: pageParam,
       perPage: 10,
-      search_key: filterData?.search_key,
-      country_code: filterData?.country_code,
-      address: filterData?.address,
-      city: filterData?.city,
-      service_ids: filterData?.services,
-      sub_service_ids: filterData?.sub_services,
-      make_ids: filterData?.makes,
-      model_ids: filterData?.models,
-
-      lat: filterData?.start_lat || defaultLocationProps?.center?.lat,
-      long: filterData?.end_lat || defaultLocationProps?.center?.lng,
-
-      start_lat: filterData?.address
-        ? filterData?.start_lat || defaultLocationProps?.rangeData?.minLat
-        : "",
-      end_lat: filterData?.address
-        ? filterData?.end_lat || defaultLocationProps?.rangeData?.maxLat
-        : "",
-
-      start_long: filterData?.address
-        ? filterData?.start_long || defaultLocationProps?.rangeData?.minLon
-        : "",
-      end_long: filterData?.address
-        ? filterData?.end_long || defaultLocationProps?.rangeData?.maxLon
-        : "",
-
-      wifi_available: filterData?.wifi_available,
-      is_mobile_garage: filterData?.is_mobile_garage,
-      date_time: filterData?.date_time,
     });
   };
 
@@ -82,11 +54,18 @@ export default function GarageList() {
     queryFn: fetchGarages,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage?.length ? allPages?.length + 1 : undefined;
+      // return lastPage?.length ? allPages?.length + 1 : undefined;
+      return allPages?.length + 1;
     },
   });
 
+  const [totalPage, setTotalPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+
   useEffect(() => {
+    setTotalPage(data?.pages[data?.pages?.length - 1]?.last_page || 0);
+    setCurrentPage(data?.pages[data?.pages?.length - 1]?.current_page || 0);
+    setTotalGarageFound(data?.pages[0]?.total || 0);
     setGarageList(
       data?.pages?.flatMap((page) => page?.data?.map((item) => item)) || []
     );
@@ -193,6 +172,8 @@ export default function GarageList() {
                 <div>
                   {tab === "garages" && (
                     <GarageListComponent
+                      totalPage={totalPage}
+                      currentPage={currentPage}
                       setTab={setTab}
                       fetchNextPage={fetchNextPage}
                       hasNextPage={hasNextPage}

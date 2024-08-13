@@ -9,7 +9,13 @@ import { useMutation } from "@tanstack/react-query";
 import ButtonLoading from "../../../../../../components/ButtonLoading";
 import { useAuth } from "../../../../../../context/AuthContextV2";
 
-export default function Step1({ formData, setFormData, handleNext }) {
+export default function Step1({
+  formData,
+  setFormData,
+  handleNext,
+  errors,
+  setErrors,
+}) {
   const { handleOpenLoginPopup } = useAuth();
   // CHANGE FORM DATA
   const handleFormChange = (e) => {
@@ -24,7 +30,6 @@ export default function Step1({ formData, setFormData, handleNext }) {
   };
 
   // VALIDATION
-  const [errors, setErrors] = useState({});
   const [email, setEmail] = useState("");
   // EMAIL VALIDATION MUTATION
   const checkEmailMutation = useMutation({

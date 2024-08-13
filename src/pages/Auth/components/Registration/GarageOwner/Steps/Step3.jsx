@@ -9,6 +9,8 @@ export default function Step3({
   setFormData,
   handlePrevious,
   handleNext,
+  errors,
+  setErrors,
 }) {
   const { makes, loading } = useData();
 
@@ -72,14 +74,12 @@ export default function Step3({
     );
   }, [makes, selectedMakes]);
 
-  const [isValidationErrorMessage, setIsValidationErrorMessage] = useState("");
-
   const validateForm = () => {
     if (
       formData?.service[0]?.automobile_makes?.filter((make) => make?.checked)
         ?.length === 0
     ) {
-      setIsValidationErrorMessage("Please select at least one make");
+      setErrors("Please select at least one make");
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -87,7 +87,7 @@ export default function Step3({
       });
       return false;
     } else {
-      setIsValidationErrorMessage("");
+      setErrors("");
       return true;
     }
   };

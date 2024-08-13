@@ -26,6 +26,7 @@ export default function SearchForm() {
     loading,
     homeSearchData,
     setHomeSearchData,
+    setFilterDataToLocalStorage,
   } = useData();
   const [searchData, setSearchData] = useState({
     address_line_1: "",
@@ -108,14 +109,15 @@ export default function SearchForm() {
   // HANDLE SEARCH
   const searchGarages = () => {
     if (validateForm()) {
+      let filterDataForLocalStorage = {};
       if (homeSearchData?.address) {
-        console.log("hit 1");
         const distanceData = calculateLatLongBounds({
-          lat: location?.latitude,
-          lon: location?.longitude,
+          lat: homeSearchData?.lat,
+          lon: homeSearchData?.long,
           radiusInKm: 3,
         });
-        setHomeSearchData({
+
+        setFilterDataToLocalStorage({
           ...homeSearchData,
           page: 1,
           search_key: "",
@@ -123,8 +125,8 @@ export default function SearchForm() {
           wifi_available: false,
           is_mobile_garage: false,
           services: [], //DONE
-          lat: location?.latitude, //DONE
-          long: location?.longitude, //DONE
+          lat: homeSearchData?.lat, //DONE
+          long: homeSearchData?.long, //DONE
           start_lat: distanceData?.minLat, //DONE
           end_lat: distanceData?.maxLat, //DONE
           start_long: distanceData?.minLon, //DONE
@@ -138,9 +140,7 @@ export default function SearchForm() {
               : "",
         });
       } else {
-        console.log("hit 2");
-
-        setHomeSearchData({
+        setFilterDataToLocalStorage({
           ...homeSearchData,
           page: 1,
           search_key: "",
@@ -162,7 +162,9 @@ export default function SearchForm() {
         });
       }
 
-      navigate("garages");
+      setTimeout(() => {
+        navigate("garages");
+      }, 10);
     }
   };
 

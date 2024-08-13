@@ -3,7 +3,7 @@ import { useData } from "../../../../context/DataContext";
 import { useGeoLocationData } from "../../../../context/GeoLocationDataContext";
 import { calculateLatLongBounds } from "../../../../utils/map";
 
-export default function SelectedFilters() {
+export default function SelectedFiltersForFuelStation() {
   const { homeSearchData, setHomeSearchData, subServices, makes, models } =
     useData();
 

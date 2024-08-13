@@ -43,8 +43,6 @@ export const saveToLocalStorage = async (
     page: page !== undefined ? page : 1,
     date_time: date_time,
   };
-
-  localStorage.setItem("search_data", JSON.stringify(searchingData));
 };
 // get garage list api function
 export const getGarages = async ({
@@ -143,8 +141,6 @@ export const getAllGarages = async ({
     date_time: date_time !== undefined ? date_time : "",
     page: page !== undefined ? page : 1,
   };
-
-  localStorage.setItem("search_data", JSON.stringify(searchingData));
 
   const addressCondition =
     (city === undefined || city === "undefined") &&

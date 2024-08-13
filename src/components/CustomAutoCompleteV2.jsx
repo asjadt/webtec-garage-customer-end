@@ -30,49 +30,6 @@ const CustomAutoCompleteV2 = ({
 
     // Extract latitude and longitude values
     onLocationChange({ ...place, lat: `${lat()}`, long: `${lng()}` });
-    // setFormData((prev) => ({
-    //   ...prev,
-    //   address_line_1: place?.formatted_address
-    //     ? place?.formatted_address
-    //     : "",
-    //   address: place?.formatted_address ? place?.formatted_address : "",
-    //   city: `${
-    //     place?.address_components?.find((i) => i?.types?.includes("locality"))
-    //       ?.long_name
-    //       ? place?.address_components?.find((i) =>
-    //           i?.types?.includes("locality")
-    //         )?.long_name
-    //       : ""
-    //   }`,
-    //   country_code: `${
-    //     place.address_components.find((i) => i?.types.includes("country"))
-    //       ?.short_name
-    //       ? place.address_components.find((i) => i?.types.includes("country"))
-    //           ?.short_name
-    //       : ""
-    //   }`,
-    //   country: `${
-    //     place?.address_components?.find((i) => i?.types?.includes("country"))
-    //       ?.long_name
-    //       ? place?.address_components?.find((i) =>
-    //           i?.types?.includes("country")
-    //         )?.long_name
-    //       : ""
-    //   }`,
-    //   postcode: `${
-    //     place?.address_components?.find((i) =>
-    //       i?.types?.includes("postal_code")
-    //     )?.long_name
-    //       ? place?.address_components?.find((i) =>
-    //           i?.types?.includes("postal_code")
-    //         )?.long_name
-    //       : ""
-    //   }`,
-    //   lat: `${lat()}`,
-    //   long: `${lng()}`,
-    //   start_lat: `${lat()}`,
-    //   start_long: `${lng()}`,
-    // }));
   };
 
   return (

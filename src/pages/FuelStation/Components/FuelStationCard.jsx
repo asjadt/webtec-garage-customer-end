@@ -17,7 +17,6 @@ const gridItemVariants = {
 };
 
 export default function FuelStationCard({ fuel }) {
-  console.log({ fuel });
   const {
     id,
     background_image,
@@ -54,7 +53,7 @@ export default function FuelStationCard({ fuel }) {
       {/* MAIN SECTION */}
       <div
         data-auto={`mainSection${id}-garageCard`}
-        className={`flex-grow space-y-5  md:px-5 text-sm lg:text-base`}
+        className={` flex flex-col justify-between h-full gap-2 w-full`}
       >
         <div className={`space-y-2`}>
           {/* NAME  */}
@@ -72,26 +71,28 @@ export default function FuelStationCard({ fuel }) {
             data-auto={`timings${id}-garageCard`}
             className={`flex text-sm items-center text-[#017436] font-bold`}
           >
-            <FaRegClock className={`mr-1`} />
+            <FaRegClock className={`mx-1`} />
             <p data-auto={`startEnd${id}-garageCard`}>
               {/* {timing?.start_at} - {timing?.end_at} */}
               {moment(opening_time, "HH:mm").format("hh:mm A")} -{" "}
               {moment(closing_time, "HH:mm").format("hh:mm A")}
             </p>
           </div>
+
           {/* ADDRESS  */}
           <div>
             <address
-              className={`text-sm flex items-center gap-1`}
+              className={`text-sm flex  items-start justify-start gap-1`}
               data-auto={`address${id}-garageCard`}
             >
-              <TiLocationOutline className={`text-primary`} size={16} />
+              <TiLocationOutline className={`text-primary`} size={20} />
 
               {address_line_1}
             </address>
           </div>
+
           {/* OPEN OR CLOSED */}
-          <p>
+          <p className={`ml-1`}>
             {currentTime?.isBetween(openingMoment, closingMoment) ? (
               <span
                 className={`px-3 flex w-fit gap-x-1 items-center justify-start py-[0.1rem] text-base-300 text-xs md:text-sm rounded-full bg-green-700`}
@@ -107,12 +108,13 @@ export default function FuelStationCard({ fuel }) {
             )}
           </p>
         </div>
-        {/* button */}
+
+        {/* ACTION */}
         <button
           onClick={() =>
             navigate(`/view-fuel-station-details/${encryptID(id)}`)
           }
-          className={`btn btn-primary btn-sm w-full md:w-auto`}
+          className={`btn btn-primary btn-sm w-full md:w-32`}
         >
           View Details
         </button>

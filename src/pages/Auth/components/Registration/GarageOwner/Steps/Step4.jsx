@@ -9,6 +9,8 @@ export default function Step4({
   setFormData,
   handlePrevious,
   handleNext,
+  errors,
+  setErrors,
 }) {
   const { loading, services, subServices } = useData();
 
@@ -142,13 +144,11 @@ export default function Step4({
     );
   }, [services, subServices, selectedSubServices, selectedServices]);
 
-  const [isValidationErrorMessage, setIsValidationErrorMessage] = useState("");
-
   const validateForm = () => {
     if (
       formData?.service[0]?.services?.filter((ss) => ss?.checked)?.length === 0
     ) {
-      setIsValidationErrorMessage("Please select at least one make");
+      setErrors("Please select at least one make");
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -156,7 +156,7 @@ export default function Step4({
       });
       return false;
     } else {
-      setIsValidationErrorMessage("");
+      setErrors("");
       return true;
     }
   };

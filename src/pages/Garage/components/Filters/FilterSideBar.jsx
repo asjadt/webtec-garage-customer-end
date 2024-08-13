@@ -1,27 +1,28 @@
 import { MdFilterList, MdSettingsRemote } from "react-icons/md";
-import Headings from "../Headings/Headings";
+import Headings from "../../../../components/Headings/Headings";
 import { IoIosArrowDown, IoIosWifi, IoMdClose } from "react-icons/io";
-import AccordionForFilter from "../Accordion/Accordion";
-import { useData } from "../../context/DataContext";
+import AccordionForFilter from "../../../../components/Accordion/Accordion";
+import { useData } from "../../../../context/DataContext";
 import { useEffect, useState } from "react";
 import { FiX } from "react-icons/fi";
-import { useGeoLocationData } from "../../context/GeoLocationDataContext";
-import ButtonLoading from "../ButtonLoading";
-import { calculateLatLongBounds } from "../../utils/map";
+import { useGeoLocationData } from "../../../../context/GeoLocationDataContext";
+import ButtonLoading from "../../../../components/ButtonLoading";
+import { calculateLatLongBounds } from "../../../../utils/map";
 
 export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
   const [isLoading, setIsLoading] = useState(true);
   const {
     homeSearchData,
-    setHomeSearchData,
+
+    setFilterDataToLocalStorage,
     subServices,
     makes,
     models,
     loading,
   } = useData();
-  const { llFromDistance, location } = useGeoLocationData();
-
-  const [locationDistanceRange, setLocationDistanceRange] = useState(3);
+  const filterData = localStorage.getItem("search_data")
+    ? JSON.parse(localStorage.getItem("search_data"))
+    : homeSearchData;
 
   const [isOpen, setIsOpen] = useState({
     Services: { id: 1, name: "Services", status: false },
@@ -40,19 +41,21 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
 
   // DISTANCE
   const [distance, setDistance] = useState(homeSearchData?.distance);
+
   useEffect(() => {
     setDistance(homeSearchData?.distance);
   }, [homeSearchData?.distance]);
+
   // HANDLE THE DISTANCE CHANGE
   const handleDistanceChange = () => {
     const distanceData = calculateLatLongBounds({
-      lat: location?.latitude,
-      lon: location?.longitude,
+      lat: filterData?.lat,
+      lon: filterData?.long,
       radiusInKm: homeSearchData?.distance,
     });
 
-    setHomeSearchData((prev) => ({
-      ...prev,
+    setFilterDataToLocalStorage({
+      ...homeSearchData,
       start_lat: distanceData?.minLat,
       end_lat: distanceData?.maxLat,
 
@@ -60,7 +63,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
       end_long: distanceData?.maxLon,
 
       distance: distance,
-    }));
+    });
   };
 
   return (
@@ -162,7 +165,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                             className={`checkbox-primary checkbox checkbox-sm`}
                             onChange={(e) => {
                               if (e.target.checked) {
-                                setHomeSearchData({
+                                setFilterDataToLocalStorage({
                                   ...homeSearchData,
                                   sub_services: [
                                     ...homeSearchData.sub_services,
@@ -170,7 +173,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                                   ],
                                 });
                               } else {
-                                setHomeSearchData({
+                                setFilterDataToLocalStorage({
                                   ...homeSearchData,
                                   sub_services:
                                     homeSearchData.sub_services.filter(
@@ -231,12 +234,12 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                       {makes?.map((make, index) => (
                         <label
                           key={index}
-                          htmlFor={`${make}-${index}`}
+                          htmlFor={`${make?.name}-${index}`}
                           className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
                         >
                           <input
                             type="radio"
-                            id={`${make}-${index}`}
+                            id={`${make?.name}-${index}`}
                             checked={homeSearchData?.makes?.some(
                               (s) => s === make.id
                             )}
@@ -244,12 +247,12 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                             className={`radio-primary radio checkbox-sm`}
                             onChange={(e) => {
                               if (e.target.checked) {
-                                setHomeSearchData({
+                                setFilterDataToLocalStorage({
                                   ...homeSearchData,
                                   makes: [make.id],
                                 });
                               } else {
-                                setHomeSearchData({
+                                setFilterDataToLocalStorage({
                                   ...homeSearchData,
                                   makes: homeSearchData.makes.filter(
                                     (sub) => sub !== make.id
@@ -309,12 +312,12 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                       {models?.map((model, index) => (
                         <label
                           key={index}
-                          htmlFor={`${model}-${index}`}
+                          htmlFor={`${model?.name}-${index}`}
                           className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
                         >
                           <input
                             type="radio"
-                            id={`${model}-${index}`}
+                            id={`${model?.name}-${index}`}
                             checked={homeSearchData?.models?.some(
                               (s) => s === model.id
                             )}
@@ -322,12 +325,12 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                             className={`radio-primary radio radio-sm`}
                             onChange={(e) => {
                               if (e.target.checked) {
-                                setHomeSearchData({
+                                setFilterDataToLocalStorage({
                                   ...homeSearchData,
                                   models: [model.id],
                                 });
                               } else {
-                                setHomeSearchData({
+                                setFilterDataToLocalStorage({
                                   ...homeSearchData,
                                   models: homeSearchData.models.filter(
                                     (sub) => sub !== model.id
@@ -450,7 +453,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                       {/* WIFI  */}
                       <button
                         onClick={() => {
-                          setHomeSearchData({
+                          setFilterDataToLocalStorage({
                             ...homeSearchData,
                             wifi_available: !homeSearchData?.wifi_available,
                           });
@@ -474,7 +477,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                       {/* REMOTE  */}
                       <button
                         onClick={() => {
-                          setHomeSearchData({
+                          setFilterDataToLocalStorage({
                             ...homeSearchData,
                             is_mobile_garage: !homeSearchData?.is_mobile_garage,
                           });

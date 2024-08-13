@@ -183,6 +183,7 @@ export default function GarageOwner() {
       console.log({ error });
     }
   };
+
   // HANDLE NEXT
   const handleNext = async () => {
     if (step === 5) {
@@ -192,9 +193,206 @@ export default function GarageOwner() {
     }
   };
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+  // VALIDATE FORM
+  const [errors, setErrors] = useState({});
+  const validateForm = () => {
+    setErrors({});
+    const newErrors = {};
+    // Validate first name
+    if (
+      !formData?.user?.first_Name ||
+      formData?.user?.first_Name.trim() === ""
+    ) {
+      newErrors.first_Name = "First name is required";
+    }
+    // Validate last name
+    if (!formData?.user?.last_Name || formData?.user?.last_Name.trim() === "") {
+      newErrors.last_Name = "Last name is required";
+    }
+
+    // Validate phone number
+    if (!formData?.user?.phone) {
+      newErrors.phone = "Phone number is required";
+    } else {
+      if (!/^\d{11}$/.test(formData?.user?.phone.trim())) {
+        newErrors.phone = "Phone number must have 11 digits";
+      }
+    }
+
+    // Validate email
+    if (!formData?.user?.email || formData?.user?.email.trim() === "") {
+      newErrors.email = "Email is required";
+    } else if (
+      !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i.test(
+        formData?.user?.email?.trim()
+      )
+    ) {
+      newErrors.email = "Invalid email";
+    }
+
+    // Validate password
+    if (formData?.user?.password) {
+      if (
+        !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(formData?.user?.password)
+      ) {
+        newErrors.password =
+          "Password must be at least 8 characters long and must be contain number, lowercase letter, uppercase letter";
+      }
+    } else {
+      newErrors.password = "Password is required";
+    }
+
+    setErrors(newErrors);
+
+    // Return true if there are no errors
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const [errors2, setErrors2] = useState({});
+  const validateForm2 = () => {
+    setErrors2({});
+    const newErrors = {};
+    // Validate first name
+    if (!formData?.garage?.name || formData?.garage?.name.trim() === "") {
+      newErrors.name = "Garage name is required";
+    }
+
+    // Validate email
+    if (!formData?.garage.email || formData?.garage.email.trim() === "") {
+      newErrors.email = "Email is required";
+    } else if (
+      !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i.test(
+        formData?.garage.email.trim()
+      )
+    ) {
+      newErrors.email = "Invalid email";
+    }
+
+    // Validate phone number
+    if (!formData?.garage?.phone) {
+      newErrors.phone = "Phone number is required";
+    } else {
+      if (!/^\d{11}$/.test(formData?.garage?.phone?.trim())) {
+        newErrors.phone = "Phone number must have 11 digits";
+      }
+    }
+
+    // Validate address
+    if (
+      !formData?.garage?.address_line_1 ||
+      formData?.garage?.address_line_1?.trim() === ""
+    ) {
+      newErrors.address_line_1 = "Address is required";
+    }
+
+    // lat long
+    if (!formData?.garage?.lat || !formData?.garage?.long) {
+      newErrors.address_line_1 = "Please select address from suggestion";
+    }
+
+    // Validate postcode
+    if (
+      !formData?.garage?.postcode ||
+      formData?.garage?.postcode?.trim() === ""
+    ) {
+      newErrors.postcode = "Postcode is required";
+    }
+
+    // Validate city
+    if (!formData?.garage?.city || formData?.garage?.city?.trim() === "") {
+      newErrors.city = "City is required";
+    }
+
+    // Validate country
+    if (
+      !formData?.garage?.country ||
+      formData?.garage?.country?.trim() === ""
+    ) {
+      newErrors.country = "Country is required";
+    }
+
+    // Validate labour_rate
+    if (!formData?.garage?.labour_rate) {
+      setFormData((prev) => ({
+        ...prev,
+        garage: {
+          ...prev.garage,
+          labour_rate: 0,
+        },
+      }));
+    }
+
+    // Validate currency
+    if (
+      !formData?.garage?.currency ||
+      formData?.garage?.currency?.trim() === ""
+    ) {
+      newErrors.currency = "Currency is required";
+    }
+
+    // Validate is_mobile_garage
+    if (
+      !formData?.garage?.wifi_available &&
+      formData?.garage?.wifi_available !== 0
+    ) {
+      newErrors.wifi_available = "This field is required";
+    }
+
+    // Validate is_mobile_garage
+    if (
+      !formData?.garage?.is_mobile_garage &&
+      formData?.garage?.is_mobile_garage !== 0
+    ) {
+      newErrors.is_mobile_garage = "This field is required";
+    }
+
+    // Validate is_mobile_garage
+    if (!formData?.garage?.time_format) {
+      newErrors.time_format = "Time format is required";
+    }
+    setErrors2(newErrors);
+
+    // Return true if there are no errors
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const [errors3, setErrors3] = useState("");
+  const validateForm3 = () => {
+    setErrors3("");
+    if (
+      formData?.service[0]?.automobile_makes?.filter((make) => make?.checked)
+        ?.length === 0
+    ) {
+      setErrors3("Please select at least one make");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please select at least one make",
+      });
+      return false;
+    } else {
+      setErrors3("");
+      return true;
+    }
+  };
+
+  const [errors4, setErrors4] = useState({});
+  const validateForm4 = () => {
+    if (
+      formData?.service[0]?.services?.filter((ss) => ss?.checked)?.length === 0
+    ) {
+      setErrors4("Please select at least one make");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please select at least one make",
+      });
+      return false;
+    } else {
+      setErrors4("");
+      return true;
+    }
+  };
 
   return (
     <div className={`pb-5`}>
@@ -206,26 +404,49 @@ export default function GarageOwner() {
               serial: 1,
               id: 1,
               title: "User Info",
+              onCLickHandler: () => {
+                setStep(1);
+              },
             },
             {
               serial: 2,
               id: 2,
               title: "Garage Info",
+              onCLickHandler: () => {
+                if (validateForm()) {
+                  setStep(2);
+                }
+              },
             },
             {
               serial: 3,
               id: 3,
               title: "Makes",
+              onCLickHandler: () => {
+                if (validateForm2()) {
+                  setStep(3);
+                }
+              },
             },
             {
               serial: 4,
               id: 4,
               title: "Services",
+              onCLickHandler: () => {
+                if (validateForm3()) {
+                  setStep(4);
+                }
+              },
             },
             {
               serial: 5,
               id: 5,
               title: "Schedule",
+              onCLickHandler: () => {
+                if (validateForm4()) {
+                  setStep(5);
+                }
+              },
             },
           ]}
           currentStep={step}
@@ -237,6 +458,8 @@ export default function GarageOwner() {
             formData={formData}
             setFormData={setFormData}
             handleNext={handleNext}
+            errors={errors}
+            setErrors={setErrors}
           />
         )}
         {step === 2 && (
@@ -245,6 +468,8 @@ export default function GarageOwner() {
             setFormData={setFormData}
             handlePrevious={handlePrevious}
             handleNext={handleNext}
+            errors={errors2}
+            setErrors={setErrors2}
           />
         )}
         {step === 3 && (
@@ -253,6 +478,8 @@ export default function GarageOwner() {
             setFormData={setFormData}
             handlePrevious={handlePrevious}
             handleNext={handleNext}
+            errors={errors3}
+            setErrors={setErrors3}
           />
         )}
         {step === 4 && (
@@ -261,6 +488,8 @@ export default function GarageOwner() {
             setFormData={setFormData}
             handlePrevious={handlePrevious}
             handleNext={handleNext}
+            errors={errors4}
+            setErrors={setErrors4}
           />
         )}
         {step === 5 && (

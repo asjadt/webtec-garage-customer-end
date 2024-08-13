@@ -35,9 +35,7 @@ export default function FuelStationList() {
   const [locationDistanceRange, setLocationDistanceRange] = useState(3);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  console.log({ fuelStationServices });
   const { fuelStations } = useData();
-  console.log({ fuelStationsFilter });
 
   // HANDLE THE DISTANCE CHANGE
   const handleDistanceChange = () => {
@@ -72,7 +70,7 @@ export default function FuelStationList() {
       ),
       Content: (
         <div
-          className={`flex  flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
+          className={`flex flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
         >
           {fuelStationServices?.map((service, index) => (
             <label

@@ -5,10 +5,12 @@ import { getAllGaragesForMap } from "../../../Apis/garage";
 import { useGeoLocationData } from "../../../context/GeoLocationDataContext";
 import { useData } from "../../../context/DataContext";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function GoogleMapForGarages() {
   const { defaultLocationProps, isGeoLocationLoading } = useGeoLocationData();
   const { setHomeSearchData } = useData();
+  const navigate = useNavigate();
 
   // GETTING GARAGES FOR MAP
   const { isPending: isGarageLoading, data } = useQuery({

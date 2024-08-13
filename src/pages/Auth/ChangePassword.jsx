@@ -156,11 +156,11 @@ export default function ChangePassword() {
                   dataAuto={`login-change`}
                   disabled={isLoading}
                   onClick={() => {
-                    navigate("/auth/login");
+                    navigate("/");
                   }}
                   className="btn w-full hidden md:block md:w-2/5 btn-outline btn-primary text-base-100"
                 >
-                  Back to Login
+                  Back to home
                 </button>
                 <button
                   dataAuto={`change-pass-change`}
