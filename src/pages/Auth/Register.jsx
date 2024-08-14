@@ -16,7 +16,7 @@ export default function Register() {
 
   console.warn({ form: authPopupOptions?.forms });
   return (
-    <div className={`mt-5 h-full px-5 pb-5`}>
+    <div className={`mt-5 h-full px-2 sm:px-5 pb-20`}>
       {/* TABS  */}
       {authPopupOptions?.forms?.customerRegistration &&
         authPopupOptions?.forms?.garageRegistration && (

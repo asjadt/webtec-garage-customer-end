@@ -15,7 +15,10 @@ export default function PublicLayout() {
     <div data-cy="hrm_app" className={`p-0 bg-base-100`}>
       <Navbar />
 
-      <div data-cy="main_container" className={`flex relative h-screen`}>
+      <div
+        data-cy="main_container"
+        className={`flex relative h-[calc(100vh-80px)]`}
+      >
         <Sidebar />
 
         <motion.div
