@@ -3,11 +3,10 @@
 // ===========================================
 
 import { motion } from "framer-motion";
-import Footer from "./Footer/Footer";
-import Navbar from "./Navbar/Navbar";
-import Sidebar from "./SideBar/Sidebar";
 import { Outlet } from "react-router-dom";
 import MobileMenu from "./MobileMenu/MobileMenu";
+import Navbar from "./Navbar/Navbar";
+import Sidebar from "./SideBar/Sidebar";
 
 export default function PublicLayout() {
   // const { isNavOpen, isDark } = useNav();
@@ -17,7 +16,7 @@ export default function PublicLayout() {
 
       <div
         data-cy="main_container"
-        className={`flex relative h-[calc(100vh-80px)]`}
+        className={`flex relative h-[calc(100vh-55px)] sm:h-screen`}
       >
         <Sidebar />
 

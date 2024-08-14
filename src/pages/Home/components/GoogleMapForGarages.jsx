@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function GoogleMapForGarages() {
   const { defaultLocationProps, isGeoLocationLoading } = useGeoLocationData();
-  const { setHomeSearchData } = useData();
   const navigate = useNavigate();
 
   // GETTING GARAGES FOR MAP
@@ -18,18 +17,6 @@ export default function GoogleMapForGarages() {
     queryFn: getAllGaragesForMap,
   });
 
-  useEffect(() => {
-    console.log({
-      defaultLocationProps,
-    });
-    if (defaultLocationProps?.city) {
-      setHomeSearchData((prev) => ({
-        ...prev,
-        city: defaultLocationProps?.city,
-        country: defaultLocationProps?.country,
-      }));
-    }
-  }, [defaultLocationProps]);
   return (
     <div data-auto={`container-googleMapForGarages`}>
       {isGarageLoading || isGeoLocationLoading ? (

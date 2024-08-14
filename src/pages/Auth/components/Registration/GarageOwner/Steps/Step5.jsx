@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CustomTimePicker from "../../../../../../components/InputFields/CustomTimePicker";
 import { convertTo24HourFormat } from "../../../../../../utils/convertTo24HourFormat";
 import ButtonLoading from "../../../../../../components/ButtonLoading";
+import CustomTimePickerV2 from "../../../../../../components/InputFields/CustomTimePickerV2";
 
 export default function Step5({
   formData,
@@ -113,7 +114,8 @@ export default function Step5({
                     "h-[80px]"
                   } `}
                 >
-                  <CustomTimePicker
+                  <CustomTimePickerV2
+                    bottom
                     right
                     visibleBorder
                     id={`opening_time`}
@@ -153,7 +155,7 @@ export default function Step5({
                     "h-[80px]"
                   } `}
                 >
-                  <CustomTimePicker
+                  <CustomTimePickerV2
                     right
                     visibleBorder
                     id={`closing_time`}

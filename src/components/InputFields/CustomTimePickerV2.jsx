@@ -27,6 +27,7 @@ export default function CustomTimePickerV2({
   fieldClassName,
   visibleBorder = false,
   right = false,
+  bottom = false,
   minStep = 15,
   dataAuto,
   isSeparatelyEditable = false,
@@ -212,6 +213,7 @@ export default function CustomTimePickerV2({
           }}
           id={id}
           type="text"
+          readOnly
           value={
             isInitial ||
             selectedHour === null ||
@@ -232,7 +234,7 @@ export default function CustomTimePickerV2({
           name={name}
           defaultValue={defaultValue}
           placeholder={`${placeholder}${required ? "*" : ""}`}
-          className={`focus:outline-primary bg-base-300 input w-full rounded-md input-bordered ${
+          className={`focus:outline-primary cursor-pointer bg-base-300 input w-full rounded-md input-bordered ${
             visibleBorder && "disabled:border-gray-200"
           }  ${fieldClassName}
         `}
@@ -280,81 +282,87 @@ export default function CustomTimePickerV2({
       {/* TIME PICKER  */}
       <div
         data-auto={`timePicker-container-${dataAuto}`}
-        className={`px-2 py-5 mt-2 absolute border flex flex-col border-primary-content  high-zindex top-full rounded-xl shadow-xl duration-300 items-center bg-base-300 ${
+        className={`px-2 py-3 mt-2 absolute  border flex flex-col border-primary-content  high-zindex top-full rounded-md shadow-xl duration-300 items-center bg-base-300 ${
           right ? "right-0" : ""
-        }  ${
+        }   ${
           openTimeSelector
             ? `${
-                minTime || maxTime ? "h-auto w-[300px]" : "h-auto w-[300px]"
+                minTime || maxTime
+                  ? "h-auto w-[200px] md:w-[300px]"
+                  : "h-auto w-[200px] md:w-[300px]"
               } opacity-100 flex`
-            : `h-0 opacity-0 w-[0] hidden`
+            : `h-0 opacity-0 hidden`
         }`}
       >
-        <div className={`flex items-center gap-x-2`}>
-          {/* HOURS  */}
-          <div
-            data-auto={`hours-container-${dataAuto}`}
-            className="flex flex-col text-3xl gap-2"
-          >
-            <button
-              data-auto={`hour-plus-${dataAuto}`}
-              onClick={increaseHour}
-              className={`px-5 py-1 w-20 border  rounded-xl flex justify-center items-center hover:bg-primary hover:text-base-300 duration-200`}
+        <div className={`flex items-center flex-col md:flex-row gap-4`}>
+          {/* CLOCK  */}
+          <div className={`flex items-center gap-x-2`}>
+            {/* HOURS  */}
+            <div
+              data-auto={`hours-container-${dataAuto}`}
+              className="flex flex-col text-3xl gap-2"
             >
-              <FiPlus className="" />
-            </button>
-            <input
-              data-auto={`hour-input-${dataAuto}`}
-              disabled={!isSeparatelyEditable}
-              onClick={handleClick}
-              type="text"
-              className={`px-5 py-1 text-center w-20 border rounded-xl bg-transparent outline-none`}
-              value={selectedHour < 10 ? `0${selectedHour}` : selectedHour}
-            />
+              <button
+                data-auto={`hour-plus-${dataAuto}`}
+                onClick={increaseHour}
+                className={`px-5 py-1 w-20 border bg-slate-100 text-slate-700 rounded-md flex justify-center items-center hover:bg-primary hover:text-base-300 duration-200`}
+              >
+                <FiPlus className="" />
+              </button>
+              <input
+                data-auto={`hour-input-${dataAuto}`}
+                disabled={!isSeparatelyEditable}
+                onClick={handleClick}
+                type="text"
+                className={`px-5 py-1 text-center w-20 border rounded-md bg-transparent outline-none`}
+                value={selectedHour < 10 ? `0${selectedHour}` : selectedHour}
+              />
 
-            <button
-              data-auto={`hour-minus-${dataAuto}`}
-              onClick={decreaseHour}
-              className={`px-5 py-1 w-20 border rounded-xl flex justify-center items-center hover:bg-primary hover:text-base-300 duration-200`}
+              <button
+                data-auto={`hour-minus-${dataAuto}`}
+                onClick={decreaseHour}
+                className={`px-5 py-1 w-20 bg-slate-100 text-slate-700 border rounded-md flex justify-center items-center hover:bg-primary hover:text-base-300 duration-200`}
+              >
+                <FiMinus className="" />
+              </button>
+            </div>
+
+            <div className="text-4xl mb-2 mr-0">:</div>
+
+            {/* MINUTES  */}
+            <div
+              data-auto={`minutes-container-${dataAuto}`}
+              className="flex flex-col text-3xl gap-2 items-center justify-center"
             >
-              <FiMinus className="" />
-            </button>
+              <button
+                data-auto={`minute-plus-${dataAuto}`}
+                onMouseDown={increaseMin}
+                className={`px-5 py-1 bg-slate-100 w-20 text-slate-700 border rounded-md flex justify-center items-center hover:bg-primary hover:text-base-300 duration-200`}
+              >
+                <FiPlus className="" />
+              </button>
+              <input
+                data-auto={`minute-${dataAuto}`}
+                disabled={!isSeparatelyEditable}
+                onClick={handleClick}
+                type="text"
+                className={`px-5 py-1 text-center w-20 border rounded-md bg-transparent outline-none`}
+                value={selectedMin < 10 ? `0${selectedMin}` : selectedMin}
+              />
+              <button
+                data-auto={`minute-minus-${dataAuto}`}
+                onMouseDown={decreaseMin}
+                className={`px-5 py-1 w-20 bg-slate-100 text-slate-700 border rounded-md flex justify-center items-center hover:bg-primary hover:text-base-300 duration-200`}
+              >
+                <FiMinus className="" />
+              </button>
+            </div>
           </div>
 
-          <div className="text-4xl mb-2 mr-0">:</div>
-
-          {/* MINUTES  */}
-          <div
-            data-auto={`minutes-container-${dataAuto}`}
-            className="flex flex-col text-3xl gap-2 items-center justify-center"
-          >
-            <button
-              data-auto={`minute-plus-${dataAuto}`}
-              onMouseDown={increaseMin}
-              className={`px-5 py-1 w-20 border rounded-xl flex justify-center items-center hover:bg-primary hover:text-base-300 duration-200`}
-            >
-              <FiPlus className="" />
-            </button>
-            <input
-              data-auto={`minute-${dataAuto}`}
-              disabled={!isSeparatelyEditable}
-              onClick={handleClick}
-              type="text"
-              className={`px-5 py-1 text-center w-20 border rounded-xl bg-transparent outline-none`}
-              value={selectedMin < 10 ? `0${selectedMin}` : selectedMin}
-            />
-            <button
-              data-auto={`minute-minus-${dataAuto}`}
-              onMouseDown={decreaseMin}
-              className={`px-5 py-1 w-20 border rounded-xl flex justify-center items-center hover:bg-primary hover:text-base-300 duration-200`}
-            >
-              <FiMinus className="" />
-            </button>
-          </div>
           {/* AM/PM  */}
           <div
             data-auto={`amPm-container-${dataAuto}`}
-            className="flex flex-col text-md ml-5 gap-2 relative"
+            className="grid grid-cols-2 md:grid-cols-1 text-md gap-x-5 md:gap-y-2  w-full md:w-auto relative"
           >
             <button
               data-auto={`am-${dataAuto}`}
@@ -365,7 +373,7 @@ export default function CustomTimePickerV2({
                 selectedAmOrPm === "AM"
                   ? "bg-primary text-base-300 hover:text-primary border-primary"
                   : "border-gray-300"
-              } hover:bg-primary-content  px-3 rounded-md py-2 border-2`}
+              } hover:bg-primary-content w-full px-3 rounded-md py-2 border-2`}
             >
               AM
             </button>
@@ -378,7 +386,7 @@ export default function CustomTimePickerV2({
                 selectedAmOrPm === "PM"
                   ? "bg-primary text-base-300 hover:text-primary border-primary"
                   : "border-gray-300"
-              } hover:bg-primary-content  px-3 rounded-md py-2 border-2`}
+              } hover:bg-primary-content w-full px-3 rounded-md py-2 border-2`}
             >
               PM
             </button>
@@ -386,43 +394,45 @@ export default function CustomTimePickerV2({
         </div>
 
         {/* RANGE  */}
-        {(minTime && maxTime) ||
+        {!!(
+          (minTime && maxTime) ||
           (!minTime && maxTime) ||
-          (minTime && !maxTime && (
-            <div
-              data-auto={`error-${dataAuto}`}
-              className={`text-xs text-red-500 flex justify-center items-center h-10 gap-x-1`}
-            >
-              {minTime && maxTime && (
-                <>
-                  <span>Allowed from</span>
-                  <span className={`font-medium`}>
-                    {convertTo12HourFormat(minTime)}
-                  </span>
-                  <span>to</span>
-                  <span className={`font-medium`}>
-                    {convertTo12HourFormat(maxTime)}
-                  </span>
-                </>
-              )}
-              {!minTime && maxTime && (
-                <>
-                  Allowed until{" "}
-                  <span className={`font-medium`}>
-                    {convertTo12HourFormat(maxTime)}
-                  </span>
-                </>
-              )}
-              {minTime && !maxTime && (
-                <>
-                  Allowed after{" "}
-                  <span className={`font-medium`}>
-                    {convertTo12HourFormat(minTime)}
-                  </span>
-                </>
-              )}
-            </div>
-          ))}
+          (minTime && !maxTime)
+        ) && (
+          <div
+            data-auto={`error-${dataAuto}`}
+            className={`text-xs text-red-500 flex justify-center items-center mt-3 gap-x-1`}
+          >
+            {minTime && maxTime && (
+              <>
+                <span>Allowed from</span>
+                <span className={`font-medium`}>
+                  {convertTo12HourFormat(minTime)}
+                </span>
+                <span>to</span>
+                <span className={`font-medium`}>
+                  {convertTo12HourFormat(maxTime)}
+                </span>
+              </>
+            )}
+            {!minTime && maxTime && (
+              <>
+                Allowed until{" "}
+                <span className={`font-medium`}>
+                  {convertTo12HourFormat(maxTime)}
+                </span>
+              </>
+            )}
+            {minTime && !maxTime && (
+              <>
+                Allowed after{" "}
+                <span className={`font-medium`}>
+                  {convertTo12HourFormat(minTime)}
+                </span>
+              </>
+            )}
+          </div>
+        )}
       </div>
     </OutsideClickHandler>
   );

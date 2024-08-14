@@ -36,7 +36,7 @@ export default function GarageList() {
     return getGaragesV2({
       ...filterData,
       page: pageParam,
-      perPage: 10,
+      perPage: 2,
     });
   };
 
@@ -54,8 +54,8 @@ export default function GarageList() {
     queryFn: fetchGarages,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      // return lastPage?.length ? allPages?.length + 1 : undefined;
-      return allPages?.length + 1;
+      console.log({ lastPage: lastPage?.data?.length });
+      return lastPage?.data?.length ? allPages?.length + 1 : undefined;
     },
   });
 

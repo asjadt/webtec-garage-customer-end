@@ -1,12 +1,9 @@
-import { MdFilterList, MdSettingsRemote } from "react-icons/md";
-import Headings from "../../../../components/Headings/Headings";
-import { IoIosArrowDown, IoIosWifi, IoMdClose } from "react-icons/io";
-import AccordionForFilter from "../../../../components/Accordion/Accordion";
-import { useData } from "../../../../context/DataContext";
 import { useEffect, useState } from "react";
 import { FiX } from "react-icons/fi";
-import { useGeoLocationData } from "../../../../context/GeoLocationDataContext";
-import ButtonLoading from "../../../../components/ButtonLoading";
+import { IoIosArrowDown, IoIosWifi } from "react-icons/io";
+import { MdFilterList, MdSettingsRemote } from "react-icons/md";
+import Headings from "../../../../components/Headings/Headings";
+import { useData } from "../../../../context/DataContext";
 import { calculateLatLongBounds } from "../../../../utils/map";
 
 export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
@@ -105,8 +102,81 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
           className={`scrollbar-none min-h-[calc(100vh-205px)] max-h-[calc(100vh-205px)] md:h-screen overflow-y-auto overflow-x-hidden`}
         >
           {loading || isLoading ? (
-            <div>
-              <ButtonLoading />
+            // LOADING
+            <div className={`h-full w-full flex flex-col justify-start`}>
+              <div
+                className={`bg-base-300 flex items-center justify-between py-5 border-y-2 border-dotted w-full px-5`}
+              >
+                <div className={`flex items-center gap-5`}>
+                  <div
+                    className={` h-5 w-32 rounded-full bg-slate-300 animate-pulse`}
+                  ></div>
+                  <div
+                    className={` rounded-full w-5 h-5 bg-slate-300 animate-pulse`}
+                  ></div>
+                </div>
+                <div
+                  className={`w-2 h-2 rounded-full bg-slate-300 animate-pulse`}
+                ></div>
+              </div>
+              <div
+                className={`bg-base-300 flex items-center justify-between py-5 border-y-2 border-dotted w-full px-5`}
+              >
+                <div className={`flex items-center gap-5`}>
+                  <div
+                    className={` h-5 w-32 rounded-full bg-slate-300 animate-pulse`}
+                  ></div>
+                  <div
+                    className={` rounded-full w-5 h-5 bg-slate-300 animate-pulse`}
+                  ></div>
+                </div>
+                <div
+                  className={`w-2 h-2 rounded-full bg-slate-300 animate-pulse`}
+                ></div>
+              </div>
+              <div
+                className={`bg-base-300 flex items-center justify-between py-5 border-y-2 border-dotted w-full px-5`}
+              >
+                <div className={`flex items-center gap-5`}>
+                  <div
+                    className={` h-5 w-32 rounded-full bg-slate-300 animate-pulse`}
+                  ></div>
+                  <div
+                    className={` rounded-full w-5 h-5 bg-slate-300 animate-pulse`}
+                  ></div>
+                </div>
+                <div
+                  className={`w-2 h-2 rounded-full bg-slate-300 animate-pulse`}
+                ></div>
+              </div>
+              <div
+                className={`bg-base-300 flex items-center justify-between py-5 border-y-2 border-dotted w-full px-5`}
+              >
+                <div className={`flex items-center gap-5`}>
+                  <div
+                    className={` h-5 w-32 rounded-full bg-slate-300 animate-pulse`}
+                  ></div>
+                  <div
+                    className={` rounded-full w-5 h-5 bg-slate-300 animate-pulse`}
+                  ></div>
+                </div>
+                <div
+                  className={`w-2 h-2 rounded-full bg-slate-300 animate-pulse`}
+                ></div>
+              </div>
+              <div
+                className={`bg-base-300 flex items-center justify-between py-5 border-y-2 border-dotted w-full px-5`}
+              >
+                <div className={`flex items-center gap-5`}>
+                  <div
+                    className={` h-5 w-32 rounded-full bg-slate-300 animate-pulse`}
+                  ></div>
+                  <div
+                    className={` rounded-full w-5 h-5 bg-slate-300 animate-pulse`}
+                  ></div>
+                </div>
+                <div className={`w-2 h-2 bg-slate-300 animate-pulse`}></div>
+              </div>
             </div>
           ) : (
             <div
@@ -123,7 +193,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                       ...isOpen,
                       Services: {
                         ...isOpen["Services"],
-                        status: !isOpen["Services"].status,
+                        status: !isOpen["Services"]?.status,
                       },
                     })
                   }
@@ -144,7 +214,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
 
                     <span
                       className={`${
-                        isOpen["Services"].status ? "rotate-180" : ""
+                        isOpen["Services"]?.status ? "rotate-180" : ""
                       } transition-all duration-200`}
                     >
                       <IoIosArrowDown />
@@ -217,7 +287,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                       ...isOpen,
                       Make: {
                         ...isOpen["Make"],
-                        status: !isOpen["Make"].status,
+                        status: !isOpen["Make"]?.status,
                       },
                     })
                   }
@@ -235,7 +305,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                     </div>
                     <span
                       className={`${
-                        isOpen["Make"].status ? "rotate-180" : ""
+                        isOpen["Make"]?.status ? "rotate-180" : ""
                       } transition-all duration-200`}
                     >
                       <IoIosArrowDown />
@@ -303,7 +373,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                       ...isOpen,
                       Model: {
                         ...isOpen["Model"],
-                        status: !isOpen["Model"].status,
+                        status: !isOpen["Model"]?.status,
                       },
                     })
                   }
@@ -321,7 +391,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                     </div>
                     <span
                       className={`${
-                        isOpen["Model"].status ? "rotate-180" : ""
+                        isOpen["Model"]?.status ? "rotate-180" : ""
                       } transition-all duration-200`}
                     >
                       <IoIosArrowDown />
@@ -390,7 +460,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                         ...isOpen,
                         Distance: {
                           ...isOpen["Distance"],
-                          status: !isOpen["Distance"].status,
+                          status: !isOpen["Distance"]?.status,
                         },
                       })
                     }
@@ -408,7 +478,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                       </div>
                       <span
                         className={`${
-                          isOpen["Distance"].status ? "rotate-180" : ""
+                          isOpen["Distance"]?.status ? "rotate-180" : ""
                         } transition-all duration-200`}
                       >
                         <IoIosArrowDown />
@@ -456,7 +526,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                       ...isOpen,
                       Others: {
                         ...isOpen["Others"],
-                        status: !isOpen["Others"].status,
+                        status: !isOpen["Others"]?.status,
                       },
                     })
                   }
@@ -480,7 +550,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
                     </div>
                     <span
                       className={`${
-                        isOpen["Others"].status ? "rotate-180" : ""
+                        isOpen["Others"]?.status ? "rotate-180" : ""
                       } transition-all duration-200`}
                     >
                       <IoIosArrowDown />

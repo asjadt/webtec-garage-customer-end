@@ -24,7 +24,6 @@ export default function GarageListComponent({
 
   useEffect(() => {
     if (inView && currentPage < totalPage) {
-      console.log("fetch", currentPage, totalPage);
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
@@ -56,19 +55,25 @@ export default function GarageListComponent({
             </motion.div>
 
             {!isLoading && (
-              <div
-                data-auto={`button-garageListComponent`}
-                ref={ref}
-                className={`flex justify-center items-center mt-5`}
-              >
-                <button
-                  data-auto={`loadMore-garageListComponent`}
-                  className={`btn btn-sm btn-primary`}
-                  onClick={() => fetchNextPage()}
-                >
-                  load more
-                </button>
-              </div>
+              <>
+                {currentPage < totalPage ? (
+                  <div
+                    data-auto={`button-garageListComponent`}
+                    ref={ref}
+                    className={`flex justify-center items-center mt-5`}
+                  >
+                    <button
+                      data-auto={`loadMore-garageListComponent`}
+                      className={`btn btn-sm btn-primary`}
+                      onClick={() => fetchNextPage()}
+                    >
+                      load more
+                    </button>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </>
             )}
           </>
         ) : (

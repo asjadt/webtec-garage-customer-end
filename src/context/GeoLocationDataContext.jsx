@@ -46,26 +46,6 @@ export const GeoLocationDataContextProvider = ({ children }) => {
     };
   };
 
-  // Function to fetch location using IP address as a fallback
-  const fetchLocationByIP = async () => {
-    try {
-      const response = await fetch(
-        `https://api.ip2location.io/?key=${
-          import.meta.env.VITE_IP2LOCATION_API_KEY
-        }`
-      );
-      const data = await response.json();
-      setLocation({
-        latitude: data.latitude,
-        longitude: data.longitude,
-      });
-      setIsGeoLocationLoading(false);
-    } catch (error) {
-      console.error("Error fetching location by IP:", error);
-      setIsGeoLocationLoading(false);
-    }
-  };
-
   // GETTING EXACT LOCATION
   useEffect(() => {
     // Function to fetch location using Geolocation API
@@ -81,13 +61,10 @@ export const GeoLocationDataContextProvider = ({ children }) => {
             setIsGeoLocationLoading(false);
           },
           (error) => {
-            setIsGeoLocationLoading(true);
-            fetchLocationByIP(); // Fallback to IP-based location if Geolocation API fails
+            setIsGeoLocationLoading(false);
+            handleApiError(error);
           }
         );
-      } else {
-        setIsGeoLocationLoading(true);
-        fetchLocationByIP();
       }
     };
 
@@ -109,9 +86,6 @@ export const GeoLocationDataContextProvider = ({ children }) => {
         lon: location?.longitude,
         radiusInKm: 3,
       }),
-
-      city: location?.city,
-      country: location?.country,
     });
   }, [location.pathname, location, isGeoLocationLoading]);
   return (
