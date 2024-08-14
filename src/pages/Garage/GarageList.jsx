@@ -36,7 +36,7 @@ export default function GarageList() {
     return getGaragesV2({
       ...filterData,
       page: pageParam,
-      perPage: 2,
+      perPage: 10,
     });
   };
 
