@@ -73,14 +73,21 @@ export default function SingleGarage() {
     return <CustomLoading />;
   } else {
     return (
-      <div>
+      <div data-auto={`container-singleGarage`}>
         <div className={`relative mb-44`}>
-          <div className={`absolute top-4 right-4`}>
+          <div
+            data-auto={`goBack-singleGarage`}
+            className={`absolute top-4 right-4`}
+          >
             <GoBackButton />
           </div>
           {/* COVER  */}
-          <div className={`w-full h-[400px] overflow-hidden`}>
+          <div
+            data-auto={`cover-singleGarage`}
+            className={`w-full h-[400px] overflow-hidden`}
+          >
             <img
+              data-auto={`coverImage-singleGarage`}
               src={
                 data?.garage?.background_image ||
                 "https://garagewire.co.uk/wp-content/uploads/2017/09/bigstock-auto-service-repair-maintena-1505041221-760x500.jpg"
@@ -92,16 +99,19 @@ export default function SingleGarage() {
 
           {/* PROFILE  */}
           <div
+            data-auto={`profile-container-singleGarage`}
             className={`absolute -bottom-36 w-full left-1/2 -translate-x-1/2  gap-y-2 flex flex-col items-center `}
           >
             {/* PROFILE PIC  */}
             <motion.div
+              data-auto={`profile-singleGarage`}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ duration: 1, type: "spring" }}
               className={`w-[120px] md:w-[180px] h-[120px] md:h-[180px] rounded-full border-4 md:border-8 border-base-300 shadow-lg overflow-hidden`}
             >
               <img
+                data-auto={`profileImage-singleGarage`}
                 src={
                   data?.garage?.logo ||
                   "https://i.postimg.cc/d13x1Cd6/ksnip-20240730-175628.png"
@@ -113,6 +123,7 @@ export default function SingleGarage() {
             {/* NAME  */}
             <div className={`overflow-hidden `}>
               <motion.h1
+                data-auto={`name-singleGarage`}
                 initial={{ translateY: 50 }}
                 animate={{ translateY: 1 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
@@ -122,7 +133,10 @@ export default function SingleGarage() {
               </motion.h1>
             </div>
             {/* ADDRESS  */}
-            <div className={`overflow-hidden `}>
+            <div
+              data-auto={`address-container-singleGarage`}
+              className={`overflow-hidden `}
+            >
               <motion.div
                 initial={{ translateY: 50 }}
                 animate={{ translateY: 1 }}
@@ -130,7 +144,10 @@ export default function SingleGarage() {
                 className={`flex gap-x-1 justify-center items-center`}
               >
                 <TiLocationOutline className={`text-primary`} size={24} />
-                <address className={`text-center`}>
+                <address
+                  data-auto={`address-singleGarage`}
+                  className={`text-center`}
+                >
                   {data?.garage?.address_line_1}
                 </address>
               </motion.div>
@@ -139,7 +156,10 @@ export default function SingleGarage() {
         </div>
 
         {/* TABS  */}
-        <div className={`w-full flex justify-center items-center`}>
+        <div
+          data-auto={`tabs-container-singleGarage`}
+          className={`w-full flex justify-center items-center`}
+        >
           <CustomTab
             gridCol={`${
               data?.garage?.garage_packages?.length > 0
@@ -153,11 +173,15 @@ export default function SingleGarage() {
             }
             activeTab={activeTab}
             setActiveTab={setActiveTab}
+            dataAuto={"singleGarage"}
           />
         </div>
 
         {/* MAIN SECTION  */}
-        <div className={`min-h-[300px]`}>
+        <div
+          data-auto={`main-container-singleGarage`}
+          className={`min-h-[300px]`}
+        >
           {/* BOOKING  */}
           {activeTab === "booking" && (
             <CreateBookingForm

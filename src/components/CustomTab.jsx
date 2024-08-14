@@ -9,16 +9,17 @@ const CustomTab = ({
   layoutId = "active-order-pil",
   filters,
   setFilters,
+  dataAuto,
 }) => {
   return (
-    <div data-auto={`orderType-container-mainSection`} className={``}>
+    <div data-auto={`container-${dataAuto}`} className={``}>
       <div className={`pb-5`}>
         <div
           className={`bg-gray-100 text-sm transition-all duration-200 w-[320px] grid ${gridCol} rounded-full p-1 h-10`}
         >
           {tabs.map((ot, index) => (
             <button
-              data-auto={`orderType${index + 1}-mainSection`}
+              data-auto={`tab${index + 1}-${dataAuto}`}
               key={index}
               onClick={() => {
                 setActiveTab(ot?.id);
