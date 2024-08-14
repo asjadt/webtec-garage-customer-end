@@ -20,7 +20,7 @@ export default function GarageListComponent({
   currentPage,
 }) {
   const { ref, inView } = useInView();
-  const { garageList, fuelStations } = useData();
+  const { garageList, fuelStationList } = useData();
 
   useEffect(() => {
     if (inView && currentPage < totalPage) {

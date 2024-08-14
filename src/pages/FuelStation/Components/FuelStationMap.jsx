@@ -10,22 +10,91 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useGeoLocationData } from "../../../context/GeoLocationDataContext";
+import { calculateLatLongBounds } from "../../../utils/map";
 
 const FuelStationMap = ({ setActiveTab }) => {
   const navigate = useNavigate();
   const { defaultLocationProps, isGeoLocationLoading } = useGeoLocationData();
 
-  useEffect(() => {
-    console.log({ isGeoLocationLoading });
-  }, [isGeoLocationLoading]);
-  const { homeSearchData, setHomeSearchData } = useData();
+  const {
+    setFuelStationSearchData,
+    fuelStationSearchData,
+    setFuelStationFilterDataToLocalStorage,
+  } = useData();
+
   const onFormDataChange = (e) => {
-    setHomeSearchData((prev) => ({
-      ...prev,
+    setFuelStationFilterDataToLocalStorage({
+      ...fuelStationSearchData,
       address: e.target.value,
-    }));
+      distance: 3,
+    });
   };
 
+  useEffect(() => {
+    setFuelStationFilterDataToLocalStorage({
+      page: 1,
+      perPage: 20,
+
+      search_key: "",
+
+      services: [],
+
+      address: "",
+      city: "",
+      country_code: "",
+      lat: "",
+      long: "",
+      start_lat: "",
+      end_lat: "",
+      start_long: "",
+      end_long: "",
+
+      wifi_available: false,
+      is_mobile_garage: false,
+      date_time: "",
+    });
+  }, []);
+
+  // HANDLE FUEL STATION SEARCH
+  const handleFuelStationSearch = () => {
+    if (fuelStationSearchData?.address) {
+      const distanceData = calculateLatLongBounds({
+        lat: fuelStationSearchData?.lat,
+        lon: fuelStationSearchData?.long,
+        radiusInKm: 3,
+      });
+
+      setFuelStationFilterDataToLocalStorage({
+        ...fuelStationSearchData,
+        page: 1,
+        search_key: "",
+        distance: 3,
+        services: [], //DONE
+        lat: fuelStationSearchData?.lat, //DONE
+        long: fuelStationSearchData?.long, //DONE
+        start_lat: distanceData?.minLat, //DONE
+        end_lat: distanceData?.maxLat, //DONE
+        start_long: distanceData?.minLon, //DONE
+        end_long: distanceData?.maxLon, //DONE
+      });
+    } else {
+      setFuelStationFilterDataToLocalStorage({
+        ...fuelStationSearchData,
+        page: 1,
+        search_key: "",
+        distance: 0,
+        services: [], //DONE
+        lat: location?.latitude, //DONE
+        long: location?.longitude, //DONE
+        start_lat: "", //DONE
+        start_long: "", //DONE
+      });
+    }
+
+    setTimeout(() => {
+      setActiveTab("list");
+    }, 10);
+  };
   // GETTING FUEL STATIONS FOR MAP
   const { isPending: isFuelStationLoading, data } = useQuery({
     queryKey: ["map-fuel-stations"],
@@ -49,14 +118,14 @@ const FuelStationMap = ({ setActiveTab }) => {
               type="text"
               name="address"
               onChange={onFormDataChange}
-              searchData={homeSearchData}
-              setFormData={setHomeSearchData}
-              defaultValue={homeSearchData?.address}
+              searchData={fuelStationSearchData}
+              setFormData={setFuelStationSearchData}
+              defaultValue={fuelStationSearchData?.address}
               dataAuto={`homepage-address-searchPlace`}
             />
           </div>
           <button
-            onClick={() => setActiveTab("list")}
+            onClick={handleFuelStationSearch}
             className={`btn btn-primary`}
           >
             Search

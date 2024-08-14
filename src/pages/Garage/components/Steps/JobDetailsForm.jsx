@@ -258,11 +258,50 @@ export default function JobDetailsForm({
           type={"text"}
           wrapperClassName={"w-full"}
           dataAuto={`search-job_start_date`}
-          error={errors?.job_start_date}
+          error={
+            formData?.job_start_date
+              ? garageData?.garage?.garage_times?.find(
+                  (item) =>
+                    item?.day ===
+                    moment(formData?.job_start_date, "YYYY-MM-DD").day()
+                )?.is_closed
+                ? "Garage is closed on this day"
+                : ""
+              : errors?.job_start_date
+          }
         />
 
         {/* TIME  */}
         <CustomTimePickerV2
+          disable={
+            formData?.job_start_date
+              ? garageData?.garage?.garage_times?.find(
+                  (item) =>
+                    item?.day ===
+                    moment(formData?.job_start_date, "YYYY-MM-DD").day()
+                )?.is_closed
+                ? true
+                : false
+              : false
+          }
+          minTime={
+            formData?.job_start_date
+              ? garageData?.garage?.garage_times?.find(
+                  (item) =>
+                    item?.day ===
+                    moment(formData?.job_start_date, "YYYY-MM-DD").day()
+                )?.opening_time
+              : ""
+          }
+          maxTime={
+            formData?.job_start_date
+              ? garageData?.garage?.garage_times?.find(
+                  (item) =>
+                    item?.day ===
+                    moment(formData?.job_start_date, "YYYY-MM-DD").day()
+                )?.closing_time
+              : ""
+          }
           label={"Job start time"}
           required
           value={
@@ -278,7 +317,17 @@ export default function JobDetailsForm({
                 : "",
             });
           }}
-          error={errors?.job_start_time}
+          error={
+            formData?.job_start_date
+              ? garageData?.garage?.garage_times?.find(
+                  (item) =>
+                    item?.day ===
+                    moment(formData?.job_start_date, "YYYY-MM-DD").day()
+                )?.is_closed
+                ? "You can't select time on off day"
+                : ""
+              : errors?.job_start_time
+          }
         />
 
         {/* CAR REG  */}

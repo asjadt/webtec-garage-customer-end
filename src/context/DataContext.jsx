@@ -17,6 +17,7 @@ export const DataContextProvider = ({ children }) => {
 
   const [services, setServices] = useState([]);
   const [subServices, setSubServices] = useState([]);
+  const [fuelStationServices, setFuelStationServices] = useState([]);
 
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
@@ -47,13 +48,12 @@ export const DataContextProvider = ({ children }) => {
 
     distance: 0,
   });
-  const [fuelStationsFilter, setFuelStationsFilter] = useState({
+
+  const [fuelStationSearchData, setFuelStationSearchData] = useState({
     page: 1,
     perPage: 20,
 
     search_key: "",
-    time: "",
-    is_checked: "",
 
     services: [],
 
@@ -66,14 +66,20 @@ export const DataContextProvider = ({ children }) => {
     start_long: "",
     end_long: "",
 
+    wifi_available: false,
+    is_mobile_garage: false,
     date_time: "",
-  });
-  const [totalGarageFound, setTotalGarageFound] = useState(0);
-  const [fuelStations, setFuelStations] = useState({});
 
+    distance: 0,
+  });
+
+  const [totalGarageFound, setTotalGarageFound] = useState(0);
+  const [totalFuelStationFound, setTotalFuelStationFound] = useState(0);
+
+  const [fuelStationList, setFuelStationList] = useState([]);
   const [garageList, setGarageList] = useState([]);
+
   const [makeJob, setMakeJob] = useState(false);
-  const [fuelStationServices, setFuelStationServices] = useState([]);
 
   // SETTER FUNCTION FOR HOMEPAGE FILTER DATA
   const setFilterDataToLocalStorage = (value) => {
@@ -84,14 +90,17 @@ export const DataContextProvider = ({ children }) => {
     localStorage.setItem("search_data", JSON.stringify(filterData));
   };
 
-  // const setFilterDataToLocalStorage = (value) => {
-  //   let filterData = {
-  //     ...value,
-  //   };
-  //   setHomeSearchData(filterData);
+  const setFuelStationFilterDataToLocalStorage = (value) => {
+    let filterData = {
+      ...value,
+    };
+    setFuelStationSearchData(filterData);
+    localStorage.setItem(
+      "search_data_for_fuel_station",
+      JSON.stringify(filterData)
+    );
+  };
 
-  //   localStorage.setItem("search_data", JSON.stringify(filterData));
-  // };
   // GET ALL COMBINED DATA
   const { isPending: queryCombinedLoading, data: queryCombined } = useQuery({
     queryKey: ["combined"],
@@ -107,24 +116,12 @@ export const DataContextProvider = ({ children }) => {
       setSubServices(queryCombined?.sub_services);
       setMakes(queryCombined?.automobile_make);
       setModels(queryCombined?.automobile_model);
+
+      setFuelStationServices(queryCombined?.fuel_station_services);
+
       setLoading(false);
     }
   }, [queryCombinedLoading]);
-  // GET ALL FUEL SERVICES
-  const { isPending: fuelServiceLoading, data: fuelService } = useQuery({
-    queryKey: ["fuelService"],
-    queryFn: getAllFuelServices,
-  });
-
-  // HANDLE LOADING AND SET STATE
-  useEffect(() => {
-    if (fuelServiceLoading) {
-      setFuelLoading(true);
-    } else {
-      setFuelStationServices(fuelService);
-      setFuelLoading(false);
-    }
-  }, [fuelServiceLoading]);
 
   // GETTING TOTAL NUMBER OF GARAGES FROM SEARCH
   useEffect(() => {
@@ -158,12 +155,15 @@ export const DataContextProvider = ({ children }) => {
         makeJob,
         setMakeJob,
 
-        fuelStations,
-        setFuelStations,
+        fuelStationList,
+        setFuelStationList,
         fuelStationServices,
         setFuelStationServices,
-        fuelStationsFilter,
-        setFuelStationsFilter,
+        fuelStationSearchData,
+        setFuelStationSearchData,
+        totalFuelStationFound,
+        setTotalFuelStationFound,
+        setFuelStationFilterDataToLocalStorage,
 
         garageList,
         setGarageList,
@@ -202,12 +202,15 @@ export const useData = () => {
     makeJob,
     setMakeJob,
 
-    fuelStations,
-    setFuelStations,
+    fuelStationList,
+    setFuelStationList,
     fuelStationServices,
     setFuelStationServices,
-    fuelStationsFilter,
-    setFuelStationsFilter,
+    fuelStationSearchData,
+    setFuelStationSearchData,
+    totalFuelStationFound,
+    setTotalFuelStationFound,
+    setFuelStationFilterDataToLocalStorage,
 
     garageList,
     setGarageList,
@@ -240,12 +243,15 @@ export const useData = () => {
     makeJob,
     setMakeJob,
 
-    fuelStations,
-    setFuelStations,
+    fuelStationList,
+    setFuelStationList,
     fuelStationServices,
     setFuelStationServices,
-    fuelStationsFilter,
-    setFuelStationsFilter,
+    fuelStationSearchData,
+    setFuelStationSearchData,
+    totalFuelStationFound,
+    setTotalFuelStationFound,
+    setFuelStationFilterDataToLocalStorage,
 
     garageList,
     setGarageList,

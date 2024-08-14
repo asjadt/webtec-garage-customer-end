@@ -4,8 +4,13 @@ import { useGeoLocationData } from "../../../../context/GeoLocationDataContext";
 import { calculateLatLongBounds } from "../../../../utils/map";
 
 export default function SelectedFilters() {
-  const { homeSearchData, setHomeSearchData, subServices, makes, models } =
-    useData();
+  const {
+    homeSearchData,
+    setFilterDataToLocalStorage,
+    subServices,
+    makes,
+    models,
+  } = useData();
 
   const filterData = localStorage.getItem("search_data")
     ? JSON.parse(localStorage.getItem("search_data"))
@@ -25,7 +30,7 @@ export default function SelectedFilters() {
             <FiX
               className={`cursor-pointer`}
               onClick={() => {
-                setHomeSearchData({
+                setFilterDataToLocalStorage({
                   ...homeSearchData,
                   sub_services: homeSearchData.sub_services.filter(
                     (sub) => sub !== item.id
@@ -49,7 +54,7 @@ export default function SelectedFilters() {
             <FiX
               className={`cursor-pointer`}
               onClick={() => {
-                setHomeSearchData({
+                setFilterDataToLocalStorage({
                   ...homeSearchData,
                   makes: homeSearchData.makes.filter((sub) => sub !== item.id),
                 });
@@ -71,7 +76,7 @@ export default function SelectedFilters() {
             <FiX
               className={`cursor-pointer`}
               onClick={() => {
-                setHomeSearchData({
+                setFilterDataToLocalStorage({
                   ...homeSearchData,
                   models: homeSearchData.models.filter(
                     (sub) => sub !== item.id
@@ -98,7 +103,7 @@ export default function SelectedFilters() {
                 radiusInKm: 0,
               });
 
-              setHomeSearchData({
+              setFilterDataToLocalStorage({
                 ...homeSearchData,
                 distance: 0,
 
@@ -123,7 +128,7 @@ export default function SelectedFilters() {
           <FiX
             className={`cursor-pointer`}
             onClick={() => {
-              setHomeSearchData({
+              setFilterDataToLocalStorage({
                 ...homeSearchData,
                 wifi_available: false,
               });
@@ -142,7 +147,7 @@ export default function SelectedFilters() {
           <FiX
             className={`cursor-pointer`}
             onClick={() => {
-              setHomeSearchData({
+              setFilterDataToLocalStorage({
                 ...homeSearchData,
                 is_mobile_garage: false,
               });

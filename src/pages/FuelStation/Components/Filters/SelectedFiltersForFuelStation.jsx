@@ -4,76 +4,38 @@ import { useGeoLocationData } from "../../../../context/GeoLocationDataContext";
 import { calculateLatLongBounds } from "../../../../utils/map";
 
 export default function SelectedFiltersForFuelStation() {
-  const { homeSearchData, setHomeSearchData, subServices, makes, models } =
-    useData();
+  const {
+    fuelStationSearchData,
+    fuelStationServices,
+    setFuelStationFilterDataToLocalStorage,
+  } = useData();
 
-  const filterData = localStorage.getItem("search_data")
-    ? JSON.parse(localStorage.getItem("search_data"))
-    : homeSearchData;
+  const filterData = localStorage.getItem("search_data_for_fuel_station")
+    ? JSON.parse(localStorage.getItem("search_data_for_fuel_station"))
+    : fuelStationSearchData;
 
   return (
     <div className={`w-full inline-block`}>
       {/* SERVICES  */}
-      {subServices
-        ?.filter((s) => homeSearchData?.sub_services?.some((s2) => s.id === s2))
+      {fuelStationServices
+        ?.filter((s) =>
+          fuelStationSearchData?.services?.some((s2) => s.id === s2)
+        )
         .map((item, index) => (
           <div
             key={index}
             className={`inline-flex items-center justify-between gap-x-2 py-2 px-3 bg-primary-content border-2 border-primary rounded-full text-primary font-medium text-xs m-1`}
           >
-            {item?.name}{" "}
+            <span>
+              <i className={item.icon} />
+            </span>{" "}
+            <span>{item?.name}</span>
             <FiX
               className={`cursor-pointer`}
               onClick={() => {
-                setHomeSearchData({
-                  ...homeSearchData,
-                  sub_services: homeSearchData.sub_services.filter(
-                    (sub) => sub !== item.id
-                  ),
-                });
-              }}
-              size={18}
-            />
-          </div>
-        ))}
-
-      {/* MAKES  */}
-      {makes
-        ?.filter((s) => homeSearchData?.makes?.some((s2) => s.id === s2))
-        .map((item, index) => (
-          <div
-            key={index}
-            className={`inline-flex items-center justify-between gap-x-2 py-2 px-3 bg-primary-content border-2 border-primary rounded-full text-primary font-medium text-xs m-1`}
-          >
-            {item?.name}{" "}
-            <FiX
-              className={`cursor-pointer`}
-              onClick={() => {
-                setHomeSearchData({
-                  ...homeSearchData,
-                  makes: homeSearchData.makes.filter((sub) => sub !== item.id),
-                });
-              }}
-              size={18}
-            />
-          </div>
-        ))}
-
-      {/* MODELS  */}
-      {models
-        ?.filter((s) => homeSearchData?.models?.some((s2) => s.id === s2))
-        .map((item, index) => (
-          <div
-            key={index}
-            className={`inline-flex items-center justify-between gap-x-2 py-2 px-3 bg-primary-content border-2 border-primary rounded-full text-primary font-medium text-xs m-1`}
-          >
-            {item?.name}{" "}
-            <FiX
-              className={`cursor-pointer`}
-              onClick={() => {
-                setHomeSearchData({
-                  ...homeSearchData,
-                  models: homeSearchData.models.filter(
+                setFuelStationFilterDataToLocalStorage({
+                  ...fuelStationSearchData,
+                  services: fuelStationSearchData?.services?.filter(
                     (sub) => sub !== item.id
                   ),
                 });
@@ -84,11 +46,11 @@ export default function SelectedFiltersForFuelStation() {
         ))}
 
       {/* DISTANCE  */}
-      {!!homeSearchData?.distance && (
+      {!!fuelStationSearchData?.distance && (
         <div
           className={`inline-flex items-center justify-between gap-x-2 py-2 px-3 bg-primary-content border-2 border-primary rounded-full text-primary font-medium text-xs m-1`}
         >
-          {homeSearchData?.distance} KM{" "}
+          {fuelStationSearchData?.distance} KM{" "}
           <FiX
             className={`cursor-pointer`}
             onClick={() => {
@@ -97,9 +59,8 @@ export default function SelectedFiltersForFuelStation() {
                 lon: filterData?.end_lat,
                 radiusInKm: 0,
               });
-
-              setHomeSearchData({
-                ...homeSearchData,
+              setFuelStationFilterDataToLocalStorage({
+                ...fuelStationSearchData,
                 distance: 0,
 
                 start_lat: distanceData?.minLat,
@@ -115,7 +76,7 @@ export default function SelectedFiltersForFuelStation() {
       )}
 
       {/* WIFI  */}
-      {!!homeSearchData?.wifi_available && (
+      {!!fuelStationSearchData?.wifi_available && (
         <div
           className={`inline-flex items-center justify-between gap-x-2 py-2 px-3 bg-primary-content border-2 border-primary rounded-full text-primary font-medium text-xs m-1`}
         >
@@ -123,8 +84,8 @@ export default function SelectedFiltersForFuelStation() {
           <FiX
             className={`cursor-pointer`}
             onClick={() => {
-              setHomeSearchData({
-                ...homeSearchData,
+              setFuelStationFilterDataToLocalStorage({
+                ...fuelStationSearchData,
                 wifi_available: false,
               });
             }}
@@ -134,7 +95,7 @@ export default function SelectedFiltersForFuelStation() {
       )}
 
       {/* REMOTE GARAGE  */}
-      {!!homeSearchData?.is_mobile_garage && (
+      {!!fuelStationSearchData?.is_mobile_garage && (
         <div
           className={`inline-flex items-center justify-between gap-x-2 py-2 px-3 bg-primary-content border-2 border-primary rounded-full text-primary font-medium text-xs m-1`}
         >
@@ -142,8 +103,8 @@ export default function SelectedFiltersForFuelStation() {
           <FiX
             className={`cursor-pointer`}
             onClick={() => {
-              setHomeSearchData({
-                ...homeSearchData,
+              setFuelStationFilterDataToLocalStorage({
+                ...fuelStationSearchData,
                 is_mobile_garage: false,
               });
             }}

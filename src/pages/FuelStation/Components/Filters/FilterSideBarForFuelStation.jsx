@@ -15,16 +15,14 @@ export default function FilterSideBarForFuelStation({
 }) {
   const [isLoading, setIsLoading] = useState(true);
   const {
-    homeSearchData,
-    setFilterDataToLocalStorage,
-    subServices,
-    makes,
-    models,
+    fuelStationSearchData,
+    fuelStationServices,
+    setFuelStationFilterDataToLocalStorage,
     loading,
   } = useData();
-  const filterData = localStorage.getItem("search_data")
-    ? JSON.parse(localStorage.getItem("search_data"))
-    : homeSearchData;
+  const filterData = localStorage.getItem("search_data_for_fuel_station")
+    ? JSON.parse(localStorage.getItem("search_data_for_fuel_station"))
+    : fuelStationSearchData;
 
   const [isOpen, setIsOpen] = useState({
     Services: { id: 1, name: "Services", status: false },
@@ -40,22 +38,22 @@ export default function FilterSideBarForFuelStation({
   });
 
   // DISTANCE
-  const [distance, setDistance] = useState(homeSearchData?.distance);
+  const [distance, setDistance] = useState(fuelStationSearchData?.distance);
 
   useEffect(() => {
-    setDistance(homeSearchData?.distance);
-  }, [homeSearchData?.distance]);
+    setDistance(fuelStationSearchData?.distance);
+  }, [fuelStationSearchData?.distance]);
 
   // HANDLE THE DISTANCE CHANGE
   const handleDistanceChange = () => {
     const distanceData = calculateLatLongBounds({
       lat: filterData?.lat,
       lon: filterData?.long,
-      radiusInKm: homeSearchData?.distance,
+      radiusInKm: fuelStationSearchData?.distance,
     });
 
-    setFilterDataToLocalStorage({
-      ...homeSearchData,
+    setFuelStationFilterDataToLocalStorage({
+      ...fuelStationSearchData,
       start_lat: distanceData?.minLat,
       end_lat: distanceData?.maxLat,
 
@@ -100,21 +98,95 @@ export default function FilterSideBarForFuelStation({
           className={`scrollbar-none min-h-[calc(100vh-205px)] max-h-[calc(100vh-205px)] md:h-screen overflow-y-auto overflow-x-hidden`}
         >
           {loading || isLoading ? (
-            <div>
-              <ButtonLoading />
+            // LOADING
+            <div className={`h-full w-full flex flex-col justify-start`}>
+              <div
+                className={`bg-base-300 flex items-center justify-between py-5 border-y-2 border-dotted w-full px-5`}
+              >
+                <div className={`flex items-center gap-5`}>
+                  <div
+                    className={` h-5 w-32 rounded-full bg-slate-300 animate-pulse`}
+                  ></div>
+                  <div
+                    className={` rounded-full w-5 h-5 bg-slate-300 animate-pulse`}
+                  ></div>
+                </div>
+                <div
+                  className={`w-2 h-2 rounded-full bg-slate-300 animate-pulse`}
+                ></div>
+              </div>
+              <div
+                className={`bg-base-300 flex items-center justify-between py-5 border-y-2 border-dotted w-full px-5`}
+              >
+                <div className={`flex items-center gap-5`}>
+                  <div
+                    className={` h-5 w-32 rounded-full bg-slate-300 animate-pulse`}
+                  ></div>
+                  <div
+                    className={` rounded-full w-5 h-5 bg-slate-300 animate-pulse`}
+                  ></div>
+                </div>
+                <div
+                  className={`w-2 h-2 rounded-full bg-slate-300 animate-pulse`}
+                ></div>
+              </div>
+              <div
+                className={`bg-base-300 flex items-center justify-between py-5 border-y-2 border-dotted w-full px-5`}
+              >
+                <div className={`flex items-center gap-5`}>
+                  <div
+                    className={` h-5 w-32 rounded-full bg-slate-300 animate-pulse`}
+                  ></div>
+                  <div
+                    className={` rounded-full w-5 h-5 bg-slate-300 animate-pulse`}
+                  ></div>
+                </div>
+                <div
+                  className={`w-2 h-2 rounded-full bg-slate-300 animate-pulse`}
+                ></div>
+              </div>
+              <div
+                className={`bg-base-300 flex items-center justify-between py-5 border-y-2 border-dotted w-full px-5`}
+              >
+                <div className={`flex items-center gap-5`}>
+                  <div
+                    className={` h-5 w-32 rounded-full bg-slate-300 animate-pulse`}
+                  ></div>
+                  <div
+                    className={` rounded-full w-5 h-5 bg-slate-300 animate-pulse`}
+                  ></div>
+                </div>
+                <div
+                  className={`w-2 h-2 rounded-full bg-slate-300 animate-pulse`}
+                ></div>
+              </div>
+              <div
+                className={`bg-base-300 flex items-center justify-between py-5 border-y-2 border-dotted w-full px-5`}
+              >
+                <div className={`flex items-center gap-5`}>
+                  <div
+                    className={` h-5 w-32 rounded-full bg-slate-300 animate-pulse`}
+                  ></div>
+                  <div
+                    className={` rounded-full w-5 h-5 bg-slate-300 animate-pulse`}
+                  ></div>
+                </div>
+                <div className={`w-2 h-2 bg-slate-300 animate-pulse`}></div>
+              </div>
             </div>
           ) : (
             <div className="max-w-2xl mx-auto bg-base-300">
               {/* SERVICES  */}
               <div className="border-b-2   border-gray-300 border-dotted">
                 <button
+                  data-auto={`services-button-filterSideBar`}
                   className="w-full shadow text-left p-4 focus:outline-none"
                   onClick={() =>
                     setIsOpen({
                       ...isOpen,
                       Services: {
                         ...isOpen["Services"],
-                        status: !isOpen["Services"].status,
+                        status: !isOpen["Services"]?.status,
                       },
                     })
                   }
@@ -128,14 +200,14 @@ export default function FilterSideBarForFuelStation({
                       <span
                         className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
                       >
-                        {homeSearchData?.sub_services?.length}
+                        {fuelStationSearchData?.services?.length}
                       </span>
                     </div>
-                    {/* END TITLE  */}
 
+                    {/* END TITLE  */}
                     <span
                       className={`${
-                        isOpen["Services"].status ? "rotate-180" : ""
+                        isOpen["Services"]?.status ? "rotate-180" : ""
                       } transition-all duration-200`}
                     >
                       <IoIosArrowDown />
@@ -144,13 +216,17 @@ export default function FilterSideBarForFuelStation({
                 </button>
 
                 {isOpen["Services"].status && (
-                  <div className="pl-4 bg-base-300 ">
+                  <div
+                    data-auto={`services-filterSideBar`}
+                    className="pl-4 bg-base-300 "
+                  >
                     {" "}
                     <div
                       className={`flex pt-5 flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
                     >
-                      {subServices?.map((service, index) => (
+                      {fuelStationServices?.map((service, index) => (
                         <label
+                          data-auto={`service${index + 1}-filterSideBar`}
                           key={index}
                           htmlFor={`${service}-${index}`}
                           className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
@@ -158,188 +234,37 @@ export default function FilterSideBarForFuelStation({
                           <input
                             type="checkbox"
                             id={`${service}-${index}`}
-                            checked={homeSearchData?.sub_services?.some(
+                            checked={fuelStationSearchData?.services?.some(
                               (s) => s === service.id
                             )}
                             name={"service"}
                             className={`checkbox-primary checkbox checkbox-sm`}
                             onChange={(e) => {
                               if (e.target.checked) {
-                                setFilterDataToLocalStorage({
-                                  ...homeSearchData,
-                                  sub_services: [
-                                    ...homeSearchData.sub_services,
+                                setFuelStationFilterDataToLocalStorage({
+                                  ...fuelStationSearchData,
+                                  services: [
+                                    ...fuelStationSearchData.services,
                                     service.id,
                                   ],
                                 });
                               } else {
-                                setFilterDataToLocalStorage({
-                                  ...homeSearchData,
-                                  sub_services:
-                                    homeSearchData.sub_services.filter(
+                                setFuelStationFilterDataToLocalStorage({
+                                  ...fuelStationSearchData,
+                                  services:
+                                    fuelStationSearchData.services.filter(
                                       (sub) => sub !== service.id
                                     ),
                                 });
                               }
                             }}
                           />{" "}
-                          {service?.name}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* MAKE  */}
-              <div className="border-b-2 border-gray-300 border-dotted">
-                <button
-                  className="w-full shadow text-left p-4 focus:outline-none"
-                  onClick={() =>
-                    setIsOpen({
-                      ...isOpen,
-                      Make: {
-                        ...isOpen["Make"],
-                        status: !isOpen["Make"].status,
-                      },
-                    })
-                  }
-                >
-                  <div className="flex justify-between items-center ">
-                    <div
-                      className={`flex justify-between items-center gap-x-3`}
-                    >
-                      <span>Makes</span>
-                      <span
-                        className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
-                      >
-                        {homeSearchData?.makes?.length}
-                      </span>
-                    </div>
-                    <span
-                      className={`${
-                        isOpen["Make"].status ? "rotate-180" : ""
-                      } transition-all duration-200`}
-                    >
-                      <IoIosArrowDown />
-                    </span>
-                  </div>
-                </button>
-                {isOpen["Make"].status && (
-                  <div className="pl-4 bg-base-300">
-                    {/* CONTENT  */}
-                    <div
-                      className={`flex pt-5 flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
-                    >
-                      {makes?.map((make, index) => (
-                        <label
-                          key={index}
-                          htmlFor={`${make?.name}-${index}`}
-                          className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
-                        >
-                          <input
-                            type="radio"
-                            id={`${make?.name}-${index}`}
-                            checked={homeSearchData?.makes?.some(
-                              (s) => s === make.id
-                            )}
-                            name="make"
-                            className={`radio-primary radio checkbox-sm`}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setFilterDataToLocalStorage({
-                                  ...homeSearchData,
-                                  makes: [make.id],
-                                });
-                              } else {
-                                setFilterDataToLocalStorage({
-                                  ...homeSearchData,
-                                  makes: homeSearchData.makes.filter(
-                                    (sub) => sub !== make.id
-                                  ),
-                                });
-                              }
-                            }}
-                          />{" "}
-                          {make?.name}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* MODEL  */}
-              <div className="border-b-2 border-gray-300 border-dotted">
-                <button
-                  className="w-full shadow text-left p-4 focus:outline-none"
-                  onClick={() =>
-                    setIsOpen({
-                      ...isOpen,
-                      Model: {
-                        ...isOpen["Model"],
-                        status: !isOpen["Model"].status,
-                      },
-                    })
-                  }
-                >
-                  <div className="flex justify-between items-center ">
-                    <div
-                      className={`flex justify-between items-center gap-x-3`}
-                    >
-                      <span>Models</span>
-                      <span
-                        className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
-                      >
-                        {homeSearchData?.models?.length}
-                      </span>
-                    </div>
-                    <span
-                      className={`${
-                        isOpen["Model"].status ? "rotate-180" : ""
-                      } transition-all duration-200`}
-                    >
-                      <IoIosArrowDown />
-                    </span>
-                  </div>
-                </button>
-                {isOpen["Model"].status && (
-                  <div className="pl-4 bg-base-300">
-                    {/* CONTENT  */}
-                    <div
-                      className={`flex pt-5 flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
-                    >
-                      {models?.map((model, index) => (
-                        <label
-                          key={index}
-                          htmlFor={`${model?.name}-${index}`}
-                          className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
-                        >
-                          <input
-                            type="radio"
-                            id={`${model?.name}-${index}`}
-                            checked={homeSearchData?.models?.some(
-                              (s) => s === model.id
-                            )}
-                            name="model"
-                            className={`radio-primary radio radio-sm`}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setFilterDataToLocalStorage({
-                                  ...homeSearchData,
-                                  models: [model.id],
-                                });
-                              } else {
-                                setFilterDataToLocalStorage({
-                                  ...homeSearchData,
-                                  models: homeSearchData.models.filter(
-                                    (sub) => sub !== model.id
-                                  ),
-                                });
-                              }
-                            }}
-                          />{" "}
-                          {model?.name}
+                          <span className={`flex gap-x-2 items-center`}>
+                            <span>
+                              <i className={service.icon} />
+                            </span>{" "}
+                            <span>{service?.name}</span>
+                          </span>
                         </label>
                       ))}
                     </div>
@@ -348,7 +273,7 @@ export default function FilterSideBarForFuelStation({
               </div>
 
               {/* Distance  */}
-              {!!homeSearchData?.address && (
+              {!!fuelStationSearchData?.address && (
                 <div className="border-b-2 border-gray-300 border-dotted">
                   <button
                     className="w-full shadow text-left p-4 focus:outline-none"
@@ -357,7 +282,7 @@ export default function FilterSideBarForFuelStation({
                         ...isOpen,
                         Distance: {
                           ...isOpen["Distance"],
-                          status: !isOpen["Distance"].status,
+                          status: !isOpen["Distance"]?.status,
                         },
                       })
                     }
@@ -375,14 +300,14 @@ export default function FilterSideBarForFuelStation({
                       </div>
                       <span
                         className={`${
-                          isOpen["Distance"].status ? "rotate-180" : ""
+                          isOpen["Distance"]?.status ? "rotate-180" : ""
                         } transition-all duration-200`}
                       >
                         <IoIosArrowDown />
                       </span>
                     </div>
                   </button>
-                  {isOpen["Distance"].status && (
+                  {isOpen["Distance"]?.status && (
                     <div className="pl-4 bg-base-300">
                       {/* CONTENT  */}
                       <div
@@ -415,7 +340,7 @@ export default function FilterSideBarForFuelStation({
                       ...isOpen,
                       Others: {
                         ...isOpen["Others"],
-                        status: !isOpen["Others"].status,
+                        status: !isOpen["Others"]?.status,
                       },
                     })
                   }
@@ -428,45 +353,46 @@ export default function FilterSideBarForFuelStation({
                       <span
                         className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
                       >
-                        {!!homeSearchData?.wifi_available &&
-                        !!homeSearchData?.is_mobile_garage
+                        {!!fuelStationSearchData?.wifi_available &&
+                        !!fuelStationSearchData?.is_mobile_garage
                           ? 2
-                          : !!homeSearchData?.wifi_available ||
-                            !!homeSearchData?.is_mobile_garage
+                          : !!fuelStationSearchData?.wifi_available ||
+                            !!fuelStationSearchData?.is_mobile_garage
                           ? 1
                           : 0}
                       </span>
                     </div>
                     <span
                       className={`${
-                        isOpen["Others"].status ? "rotate-180" : ""
+                        isOpen["Others"]?.status ? "rotate-180" : ""
                       } transition-all duration-200`}
                     >
                       <IoIosArrowDown />
                     </span>
                   </div>
                 </button>
-                {isOpen["Others"].status && (
+                {isOpen["Others"]?.status && (
                   <div className="pl-4 bg-base-300">
                     {/* CONTENT  */}
                     <div className={`pt-5 grid grid-cols-2 gap-5 pr-5 pb-5`}>
                       {/* WIFI  */}
                       <button
                         onClick={() => {
-                          setFilterDataToLocalStorage({
-                            ...homeSearchData,
-                            wifi_available: !homeSearchData?.wifi_available,
+                          setFuelStationFilterDataToLocalStorage({
+                            ...fuelStationSearchData,
+                            wifi_available:
+                              !fuelStationSearchData?.wifi_available,
                           });
                         }}
                         className={`${
-                          homeSearchData?.wifi_available
+                          fuelStationSearchData?.wifi_available
                             ? "text-primary bg-primary-content border-primary"
                             : "border-gray-300 text-gray-400 bg-base-300"
                         } flex justify-center items-center gap-2 flex-col p-5 border-2 rounded-xl`}
                       >
                         <IoIosWifi
                           className={`${
-                            homeSearchData?.wifi_available
+                            fuelStationSearchData?.wifi_available
                               ? "text-primary"
                               : "text-gray-400"
                           } text-2xl`}
@@ -477,20 +403,21 @@ export default function FilterSideBarForFuelStation({
                       {/* REMOTE  */}
                       <button
                         onClick={() => {
-                          setFilterDataToLocalStorage({
-                            ...homeSearchData,
-                            is_mobile_garage: !homeSearchData?.is_mobile_garage,
+                          setFuelStationFilterDataToLocalStorage({
+                            ...fuelStationSearchData,
+                            is_mobile_garage:
+                              !fuelStationSearchData?.is_mobile_garage,
                           });
                         }}
                         className={`${
-                          homeSearchData?.is_mobile_garage
+                          fuelStationSearchData?.is_mobile_garage
                             ? "text-primary bg-primary-content border-primary"
                             : "border-gray-300 text-gray-400 bg-base-300"
                         } flex justify-center items-center gap-2 flex-col p-5 border-2 rounded-xl`}
                       >
                         <MdSettingsRemote
                           className={`${
-                            homeSearchData?.is_mobile_garage
+                            fuelStationSearchData?.is_mobile_garage
                               ? "text-primary"
                               : "text-gray-400"
                           } text-2xl`}

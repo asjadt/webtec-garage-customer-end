@@ -10,10 +10,13 @@ import HowItsWork from "./components/HowItsWork";
 
 export default function Home() {
   const { isLoading } = useAuth();
-  const { setHomeSearchData } = useData();
+  const {
+    setFilterDataToLocalStorage,
+    setFuelStationFilterDataToLocalStorage,
+  } = useData();
   const [isDataLoading, setIsDataLoading] = useState(true);
   useEffect(() => {
-    setHomeSearchData({
+    setFilterDataToLocalStorage({
       page: 1,
       perPage: 20,
 
@@ -27,6 +30,30 @@ export default function Home() {
       address: "",
       city: "",
       country_code: "",
+      lat: "",
+      long: "",
+      start_lat: "",
+      end_lat: "",
+      start_long: "",
+      end_long: "",
+
+      wifi_available: false,
+      is_mobile_garage: false,
+      date_time: "",
+    });
+    setFuelStationFilterDataToLocalStorage({
+      page: 1,
+      perPage: 20,
+
+      search_key: "",
+
+      services: [],
+
+      address: "",
+      city: "",
+      country_code: "",
+      lat: "",
+      long: "",
       start_lat: "",
       end_lat: "",
       start_long: "",
@@ -37,9 +64,6 @@ export default function Home() {
       date_time: "",
     });
 
-    setTimeout(() => {
-      localStorage.removeItem("search_data");
-    }, 100);
     setTimeout(() => {
       setIsDataLoading(false);
     }, 200);

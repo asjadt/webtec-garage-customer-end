@@ -1,50 +1,35 @@
 import axios from "axios";
 import { getQueryFromArrayOfObject } from "../searchQueryOfArray";
 import { getApiConfig } from "./apiConfig";
+import { handleApiError } from "../utils/apiErrorHandler";
 
 // search keyword fuel station api function
-export const searchKeywordFuelStation = async ({
-  perPage = 12,
+export const searchKeywordFuelStationV3 = async ({
+  perPage = 20,
   page = 1,
   search_key = "",
-
-  address_line_1 = "",
-  country = "",
-  city = "",
-
   active_option_ids = [],
   start_lat = "",
   end_lat = "",
   start_long = "",
   end_long = "",
   time = "",
+  lat = "",
+  long = "",
 }) => {
-  const addressCondition =
-    (city === undefined || city === "undefined") &&
-    (country === undefined || country === "undefined");
   return await axios
     .get(
-      `v1.0/client/fuel-station/${perPage}?search_key=${search_key}&country=${
-        country !== undefined ? country : ""
-      }&page=${page}${getQueryFromArrayOfObject(
+      `v3.0/client/fuel-station/${perPage}?search_key=${search_key}&page=${page}${getQueryFromArrayOfObject(
         active_option_ids,
         "active_option_ids[]"
-      )}&city=${
-        city !== undefined && city !== "undefined" ? city : ""
-      }&start_lat=${start_lat}&end_lat=${end_lat}&start_long=${start_long}&end_long=${end_long}&address=${
-        city !== "undefined" && city !== undefined
-          ? city
-          : country
-          ? country
-          : ""
-      }&address_line_1=${addressCondition ? address_line_1 : ""}&time=${time}`,
+      )}&start_lat=${start_lat}&end_lat=${end_lat}&start_long=${start_long}&end_long=${end_long}&time=${time}&lat=${lat}&long=${long}`,
       getApiConfig()
     )
     .then((res) => {
-      return res.data;
+      return res?.data?.data;
     })
     .catch((err) => {
-      throw err;
+      handleApiError(err);
     });
 };
 
@@ -56,7 +41,7 @@ export const getFuelServices = async () => {
       return res.data;
     })
     .catch((err) => {
-      throw err;
+      handleApiError(err);
     });
 };
 
@@ -68,7 +53,7 @@ export const getSingleFuelServices = async (id) => {
       return res.data;
     })
     .catch((err) => {
-      throw err;
+      handleApiError(err);
     });
 };
 
@@ -80,7 +65,7 @@ export const getAllFuelServices = async (id) => {
       return res.data;
     })
     .catch((err) => {
-      throw err;
+      handleApiError(err);
     });
 };
 
@@ -92,6 +77,6 @@ export const getFuelGellaries = async (id) => {
       return res.data;
     })
     .catch((err) => {
-      throw err;
+      handleApiError(err);
     });
 };

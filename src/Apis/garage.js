@@ -55,7 +55,10 @@ export const getGaragesV2 = async ({
       getApiConfig()
     )
     .then((res) => {
-      return res.data?.data;
+      return res?.data?.data;
+    })
+    .catch((err) => {
+      handleApiError(err);
     });
 };
 

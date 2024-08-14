@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
 export const handleApiError = (error, errorId = "#00143") => {
-  console.log({ error });
   let errorMessage = "An unexpected error occurred";
   let errors = [];
 

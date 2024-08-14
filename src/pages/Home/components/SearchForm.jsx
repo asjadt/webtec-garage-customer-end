@@ -9,7 +9,7 @@ import CustomMultiSelect from "../../../components/InputFields/CustomMultiSelect
 import CustomMultiSelectWithChild from "../../../components/InputFields/CustomMultiSelectWithChild";
 import { useData } from "../../../context/DataContext";
 import { useGeoLocationData } from "../../../context/GeoLocationDataContext";
-import { motion } from "framer-motion";
+import { distance, motion } from "framer-motion";
 import CustomDatePickerV2 from "../../../components/InputFields/CustomDatePickerV2";
 import CustomTimePickerV2 from "../../../components/InputFields/CustomTimePickerV2";
 import { calculateLatLongBounds } from "../../../utils/map";
@@ -71,10 +71,11 @@ export default function SearchForm() {
 
   // HANDLE FORM DATA CHANGE
   const onFormDataChange = (e) => {
-    setHomeSearchData((prev) => ({
-      ...prev,
+    setFilterDataToLocalStorage({
+      ...homeSearchData,
       address: e.target.value,
-    }));
+      distance: 3,
+    });
   };
 
   const [errors, setErrors] = useState({});
@@ -109,7 +110,6 @@ export default function SearchForm() {
   // HANDLE SEARCH
   const searchGarages = () => {
     if (validateForm()) {
-      let filterDataForLocalStorage = {};
       if (homeSearchData?.address) {
         const distanceData = calculateLatLongBounds({
           lat: homeSearchData?.lat,
@@ -220,7 +220,7 @@ export default function SearchForm() {
                   )
                 )}
                 onSelect={(e) => {
-                  setHomeSearchData({
+                  setFilterDataToLocalStorage({
                     ...homeSearchData,
                     sub_services: e.map((wl) => wl?.id),
                   });
@@ -243,7 +243,7 @@ export default function SearchForm() {
                   )
                 )}
                 onSelect={(e) => {
-                  setHomeSearchData({
+                  setFilterDataToLocalStorage({
                     ...homeSearchData,
                     makes: e.map((wl) => wl?.id),
                   });
@@ -281,7 +281,7 @@ export default function SearchForm() {
                   )}
                   singleSelect
                   onSelect={(e) => {
-                    setHomeSearchData({
+                    setFilterDataToLocalStorage({
                       ...homeSearchData,
                       models: e.map((wl) => wl?.id),
                     });

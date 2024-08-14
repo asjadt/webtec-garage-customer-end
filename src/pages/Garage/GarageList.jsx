@@ -12,16 +12,13 @@ import GarageListComponent from "./components/GarageListComponent";
 import FilterSideBar from "./components/Filters/FilterSideBar";
 
 export default function GarageList() {
-  const { defaultLocationProps, isGeoLocationLoading } = useGeoLocationData();
-
   const {
     loading,
     homeSearchData,
-    setHomeSearchData,
+    setFilterDataToLocalStorage,
     totalGarageFound,
     setTotalGarageFound,
     setGarageList,
-    garageList,
   } = useData();
   const [tab, setTab] = useState("garages"); // ACCEPT "garages" OR "job"
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -54,7 +51,6 @@ export default function GarageList() {
     queryFn: fetchGarages,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      console.log({ lastPage: lastPage?.data?.length });
       return lastPage?.data?.length ? allPages?.length + 1 : undefined;
     },
   });
@@ -147,10 +143,10 @@ export default function GarageList() {
                       />
                       <button
                         onClick={() => {
-                          setHomeSearchData((prev) => ({
-                            ...prev,
+                          setFilterDataToLocalStorage({
+                            ...homeSearchData,
                             search_key: searchQuery,
-                          }));
+                          });
                         }}
                         data-auto={`searchButton-garageList`}
                         className={`btn  btn-sm  h-full btn-primary w-24 sm:w-24`}

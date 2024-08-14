@@ -1,27 +1,21 @@
-import React from "react";
-import TextTitleComponent from "../../../components/label/TextTitleComponent";
-import { useData } from "../../../context/DataContext";
-import {
-  getSingleFuelServices,
-  searchKeywordFuelStation,
-} from "../../../Apis/fuelStation";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
-import { decryptID } from "../../../utils/encryptAndDecryptID";
-import { TiLocationOutline } from "react-icons/ti";
-import CustomLoading from "../../../components/CustomLoading";
 import { Map, Marker } from "@vis.gl/react-google-maps";
 import moment from "moment";
+import React from "react";
+import { TiLocationOutline } from "react-icons/ti";
+import { useParams } from "react-router-dom";
+import { getSingleFuelServices } from "../../../Apis/fuelStation";
+import CustomLoading from "../../../components/CustomLoading";
+import TextTitleComponent from "../../../components/label/TextTitleComponent";
+import { decryptID } from "../../../utils/encryptAndDecryptID";
 
 const FuelStationDetails = () => {
   const { encID } = useParams();
-  console.log({ encID });
   const { isPending, data } = useQuery({
     queryKey: ["singleFuelStation", encID],
     queryFn: (params) => getSingleFuelServices(decryptID(encID)),
   });
 
-  console.log({ data });
   if (isPending) {
     return <CustomLoading />;
   }
