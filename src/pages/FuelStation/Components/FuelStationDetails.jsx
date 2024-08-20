@@ -19,6 +19,7 @@ const FuelStationDetails = () => {
   if (isPending) {
     return <CustomLoading />;
   }
+
   return (
     <div className={`space-y-10 `}>
       <div className={`mx-6 mt-6 space-y-10`}>
@@ -37,112 +38,118 @@ const FuelStationDetails = () => {
           </div>
         </div>
 
-        {/* OPENING TIME  */}
-        <div className={``}>
-          <div className={`flex justify-center items-center mb-5`}>
-            <TextTitleComponent text={"Opening time"} />
-          </div>
-          <div className={`text-sm max-w-screen-xl mx-auto`}>
-            <div
-              className={`bg-primary text-base-300 w-full py-3 px-5 flex font-semibold`}
-            >
-              <span className={`w-[40%] block`}>Day</span>
-              <span className={`w-[40%] block`}>Start at</span>
-              <span className={`w-[20%] block`}>Until</span>
-            </div>
-
-            {data?.fuel_station_times?.map((item, index) => (
-              <div
-                key={index}
-                className={` w-full py-3 px-5 flex border-b border-primary-content ${
-                  item?.is_closed ? "bg-red-300" : "bg-base-100"
-                }`}
-              >
-                {!item?.is_closed ? (
-                  <>
-                    <span className={`w-[40%] block`}>
-                      {item?.day === 0
-                        ? "Sunday"
-                        : item?.day === 1
-                        ? "Moneday"
-                        : item?.day === 2
-                        ? "Tuesday"
-                        : item?.day === 3
-                        ? "Wuesday"
-                        : item?.day === 4
-                        ? "Thursday"
-                        : item?.day === 5
-                        ? "Friday"
-                        : item?.day === 6
-                        ? "Saturday"
-                        : ""}
-                    </span>
-                    <span className={`w-[40%] block`}>
-                      {moment(item?.opening_time, "HH:mm").format("hh:mmA")}
-                    </span>
-                    <span className={`w-[20%] block`}>
-                      {moment(item?.closing_time, "HH:mm").format("hh:mmA")}
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <span className={`w-[60%] block `}>
-                      {item?.day === 0
-                        ? "Sunday"
-                        : item?.day === 1
-                        ? "Moneday"
-                        : item?.day === 2
-                        ? "Tuesday"
-                        : item?.day === 3
-                        ? "Wuesday"
-                        : item?.day === 4
-                        ? "Thursday"
-                        : item?.day === 5
-                        ? "Friday"
-                        : item?.day === 6
-                        ? "Saturday"
-                        : ""}
-                    </span>
-                    <span className={`w-[40%] block`}>Close</span>
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* SERVICES */}
-        {!!data?.options?.length > 0 && (
-          <div className={`space-y-5`}>
-            <TextTitleComponent text={"Fuel Services"} />
-            <div
-              className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5`}
-            >
-              {data?.options?.map((option, i) => (
-                <div key={i} className={`flex items-start justify-start gap-2`}>
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-5`}>
+          {/* SERVICES */}
+          {!!data?.options?.length > 0 && (
+            <div className={`space-y-5`}>
+              <TextTitleComponent text={"Fuel Services"} />
+              <div className={`grid grid-cols-2 sm:grid-cols-2 gap-5`}>
+                {data?.options?.map((option, i) => (
                   <div
-                    className={`font-bold text-lg text-primary w-10 h-10 flex justify-center items-center rounded-md bg-primary-content`}
+                    key={i}
+                    className={`flex items-start justify-start gap-2 shadow-lg p-2 border pt-[0.7rem] rounded-md `}
                   >
-                    <i className={option.option.icon} />
-                  </div>
-                  {/* <option.option.icon /> */}
-                  <div>
-                    <h3
-                      className={`font-medium text-primary text-sm sm:text-base `}
+                    <div
+                      className={`font-bold text-lg text-primary w-10 h-10 flex justify-center items-center rounded-md bg-primary-content`}
                     >
-                      {option?.option?.name}
-                    </h3>
-                    <p
-                      className={`text-[12px] sm:text-[14px] text-gray-400 font-nunito`}
-                    >
-                      {option?.option?.is_active ? "Available" : "Unavailable"}
-                    </p>
+                      <i className={option.option.icon} />
+                    </div>
+                    {/* <option.option.icon /> */}
+                    <div>
+                      <h3
+                        className={`font-medium text-primary text-sm sm:text-base `}
+                      >
+                        {option?.option?.name}
+                      </h3>
+                      <p
+                        className={`text-[12px] sm:text-[14px] text-gray-400 font-nunito`}
+                      >
+                        {option?.option?.is_active
+                          ? "Available"
+                          : "Unavailable"}
+                      </p>
+                    </div>
                   </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {/* OPENING TIME  */}
+          <div className={``}>
+            <div className={`flex justify-center items-center mb-5`}>
+              <TextTitleComponent text={"Opening time"} />
+            </div>
+            <div className={`text-sm max-w-screen-xl mx-auto`}>
+              <div
+                className={`bg-primary text-base-300 w-full py-3 rounded-md px-5 flex font-semibold`}
+              >
+                <span className={`w-[40%] block`}>Day</span>
+                <span className={`w-[40%] block`}>Start at</span>
+                <span className={`w-[20%] block`}>Until</span>
+              </div>
+
+              {data?.fuel_station_times?.map((item, index) => (
+                <div
+                  key={index}
+                  className={` w-full py-3 px-5 flex border-b rounded-md my-1 ${
+                    item?.is_closed
+                      ? "bg-red-100 text-red-500 font-bold"
+                      : "bg-base-100"
+                  }`}
+                >
+                  {!item?.is_closed ? (
+                    <>
+                      <span className={`w-[40%] block`}>
+                        {item?.day === 0
+                          ? "Sunday"
+                          : item?.day === 1
+                          ? "Moneday"
+                          : item?.day === 2
+                          ? "Tuesday"
+                          : item?.day === 3
+                          ? "Wuesday"
+                          : item?.day === 4
+                          ? "Thursday"
+                          : item?.day === 5
+                          ? "Friday"
+                          : item?.day === 6
+                          ? "Saturday"
+                          : ""}
+                      </span>
+                      <span className={`w-[40%] block`}>
+                        {moment(item?.opening_time, "HH:mm").format("hh:mmA")}
+                      </span>
+                      <span className={`w-[20%] block`}>
+                        {moment(item?.closing_time, "HH:mm").format("hh:mmA")}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className={`w-[60%] block `}>
+                        {item?.day === 0
+                          ? "Sunday"
+                          : item?.day === 1
+                          ? "Moneday"
+                          : item?.day === 2
+                          ? "Tuesday"
+                          : item?.day === 3
+                          ? "Wuesday"
+                          : item?.day === 4
+                          ? "Thursday"
+                          : item?.day === 5
+                          ? "Friday"
+                          : item?.day === 6
+                          ? "Saturday"
+                          : ""}
+                      </span>
+                      <span className={`w-[40%] block`}>Close</span>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
           </div>
-        )}
+        </div>
       </div>
       {/* MAP  */}
       <div className={`p-5`}>

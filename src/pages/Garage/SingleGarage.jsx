@@ -218,110 +218,114 @@ export default function SingleGarage() {
                 ""
               )}
 
-              {/* CONTACT  */}
-              <div className={`p-5`}>
-                <div className={`flex justify-center items-center mb-5`}>
-                  <TextTitleComponent text={"Contact"} />
-                </div>
-                <div className={`grid grid-cols-1 md:grid-cols-3 gap-5`}>
-                  {/* EMAIL  */}
-                  <ContactCard
-                    Icon={HiOutlineMailOpen}
-                    title={"Email Address"}
-                    value={data?.garage?.email}
-                  />
-
-                  {/* PHONE  */}
-                  <ContactCard
-                    Icon={MdPhoneInTalk}
-                    title={"Phone Number"}
-                    value={data?.garage?.phone || data?.garage?.owner?.phone}
-                  />
-
-                  {/* ADDRESS  */}
-                  <ContactCard
-                    Icon={TiLocationOutline}
-                    title={"Garage Address"}
-                    value={data?.garage?.address_line_1}
-                  />
-                </div>
-              </div>
-
-              {/* OPENING TIME  */}
-              <div className={`p-5`}>
-                <div className={`flex justify-center items-center mb-5`}>
-                  <TextTitleComponent text={"Opening time"} />
-                </div>
-                <div className={`text-sm max-w-screen-xl mx-auto`}>
-                  <div
-                    className={`bg-primary text-base-300 w-full py-3 px-5 flex font-semibold`}
-                  >
-                    <span className={`w-[40%] block`}>Day</span>
-                    <span className={`w-[40%] block`}>Start at</span>
-                    <span className={`w-[20%] block`}>Until</span>
+              <div className={`grid grid-cols-1 md:grid-cols-3`}>
+                {/* CONTACT  */}
+                <div className={`p-5`}>
+                  <div className={`flex justify-center items-center mb-5`}>
+                    <TextTitleComponent text={"Contact"} />
                   </div>
+                  <div className={`grid grid-cols-1  gap-5`}>
+                    {/* EMAIL  */}
+                    <ContactCard
+                      Icon={HiOutlineMailOpen}
+                      title={"Email Address"}
+                      value={data?.garage?.email}
+                    />
 
-                  {data?.garage?.garage_times?.map((item, index) => (
+                    {/* PHONE  */}
+                    <ContactCard
+                      Icon={MdPhoneInTalk}
+                      title={"Phone Number"}
+                      value={data?.garage?.phone || data?.garage?.owner?.phone}
+                    />
+
+                    {/* ADDRESS  */}
+                    <ContactCard
+                      Icon={TiLocationOutline}
+                      title={"Garage Address"}
+                      value={data?.garage?.address_line_1}
+                    />
+                  </div>
+                </div>
+
+                {/* OPENING TIME  */}
+                <div className={`p-5 md:col-span-2`}>
+                  <div className={`flex justify-center items-center mb-5`}>
+                    <TextTitleComponent text={"Opening time"} />
+                  </div>
+                  <div className={`text-sm max-w-screen-xl mx-auto`}>
                     <div
-                      key={index}
-                      className={` w-full py-3 px-5 flex border-b border-primary-content ${
-                        item?.is_closed ? "bg-red-300" : "bg-base-100"
-                      }`}
+                      className={`bg-primary text-base-300 rounded-md w-full py-3 px-5 flex font-semibold`}
                     >
-                      {!item?.is_closed ? (
-                        <>
-                          <span className={`w-[40%] block`}>
-                            {item?.day === 0
-                              ? "Sunday"
-                              : item?.day === 1
-                              ? "Moneday"
-                              : item?.day === 2
-                              ? "Tuesday"
-                              : item?.day === 3
-                              ? "Wuesday"
-                              : item?.day === 4
-                              ? "Thursday"
-                              : item?.day === 5
-                              ? "Friday"
-                              : item?.day === 6
-                              ? "Saturday"
-                              : ""}
-                          </span>
-                          <span className={`w-[40%] block`}>
-                            {moment(item?.opening_time, "HH:mm").format(
-                              "hh:mmA"
-                            )}
-                          </span>
-                          <span className={`w-[20%] block`}>
-                            {moment(item?.closing_time, "HH:mm").format(
-                              "hh:mmA"
-                            )}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <span className={`w-[60%] block `}>
-                            {item?.day === 0
-                              ? "Sunday"
-                              : item?.day === 1
-                              ? "Moneday"
-                              : item?.day === 2
-                              ? "Tuesday"
-                              : item?.day === 3
-                              ? "Wuesday"
-                              : item?.day === 4
-                              ? "Thursday"
-                              : item?.day === 5
-                              ? "Friday"
-                              : item?.day === 6
-                              ? "Saturday"
-                              : ""}
-                          </span>
-                          <span className={`w-[40%] block`}>Close</span>
-                        </>
-                      )}
+                      <span className={`w-[40%] block`}>Day</span>
+                      <span className={`w-[40%] block`}>Start at</span>
+                      <span className={`w-[20%] block`}>Until</span>
                     </div>
-                  ))}
+
+                    {data?.garage?.garage_times?.map((item, index) => (
+                      <div
+                        key={index}
+                        className={` w-full py-3 px-5 flex border-b rounded-md my-1 ${
+                          item?.is_closed
+                            ? "bg-red-100 text-red-500 font-bold"
+                            : "bg-base-100"
+                        }`}
+                      >
+                        {!item?.is_closed ? (
+                          <>
+                            <span className={`w-[40%] block`}>
+                              {item?.day === 0
+                                ? "Sunday"
+                                : item?.day === 1
+                                ? "Moneday"
+                                : item?.day === 2
+                                ? "Tuesday"
+                                : item?.day === 3
+                                ? "Wuesday"
+                                : item?.day === 4
+                                ? "Thursday"
+                                : item?.day === 5
+                                ? "Friday"
+                                : item?.day === 6
+                                ? "Saturday"
+                                : ""}
+                            </span>
+                            <span className={`w-[40%] block`}>
+                              {moment(item?.opening_time, "HH:mm").format(
+                                "hh:mmA"
+                              )}
+                            </span>
+                            <span className={`w-[20%] block`}>
+                              {moment(item?.closing_time, "HH:mm").format(
+                                "hh:mmA"
+                              )}
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <span className={`w-[60%] block `}>
+                              {item?.day === 0
+                                ? "Sunday"
+                                : item?.day === 1
+                                ? "Moneday"
+                                : item?.day === 2
+                                ? "Tuesday"
+                                : item?.day === 3
+                                ? "Wuesday"
+                                : item?.day === 4
+                                ? "Thursday"
+                                : item?.day === 5
+                                ? "Friday"
+                                : item?.day === 6
+                                ? "Saturday"
+                                : ""}
+                            </span>
+                            <span className={`w-[40%] block`}>Close</span>
+                          </>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
 

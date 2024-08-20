@@ -88,6 +88,8 @@ const FuelStationMap = ({ setActiveTab }) => {
         long: location?.longitude, //DONE
         start_lat: "", //DONE
         start_long: "", //DONE
+        end_lat: "", //DONE
+        end_long: "", //DONE
       });
     }
 

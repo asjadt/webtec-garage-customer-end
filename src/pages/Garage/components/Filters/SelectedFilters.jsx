@@ -2,6 +2,7 @@ import { FiX } from "react-icons/fi";
 import { useData } from "../../../../context/DataContext";
 import { useGeoLocationData } from "../../../../context/GeoLocationDataContext";
 import { calculateLatLongBounds } from "../../../../utils/map";
+import { BiReset } from "react-icons/bi";
 
 export default function SelectedFilters() {
   const {
@@ -94,18 +95,18 @@ export default function SelectedFilters() {
           className={`inline-flex items-center justify-between gap-x-2 py-2 px-3 bg-primary-content border-2 border-primary rounded-full text-primary font-medium text-xs m-1`}
         >
           {homeSearchData?.distance} KM{" "}
-          <FiX
+          <BiReset
             className={`cursor-pointer`}
             onClick={() => {
               const distanceData = calculateLatLongBounds({
-                lat: filterData?.start_lat,
-                lon: filterData?.end_lat,
-                radiusInKm: 0,
+                lat: filterData?.lat,
+                lon: filterData?.long,
+                radiusInKm: 3,
               });
 
               setFilterDataToLocalStorage({
                 ...homeSearchData,
-                distance: 0,
+                distance: 3,
 
                 start_lat: distanceData?.minLat,
                 end_lat: distanceData?.maxLat,

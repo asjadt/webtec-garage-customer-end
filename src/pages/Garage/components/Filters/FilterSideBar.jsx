@@ -48,7 +48,7 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
     const distanceData = calculateLatLongBounds({
       lat: filterData?.lat,
       lon: filterData?.long,
-      radiusInKm: homeSearchData?.distance,
+      radiusInKm: distance,
     });
 
     setFilterDataToLocalStorage({

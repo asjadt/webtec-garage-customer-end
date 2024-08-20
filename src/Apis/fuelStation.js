@@ -16,13 +16,14 @@ export const searchKeywordFuelStationV3 = async ({
   time = "",
   lat = "",
   long = "",
+  distance = "",
 }) => {
   return await axios
     .get(
       `v3.0/client/fuel-station/${perPage}?search_key=${search_key}&page=${page}${getQueryFromArrayOfObject(
         active_option_ids,
         "active_option_ids[]"
-      )}&start_lat=${start_lat}&end_lat=${end_lat}&start_long=${start_long}&end_long=${end_long}&time=${time}&lat=${lat}&long=${long}`,
+      )}&start_lat=${start_lat}&end_lat=${end_lat}&start_long=${start_long}&end_long=${end_long}&time=${time}&lat=${lat}&long=${long}&distance=${distance}`,
       getApiConfig()
     )
     .then((res) => {

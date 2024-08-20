@@ -28,11 +28,11 @@ export default function FuelStationList() {
       ? JSON.parse(localStorage.getItem("search_data_for_fuel_station"))
       : fuelStationSearchData;
 
-    console.log({ filterData });
     return searchKeywordFuelStationV3({
       ...filterData,
       page: pageParam,
       perPage: 10,
+      active_option_ids: filterData?.services,
     });
   };
 
@@ -46,7 +46,11 @@ export default function FuelStationList() {
     status,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["all-garages", fuelStationSearchData],
+    queryKey: [
+      "all-garages",
+      fuelStationSearchData,
+      fuelStationSearchData?.time,
+    ],
     queryFn: fetchFuelStations,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {

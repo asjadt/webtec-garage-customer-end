@@ -1,14 +1,12 @@
-import { MdFilterList, MdSettingsRemote } from "react-icons/md";
-import Headings from "../../../../components/Headings/Headings";
-import { IoIosArrowDown, IoIosWifi, IoMdClose } from "react-icons/io";
-import AccordionForFilter from "../../../../components/Accordion/Accordion";
-import { useData } from "../../../../context/DataContext";
 import { useEffect, useState } from "react";
 import { FiX } from "react-icons/fi";
-import { useGeoLocationData } from "../../../../context/GeoLocationDataContext";
-import ButtonLoading from "../../../../components/ButtonLoading";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoTimeOutline } from "react-icons/io5";
+import { MdFilterList } from "react-icons/md";
+import Headings from "../../../../components/Headings/Headings";
+import { useData } from "../../../../context/DataContext";
 import { calculateLatLongBounds } from "../../../../utils/map";
-
+import moment from "moment";
 export default function FilterSideBarForFuelStation({
   isFilterOpen,
   setIsFilterOpen,
@@ -49,14 +47,14 @@ export default function FilterSideBarForFuelStation({
     const distanceData = calculateLatLongBounds({
       lat: filterData?.lat,
       lon: filterData?.long,
-      radiusInKm: fuelStationSearchData?.distance,
+      radiusInKm: distance,
     });
 
     setFuelStationFilterDataToLocalStorage({
       ...fuelStationSearchData,
+
       start_lat: distanceData?.minLat,
       end_lat: distanceData?.maxLat,
-
       start_long: distanceData?.minLon,
       end_long: distanceData?.maxLon,
 
@@ -307,6 +305,7 @@ export default function FilterSideBarForFuelStation({
                       </span>
                     </div>
                   </button>
+
                   {isOpen["Distance"]?.status && (
                     <div className="pl-4 bg-base-300">
                       {/* CONTENT  */}
@@ -350,17 +349,13 @@ export default function FilterSideBarForFuelStation({
                       className={`flex justify-between items-center gap-x-3`}
                     >
                       <span>Others</span>
-                      <span
-                        className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
-                      >
-                        {!!fuelStationSearchData?.wifi_available &&
-                        !!fuelStationSearchData?.is_mobile_garage
-                          ? 2
-                          : !!fuelStationSearchData?.wifi_available ||
-                            !!fuelStationSearchData?.is_mobile_garage
-                          ? 1
-                          : 0}
-                      </span>
+                      {!!fuelStationSearchData?.time && (
+                        <span
+                          className={`flex justify-center items-center w-20 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
+                        >
+                          {fuelStationSearchData?.time ? "Open Now" : ""}
+                        </span>
+                      )}
                     </div>
                     <span
                       className={`${
@@ -375,54 +370,30 @@ export default function FilterSideBarForFuelStation({
                   <div className="pl-4 bg-base-300">
                     {/* CONTENT  */}
                     <div className={`pt-5 grid grid-cols-2 gap-5 pr-5 pb-5`}>
-                      {/* WIFI  */}
+                      {/* open now  */}
                       <button
                         onClick={() => {
                           setFuelStationFilterDataToLocalStorage({
                             ...fuelStationSearchData,
-                            wifi_available:
-                              !fuelStationSearchData?.wifi_available,
+                            time: fuelStationSearchData?.time
+                              ? ""
+                              : moment().format("HH:mm"),
                           });
                         }}
                         className={`${
-                          fuelStationSearchData?.wifi_available
+                          fuelStationSearchData?.time
                             ? "text-primary bg-primary-content border-primary"
                             : "border-gray-300 text-gray-400 bg-base-300"
                         } flex justify-center items-center gap-2 flex-col p-5 border-2 rounded-xl`}
                       >
-                        <IoIosWifi
+                        <IoTimeOutline
                           className={`${
-                            fuelStationSearchData?.wifi_available
+                            fuelStationSearchData?.time
                               ? "text-primary"
                               : "text-gray-400"
                           } text-2xl`}
                         />
-                        <span className={`text-xs`}>Wifi Available</span>
-                      </button>
-
-                      {/* REMOTE  */}
-                      <button
-                        onClick={() => {
-                          setFuelStationFilterDataToLocalStorage({
-                            ...fuelStationSearchData,
-                            is_mobile_garage:
-                              !fuelStationSearchData?.is_mobile_garage,
-                          });
-                        }}
-                        className={`${
-                          fuelStationSearchData?.is_mobile_garage
-                            ? "text-primary bg-primary-content border-primary"
-                            : "border-gray-300 text-gray-400 bg-base-300"
-                        } flex justify-center items-center gap-2 flex-col p-5 border-2 rounded-xl`}
-                      >
-                        <MdSettingsRemote
-                          className={`${
-                            fuelStationSearchData?.is_mobile_garage
-                              ? "text-primary"
-                              : "text-gray-400"
-                          } text-2xl`}
-                        />
-                        <span className={`text-xs`}>Remote Garage</span>
+                        <span className={`text-xs`}>Open Now</span>
                       </button>
                     </div>
                   </div>

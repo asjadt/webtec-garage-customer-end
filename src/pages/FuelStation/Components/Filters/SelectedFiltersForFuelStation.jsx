@@ -1,6 +1,6 @@
+import { BiReset } from "react-icons/bi";
 import { FiX } from "react-icons/fi";
 import { useData } from "../../../../context/DataContext";
-import { useGeoLocationData } from "../../../../context/GeoLocationDataContext";
 import { calculateLatLongBounds } from "../../../../utils/map";
 
 export default function SelectedFiltersForFuelStation() {
@@ -51,17 +51,17 @@ export default function SelectedFiltersForFuelStation() {
           className={`inline-flex items-center justify-between gap-x-2 py-2 px-3 bg-primary-content border-2 border-primary rounded-full text-primary font-medium text-xs m-1`}
         >
           {fuelStationSearchData?.distance} KM{" "}
-          <FiX
+          <BiReset
             className={`cursor-pointer`}
             onClick={() => {
               const distanceData = calculateLatLongBounds({
-                lat: filterData?.start_lat,
-                lon: filterData?.end_lat,
-                radiusInKm: 0,
+                lat: filterData?.lat,
+                lon: filterData?.long,
+                radiusInKm: 3,
               });
               setFuelStationFilterDataToLocalStorage({
                 ...fuelStationSearchData,
-                distance: 0,
+                distance: 3,
 
                 start_lat: distanceData?.minLat,
                 end_lat: distanceData?.maxLat,
