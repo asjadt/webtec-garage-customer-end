@@ -1,47 +1,45 @@
-import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
-import chokidar from "chokidar";
 
 // PWA SETTINGS
 const mainfestForPlugin = {
-  registerType: "prompt",
-  includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.png"],
+  registerType: "autoUpdate",
+  injectRegister: "auto",
+  includeAssets: [
+    "favicon.ico",
+    "android-chrome-192x192.png",
+    "android-chrome-512x512.png",
+  ],
   mainfest: {
     name: "Garage Booking",
     short_name: "Garage Booking",
     description: "It is an garage booking system by webtec",
     icons: [
       {
+        src: "./favicon.ico",
+        size: "64x64 32x32 24x24 16x16",
+        type: "image/x-icon",
+        purpose: "any maskable",
+      },
+      {
         src: "./android-chrome-192x192.png",
         size: "192x192",
         type: "image/png",
+        purpose: "any maskable",
       },
       {
         src: "./android-chrome-512x512.png",
         size: "512x512",
         type: "image/png",
-        purpose: "favicon",
-      },
-      {
-        src: "./apple-touch-icon.png",
-        size: "180x180",
-        type: "image/png",
-        purpose: "apple touch icon",
-      },
-      {
-        src: "./apple-touch-icon.png",
-        size: "180x180",
-        type: "image/png",
-        purpose: "apple touch icon",
+        purpose: "any maskable",
       },
     ],
+    start_url: ".",
+    orientation: "portrait",
     theme_color: "#DC2D2A",
     background_color: "##FFFFFF",
     display: "standalone",
-    scope: "/",
-    start_url: "/",
-    orientation: "portrait",
   },
 };
 
