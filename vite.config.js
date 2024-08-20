@@ -45,7 +45,7 @@ const mainfestForPlugin = {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), VitePWA(mainfestForPlugin)],
+  plugins: [react()],
   test: {
     environment: "happy-dom",
   },
