@@ -184,6 +184,7 @@ export default function GarageList() {
                 <div data-auto={`tab-container-actionBar`}>
                   {tab === "garages" && (
                     <GarageListComponent
+                      isFilterOpen={isFilterOpen}
                       totalPage={totalPage}
                       currentPage={currentPage}
                       setTab={setTab}

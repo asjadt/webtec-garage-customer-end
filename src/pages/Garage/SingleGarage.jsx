@@ -74,6 +74,7 @@ export default function SingleGarage() {
   } else {
     return (
       <div data-auto={`container-singleGarage`}>
+        {/* HEADING  */}
         <div className={`relative mb-44`}>
           <div
             data-auto={`goBack-singleGarage`}
@@ -108,7 +109,7 @@ export default function SingleGarage() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ duration: 1, type: "spring" }}
-              className={`w-[120px] md:w-[180px] h-[120px] md:h-[180px] rounded-full border-4 md:border-8 border-base-300 shadow-lg overflow-hidden`}
+              className={`w-[120px] bg-base-300 md:w-[180px] h-[120px] md:h-[180px] rounded-full border-4 md:border-8 border-base-300 shadow-lg overflow-hidden`}
             >
               <img
                 data-auto={`profileImage-singleGarage`}

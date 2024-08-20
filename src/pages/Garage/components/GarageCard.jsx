@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { encryptID } from "../../../utils/encryptAndDecryptID";
 import moment from "moment";
 import { useState } from "react";
+import StarRating from "../../../components/Rating/StarRating";
 
 const gridItemVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -88,7 +89,8 @@ export default function GarageCard({ garage, innerRef }) {
           data-auto={`ratings${id}-garageCard`}
           className={`flex items-center text-sm`}
         >
-          <FaStar className={`text-[#FF8000] mr-1`} />
+          <StarRating rating={average_rating} />
+
           <p data-auto={`fullRating${id}-garageCard`}>
             <span data-auto={`avgRating${id}-garageCard`} className="font-bold">
               {average_rating}

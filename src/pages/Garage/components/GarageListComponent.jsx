@@ -18,6 +18,7 @@ export default function GarageListComponent({
   status,
   totalPage,
   currentPage,
+  isFilterOpen,
 }) {
   const { ref, inView } = useInView();
   const { garageList, fuelStationList } = useData();
@@ -41,7 +42,9 @@ export default function GarageListComponent({
               variants={gridContainerVariants}
               initial="hidden"
               animate="visible"
-              className={`grid grid-cols-1 xl:grid-cols-3 gap-4`}
+              className={`grid grid-cols-1 ${
+                isFilterOpen ? "xl:grid-cols-2" : "xl:grid-cols-3"
+              }  gap-4`}
             >
               {garageList?.map((garage, index) => (
                 <GarageCard key={index} garage={garage} />

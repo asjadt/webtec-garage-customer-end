@@ -58,6 +58,7 @@ export default function SelectedFilters() {
                 setFilterDataToLocalStorage({
                   ...homeSearchData,
                   makes: homeSearchData.makes.filter((sub) => sub !== item.id),
+                  models: [],
                 });
               }}
               size={18}

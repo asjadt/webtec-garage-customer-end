@@ -361,90 +361,98 @@ export default function FilterSideBar({ isFilterOpen, setIsFilterOpen }) {
               </div>
 
               {/* MODEL  */}
-              <div
-                data-auto={`model-container-filterSideBar`}
-                className="border-b-2 border-gray-300 border-dotted"
-              >
-                <button
-                  data-auto={`model-button-filterSideBar`}
-                  className="w-full shadow text-left p-4 focus:outline-none"
-                  onClick={() =>
-                    setIsOpen({
-                      ...isOpen,
-                      Model: {
-                        ...isOpen["Model"],
-                        status: !isOpen["Model"]?.status,
-                      },
-                    })
-                  }
+              {homeSearchData.makes?.length > 0 && (
+                <div
+                  data-auto={`model-container-filterSideBar`}
+                  className="border-b-2 border-gray-300 border-dotted"
                 >
-                  <div className="flex justify-between items-center ">
-                    <div
-                      className={`flex justify-between items-center gap-x-3`}
-                    >
-                      <span>Models</span>
-                      <span
-                        className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
+                  <button
+                    data-auto={`model-button-filterSideBar`}
+                    className="w-full shadow text-left p-4 focus:outline-none"
+                    onClick={() =>
+                      setIsOpen({
+                        ...isOpen,
+                        Model: {
+                          ...isOpen["Model"],
+                          status: !isOpen["Model"]?.status,
+                        },
+                      })
+                    }
+                  >
+                    <div className="flex justify-between items-center ">
+                      <div
+                        className={`flex justify-between items-center gap-x-3`}
                       >
-                        {homeSearchData?.models?.length}
+                        <span>Models</span>
+                        <span
+                          className={`flex justify-center items-center w-6 h-6 rounded-full bg-primary text-base-300 font-medium text-xs`}
+                        >
+                          {homeSearchData?.models?.length}
+                        </span>
+                      </div>
+                      <span
+                        className={`${
+                          isOpen["Model"]?.status ? "rotate-180" : ""
+                        } transition-all duration-200`}
+                      >
+                        <IoIosArrowDown />
                       </span>
                     </div>
-                    <span
-                      className={`${
-                        isOpen["Model"]?.status ? "rotate-180" : ""
-                      } transition-all duration-200`}
-                    >
-                      <IoIosArrowDown />
-                    </span>
-                  </div>
-                </button>
-                {isOpen["Model"].status && (
-                  <div
-                    data-auto={`models-filterSideBar`}
-                    className="pl-4 bg-base-300"
-                  >
-                    {/* CONTENT  */}
+                  </button>
+                  {isOpen["Model"].status && (
                     <div
-                      className={`flex pt-5 flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
+                      data-auto={`models-filterSideBar`}
+                      className="pl-4 bg-base-300"
                     >
-                      {models?.map((model, index) => (
-                        <label
-                          data-auto={`model${index + 1}-filterSideBar`}
-                          key={index}
-                          htmlFor={`${model?.name}-${index}`}
-                          className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
-                        >
-                          <input
-                            type="radio"
-                            id={`${model?.name}-${index}`}
-                            checked={homeSearchData?.models?.some(
-                              (s) => s === model.id
-                            )}
-                            name="model"
-                            className={`radio-primary radio radio-sm`}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setFilterDataToLocalStorage({
-                                  ...homeSearchData,
-                                  models: [model.id],
-                                });
-                              } else {
-                                setFilterDataToLocalStorage({
-                                  ...homeSearchData,
-                                  models: homeSearchData.models.filter(
-                                    (sub) => sub !== model.id
-                                  ),
-                                });
-                              }
-                            }}
-                          />{" "}
-                          {model?.name}
-                        </label>
-                      ))}
+                      {/* CONTENT  */}
+                      <div
+                        className={`flex pt-5 flex-col gap-2 max-h-[300px] overflow-y-auto scrollbar pb-4`}
+                      >
+                        {models
+                          ?.filter((make) =>
+                            homeSearchData.makes?.some(
+                              (make2) => make2 === make?.automobile_make_id
+                            )
+                          )
+                          .map((model, index) => (
+                            <label
+                              data-auto={`model${index + 1}-filterSideBar`}
+                              key={index}
+                              htmlFor={`${model?.name}-${index}`}
+                              className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
+                            >
+                              <input
+                                type="radio"
+                                id={`${model?.name}-${index}`}
+                                checked={homeSearchData?.models?.some(
+                                  (s) => s === model.id
+                                )}
+                                name="model"
+                                className={`radio-primary radio radio-sm`}
+                                onChange={(e) => {
+                                  if (e.target.checked) {
+                                    setFilterDataToLocalStorage({
+                                      ...homeSearchData,
+                                      models: [model.id],
+                                    });
+                                  } else {
+                                    setFilterDataToLocalStorage({
+                                      ...homeSearchData,
+                                      models: homeSearchData.models.filter(
+                                        (sub) => sub !== model.id
+                                      ),
+                                    });
+                                  }
+                                }}
+                              />{" "}
+                              {model?.name}
+                            </label>
+                          ))}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
+              )}
 
               {/* Distance  */}
               {!!homeSearchData?.address && (
