@@ -92,8 +92,8 @@ export default function Navbar() {
             >
               <img
                 data-auto={`navbar-logo-image-every-page`}
-                className="w-12 sm:w-16 md:h-12 h-12 sm:h-16 md:w-12 object-cover rounded-full shadow-md"
-                src={`/assets/logo.png`}
+                className="w-12 sm:w-16 md:h-12 h-12 sm:h-16 md:w-12 object-cover "
+                src={`/android-chrome-192x192.png`}
                 alt={""}
               />
             </motion.div>

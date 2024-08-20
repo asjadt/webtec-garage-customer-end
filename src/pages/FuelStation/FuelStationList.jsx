@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { searchKeywordFuelStationV3 } from "../../Apis/fuelStation";
 import CustomLoading from "../../components/CustomLoading";
 import { useData } from "../../context/DataContext";
-import { useGeoLocationData } from "../../context/GeoLocationDataContext";
 import { handleApiError } from "../../utils/apiErrorHandler";
 import ActionBar from "./Components/ActionBar";
 import FilterSideBarForFuelStation from "./Components/Filters/FilterSideBarForFuelStation";
@@ -29,6 +28,7 @@ export default function FuelStationList() {
       ? JSON.parse(localStorage.getItem("search_data_for_fuel_station"))
       : fuelStationSearchData;
 
+    console.log({ filterData });
     return searchKeywordFuelStationV3({
       ...filterData,
       page: pageParam,

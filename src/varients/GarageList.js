@@ -1,5 +1,3 @@
-import { transition } from "d3";
-
 export const cardContainerVariant = {
   hidden: { opacity: 1, scale: 0 },
   visible: {

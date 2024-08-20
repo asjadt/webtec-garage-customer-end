@@ -82,8 +82,8 @@ export default function NavbarForDashboard() {
         >
           <img
             data-auto={`navbar-logo-image-every-page`}
-            className="h-12 w-12 object-cover rounded-full shadow-md"
-            src={`/assets/logo.png`}
+            className="h-12 w-12 object-cover "
+            src={`/android-chrome-192x192.png`}
             alt={""}
           />
         </motion.div>
