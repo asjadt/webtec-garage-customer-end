@@ -7,10 +7,12 @@ import GoogleMapForGarages from "./components/GoogleMapForGarages";
 import SearchForm from "./components/SearchForm";
 import ServiceList from "./components/ServiceList";
 import HowItsWork from "./components/HowItsWork";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
 export default function Home() {
-  const { is_login } = useParams();
+  const [searchParams] = useSearchParams();
+  const is_login = searchParams.get("is_login");
+
   const { isLoading, handleOpenLoginPopup } = useAuth();
   const {
     setFilterDataToLocalStorage,

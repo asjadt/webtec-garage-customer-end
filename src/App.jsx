@@ -35,7 +35,6 @@ const App = () => (
         <Route index element={<Home />} />
 
         {/* DEFAULT LOGIN */}
-        <Route path="/:is_login" element={<Home />} />
 
         {/* GARAGES  */}
         <Route path="garages" element={<GarageList />} />
