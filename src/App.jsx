@@ -34,6 +34,9 @@ const App = () => (
         {/* HOME  */}
         <Route index element={<Home />} />
 
+        {/* DEFAULT LOGIN */}
+        <Route path="/:is_login" element={<Home />} />
+
         {/* GARAGES  */}
         <Route path="garages" element={<GarageList />} />
         <Route path="view-garage/:encID/:tabName" element={<SingleGarage />} />

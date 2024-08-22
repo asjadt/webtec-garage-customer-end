@@ -7,9 +7,11 @@ import GoogleMapForGarages from "./components/GoogleMapForGarages";
 import SearchForm from "./components/SearchForm";
 import ServiceList from "./components/ServiceList";
 import HowItsWork from "./components/HowItsWork";
+import { useParams } from "react-router-dom";
 
 export default function Home() {
-  const { isLoading } = useAuth();
+  const { is_login } = useParams();
+  const { isLoading, handleOpenLoginPopup } = useAuth();
   const {
     setFilterDataToLocalStorage,
     setFuelStationFilterDataToLocalStorage,
@@ -69,6 +71,14 @@ export default function Home() {
     }, 200);
   }, []);
 
+  useEffect(() => {
+    if (is_login) {
+      handleOpenLoginPopup({
+        customerRegistration: true,
+        garageRegistration: true,
+      });
+    }
+  }, [is_login]);
   if (isLoading || isDataLoading) {
     return <CustomLoading />;
   } else {
