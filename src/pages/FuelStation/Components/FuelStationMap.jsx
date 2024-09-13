@@ -104,15 +104,20 @@ const FuelStationMap = ({ setActiveTab }) => {
   });
 
   return (
-    <div className={`relative`}>
+    <div data-auto={`container-fuelStationMap`} className={`relative`}>
       <div
+        data-auto={`container-search-fuelStationMap`}
         className={`w-full flex justify-center items-center z-30 absolute top-5`}
       >
         <div
+          data-auto={`container-searchBox-fuelStationMap`}
           className={`bg-base-300 shadow-lg rounded-md p-2 w-[calc(100vw-40px)] flex gap-3 md:w-1/2`}
         >
-          <div className="flex-grow">
-            {/* LOCATION  */}
+          <div
+            data-auto={`container-locationInput-fuelStationMap`}
+            className="flex-grow"
+          >
+            {/* LOCATION */}
             <CustomAutoComplete
               disable={false}
               className={`input input-bordered rounded-md w-full`}
@@ -123,10 +128,11 @@ const FuelStationMap = ({ setActiveTab }) => {
               searchData={fuelStationSearchData}
               setFormData={setFuelStationSearchData}
               defaultValue={fuelStationSearchData?.address}
-              dataAuto={`homepage-address-searchPlace`}
+              dataAuto={`location-fuelStationMap`}
             />
           </div>
           <button
+            data-auto={`button-search-fuelStationMap`}
             onClick={handleFuelStationSearch}
             className={`btn btn-primary`}
           >
@@ -136,9 +142,13 @@ const FuelStationMap = ({ setActiveTab }) => {
       </div>
       <>
         {isFuelStationLoading || isGeoLocationLoading ? (
-          <div className="w-full h-[calc(100vh-220px)]  absolute outline-none border-none active:border-none bg-slate-300 animate-pulse"></div>
+          <div
+            data-auto={`loading-map-fuelStationMap`}
+            className="w-full h-[calc(100vh-220px)] absolute outline-none border-none active:border-none bg-slate-300 animate-pulse"
+          ></div>
         ) : (
           <Map
+            data-auto={`map-fuelStationMap`}
             mapId={"ed79aa93f40c730c"}
             defaultCenter={defaultLocationProps?.center}
             defaultZoom={defaultLocationProps?.zoom}
@@ -152,6 +162,7 @@ const FuelStationMap = ({ setActiveTab }) => {
             {data?.data?.map((fuelStation) => {
               return (
                 <AdvancedMarker
+                  data-auto={`marker-${fuelStation?.id}-fuelStationMap`}
                   key={fuelStation?.id}
                   position={{
                     lat: Number(fuelStation?.lat),
@@ -162,10 +173,12 @@ const FuelStationMap = ({ setActiveTab }) => {
                   }
                 >
                   <div
+                    data-auto={`tooltip-${fuelStation?.id}-fuelStationMap`}
                     data-tip={fuelStation?.name}
                     className={`tooltip tooltip-top tooltip-base-300 relative`}
                   >
                     <img
+                      data-auto={`icon-marker-${fuelStation?.id}-fuelStationMap`}
                       src="/assets/Map/fuelstationpin.png"
                       className={`w-12`}
                       alt={fuelStation?.name}

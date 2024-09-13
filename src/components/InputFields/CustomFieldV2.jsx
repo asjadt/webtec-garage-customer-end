@@ -24,6 +24,7 @@ export default function CustomFieldV2({
   taskField,
   maxLength,
   minLength,
+  dataAuto,
 }) {
   const inputRef = useRef();
 
@@ -46,44 +47,28 @@ export default function CustomFieldV2({
     setRegexError(error);
   }, [error]);
   return (
-    <div
-      data-cy={"container_custom_field_v2"}
-      className={`${wrapperClassName}`}
-    >
+    <div data-auto={`container-${dataAuto}`} className={`${wrapperClassName}`}>
       {/* LABEL */}
       <div
-        data-cy={"label_container_custom_field_v2"}
+        data-auto={`label-container${dataAuto}`}
         className={`flex items-center gap-2`}
       >
         {label && (
-          <label
-            data-cy={"is_label_custom_field_v2"}
-            htmlFor={id}
-            className="label"
-          >
+          <label htmlFor={id} className="label">
             <span
-              data-cy={"is_label_content_custom_field_v2"}
+              data-auto={`label-${dataAuto}`}
               className={`label-text text-md font-bold ${labelClass}`}
             >
               {label}{" "}
               {label && required && !disable && (
-                <span
-                  data-cy={"is_label_content_required_custom_field_v2"}
-                  className="text-error font-bold text-md"
-                >
-                  *
-                </span>
+                <span className="text-error font-bold text-md">*</span>
               )}
             </span>
           </label>
         )}
         {hint && (
-          <div
-            data-cy={"hint_container_custom_field_v2"}
-            className="dropdown dropdown-end"
-          >
+          <div data-auto={`hint-${dataAuto}`} className="dropdown dropdown-end">
             <div
-              data-cy={"hint_head_custom_field_v2"}
               tabIndex={0}
               role="button"
               className="btn btn-circle btn-ghost btn-xs"
@@ -91,22 +76,12 @@ export default function CustomFieldV2({
               <IoInformationCircleSharp className={`text-primary`} />
             </div>
             <div
-              data-cy={"hint_body_container_custom_field_v2"}
               tabIndex={0}
               className="card compact dropdown-content z-[1] shadow-lg border border-primary-content shadow-primary-content bg-base-300 rounded-xl w-64"
             >
-              <div
-                data-cy={"hint_body_custom_field_v2"}
-                tabIndex={0}
-                className="card-body"
-              >
-                <h2
-                  data-cy={"hint_label_custom_field_v2"}
-                  className="card-title text-primary"
-                >
-                  {label}
-                </h2>
-                <p data-cy={"hint_custom_field_v2"}> {hint}</p>
+              <div tabIndex={0} className="card-body">
+                <h2 className="card-title text-primary">{label}</h2>
+                <p> {hint}</p>
               </div>
             </div>
           </div>
@@ -115,7 +90,7 @@ export default function CustomFieldV2({
 
       {/* FIELD  */}
       <input
-        data-cy={"input_custom_field_v2"}
+        data-auto={`${dataAuto}`}
         onInput={handleOnInput}
         ref={inputRef}
         maxLength={maxLength}
@@ -139,12 +114,11 @@ export default function CustomFieldV2({
           taskField ? "focus:input-bordered font-bold" : "input-bordered"
         } ${fieldClassName}`}
       />
-      {console.log({ error })}
       {/* VALIDATION MESSAGE  */}
       {(error || regexError) && (
-        <label data-cy={"error_message_custom_field_v2"} className="label ">
+        <label data-auto={`error-${dataAuto}`} className="label ">
           <span
-            data-cy={"error_content_custom_field_v2"}
+            data-auto={`message-${dataAuto}`}
             className="label-text-alt text-error"
           >
             {error || regexError}

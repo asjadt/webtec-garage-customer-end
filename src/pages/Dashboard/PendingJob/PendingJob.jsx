@@ -218,8 +218,8 @@ export default function PendingJob() {
   ]);
 
   return (
-    <div className="h-full my-10 " data-auto={"container_admin"}>
-      <div className="relative h-full" data-auto="sub_container_admin">
+    <div className="h-full my-10 " data-auto={"container-pendingJob"}>
+      <div className="relative h-full" data-auto={"sub-container-pendingJob"}>
         {/* POPUP  */}
         <CustomPopup
           popupClasses={`w-full sm:w-[70vw] md:w-[70vw] lg:w-[50vw]`}
@@ -251,7 +251,7 @@ export default function PendingJob() {
               className="flex flex-col justify-center items-center gap-2 w-full text-left"
             >
               {/* PAGE TITLE  */}
-              <div className={`flex items-center gap-5`}>
+              <div id="page-title" className={`flex items-center gap-5`}>
                 <Headings level={1}>
                   {activeTab === "all"
                     ? "All Pending Jobs"
@@ -262,13 +262,13 @@ export default function PendingJob() {
               </div>
 
               {/* TOTAL DATA  */}
-              <h3>
+              <h3 data-auto={"header-total-pendingJob"}>
                 Total {data?.total}{" "}
                 {data?.total > 1 ? "Pending Jobs" : "Pending Job"} Found
               </h3>
 
               {/* TABS  */}
-              <div className={`flex justify-center`}>
+              <div id="tabs" className={`flex justify-center`}>
                 <CustomTab
                   tabs={tabs}
                   activeTab={activeTab}
@@ -276,15 +276,20 @@ export default function PendingJob() {
                   gridCol="grid-cols-3"
                   filters={filters}
                   setFilters={setFilters}
+                  dataAuto={"pendingJob-tab"}
                 />
               </div>
             </div>
           </div>
 
-          <div className="pt-5 relative">
+          <div id="table" className="pt-5 relative">
             {/* DATASET */}
-            <div className={`flex justify-between items-center`}>
-              <CustomDataSet cols={cols} setCols={setCols} dataAuto="admin" />
+            <div id="dataset" className={`flex justify-between items-center`}>
+              <CustomDataSet
+                cols={cols}
+                setCols={setCols}
+                dataAuto="pendingJob"
+              />
             </div>
 
             {/* TABLE  */}
@@ -315,13 +320,13 @@ export default function PendingJob() {
               }))}
               actions={actions}
               cols={cols}
-              dataAuto="all-job-type"
               getFullDataToActionHandler={true}
+              dataAuto="pendingJob"
             />
             {/* PAGINATION  */}
             {data?.total !== 0 && (
               <div
-                data-auto={`admin-pagination-all-employees`}
+                id="pagination"
                 className="flex-col flex justify-center bg-base-300 items-center py-5"
               >
                 <Pagination

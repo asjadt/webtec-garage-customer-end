@@ -28,6 +28,7 @@ export default function Table({
   col2Width = "w-[70%]",
   smGrid = "sm:grid-cols-2",
   onlyCard = false,
+  dataAuto,
 }) {
   const [allChecked, setAllChecked] = useState(false);
 
@@ -61,25 +62,25 @@ export default function Table({
   if (onlyCard) {
     return (
       <div
-        data-cy={"container_table"}
+        data-auto={`${dataAuto}`}
         className={`overflow-x-auto scrollbarX  top-0 w-full bg-base-200 md:bg-base-200 min-h-[300px]`}
       >
         {/* FOR MOBILE VIEW  */}
-        <div data-cy={"mobile_view_container_table"} className={`w-full`}>
+        <div data-auto={`${dataAuto}`} className={`w-full`}>
           {!isLoading ? (
             rows?.length > 0 ? (
               <div
-                data-cy={"mobile_view_rows_table"}
+                data-auto={`${dataAuto}`}
                 className={`grid grid-cols-1 ${smGrid} gap-5 md:gap-0 bg-base-200 `}
               >
                 {rows?.map((data, i) => (
                   <div
-                    data-cy={"mobile_view_rows_container_table"}
+                    data-auto={`${dataAuto}`}
                     key={i}
                     className="p-5 my-2 rounded-xl bg-base-300 border border-primary-content shadow-md shadow-primary-content flex flex-col overflow-auto scrollbar-none"
                   >
                     <div
-                      data-cy={"mobile_view_actions_container_table"}
+                      data-auto={`${dataAuto}`}
                       className={`w-full flex justify-center pt-1 pb-5`}
                     >
                       {actions.filter((action) => {
@@ -89,7 +90,7 @@ export default function Table({
                         });
                       })?.length > 0 ? (
                         <td
-                          data-cy={"mobile_view_actions_sub_container_table"}
+                          data-auto={`${dataAuto}`}
                           className="text-right p-0"
                         >
                           {!isFullActionList ? (
@@ -105,7 +106,7 @@ export default function Table({
                             />
                           ) : (
                             <div
-                              data-cy={"mobile_view_actions_table"}
+                              data-auto={`${dataAuto}`}
                               className="flex gap-2 justify-end items-center"
                             >
                               {actions
@@ -120,9 +121,7 @@ export default function Table({
                                   <React.Fragment key={index}>
                                     {action.permissions ? (
                                       <button
-                                        data-cy={
-                                          "mobile_view_actions_button_table"
-                                        }
+                                        data-auto={`${dataAuto}`}
                                         onClick={() =>
                                           action.handler(
                                             getFullDataToActionHandler
@@ -155,29 +154,26 @@ export default function Table({
                       )}
                     </div>
                     {/* DATA  */}
-                    <table
-                      data-cy={"mobile_view_table_table"}
-                      className="table w-full "
-                    >
-                      <tbody data-cy={"mobile_view_table_body_table"}>
+                    <table data-auto={`${dataAuto}`} className="table w-full ">
+                      <tbody data-auto={`${dataAuto}`}>
                         {cols.map((col, j) => (
                           <Fragment key={j}>
                             {col?.show ? (
                               <>
                                 {data[col?.attribute_name] ? (
                                   <tr
-                                    data-cy={"mobile_view_cols_tr_table"}
+                                    data-auto={`${dataAuto}`}
                                     key={j}
                                     className={`px-5 border-y border-primary-content w-full`}
                                   >
                                     <td
-                                      data-cy={"mobile_view_cols_td_table"}
+                                      data-auto={`${dataAuto}`}
                                       className={`font-bold border border-primary-content text-primary ${col1Width}`}
                                     >
                                       {col.name}:
                                     </td>
                                     <td
-                                      data-cy={"mobile_view_cols_td2_table"}
+                                      data-auto={`${dataAuto}`}
                                       className={`border border-primary-content overflow-wrap-anywhere ${col2Width}`}
                                     >
                                       {data[col?.attribute_name]}
@@ -199,31 +195,31 @@ export default function Table({
               </div>
             ) : (
               <div
-                data-cy={"mobile_view_no_data_container_table"}
+                data-auto={`${dataAuto}`}
                 className="flex justify-center items-center flex-col bg-base-200 p-5  rounded-xl"
               >
                 <div
-                  data-cy={"mobile_view_no_data_sub_container_table"}
+                  data-auto={`${dataAuto}`}
                   className="w-[200px] flex flex-col gap-2 justify-center items-center"
                 >
                   <img
-                    data-cy={"mobile_view_no_data_image_table"}
+                    data-auto={`${dataAuto}`}
                     className="w-20"
                     src="/assets/nodatafound.svg"
                     alt="no data found"
                   />
                   <div
-                    data-cy={"mobile_view_no_data_message_container_table"}
+                    data-auto={`${dataAuto}`}
                     className={`flex justify-center items-center flex-col`}
                   >
                     <h4
-                      data-cy={"mobile_view_no_data_message_content_table"}
+                      data-auto={`${dataAuto}`}
                       className="font-medium text-lg text-center"
                     >
                       Nothing Found!
                     </h4>
                     <p
-                      data-cy={"mobile_view_no_data_message_sub_content_table"}
+                      data-auto={`${dataAuto}`}
                       className="font-light text-center"
                     >
                       Please add a new entity to see the content here. Thank
@@ -243,40 +239,34 @@ export default function Table({
 
   return (
     <div
-      data-cy={"container_table"}
+      data-auto={`container-${dataAuto}`}
       className={`overflow-x-auto scrollbarX  top-0 w-full bg-base-200 md:bg-base-200 min-h-[300px]`}
     >
       {/* FOR DESKTOP VIEW  */}
       <table
-        data-cy={"desktop_view_container_table"}
+        data-auto={`table-desktop-${dataAuto}`}
         className="hidden md:table gap-2 rounded-xl "
       >
         {header ? (
           <thead
-            data-cy={"desktop_view_table_head_table"}
+            data-auto={`header-desktop-${dataAuto}`}
             className={`${tableHeaderClass} border-b-2 border-primary-content bg-primary `}
           >
             <tr
-              data-cy={"desktop_view_table_head_table_row_table"}
+              data-auto={`tr-desktop-${dataAuto}`}
               className="h-16 text-base-300 border-b border-primary-content"
             >
               {checkBoxes ? (
                 <th
-                  data-cy={"desktop_view_table_head_table_row_table_head_table"}
+                  data-auto={`checkbox-desktop-${dataAuto}`}
                   style={{
                     width: `1%`,
                   }}
                   className=" px-8"
                 >
-                  <label
-                    data-cy={
-                      "desktop_view_table_head_table_row_table_head_label_table"
-                    }
-                  >
+                  <label data-auto={`label-desktop-${dataAuto}`}>
                     <input
-                      data-cy={
-                        "desktop_view_table_head_table_row_table_head_input_table"
-                      }
+                      data-auto={`input-desktop-${dataAuto}`}
                       checked={
                         allChecked ||
                         (selectedIds?.length === rows?.length &&
@@ -293,16 +283,14 @@ export default function Table({
                 ""
               )}
               <th
-                data-cy={"desktop_view_table_head_table_row_table_head2_table"}
+                data-auto={`th-desktop-${dataAuto}`}
                 style={{
                   width: `1%`,
                 }}
                 className="px-5"
               >
                 <div
-                  data-cy={
-                    "desktop_view_table_head_table_row_table_head_div_table"
-                  }
+                  data-auto={`${dataAuto}`}
                   className="flex flex-col items-start justify-start gap-2"
                 ></div>
               </th>
@@ -310,9 +298,7 @@ export default function Table({
                 <Fragment key={i}>
                   {th?.show ? (
                     <th
-                      data-cy={
-                        "desktop_view_table_head_table_row_table_head_cols_table"
-                      }
+                      data-auto={`col${i + 1}-desktop-${dataAuto}`}
                       className={`px-5 ${
                         th?.isMainField ? "table-cell" : "hidden"
                       } md:table-cell`}
@@ -322,9 +308,7 @@ export default function Table({
                       }}
                     >
                       <div
-                        data-cy={
-                          "desktop_view_table_head_table_row_table_head_cols_content_table"
-                        }
+                        data-auto={`th-name${i + 1}-desktop-${dataAuto}`}
                         className={`flex flex-col text-center  ${
                           th?.align === "center"
                             ? "items-center"
@@ -342,27 +326,17 @@ export default function Table({
 
               {actions.length > 0 ? (
                 <th
-                  data-cy={
-                    "desktop_view_table_head_table_row_table_head_actions_table"
-                  }
+                  data-auto={`actions-desktop-${dataAuto}`}
                   style={{
                     minWidth: "1%",
                     paddingRight: "20px",
                   }}
                 >
                   <div
-                    data-cy={
-                      "desktop_view_table_head_table_row_table_head_action_content_container_table"
-                    }
+                    data-auto={`actions-header-desktop-${dataAuto}`}
                     className="flex items-center justify-end"
                   >
-                    <span
-                      data-cy={
-                        "desktop_view_table_head_table_row_table_head_action_content_table"
-                      }
-                    >
-                      Actions
-                    </span>
+                    <span>Actions</span>
                   </div>
                 </th>
               ) : (
@@ -374,12 +348,12 @@ export default function Table({
           ""
         )}
 
-        <tbody data-cy={"desktop_view_table_body_table"} className="">
+        <tbody data-auto={`body-desktop-${dataAuto}`} className="">
           {!isLoading ? (
             rows && rows?.length > 0 ? (
               rows.map((data, i) => (
                 <tr
-                  data-cy={"desktop_view_table_body_row_table"}
+                  data-auto={`row${i + 1}-desktop-${dataAuto}`}
                   key={i}
                   className={`border-b ${
                     i % 2 === 1 ? "bg-base-100" : "bg-base-300"
@@ -387,20 +361,12 @@ export default function Table({
                 >
                   {checkBoxes ? (
                     <td
-                      data-cy={
-                        "desktop_view_table_body_row_checkbox_container_table"
-                      }
+                      data-auto={`data${i + 1}-desktop-${dataAuto}`}
                       className="w-[50px] px-8"
                     >
-                      <label
-                        data-cy={
-                          "desktop_view_table_body_row_checkbox_label_table"
-                        }
-                      >
+                      <label data-auto={`label${i + 1}-desktop-${dataAuto}`}>
                         <input
-                          data-cy={
-                            "desktop_view_table_body_row_checkbox_input_table"
-                          }
+                          data-auto={`input${i + 1}-desktop-${dataAuto}`}
                           checked={allChecked || selectedIds.includes(data.id)}
                           value={data?.id}
                           onClick={handleTick}
@@ -414,18 +380,14 @@ export default function Table({
                     ""
                   )}
                   <td
-                    data-cy={"desktop_view_table_body_row_count_table"}
+                    data-auto={`col${i + 1}-desktop-${dataAuto}`}
                     key={i}
                     style={{
                       minWidth: "1%",
                     }}
                     className="px-5"
                   >
-                    <span
-                      data-cy={
-                        "desktop_view_table_body_row_count_content_table"
-                      }
-                    >
+                    <span data-auto={`count${i + 1}-desktop-${dataAuto}`}>
                       {i + 1}
                     </span>
                   </td>
@@ -434,7 +396,7 @@ export default function Table({
                     <Fragment key={j}>
                       {col?.show ? (
                         <td
-                          data-cy={"desktop_view_table_body_row_cols_table"}
+                          data-auto={`col-content${i + 1}-desktop-${dataAuto}`}
                           style={{
                             width: `${col?.minWidth}%`,
                           }}
@@ -462,7 +424,9 @@ export default function Table({
                     });
                   })?.length > 0 ? (
                     <td
-                      data-cy={"desktop_view_table_body_row_actions_table"}
+                      data-auto={`actions-container${
+                        i + 1
+                      }-desktop-${dataAuto}`}
                       style={{
                         width: "1%",
                         paddingRight: "20px",
@@ -485,9 +449,7 @@ export default function Table({
                         />
                       ) : (
                         <span
-                          data-cy={
-                            "desktop_view_table_body_row_actions_action_table"
-                          }
+                          data-auto={`action${i + 1}-desktop-${dataAuto}`}
                           className="flex gap-5 justify-end items-center"
                         >
                           {actions
@@ -569,42 +531,22 @@ export default function Table({
                 </tr>
               ))
             ) : (
-              <tr data-cy={"desktop_view_nothing_found_container_table"}>
+              <tr data-auto={`nodata-container-desktop-${dataAuto}`}>
                 <td
-                  data-cy={"desktop_view_nothing_found_sub_container_table"}
                   className="text-center py-5 bg-base-200"
                   colSpan={cols?.length + 4}
                 >
                   {/* FOR DEFAULT LIGHT THEME  */}
-                  <div
-                    data-cy={"desktop_view_nothing_found_start_table"}
-                    className="flex justify-center items-center flex-col"
-                  >
-                    <div
-                      data-cy={"desktop_view_nothing_found_table"}
-                      className="w-[200px] flex flex-col gap-2 justify-center items-center"
-                    >
+                  <div className="flex justify-center items-center flex-col">
+                    <div className="w-[200px] flex flex-col gap-2 justify-center items-center">
                       <img
-                        data-cy={"desktop_view_nothing_found_image_table"}
                         className="w-20"
                         src="/assets/nodatafound.svg"
                         alt="no data found"
                       />
-                      <div
-                        data-cy={
-                          "desktop_view_nothing_found_content_container_table"
-                        }
-                      >
-                        <h4
-                          data-cy={"desktop_view_nothing_found_text_table"}
-                          className="font-medium text-lg"
-                        >
-                          Nothing Found!
-                        </h4>
-                        <p
-                          data-cy={"desktop_view_add_content_table"}
-                          className="font-light"
-                        >
+                      <div>
+                        <h4 className="font-medium text-lg">Nothing Found!</h4>
+                        <p className="font-light">
                           Please add a new entity to see the content here. Thank
                           you!
                         </p>
@@ -615,16 +557,9 @@ export default function Table({
               </tr>
             )
           ) : (
-            <tr data-cy={"desktop_view_loading_spinner_container_table"}>
-              <td
-                data-cy={"desktop_view_loading_spinner_sub_container_table"}
-                className="text-center py-5"
-                colSpan={cols?.length + 4}
-              >
-                <span
-                  data-cy={"desktop_view_loading_spinner_table"}
-                  className="loading loading-spinner text-primary loading-lg"
-                ></span>
+            <tr>
+              <td className="text-center py-5" colSpan={cols?.length + 4}>
+                <span className="loading loading-spinner text-primary loading-lg"></span>
               </td>
             </tr>
           )}
@@ -633,25 +568,22 @@ export default function Table({
 
       {/* FOR MOBILE VIEW  */}
       <div
-        data-cy={"mobile_view_container_table"}
+        data-auto={`container-mobile-${dataAuto}`}
         className={`w-full block md:hidden `}
       >
         {!isLoading ? (
           rows?.length > 0 ? (
             <div
-              data-cy={"mobile_view_rows_table"}
+              data-auto={`rows-mobile-${dataAuto}`}
               className={`grid grid-cols-1 ${smGrid} gap-5 md:gap-0 bg-base-200 `}
             >
               {rows?.map((data, i) => (
                 <div
-                  data-cy={"mobile_view_rows_container_table"}
+                  data-auto={`rows-container-mobile-${dataAuto}`}
                   key={i}
                   className="p-5 my-2 rounded-xl bg-base-300 border border-primary-content shadow-md shadow-primary-content flex flex-col overflow-auto scrollbar-none"
                 >
-                  <div
-                    data-cy={"mobile_view_actions_container_table"}
-                    className={`w-full flex justify-center pt-1 pb-5`}
-                  >
+                  <div className={`w-full flex justify-center pt-1 pb-5`}>
                     {actions.filter((action) => {
                       return !action.disabledOn.some((disable) => {
                         const conditionValue = data[disable.attributeName];
@@ -659,7 +591,7 @@ export default function Table({
                       });
                     })?.length > 0 ? (
                       <td
-                        data-cy={"mobile_view_actions_sub_container_table"}
+                        data-auto={`actions-container-mobile-${dataAuto}`}
                         className="text-right p-0"
                       >
                         {!isFullActionList ? (
@@ -674,10 +606,7 @@ export default function Table({
                             actions={actions}
                           />
                         ) : (
-                          <div
-                            data-cy={"mobile_view_actions_table"}
-                            className="flex gap-2 justify-end items-center"
-                          >
+                          <div className="flex gap-2 justify-end items-center">
                             {actions
                               .filter((action) => {
                                 return !action.disabledOn.some((disable) => {
@@ -690,9 +619,7 @@ export default function Table({
                                 <React.Fragment key={index}>
                                   {action.permissions ? (
                                     <button
-                                      data-cy={
-                                        "mobile_view_actions_button_table"
-                                      }
+                                      data-auto={`action-mobile-${dataAuto}`}
                                       onClick={() =>
                                         action.handler(
                                           getFullDataToActionHandler
@@ -725,29 +652,26 @@ export default function Table({
                     )}
                   </div>
                   {/* DATA  */}
-                  <table
-                    data-cy={"mobile_view_table_table"}
-                    className="table w-full "
-                  >
-                    <tbody data-cy={"mobile_view_table_body_table"}>
+                  <table data-auto={`${dataAuto}`} className="table w-full ">
+                    <tbody data-auto={`${dataAuto}`}>
                       {cols.map((col, j) => (
                         <Fragment key={j}>
                           {col?.show ? (
                             <>
                               {data[col?.attribute_name] ? (
                                 <tr
-                                  data-cy={"mobile_view_cols_tr_table"}
+                                  data-auto={`row-mobile-${dataAuto}`}
                                   key={j}
                                   className={`px-5 border-y border-primary-content w-full`}
                                 >
                                   <td
-                                    data-cy={"mobile_view_cols_td_table"}
+                                    data-auto={`name-mobile-${dataAuto}`}
                                     className={`font-bold border border-primary-content text-primary ${col1Width}`}
                                   >
                                     {col.name}:
                                   </td>
                                   <td
-                                    data-cy={"mobile_view_cols_td2_table"}
+                                    data-auto={`value-mobile-${dataAuto}`}
                                     className={`border border-primary-content overflow-wrap-anywhere ${col2Width}`}
                                   >
                                     {data[col?.attribute_name]}
@@ -769,33 +693,23 @@ export default function Table({
             </div>
           ) : (
             <div
-              data-cy={"mobile_view_no_data_container_table"}
+              data-auto={`noData-mobile-${dataAuto}`}
               className="flex justify-center items-center flex-col bg-base-200 p-5  rounded-xl"
             >
-              <div
-                data-cy={"mobile_view_no_data_sub_container_table"}
-                className="w-[200px] flex flex-col gap-2 justify-center items-center"
-              >
+              <div className="w-[200px] flex flex-col gap-2 justify-center items-center">
                 <img
-                  data-cy={"mobile_view_no_data_image_table"}
                   className="w-20"
                   src="/assets/nodatafound.svg"
                   alt="no data found"
                 />
                 <div
-                  data-cy={"mobile_view_no_data_message_container_table"}
+                  data-auto={`${dataAuto}`}
                   className={`flex justify-center items-center flex-col`}
                 >
-                  <h4
-                    data-cy={"mobile_view_no_data_message_content_table"}
-                    className="font-medium text-lg text-center"
-                  >
+                  <h4 className="font-medium text-lg text-center">
                     Nothing Found!
                   </h4>
-                  <p
-                    data-cy={"mobile_view_no_data_message_sub_content_table"}
-                    className="font-light text-center"
-                  >
+                  <p className="font-light text-center">
                     Please add a new entity to see the content here. Thank you!
                   </p>
                 </div>

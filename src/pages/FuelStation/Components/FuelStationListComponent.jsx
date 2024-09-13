@@ -31,10 +31,14 @@ export default function FuelStationListComponent({
   return (
     <>
       {/* GARAGE LIST  */}
-      <div className={`w-full h-full overflow-y-auto`}>
+      <div
+        data-auto={`container-listComponent`}
+        className={`w-full h-full overflow-y-auto`}
+      >
         {fuelStationList?.length > 0 ? (
           <>
             <motion.div
+              data-auto={`grid-listComponent`}
               variants={gridContainerVariants}
               initial="hidden"
               animate="visible"
@@ -48,12 +52,12 @@ export default function FuelStationListComponent({
               <>
                 {currentPage < totalPage ? (
                   <div
-                    data-auto={`button-garageListComponent`}
+                    data-auto={`button-container-listComponent`}
                     ref={ref}
                     className={`flex justify-center items-center mt-5`}
                   >
                     <button
-                      data-auto={`loadMore-garageListComponent`}
+                      data-auto={`loadMore-listComponent`}
                       className={`btn btn-sm btn-primary`}
                       onClick={() => fetchNextPage()}
                     >
@@ -68,12 +72,17 @@ export default function FuelStationListComponent({
           </>
         ) : (
           <div
-            data-auto={`createJob-container-garageListComponent`}
+            data-auto={`noData-container-listComponent`}
             className={`flex justify-center items-center h-[400px] text-xl  flex-col`}
           >
-            <img className={`w-32`} src="/assets/NoDataFound.svg" alt="" />
+            <img
+              data-auto={`noData-image-listComponent`}
+              className={`w-32`}
+              src="/assets/NoDataFound.svg"
+              alt=""
+            />
             <span
-              data-auto={`noGarage-garageListComponent`}
+              data-auto={`noData-message-listComponent`}
               className={`font-medium text-3xl`}
             >
               No Fuel Station Found!

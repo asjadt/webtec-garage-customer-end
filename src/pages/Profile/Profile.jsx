@@ -194,18 +194,20 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <div className={`py-10`}>
+    <div data-auto={`container-profile`} className={`py-10`}>
       {loading ? (
         <CustomLoading h="h-[300px]" />
       ) : (
-        <div className="pb-5">
+        <div data-auto={`profile-container`} className="pb-5">
           <h1
+            data-auto={`header-profile`}
             className={`text-2xl font-semibold text-center text-primary pb-5`}
           >
             Profile
           </h1>
 
           <div
+            data-auto={`form-container`}
             className={`grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 grid-2 sm:gap-5`}
           >
             <div>
@@ -231,6 +233,7 @@ const Profile = () => {
                 maxLength={25}
                 pattern={/^[A-Za-z\s]+$/}
                 patternErrorMsg="Only Capital and lowercase letters are allowed"
+                dataAuto={"firstName-profile"}
               />
             </div>
 
@@ -257,6 +260,7 @@ const Profile = () => {
                 maxLength={25}
                 pattern={/^[A-Za-z\s]+$/}
                 patternErrorMsg="Only Capital and lowercase letters are allowed"
+                dataAuto={"lastName-profile"}
               />
             </div>
 
@@ -301,13 +305,14 @@ const Profile = () => {
               wrapperClassName={`w-full`}
               fieldClassName={`w-full`}
               maxLength={11}
+              dataAuto={"phone-profile"}
             />
 
             {/* ADDRESS LINE 1 */}
-            <div className="w-full">
+            <div data-auto={`address-line-1-profile`} className="w-full">
               {/* LABEL */}
               <label
-                data-auto={`step1-label-create-employee1`}
+                data-auto={`label-address-line-1-profile`}
                 htmlFor="address_line_1"
                 className="label"
               >
@@ -332,12 +337,13 @@ const Profile = () => {
                 formData={signUpDetails}
                 setFormData={setSignUpDetails}
                 defaultValue={signUpDetails?.address_line_1}
+                dataAuto={"address-profile"}
               />
 
               {/* VALIDATION MESSAGE  */}
               {errors?.address_line_1 && (
                 <label
-                  data-auto={`step1-error-message-create-employee1`}
+                  data-auto={`error-address-line-1-profile`}
                   className="label h-7"
                 >
                   <span className="label-text-alt text-error">
@@ -348,10 +354,10 @@ const Profile = () => {
             </div>
 
             {/* ADDRESS LINE 2 */}
-            <div className="w-full">
+            <div data-auto={`address-line-2-profile`} className="w-full">
               {/* LABEL */}
               <label
-                data-auto={`step1-label-create-employee1`}
+                data-auto={`label-address-line-2-profile`}
                 htmlFor="address_line_2"
                 className="label"
               >
@@ -375,12 +381,13 @@ const Profile = () => {
                 formData={addressData2}
                 setFormData={setAddressData2}
                 defaultValue={addressData2?.address_line_2}
+                dataAuto={"address2-profile"}
               />
 
               {/* VALIDATION MESSAGE  */}
               {errors?.address_line_2 && (
                 <label
-                  data-auto={`step1-error-message-create-employee1`}
+                  data-auto={`error-address-line-2-profile`}
                   className="label h-7"
                 >
                   <span className="label-text-alt text-error">
@@ -408,6 +415,7 @@ const Profile = () => {
               error={errors?.city}
               wrapperClassName={`w-full`}
               fieldClassName={`w-full`}
+              dataAuto={"city-profile"}
             />
 
             {/* COUNTRY */}
@@ -428,6 +436,7 @@ const Profile = () => {
               error={errors?.country}
               wrapperClassName={`w-full`}
               fieldClassName={`w-full`}
+              dataAuto={"country-profile"}
             />
 
             {/* POSTCODE */}
@@ -448,11 +457,16 @@ const Profile = () => {
               error={errors?.postcode}
               wrapperClassName={`w-full`}
               fieldClassName={`w-full`}
+              dataAuto={"postcode-profile"}
             />
           </div>
 
-          <div className={`flex justify-center items-center w-full mt-10`}>
+          <div
+            data-auto={"update-profile"}
+            className={`flex justify-center items-center w-full mt-10`}
+          >
             <button
+              data-auto={"update-button-profile"}
               disabled={isSubmitting}
               onClick={updateProfile}
               className={`btn btn-primary w-full md:w-52`}

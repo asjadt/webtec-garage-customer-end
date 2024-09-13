@@ -15,7 +15,10 @@ export default function SelectedFiltersForFuelStation() {
     : fuelStationSearchData;
 
   return (
-    <div className={`w-full inline-block`}>
+    <div
+      data-auto={`container-fuelStationFilters`}
+      className={`w-full inline-block`}
+    >
       {/* SERVICES  */}
       {fuelStationServices
         ?.filter((s) =>
@@ -23,6 +26,7 @@ export default function SelectedFiltersForFuelStation() {
         )
         .map((item, index) => (
           <div
+            data-auto={`container-close${index + 1}-fuelStationFilters`}
             key={index}
             className={`inline-flex items-center justify-between gap-x-2 py-2 px-3 bg-primary-content border-2 border-primary rounded-full text-primary font-medium text-xs m-1`}
           >
@@ -48,10 +52,12 @@ export default function SelectedFiltersForFuelStation() {
       {/* DISTANCE  */}
       {!!fuelStationSearchData?.distance && (
         <div
+          data-auto={`container-distance-fuelStationFilters`}
           className={`inline-flex items-center justify-between gap-x-2 py-2 px-3 bg-primary-content border-2 border-primary rounded-full text-primary font-medium text-xs m-1`}
         >
           {fuelStationSearchData?.distance} KM{" "}
           <BiReset
+            data-auto={`reset-distance-fuelStationFilters`}
             className={`cursor-pointer`}
             onClick={() => {
               const distanceData = calculateLatLongBounds({
@@ -78,10 +84,12 @@ export default function SelectedFiltersForFuelStation() {
       {/* WIFI  */}
       {!!fuelStationSearchData?.wifi_available && (
         <div
+          data-auto={`container-wifi-fuelStationFilters`}
           className={`inline-flex items-center justify-between gap-x-2 py-2 px-3 bg-primary-content border-2 border-primary rounded-full text-primary font-medium text-xs m-1`}
         >
           WIFI Available
           <FiX
+            data-auto={`reset-wifi-fuelStationFilters`}
             className={`cursor-pointer`}
             onClick={() => {
               setFuelStationFilterDataToLocalStorage({
@@ -97,10 +105,12 @@ export default function SelectedFiltersForFuelStation() {
       {/* REMOTE GARAGE  */}
       {!!fuelStationSearchData?.is_mobile_garage && (
         <div
+          data-auto={`container-remoteGarage-fuelStationFilters`}
           className={`inline-flex items-center justify-between gap-x-2 py-2 px-3 bg-primary-content border-2 border-primary rounded-full text-primary font-medium text-xs m-1`}
         >
           Remote Garage
           <FiX
+            data-auto={`reset-remoteGarage-fuelStationFilters`}
             className={`cursor-pointer`}
             onClick={() => {
               setFuelStationFilterDataToLocalStorage({

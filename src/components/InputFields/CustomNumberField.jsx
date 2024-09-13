@@ -23,6 +23,7 @@ export default function CustomNumberField({
   disable = false,
   visibleBorder = false,
   onBlur = () => {},
+  dataAuto,
 }) {
   const inputRef = useRef();
   const [validationError, setValidationError] = useState(error);
@@ -81,36 +82,21 @@ export default function CustomNumberField({
   }, []);
 
   return (
-    <div
-      data-cy={"container_custom_number_field"}
-      className={`${wrapperClassName} `}
-    >
+    <div data-auto={`container-${dataAuto}`} className={`${wrapperClassName} `}>
       {/* LABEL */}
       {label && (
-        <label
-          data-cy={"label_container_custom_number_field"}
-          htmlFor={id}
-          className="label"
-        >
-          <span
-            data-cy={"label_content_custom_number_field"}
-            className={`label-text text-md font-bold`}
-          >
+        <label data-auto={`label-${dataAuto}`} htmlFor={id} className="label">
+          <span className={`label-text text-md font-bold`}>
             {label}{" "}
             {required && !disable && (
-              <span
-                data-cy={"label_required_custom_number_field"}
-                className="text-error font-bold text-md"
-              >
-                *
-              </span>
+              <span className="text-error font-bold text-md">*</span>
             )}
           </span>
         </label>
       )}
       {/* FIELD  */}
       <input
-        data-cy={"input_custom_number_field"}
+        data-auto={`${dataAuto}`}
         onBlur={onBlur}
         disabled={disable}
         id={id}
@@ -136,11 +122,8 @@ export default function CustomNumberField({
       />
       {/* VALIDATION MESSAGE  */}
       {(error || validationError) && (
-        <label data-cy={"error_custom_number_field"} className="label ">
-          <span
-            data-cy={"error_content_custom_number_field"}
-            className="label-text-alt text-error"
-          >
+        <label data-auto={`error-${dataAuto}`} className="label ">
+          <span className="label-text-alt text-error">
             {error || validationError}
           </span>
         </label>

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 export default function TextTitleComponent({
   text,
   borderColor = "border-primary",
+  dataAuto,
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -14,6 +15,7 @@ export default function TextTitleComponent({
   };
   return (
     <motion.div
+      data-auto={dataAuto}
       ref={ref}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}

@@ -47,46 +47,44 @@ export default function FuelStationCard({ fuel }) {
       variants={gridItemVariants}
       exit={{ opacity: 0, y: 50 }}
       transition={{ stagger: 0.5 }}
-      data-auto={`container${id}-garageCard`}
+      data-auto={`container${id}-fuelStationCard`}
       className={`md:flex relative items-center overflow-hidden md:space-x-2 space-y-3 md:space-y-0 border w-full rounded-md p-3 bg-base-300 shadow-lg`}
     >
       {/* MAIN SECTION */}
       <div
-        data-auto={`mainSection${id}-garageCard`}
-        className={` flex flex-col justify-between h-full gap-2 w-full`}
+        data-auto={`mainSection${id}-fuelStationCard`}
+        className={`flex flex-col justify-between h-full gap-2 w-full`}
       >
         <div className={`space-y-2`}>
-          {/* NAME  */}
+          {/* NAME */}
           <h1
             onClick={() => {
               navigate(`/view-fuel-station-details/${encryptID(id)}`);
             }}
-            data-auto={`name${id}-garageCard`}
+            data-auto={`name${id}-fuelStationCard`}
             className="text-xl inline hover:text-primary duration-150 cursor-pointer md:text-xl font-bold text-[#242E30]"
           >
             {name}
           </h1>
           {/* TIMING */}
           <div
-            data-auto={`timings${id}-garageCard`}
+            data-auto={`timings${id}-fuelStationCard`}
             className={`flex text-sm items-center text-[#017436] font-bold`}
           >
             <FaRegClock className={`mx-1`} />
-            <p data-auto={`startEnd${id}-garageCard`}>
-              {/* {timing?.start_at} - {timing?.end_at} */}
+            <p data-auto={`startEnd${id}-fuelStationCard`}>
               {moment(opening_time, "HH:mm").format("hh:mm A")} -{" "}
               {moment(closing_time, "HH:mm").format("hh:mm A")}
             </p>
           </div>
 
-          {/* ADDRESS  */}
+          {/* ADDRESS */}
           <div>
             <address
-              className={`text-sm flex  items-start justify-start gap-1`}
-              data-auto={`address${id}-garageCard`}
+              className={`text-sm flex items-start justify-start gap-1`}
+              data-auto={`address${id}-fuelStationCard`}
             >
               <TiLocationOutline className={`text-primary`} size={20} />
-
               {address_line_1}
             </address>
           </div>
@@ -95,12 +93,14 @@ export default function FuelStationCard({ fuel }) {
           <p className={`ml-1`}>
             {currentTime?.isBetween(openingMoment, closingMoment) ? (
               <span
+                data-auto={`statusOpen${id}-fuelStationCard`}
                 className={`px-3 flex w-fit gap-x-1 items-center justify-start py-[0.1rem] text-base-300 text-xs md:text-sm rounded-full bg-green-700`}
               >
                 Open
               </span>
             ) : (
               <span
+                data-auto={`statusClosed${id}-fuelStationCard`}
                 className={`px-3 flex w-fit gap-x-1 items-center justify-start py-[0.1rem] text-base-300 text-xs md:text-sm rounded-full bg-primary`}
               >
                 Closed
@@ -111,6 +111,7 @@ export default function FuelStationCard({ fuel }) {
 
         {/* ACTION */}
         <button
+          data-auto={`viewDetailsButton${id}-fuelStationCard`}
           onClick={() =>
             navigate(`/view-fuel-station-details/${encryptID(id)}`)
           }

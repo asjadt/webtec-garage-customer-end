@@ -339,8 +339,12 @@ export default function MyBooking() {
   };
 
   return (
-    <div className="h-full my-10 " data-auto={"container_admin"}>
-      <div className="relative h-full" data-auto="sub_container_admin">
+    <div className="h-full my-10 " data-auto="container-myBooking">
+      <div
+        id="sub_container"
+        className="relative h-full"
+        data-auto="sub-container-myBooking"
+      >
         {/* POPUP  */}
         <CustomPopup
           popupClasses={`w-full sm:w-[70vw] md:w-[70vw] lg:w-[50vw]`}
@@ -362,9 +366,10 @@ export default function MyBooking() {
 
         {/* HEADING AND TABLE */}
 
-        <div>
+        <div data-auto="heading-container-myBooking">
           {/* ======= HEADING AND FILTERING AREA =========  */}
           <div
+            data-auto="header-container-myBooking"
             id="header"
             className="flex flex-col md:flex-row justify-between items-center relative gap-5"
           >
@@ -381,12 +386,12 @@ export default function MyBooking() {
                     : "Pending Bookings"}
                 </Headings>
               </div>
-              <h3>
+              <h3 data-auto="header-total-myBooking">
                 Total {data?.total} {data?.total > 1 ? "Bookings" : "Booking"}{" "}
                 Found
               </h3>
               {/* ======= TAB AREA =========  */}
-              <div className={`flex justify-center`}>
+              <div id="tabs" className={`flex justify-center`}>
                 <CustomTab
                   tabs={tabs}
                   activeTab={activeTab}
@@ -394,16 +399,21 @@ export default function MyBooking() {
                   gridCol="grid-cols-3"
                   filters={filters}
                   setFilters={setFilters}
+                  dataAuto="tab-myBookings"
                 />
               </div>
             </div>
           </div>
 
           {/* =========== TABLE AREA ============  */}
-          <div className="pt-5 relative">
+          <div id="table" className="pt-5 relative">
             {/* DATASET AND FILTERS */}
-            <div className={`flex justify-between items-center`}>
-              <CustomDataSet cols={cols} setCols={setCols} dataAuto="admin" />
+            <div id="dataset" className={`flex justify-between items-center`}>
+              <CustomDataSet
+                cols={cols}
+                setCols={setCols}
+                dataAuto="myBooking"
+              />
             </div>
 
             <Table
@@ -430,13 +440,13 @@ export default function MyBooking() {
               }))}
               actions={actions}
               cols={cols}
-              dataAuto="all-job-type"
+              dataAuto="myBooking"
               getFullDataToActionHandler={true}
             />
             {/* PAGINATION  */}
             {data?.total !== 0 && (
               <div
-                data-auto={`admin-pagination-all-employees`}
+                data-auto={"pagination-myBooking"}
                 className="flex-col flex justify-center bg-base-300 items-center py-5"
               >
                 <Pagination

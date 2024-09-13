@@ -142,12 +142,25 @@ export default function JobDetailsForm({
   };
 
   return (
-    <div className={``}>
+    <div data-auto={`container-jobDetailsForm`} className={``}>
       {/* SCHEDULE  */}
-      <div className="join join-vertical w-full">
-        <div className="collapse collapse-arrow join-item  border border-primary">
-          <input type="checkbox" name="my-accordion-4" />
-          <div className="collapse-title columns-lg font-semibold">
+      <div
+        data-auto={`sub-container-jobDetailsForm`}
+        className="join join-vertical w-full"
+      >
+        <div
+          data-auto={`title-jobDetailsForm`}
+          className="collapse collapse-arrow join-item  border border-primary"
+        >
+          <input
+            data-auto={`checkbox-jobDetailsForm`}
+            type="checkbox"
+            name="my-accordion-4"
+          />
+          <div
+            data-auto={`title-jobDetailsForm`}
+            className="collapse-title columns-lg font-semibold"
+          >
             Garage Schedule
           </div>
           <div className="collapse-content">
@@ -347,7 +360,7 @@ export default function JobDetailsForm({
           maxLength={50}
           //   pattern={/^[A-Za-z\s]+$/}
           //   patternErrorMsg="Only Capital and lowercase letters are allowed"
-          dataAuto={`name-create-department`}
+          dataAuto={"car-reg-job-details"}
         />
 
         {/* MAKES  */}
@@ -377,7 +390,7 @@ export default function JobDetailsForm({
               makeName: e[0]?.name,
             });
           }}
-          dataAuto={`work_location-create-employee`}
+          dataAuto={`work-location-job-details`}
         />
 
         {/* MODEL  */}
@@ -407,7 +420,7 @@ export default function JobDetailsForm({
               modelName: e[0]?.name,
             });
           }}
-          dataAuto={`work_location-create-employee`}
+          dataAuto={`model-job-details`}
         />
 
         {/* TRANSMISSION  */}
@@ -432,11 +445,12 @@ export default function JobDetailsForm({
               transmission: e[0]?.id,
             });
           }}
-          dataAuto={`work_location-create-employee`}
+          dataAuto={`transmission-job-details`}
         />
 
         {/* COUPON */}
         <button
+          data-auto={`coupon-button`}
           className="btn w-full btn-sm btn-outline btn-primary mt-5"
           onClick={() => {
             setIsManualDiscountToken(!isManualDiscountToken);
@@ -470,7 +484,7 @@ export default function JobDetailsForm({
             type={"text"}
             wrapperClassName={"w-full"}
             maxLength={50}
-            dataAuto={`name-create-department`}
+            dataAuto={`coupon-code-jobDetails`}
           />
         ) : (
           // AUTO APPLY COUPON
@@ -498,12 +512,13 @@ export default function JobDetailsForm({
               });
               handleValidateCoupon(e[0]?.name);
             }}
-            dataAuto={`work_location-create-employee`}
+            dataAuto={`coupon-apply-jobDetails`}
           />
         )}
 
         {isCouponValidating ? (
           <span
+            data-auto={`coupon-apply-header-jobDetails`}
             className={`flex items-center gap-x-1 mt-1 text-xs text-primary font-medium`}
           >
             {<ButtonLoading className={`text-xs`} />} Applying the coupon
@@ -540,7 +555,7 @@ export default function JobDetailsForm({
           type={"text"}
           wrapperClassName={"w-full"}
           maxLength={500}
-          dataAuto={`additional-information-create-job`}
+          dataAuto={`extra-notes-job-details`}
         />
 
         <FileUpload
@@ -549,8 +564,12 @@ export default function JobDetailsForm({
           setInputData={setFormData}
         />
       </div>
-      <div className="flex w-full justify-between items-center gap-2 mt-5 flex-col md:flex-row ">
+      <div
+        data-auto={"button-container"}
+        className="flex w-full justify-between items-center gap-2 mt-5 flex-col md:flex-row "
+      >
         <button
+          data-auto={"previous-button"}
           disabled={isLoading || isCouponValidating}
           onClick={() => setStep(1)}
           className="btn w-full md:btn-wide btn-primary btn-outline"
@@ -558,6 +577,7 @@ export default function JobDetailsForm({
           Previous
         </button>
         <button
+          data-auto={"next-button"}
           disabled={isLoading || isCouponValidating}
           onClick={handleSubmit}
           className="btn w-full md:btn-wide btn-primary"

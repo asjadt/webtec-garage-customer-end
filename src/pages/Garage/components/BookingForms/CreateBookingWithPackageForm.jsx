@@ -120,12 +120,19 @@ export default function CreateBookingWithPackageForm({
     return <CustomLoading />;
   } else {
     return (
-      <div className="py-5 px-5 md:px-5 flex justify-center items-center bg-base-300 h-full">
+      <div
+        data-auto={`container-packageForm`}
+        className="py-5 px-5 md:px-5 flex justify-center items-center bg-base-300 h-full"
+      >
         <div
+          data-auto={`sub-container-packageForm`}
           className={`w-full border max-w-[600px] p-5 shadow-lg rounded-xl h-auto relative`}
         >
           {/* TITLE  */}
-          <div className={`flex justify-center w-full`}>
+          <div
+            data-auto={`title-packageForm`}
+            className={`flex justify-center w-full`}
+          >
             <Headings
               level={2}
               className={` text-center mb-2  w-[90%] flex flex-col`}
@@ -135,7 +142,10 @@ export default function CreateBookingWithPackageForm({
             </Headings>
           </div>
           {/* STEPPER  */}
-          <div className="w-full flex justify-center items-center mb-5">
+          <div
+            data-auto={`stepper-packageForm`}
+            className="w-full flex justify-center items-center mb-5"
+          >
             <CustomMultiStepper
               steps={[
                 {

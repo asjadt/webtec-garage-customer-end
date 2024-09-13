@@ -102,34 +102,47 @@ export default function Notifications() {
   };
 
   return (
-    <div className={`py-10`}>
+    <div data-auto={`container-notification`} className={`py-10`}>
       {isLoading ? (
         <CustomLoading />
       ) : (
         <Fragment>
-          <h1 className={`text-2xl font-medium mb-5`}>Notifications</h1>
+          <h1
+            data-auto={`header-notification`}
+            className={`text-2xl font-medium mb-5`}
+          >
+            Notifications
+          </h1>
           {notifications?.length === 0 ? (
             <div
+              data-auto={`no-notification`}
               className={`w-full h-[400px] flex justify-center items-center`}
             >
               <h2 className={`text-xl font-medium`}>No Notifications Found!</h2>
             </div>
           ) : (
-            <div className={` `}>
+            <div data-auto={`notification-container`} className={` `}>
               {notifications?.map((notification, index) => (
                 <div
+                  data-auto={`notification-${index}`}
                   className={`py-2 border-b relative cursor-pointer hover:bg-primary-content px-5 rounded-xl`}
                   key={index}
                   onClick={() => handleRedirectNotification(notification)}
                 >
                   <div>
                     {/* TITLE  */}
-                    <h3 className={`text-sm font-semibold text-primary`}>
+                    <h3
+                      data-auto={`notification-title-${index}`}
+                      className={`text-sm font-semibold text-primary`}
+                    >
                       {`${notification?.template_string} ${notification?.garage?.owner?.first_Name} ${notification?.garage?.owner?.last_Name}`}
                     </h3>
 
                     {/* TIME  */}
-                    <span className={`text-xs text-gray-400`}>
+                    <span
+                      data-auto={`notification-time-${index}`}
+                      className={`text-xs text-gray-400`}
+                    >
                       {moment(notification?.created_at).endOf("min").fromNow()}{" "}
                       (
                       {moment(notification?.created_at).format(
@@ -141,7 +154,10 @@ export default function Notifications() {
 
                   {/* UNREAD  INDICATOR */}
                   {notification?.status === "unread" && (
-                    <span class="absolute right-5 top-1/2 -translate-y-1/2 flex h-3 w-3">
+                    <span
+                      data-auto={`notification-indicator-${index}`}
+                      class="absolute right-5 top-1/2 -translate-y-1/2 flex h-3 w-3"
+                    >
                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                       <span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
                     </span>
@@ -150,6 +166,7 @@ export default function Notifications() {
               ))}
               {notifications !== 0 && (
                 <div
+                  data-auto={`pagination-container`}
                   // style={{ minWidth: minWidth }}
                   className=" my-2 flex-col flex justify-center bg-base-300 items-center"
                 >

@@ -189,6 +189,7 @@ export default function SingleGarage() {
               garageData={data}
               isLoadingCoupon={isLoadingCoupon}
               coupons={coupons}
+              dataAuto={"singleGarage"}
             />
           )}
 
@@ -199,7 +200,10 @@ export default function SingleGarage() {
               {data?.garage?.about ? (
                 <div className={`p-5 `}>
                   <div className={`flex justify-center items-center mb-5`}>
-                    <TextTitleComponent text={"About Garage"} />
+                    <TextTitleComponent
+                      text={"About Garage"}
+                      dataAuto={"singleGarage-about"}
+                    />
                   </div>
                   <p>{data?.garage?.about}</p>
                 </div>
@@ -211,7 +215,10 @@ export default function SingleGarage() {
               {data?.garage?.additional_information ? (
                 <div className={`p-5 `}>
                   <div className={`flex justify-center items-center mb-5`}>
-                    <TextTitleComponent text={"Additional Information"} />
+                    <TextTitleComponent
+                      text={"Additional Information"}
+                      dataAuto={"singleGarage-additional"}
+                    />
                   </div>
                   <p>{data?.garage?.additional_information}</p>
                 </div>
@@ -221,9 +228,15 @@ export default function SingleGarage() {
 
               <div className={`grid grid-cols-1 md:grid-cols-3`}>
                 {/* CONTACT  */}
-                <div className={`p-5`}>
+                <div
+                  data-auto={`contact-container-singleGarage`}
+                  className={`p-5`}
+                >
                   <div className={`flex justify-center items-center mb-5`}>
-                    <TextTitleComponent text={"Contact"} />
+                    <TextTitleComponent
+                      text={"Contact"}
+                      dataAuto={"singleGarage-contact"}
+                    />
                   </div>
                   <div className={`grid grid-cols-1  gap-5`}>
                     {/* EMAIL  */}
@@ -231,6 +244,7 @@ export default function SingleGarage() {
                       Icon={HiOutlineMailOpen}
                       title={"Email Address"}
                       value={data?.garage?.email}
+                      dataAuto={"singleGarage-email"}
                     />
 
                     {/* PHONE  */}
@@ -238,6 +252,7 @@ export default function SingleGarage() {
                       Icon={MdPhoneInTalk}
                       title={"Phone Number"}
                       value={data?.garage?.phone || data?.garage?.owner?.phone}
+                      dataAuto={"singleGarage-phone"}
                     />
 
                     {/* ADDRESS  */}
@@ -245,16 +260,26 @@ export default function SingleGarage() {
                       Icon={TiLocationOutline}
                       title={"Garage Address"}
                       value={data?.garage?.address_line_1}
+                      dataAuto={"singleGarage-address"}
                     />
                   </div>
                 </div>
 
                 {/* OPENING TIME  */}
-                <div className={`p-5 md:col-span-2`}>
+                <div
+                  data-auto={`opening-time-container-singleGarage`}
+                  className={`p-5 md:col-span-2`}
+                >
                   <div className={`flex justify-center items-center mb-5`}>
-                    <TextTitleComponent text={"Opening time"} />
+                    <TextTitleComponent
+                      text={"Opening time"}
+                      dataAuto={"singleGarage-opening"}
+                    />
                   </div>
-                  <div className={`text-sm max-w-screen-xl mx-auto`}>
+                  <div
+                    data-auto={"timing-container-singleGarage"}
+                    className={`text-sm max-w-screen-xl mx-auto`}
+                  >
                     <div
                       className={`bg-primary text-base-300 rounded-md w-full py-3 px-5 flex font-semibold`}
                     >
@@ -333,17 +358,25 @@ export default function SingleGarage() {
               {/* SERVICE  */}
               <div className={`p-5`}>
                 <div className={`flex justify-center items-center`}>
-                  <TextTitleComponent text={"Services"} />
+                  <TextTitleComponent
+                    text={"Services"}
+                    dataAuto={"singleGarage-service"}
+                  />
                 </div>
 
                 <motion.div
+                  data-auto={`service-container-singleGarage`}
                   variants={gridContainerVariants}
                   initial="hidden"
                   animate="visible"
                   className={`grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-4 py-5`}
                 >
                   {data?.garage?.services?.map((service, index) => (
-                    <GarageViewServiceCard key={index} service={service} />
+                    <GarageViewServiceCard
+                      key={index}
+                      service={service}
+                      dataAuto={`singleGarage-serviceCard${index + 1}`}
+                    />
                   ))}
                 </motion.div>
               </div>
@@ -352,9 +385,13 @@ export default function SingleGarage() {
               {data?.garage?.garage_galleries?.length > 0 ? (
                 <div className={`p-5`}>
                   <div className={`flex justify-center items-center mb-5`}>
-                    <TextTitleComponent text={"Gallery"} />
+                    <TextTitleComponent
+                      text={"Gallery"}
+                      dataAuto={"singleGarage-gallery"}
+                    />
                   </div>
                   <motion.div
+                    data-auto={`gallery-container-singleGarage`}
                     variants={gridContainerVariants}
                     initial="hidden"
                     animate="visible"
@@ -362,6 +399,9 @@ export default function SingleGarage() {
                   >
                     {data?.garage?.garage_galleries?.map((image, index) => (
                       <motion.div
+                        data-auto={`gallery-image-container${
+                          index + 1
+                        }-singleGarage`}
                         key={index}
                         variants={gridItemVariants}
                         exit={{ opacity: 0, y: 50 }}
@@ -369,6 +409,7 @@ export default function SingleGarage() {
                         className={`group w-full h-[300px] rounded-lg overflow-hidden`}
                       >
                         <img
+                          data-auto={`gallery-image${index + 1}-singleGarage`}
                           src={getFullImageLink(image?.image)}
                           className={`group-hover:scale-125 duration-200 object-cover w-full h-full`}
                           alt={data?.garage?.name}
@@ -382,9 +423,12 @@ export default function SingleGarage() {
               )}
 
               {/* MAP  */}
-              <div className={`p-5`}>
+              <div data-auto={`map-container-singleGarage`} className={`p-5`}>
                 <div className={`flex justify-center items-center mb-5`}>
-                  <TextTitleComponent text={"Location"} />
+                  <TextTitleComponent
+                    text={"Location"}
+                    dataAuto={"singleGarage-location"}
+                  />
                 </div>
                 <Map
                   defaultCenter={{

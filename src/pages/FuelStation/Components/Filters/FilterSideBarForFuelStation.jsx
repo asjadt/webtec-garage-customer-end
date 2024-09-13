@@ -64,16 +64,19 @@ export default function FilterSideBarForFuelStation({
 
   return (
     <div
+      data-auto={`container-fuelStationSidebar`}
       className={` fixed md:sticky bg-base-300 left-0 top-20 bottom-0 z-30 md:z-20  ${
         isFilterOpen ? "w-full sm:w-[300px] md:w-[400px]" : "w-0"
       }`}
     >
       {/* FILTERS  */}
       <div
+        data-auto={`filters-container-fuelStationSidebar`}
         className={`sticky left-0 top-0 duration-100 md:w-full bg-base-300 border-r overflow-x-hidden`}
       >
         {/* HEADER  */}
         <div
+          data-auto={`header-fuelStationSidebar`}
           className={`pt-5 pb-4 text-primary border-b-2 shadow px-5 flex justify-between items-center`}
         >
           <Headings
@@ -84,6 +87,7 @@ export default function FilterSideBarForFuelStation({
           </Headings>
 
           <div
+            data-auto={`close-fuelStationSidebar`}
             className={`md:hidden cursor-pointer absolute high-zindex top-3 right-3 w-9 h-9 rounded-full bg-primary-content flex justify-center items-center`}
             onClick={() => setIsFilterOpen(false)}
           >
@@ -93,6 +97,7 @@ export default function FilterSideBarForFuelStation({
 
         {/* FILTER BODY  */}
         <div
+          data-auto={`body-fuelStationSidebar`}
           className={`scrollbar-none min-h-[calc(100vh-205px)] max-h-[calc(100vh-205px)] md:h-screen overflow-y-auto overflow-x-hidden`}
         >
           {loading || isLoading ? (
@@ -173,11 +178,17 @@ export default function FilterSideBarForFuelStation({
               </div>
             </div>
           ) : (
-            <div className="max-w-2xl mx-auto bg-base-300">
+            <div
+              data-auto={`allServices-container-fuelStationSidebar`}
+              className="max-w-2xl mx-auto bg-base-300"
+            >
               {/* SERVICES  */}
-              <div className="border-b-2   border-gray-300 border-dotted">
+              <div
+                data-auto={`services-container-fuelStationSidebar`}
+                className="border-b-2   border-gray-300 border-dotted"
+              >
                 <button
-                  data-auto={`services-button-filterSideBar`}
+                  data-auto={`services-button-fuelStationSidebar`}
                   className="w-full shadow text-left p-4 focus:outline-none"
                   onClick={() =>
                     setIsOpen({
@@ -189,9 +200,13 @@ export default function FilterSideBarForFuelStation({
                     })
                   }
                 >
-                  <div className="flex justify-between items-center ">
+                  <div
+                    data-auto={`services-title-fuelStationSidebar`}
+                    className="flex justify-between items-center "
+                  >
                     {/* START TITLE  */}
                     <div
+                      data-auto={`services-start-title-fuelStationSidebar`}
                       className={`flex justify-between items-center gap-x-3`}
                     >
                       <span>Services</span>
@@ -204,6 +219,7 @@ export default function FilterSideBarForFuelStation({
 
                     {/* END TITLE  */}
                     <span
+                      data-auto={`services-end-title-fuelStationSidebar`}
                       className={`${
                         isOpen["Services"]?.status ? "rotate-180" : ""
                       } transition-all duration-200`}
@@ -230,6 +246,9 @@ export default function FilterSideBarForFuelStation({
                           className={`inline-flex items-start justify-start gap-x-2 hover:text-primary cursor-pointer`}
                         >
                           <input
+                            data-auto={`input-service${
+                              index + 1
+                            }-filterSideBar`}
                             type="checkbox"
                             id={`${service}-${index}`}
                             checked={fuelStationSearchData?.services?.some(
@@ -257,7 +276,10 @@ export default function FilterSideBarForFuelStation({
                               }
                             }}
                           />{" "}
-                          <span className={`flex gap-x-2 items-center`}>
+                          <span
+                            data-auto={`service-name-fuelStationSidebar`}
+                            className={`flex gap-x-2 items-center`}
+                          >
                             <span>
                               <i className={service.icon} />
                             </span>{" "}
@@ -272,8 +294,12 @@ export default function FilterSideBarForFuelStation({
 
               {/* Distance  */}
               {!!fuelStationSearchData?.address && (
-                <div className="border-b-2 border-gray-300 border-dotted">
+                <div
+                  data-auto={`distance-container-fuelStationSidebar`}
+                  className="border-b-2 border-gray-300 border-dotted"
+                >
                   <button
+                    data-auto={`distance-button-fuelStationSidebar`}
                     className="w-full shadow text-left p-4 focus:outline-none"
                     onClick={() =>
                       setIsOpen({
@@ -307,12 +333,17 @@ export default function FilterSideBarForFuelStation({
                   </button>
 
                   {isOpen["Distance"]?.status && (
-                    <div className="pl-4 bg-base-300">
+                    <div
+                      data-auto={`distance-filterSideBar`}
+                      className="pl-4 bg-base-300"
+                    >
                       {/* CONTENT  */}
                       <div
+                        data-auto={`distance-content-fuelStationSidebar`}
                         className={`flex pt-5 justify-between items-center gap-x-3 pb-5  pr-5`}
                       >
                         <input
+                          data-auto={`distance-input-fuelStationSidebar`}
                           type="range"
                           min={3}
                           max={200}
@@ -331,8 +362,12 @@ export default function FilterSideBarForFuelStation({
               )}
 
               {/* Others  */}
-              <div className="border-b-2 border-gray-300 border-dotted">
+              <div
+                data-auto={`others-container-fuelStationSidebar`}
+                className="border-b-2 border-gray-300 border-dotted"
+              >
                 <button
+                  data-auto={`others-button-fuelStationSidebar`}
                   className="shadow w-full text-left p-4 focus:outline-none"
                   onClick={() =>
                     setIsOpen({
@@ -344,8 +379,12 @@ export default function FilterSideBarForFuelStation({
                     })
                   }
                 >
-                  <div className="flex justify-between items-center ">
+                  <div
+                    data-auto={`others-fuelStationSidebar`}
+                    className="flex justify-between items-center "
+                  >
                     <div
+                      data-auto={`others-name-fuelStationSidebar`}
                       className={`flex justify-between items-center gap-x-3`}
                     >
                       <span>Others</span>
@@ -367,11 +406,18 @@ export default function FilterSideBarForFuelStation({
                   </div>
                 </button>
                 {isOpen["Others"]?.status && (
-                  <div className="pl-4 bg-base-300">
+                  <div
+                    data-auto={`others-status-filterSideBar`}
+                    className="pl-4 bg-base-300"
+                  >
                     {/* CONTENT  */}
-                    <div className={`pt-5 grid grid-cols-2 gap-5 pr-5 pb-5`}>
+                    <div
+                      data-auto={`others-content-fuelStationSidebar`}
+                      className={`pt-5 grid grid-cols-2 gap-5 pr-5 pb-5`}
+                    >
                       {/* open now  */}
                       <button
+                        data-auto={`openNow-fuelStationSidebar`}
                         onClick={() => {
                           setFuelStationFilterDataToLocalStorage({
                             ...fuelStationSearchData,

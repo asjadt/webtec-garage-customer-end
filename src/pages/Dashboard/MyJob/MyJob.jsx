@@ -210,8 +210,8 @@ export default function MyJob() {
    ***********************************************************************/
 
   return (
-    <div className="h-full my-10 " data-auto={"container_admin"}>
-      <div className="relative h-full" data-auto="sub_container_admin">
+    <div className="h-full my-10 " data-auto={"container-myJob"}>
+      <div className="relative h-full" data-auto={"sub-container-myJob"}>
         {/* POPUP  */}
         <CustomPopup
           popupClasses={`w-full sm:w-[70vw] md:w-[70vw] lg:w-[50vw]`}
@@ -242,7 +242,7 @@ export default function MyJob() {
               id="header-content"
               className="flex flex-col justify-center items-center gap-2 w-full text-left"
             >
-              <div className={`flex items-center gap-5`}>
+              <div id="header-title" className={`flex items-center gap-5`}>
                 <Headings level={1}>
                   {activeTab === "all"
                     ? "All Applied Jobs"
@@ -251,7 +251,7 @@ export default function MyJob() {
                     : "Pending Applied Jobs"}
                 </Headings>
               </div>
-              <h3>
+              <h3 data-auto={"header-total-myJob"}>
                 Total {data?.total}{" "}
                 {data?.total > 1 ? "Applied Jobs" : "Applied Job"} Found
               </h3>
@@ -264,16 +264,17 @@ export default function MyJob() {
                   gridCol="grid-cols-3"
                   filters={filters}
                   setFilters={setFilters}
+                  dataAuto="myJob"
                 />
               </div>
             </div>
           </div>
 
           {/* =========== TABLE AREA ============  */}
-          <div className="pt-5 relative">
+          <div id="table" className="pt-5 relative">
             {/* DATASET AND FILTERS */}
-            <div className={`flex justify-between items-center`}>
-              <CustomDataSet cols={cols} setCols={setCols} dataAuto="admin" />
+            <div id="dataset" className={`flex justify-between items-center`}>
+              <CustomDataSet cols={cols} setCols={setCols} dataAuto="myJob" />
               {/* <CustomFilter
               totalData={getEmployeesQuery?.data?.data?.length}
               isLoading={isCombineDataLoading}
@@ -308,14 +309,14 @@ export default function MyJob() {
               }))}
               actions={actions}
               cols={cols}
-              dataAuto="all-job-type"
+              dataAuto="myJob"
               getFullDataToActionHandler={true}
             />
 
             {/* PAGINATION  */}
             {data?.total !== 0 && (
               <div
-                data-auto={`admin-pagination-all-employees`}
+                data-auto={"pagination-myJob"}
                 className="flex-col flex justify-center bg-base-300 items-center py-5"
               >
                 <Pagination
@@ -325,7 +326,7 @@ export default function MyJob() {
                   onChangePage={(page) => {
                     setFilters({ ...filters, page: page });
                   }}
-                  dataAuto="admin"
+                  dataAuto="myJob"
                 />
               </div>
             )}

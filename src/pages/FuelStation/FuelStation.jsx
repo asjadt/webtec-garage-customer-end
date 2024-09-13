@@ -53,9 +53,15 @@ const FuelStation = () => {
     return <CustomLoading />;
   }
   return (
-    <div>
-      <div className={`flex flex-col justify-center items-center pt-10 gap-7`}>
-        <h1 className={`text-2xl font-bold text-primary leading-3`}>
+    <div data-auto={`container-fuelStation`}>
+      <div
+        data-auto={`header-fuelStation`}
+        className={`flex flex-col justify-center items-center pt-10 gap-7`}
+      >
+        <h1
+          data-auto={`header-title-fuelStation`}
+          className={`text-2xl font-bold text-primary leading-3`}
+        >
           Fuel Stations
         </h1>
         <CustomTab
@@ -63,9 +69,10 @@ const FuelStation = () => {
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           gridCol="grid-cols-2"
+          dataAuto={"tabs-fuelStation"}
         />
       </div>
-      <div>
+      <div data-auto={`body-fuelStation`}>
         {activeTab === "map" && <FuelStationMap setActiveTab={setActiveTab} />}
         {/* {activeTab === "list" && <FuelStationLists />} */}
         {activeTab === "list" && <FuelStationList />}

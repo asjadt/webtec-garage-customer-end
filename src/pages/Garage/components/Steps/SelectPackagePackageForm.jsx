@@ -36,15 +36,17 @@ export default function SelectPackagePackageForm({
   };
 
   return (
-    <div className={``}>
+    <div data-auto={`container-package`} className={``}>
       {/* FORM  */}
       <div
+        data-auto={`form-package`}
         className={`grid grid-cols-1 h-[calc(100vh-500px)] overflow-y-auto overflow-x-hidden scrollbar gap-3`}
       >
         {/* PACKAGE  */}
         {garageData?.garage?.garage_packages?.map((pkg, index) => (
           <Fragment key={index}>
             <button
+              data-auto={`pkg${index + 1}-package`}
               onClick={() => {
                 setFormData({
                   ...formData,
@@ -60,6 +62,7 @@ export default function SelectPackagePackageForm({
             >
               {/* PACKAGE NAME  */}
               <h2
+                data-auto={`pkg${index + 1}-package-name`}
                 className={`font-medium ${
                   formData?.booking_garage_package_ids[0] === pkg?.id
                     ? "text-primary"
@@ -71,6 +74,7 @@ export default function SelectPackagePackageForm({
 
               {/* PACKAGE PRICE  */}
               <h2
+                data-auto={`pkg${index + 1}-package-price`}
                 className={`font-bold text-2xl ${
                   formData?.booking_garage_package_ids[0] === pkg?.id
                     ? "text-primary"
@@ -85,6 +89,7 @@ export default function SelectPackagePackageForm({
 
               {/* PACKAGE SERVICES  */}
               <span
+                data-auto={`pkg${index + 1}-package-services`}
                 className={`block mb-5 text-center ${
                   formData?.booking_garage_package_ids[0] === pkg?.id
                     ? "text-primary"
@@ -103,6 +108,7 @@ export default function SelectPackagePackageForm({
 
               {/* PACKAGE DESCRIPTION  */}
               <div
+                data-auto={`pkg${index + 1}-package-description`}
                 className={`${
                   formData?.booking_garage_package_ids[0] === pkg?.id
                     ? "text-primary"
@@ -123,12 +129,9 @@ export default function SelectPackagePackageForm({
       </div>
 
       {errors?.booking_garage_package_ids ? (
-        <label
-          data-cy={"error_message_custom_date_picker"}
-          className="label h-7 mt-2"
-        >
+        <label data-auto={"error-package"} className="label h-7 mt-2">
           <span
-            data-cy={"error_content_custom_date_picker"}
+            data-auto={"error-package-text"}
             className="label-text-alt text-error"
           >
             {errors?.booking_garage_package_ids}
@@ -139,8 +142,12 @@ export default function SelectPackagePackageForm({
       )}
 
       {/* NEXT BUTTON  */}
-      <div className="flex w-full justify-center items-center gap-2 mt-5 flex-col md:flex-row">
+      <div
+        data-auto={"next-package"}
+        className="flex w-full justify-center items-center gap-2 mt-5 flex-col md:flex-row"
+      >
         <button
+          data-auto={"next-btn-package"}
           disabled={isLoading}
           onClick={handleSubmit}
           className="btn w-full md:btn-wide btn-primary"
