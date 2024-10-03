@@ -173,6 +173,7 @@ export default function Navbar() {
           {!JSON.parse(localStorage.getItem("user_data")) ? (
             <div className={`hidden md:flex gap-x-5 `}>
               <button
+                data-auto="register-button"
                 onClick={handleOpenSignUpPopup}
                 className={`btn btn-primary btn-outline btn-sm`}
               >
@@ -180,6 +181,7 @@ export default function Navbar() {
               </button>
 
               <button
+                data-auto="login-button"
                 onClick={handleOpenLoginPopup}
                 className={`btn btn-primary btn-sm`}
               >

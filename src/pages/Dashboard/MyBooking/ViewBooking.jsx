@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 import moment from "moment";
 import React from "react";
 import { formatRole } from "../../../utils/formatRole";
