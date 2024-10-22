@@ -19,7 +19,7 @@ const CustomTab = ({
         >
           {tabs.map((ot, index) => (
             <button
-              data-auto={`tab${index + 1}-${dataAuto}`}
+              data-auto={`tab-${dataAuto}`}
               key={index}
               onClick={() => {
                 setActiveTab(ot?.id);

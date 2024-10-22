@@ -11,7 +11,7 @@ const CustomAutoComplete = ({
   setFormData,
   formData,
   defaultValue,
-  datatestid = "",
+  dataTestId = "",
   setPlaceAutoComplete,
   isMeasureDistance = false,
   onChange,
@@ -133,7 +133,7 @@ const CustomAutoComplete = ({
         autoComplete="off"
         name={name}
         value={value}
-        data-testid={datatestid}
+        data-testId={dataTestId}
         style={style}
         onChange={onChange}
         className={`${className} ${size} ${

@@ -26,6 +26,7 @@ export default function Register() {
               tabs={registrationTabs}
               activeTab={activeTab}
               setActiveTab={setActiveTab}
+              dataAuto={activeTab}
             />
           </div>
         )}

@@ -235,6 +235,7 @@ export default function Customer() {
             maxLength={25}
             pattern={/^[A-Za-z\s]+$/}
             patternErrorMsg="Only Capital and lowercase letters are allowed"
+            dataAuto={"customer-first_Name"}
           />
         </div>
 
@@ -256,6 +257,7 @@ export default function Customer() {
             maxLength={25}
             pattern={/^[A-Za-z\s]+$/}
             patternErrorMsg="Only Capital and lowercase letters are allowed"
+            dataAuto={"customer-last_Name"}
           />
         </div>
 
@@ -274,6 +276,7 @@ export default function Customer() {
           type={"email"}
           wrapperClassName={"w-full"}
           required={true}
+          dataAuto={"customer-email"}
         />
 
         {/* PHONE */}
@@ -291,6 +294,7 @@ export default function Customer() {
           wrapperClassName={`w-full`}
           fieldClassName={`w-full`}
           maxLength={11}
+          dataAuto={"customer-phone"}
         />
 
         {/* ADDRESS LINE 1 */}
@@ -312,6 +316,8 @@ export default function Customer() {
             placeholder="Address"
             type="text"
             name="address_line_1"
+            id="address_line_1"
+            dataAuto="customer-address_line_1"
             onChange={(e) => {
               setFormData({
                 ...formData,
@@ -321,6 +327,7 @@ export default function Customer() {
             formData={formData}
             setFormData={setFormData}
             defaultValue={formData?.address_line_1}
+            dataTestId="customer-address_line_1"
           />
 
           {/* VALIDATION MESSAGE  */}
@@ -349,6 +356,7 @@ export default function Customer() {
           error={errors?.city}
           wrapperClassName={`w-full`}
           fieldClassName={`w-full`}
+          dataAuto={"customer-city"}
         />
 
         {/* COUNTRY */}
@@ -364,6 +372,7 @@ export default function Customer() {
           error={errors?.country}
           wrapperClassName={`w-full`}
           fieldClassName={`w-full`}
+          dataAuto={"customer-country"}
         />
 
         {/* POSTCODE */}
@@ -379,6 +388,7 @@ export default function Customer() {
           error={errors?.postcode}
           wrapperClassName={`w-full`}
           fieldClassName={`w-full`}
+          dataAuto={"customer-postcode"}
         />
       </div>
       {/* PASSWORD */}
@@ -399,7 +409,7 @@ export default function Customer() {
         error={errors?.password}
         wrapperClassName={`w-full`}
         fieldClassName={`w-full`}
-        dataAuto={`password-createUserForm`}
+        dataAuto={`customer-password`}
       />
 
       <div className={`flex flex-col mt-5`}>
@@ -414,6 +424,7 @@ export default function Customer() {
         </span>
         <div className={`flex justify-center items-center w-full `}>
           <button
+            data-auto={`register-button`}
             disabled={mutation?.isPending || checkEmailMutation?.isPending}
             onClick={handleSubmit}
             className={`btn btn-primary w-full md:w-52`}
